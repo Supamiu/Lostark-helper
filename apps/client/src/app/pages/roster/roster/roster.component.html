@@ -18,7 +18,7 @@
   </nz-card>
   <nz-divider></nz-divider>
   <nz-card nzTitle="Add a character">
-    <form nz-form [formGroup]="form" class="login-form" (ngSubmit)="addCharacter(roster)">
+    <form nz-form [formGroup]="form" (ngSubmit)="addCharacter(roster)">
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input a character name">
           <nz-input-group nzPrefixIcon="user">
@@ -33,7 +33,7 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Add</button>
+      <button nz-button [nzType]="'primary'" [disabled]="!form.valid">Add</button>
     </form>
   </nz-card>
 </ng-container>

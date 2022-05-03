@@ -4,13 +4,16 @@ import {TaskScope} from "./task-scope";
 export class LostarkTask {
 
   constructor(
-    public readonly label: string,
-    public readonly minIlvl: number,
-    public readonly frequency: TaskFrequency,
-    public readonly scope: TaskScope,
-    public readonly amount = 1,
-    public readonly maxIlvl = 9999,
-    public readonly iconPath?: string,
+    public label: string,
+    public minIlvl: number,
+    public frequency: TaskFrequency,
+    public scope: TaskScope,
+    public amount = 1,
+    public maxIlvl = 9999,
+    public iconPath?: string,
+    public enabled = true,
+    public custom = false,
+    public readonly createdAt = Date.now()
   ) {
   }
 }

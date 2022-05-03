@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, timer} from "rxjs";
 import {LostarkTask} from "../../../model/lostark-task";
-import {tasks} from "../../../core/tasks";
 import {Character} from "../../../model/character";
 import {subDays} from "date-fns";
 import {TaskFrequency} from "../../../model/task-frequency";
 import {TaskScope} from "../../../model/task-scope";
 import {Completion} from "../../../model/completion";
 import {RosterService} from "../../roster/roster.service";
+import {TasksService} from "../../tasks/tasks.service";
 
 @Component({
   selector: 'lostark-helper-checklist',
@@ -28,10 +28,14 @@ export class ChecklistComponent {
     })
   );
 
-  public tasks$: Observable<LostarkTask[]> = this.roster$.pipe(
-    map(roster => {
+  public tasks$: Observable<LostarkTask[]> = combineLatest([
+    this.roster$,
+    this.tasksService.tasks$
+  ]).pipe(
+    map(([roster, tasks]) => {
       return tasks.filter(task => {
-        return !task.maxIlvl || roster.some(c => c.ilvl < task.maxIlvl && c.ilvl > task.minIlvl);
+        return task.enabled &&
+          (!task.maxIlvl || roster.some(c => c.ilvl < task.maxIlvl && c.ilvl > task.minIlvl));
       })
     })
   );
@@ -121,7 +125,7 @@ export class ChecklistComponent {
     map(roster => roster.length === 0)
   );
 
-  constructor(private rosterService: RosterService) {
+  constructor(private rosterService: RosterService, private tasksService: TasksService) {
   }
 
   public markAsDone(completion: Completion, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {

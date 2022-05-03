@@ -1,7 +1,8 @@
 <nz-layout class="app-layout">
   <nz-sider class="menu-sidebar"
             nzCollapsible
-            nzCollapsed>
+            [(nzCollapsed)]="isCollapsed"
+            (nzCollapsedChange)="saveCollapsed($event)">
     <div class="sidebar-logo">
       <img src="./assets/logo.png" alt="logo">
       <h1>Lost Ark Helper</h1>
@@ -9,11 +10,15 @@
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzMatchRouter routerLink="/checklist">
         <i nz-icon nzType="check-square" nzTheme="outline"></i>
-        <span>Daily checklist</span>
+        <span>Checklist</span>
       </li>
       <li nz-menu-item nzMatchRouter routerLink="/roster">
         <i nz-icon nzType="team" nzTheme="outline"></i>
         <span>Roster</span>
+      </li>
+      <li nz-menu-item nzMatchRouter routerLink="/tasks-manager">
+        <i nz-icon nzType="solution" nzTheme="outline"></i>
+        <span>Tasks Manager</span>
       </li>
     </ul>
   </nz-sider>

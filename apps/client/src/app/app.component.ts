@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'lostark-helper-root',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  isCollapsed = false;
+  isCollapsed = localStorage.getItem('sidebar:collapsed') === 'true';
+
+  saveCollapsed(collapsed: boolean): void {
+    localStorage.setItem('sidebar:collapsed', collapsed.toString());
+  }
 }
