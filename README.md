@@ -15,7 +15,7 @@ All you have to do is configure your roster, manage the tasks you want to track,
 
 ## Contributing
 
-This project is open to Pull Requests, feel free to reach me on Discord: Miu#1568 if you need help to contribute to this.
+This project is open to Pull Requests, feel free to join the [Discord Server](https://discord.gg/ZyYSJChpX9) if you need help to contribute to this.
 
 The tech stack is pretty simple:
 
