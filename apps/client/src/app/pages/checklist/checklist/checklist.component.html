@@ -27,31 +27,57 @@
             <tr>
               <td colspan="99" class="section-span">{{title}}</td>
             </tr>
-            <tr *ngFor="let row of rows; trackBy: trackByEntry" [class.completed]="row.allDone"
+            <tr *ngFor="let row of rows; trackBy: trackByEntry; even as even"
+                [class.even]="even"
+                [class.completed]="row.allDone"
                 [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                 [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
               <td>{{row.task.label}}</td>
-              <td *ngFor="let col of row.completion; index as i">
-                <ng-container *ngIf="roster[i].ilvl >= row.task.minIlvl">
-                  <div class="counter">
+              <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
+                <td colspan="99">
+                  <div class="counter roster">
                     <div>
                       <button nz-button
                               nzSize="small"
+                              nzBlock
                               nzType="primary"
-                              [disabled]="col >= row.task.amount"
-                              (click)="markAsDone(completion, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset)">
-                        {{col}}/{{row.task.amount}}
+                              [disabled]="row.completion[0] >= row.task.amount"
+                              (click)="markAsDone(completion, roster[0].name, row.task, roster, true, display.dailyReset, display.weeklyReset)">
+                        {{row.completion[0]}}/{{row.task.amount}}
                       </button>
                     </div>
-                    <div *ngIf="col >= row.task.amount">
-                      <button nz-button nzSize="small" *ngIf="col >= row.task.amount"
-                              (click)="markAsDone(completion, roster[i].name, row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                    <div *ngIf="row.completion[0] >= row.task.amount" class="reset-button">
+                      <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount"
+                              (click)="markAsDone(completion, roster[0].name, row.task, roster, false, display.dailyReset, display.weeklyReset)">
                         <i nz-icon nzType="reload" nzTheme="outline"></i>
                       </button>
                     </div>
                   </div>
-                </ng-container>
-              </td>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
+                <td *ngFor="let col of row.completion; index as i">
+                  <ng-container *ngIf="roster[i].ilvl >= row.task.minIlvl">
+                    <div class="counter">
+                      <div>
+                        <button nz-button
+                                nzSize="small"
+                                nzType="primary"
+                                [disabled]="col >= row.task.amount"
+                                (click)="markAsDone(completion, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset)">
+                          {{col}}/{{row.task.amount}}
+                        </button>
+                      </div>
+                      <div *ngIf="col > 0" class="reset-button">
+                        <button nz-button nzSize="small" *ngIf="col >= row.task.amount"
+                                (click)="markAsDone(completion, roster[i].name, row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                          <i nz-icon nzType="reload" nzTheme="outline"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+              </ng-container>
             </tr>
           </ng-container>
         </ng-template>

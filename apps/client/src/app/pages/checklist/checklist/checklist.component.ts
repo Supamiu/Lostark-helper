@@ -17,6 +17,7 @@ import {TasksService} from "../../tasks/tasks.service";
 export class ChecklistComponent {
 
   public TaskFrequency = TaskFrequency;
+  public TaskScope = TaskScope;
 
   private completionReloader$ = new BehaviorSubject<void>(void 0);
 
