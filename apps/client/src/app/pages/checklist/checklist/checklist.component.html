@@ -1,0 +1,63 @@
+<ng-container *ngIf="roster$ | async as roster">
+  <div class="fullpage-message" *ngIf="roster.length === 0">
+    No characters in your roster, please add some in the roster page
+  </div>
+  <ng-container *ngIf="roster.length > 0">
+    <ng-container *ngIf="completion$ | async as completion">
+      <table *ngIf="tableDisplay$ | async as display">
+        <thead>
+        <tr>
+          <th>Task</th>
+          <th *ngFor="let character of roster">{{character.name}} [{{character.ilvl}}]</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <ng-container
+          *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyCharacter, title: 'Daily Character'}"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyRoster, title: 'Daily Roster'}"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyCharacter, title: 'Weekly Character'}"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster'}"></ng-container>
+
+        <ng-template #rowsDisplay let-rows let-title="title">
+          <ng-container *ngIf="rows.length > 0">
+            <tr>
+              <td colspan="99" class="section-span">{{title}}</td>
+            </tr>
+            <tr *ngFor="let row of rows; trackBy: trackByEntry" [class.completed]="row.allDone"
+                [class.daily]="row.task.frequency === TaskFrequency.DAILY"
+                [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
+              <td>{{row.task.label}}</td>
+              <td *ngFor="let col of row.completion; index as i">
+                <ng-container *ngIf="roster[i].ilvl >= row.task.minIlvl">
+                  <div class="counter">
+                    <div>
+                      <button nz-button
+                              nzSize="small"
+                              nzType="primary"
+                              [disabled]="col >= row.task.amount"
+                              (click)="markAsDone(completion, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset)">
+                        {{col}}/{{row.task.amount}}
+                      </button>
+                    </div>
+                    <div *ngIf="col >= row.task.amount">
+                      <button nz-button nzSize="small" *ngIf="col >= row.task.amount"
+                              (click)="markAsDone(completion, roster[i].name, row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                        <i nz-icon nzType="reload" nzTheme="outline"></i>
+                      </button>
+                    </div>
+                  </div>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+        </tbody>
+      </table>
+    </ng-container>
+  </ng-container>
+</ng-container>
+

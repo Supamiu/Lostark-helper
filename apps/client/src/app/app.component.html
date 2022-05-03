@@ -1,1 +1,29 @@
-<lostark-helper-nx-welcome></lostark-helper-nx-welcome>
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzCollapsed>
+    <div class="sidebar-logo">
+      <img src="./assets/logo.png" alt="logo">
+      <h1>Lost Ark Helper</h1>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item nzMatchRouter routerLink="/checklist">
+        <i nz-icon nzType="check-square" nzTheme="outline"></i>
+        <span>Daily checklist</span>
+      </li>
+      <li nz-menu-item nzMatchRouter routerLink="/roster">
+        <i nz-icon nzType="team" nzTheme="outline"></i>
+        <span>Roster</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

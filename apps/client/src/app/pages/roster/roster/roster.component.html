@@ -1,0 +1,39 @@
+<ng-container *ngIf="roster$ | async as roster">
+  <nz-card nzTitle="Characters">
+    <nz-list [nzDataSource]="roster">
+      <nz-list-item *ngFor="let character of roster;trackBy: trackByCharacter" [nzActions]="[deleteAction]">
+        <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"></nz-list-item-meta>
+        <ng-template #description>
+          ilvl <nz-input-number [(ngModel)]="character.ilvl" (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
+        </ng-template>
+        <ng-template #deleteAction>
+          <button nz-button nzDanger nz-popconfirm
+                  nzPopconfirmTitle="Are you sure?"
+                  (nzOnConfirm)="removeCharacter(character, roster)" nzShape="circle">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+        </ng-template>
+      </nz-list-item>
+    </nz-list>
+  </nz-card>
+  <nz-divider></nz-divider>
+  <nz-card nzTitle="Add a character">
+    <form nz-form [formGroup]="form" class="login-form" (ngSubmit)="addCharacter(roster)">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input a character name">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="name" placeholder="Name"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="info">
+            <input nz-input formControlName="ilvl" placeholder="Item Level" type="number"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Add</button>
+    </form>
+  </nz-card>
+</ng-container>

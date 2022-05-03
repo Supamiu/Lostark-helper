@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lostark-helper-8dfb0": {
+      "hosting": {
+        "client": [
+          "lostark-helper-8dfb0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lostark-helper-8dfb0"
+  }
+}
