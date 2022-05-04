@@ -169,7 +169,7 @@ export class ChecklistComponent {
     if (character.lazy) {
       dailyReset = subDays(new Date(dailyReset), 2).getTime();
     }
-    if (task.daysFilter.length > 0 && !task.daysFilter?.includes(new Date().getDay() - 1)) {
+    if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(new Date().getDay() - 1)) {
       return -1;
     }
     const completionFlag = completion[this.getCompletionEntryKey(character.name, task)];
