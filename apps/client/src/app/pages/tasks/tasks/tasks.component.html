@@ -1,62 +1,74 @@
-<nz-page-header nzTitle="Task manager" nzSubtitle="Manage custom tasks, enable/disable existing ones"></nz-page-header>
-<nz-card nzTitle="Tasks">
-  <nz-table *ngIf="tasks$ | async as tasks" #tasksTable [nzData]="tasks"
-            [nzScroll]="{y:'290px'}" [nzPageSize]="999" nzHideOnSinglePage
-            nzSize="middle">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Frequency</th>
-      <th>Scope</th>
-      <th>Repetitions</th>
-      <th>Min ilvl</th>
-      <th>Max ilvl</th>
-      <th>Tracked</th>
-      <th>Manage</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask">
-      <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom" nz-input></td>
-      <td>
-        <nz-select [(ngModel)]="task.frequency" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom">
-          <nz-option [nzValue]="TaskFrequency.DAILY" nzLabel="Daily"></nz-option>
-          <nz-option [nzValue]="TaskFrequency.WEEKLY" nzLabel="Weekly"></nz-option>
-        </nz-select>
-      </td>
-      <td>
-        <nz-select [(ngModel)]="task.scope" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom">
-          <nz-option [nzValue]="TaskScope.CHARACTER" nzLabel="Character"></nz-option>
-          <nz-option [nzValue]="TaskScope.ROSTER" nzLabel="Roster"></nz-option>
-        </nz-select>
-      </td>
-      <td>
-        <nz-input-number [(ngModel)]="task.amount" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom"></nz-input-number>
-      </td>
-      <td>
-        <nz-input-number [(ngModel)]="task.minIlvl" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom"></nz-input-number>
-      </td>
-      <td>
-        <nz-input-number [(ngModel)]="task.maxIlvl" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom"></nz-input-number>
-      </td>
-      <td><label nz-checkbox [(ngModel)]="task.enabled" (ngModelChange)="updateTask(task)"></label></td>
-      <td>
-        <button nz-button nzDanger [disabled]="!task.custom" nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="removeTask(task)">
-          Delete
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </nz-table>
+<ng-container *ngIf="tasks$ | async as tasks">
+  <nz-page-header nzTitle="Task manager" nzSubtitle="Manage custom tasks, enable/disable existing ones">
+    <nz-page-header-extra>
+      <button nz-button nzType="primary" (click)="setTrackAll( true)">Track all tasks</button>
+      <button nz-button (click)="setTrackAll( false)">Untrack all tasks</button>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <nz-card nzTitle="Tasks">
+    <nz-table #tasksTable [nzData]="tasks"
+              [nzScroll]="{y:'290px'}" [nzPageSize]="999" nzHideOnSinglePage
+              nzSize="middle">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Frequency</th>
+        <th>Scope</th>
+        <th>Repetitions</th>
+        <th>Min ilvl</th>
+        <th>Max ilvl</th>
+        <th>Tracked</th>
+        <th>Manage</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask">
+        <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
+                   nz-input></td>
+        <td>
+          <nz-select [(ngModel)]="task.frequency" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom">
+            <nz-option [nzValue]="TaskFrequency.DAILY" nzLabel="Daily"></nz-option>
+            <nz-option [nzValue]="TaskFrequency.WEEKLY" nzLabel="Weekly"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <nz-select [(ngModel)]="task.scope" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom">
+            <nz-option [nzValue]="TaskScope.CHARACTER" nzLabel="Character"></nz-option>
+            <nz-option [nzValue]="TaskScope.ROSTER" nzLabel="Roster"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <nz-input-number [(ngModel)]="task.amount" (ngModelChange)="updateTask(task)"
+                           [nzDisabled]="!task.custom"></nz-input-number>
+        </td>
+        <td>
+          <nz-input-number [(ngModel)]="task.minIlvl" (ngModelChange)="updateTask(task)"
+                           [nzDisabled]="!task.custom"></nz-input-number>
+        </td>
+        <td>
+          <nz-input-number [(ngModel)]="task.maxIlvl" (ngModelChange)="updateTask(task)"
+                           [nzDisabled]="!task.custom"></nz-input-number>
+        </td>
+        <td><label nz-checkbox [(ngModel)]="task.enabled" (ngModelChange)="updateTask(task)"></label></td>
+        <td>
+          <button nz-button nzDanger [disabled]="!task.custom" nz-popconfirm nzPopconfirmTitle="Are you sure?"
+                  (nzOnConfirm)="removeTask(task)">
+            Delete
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
 
-</nz-card>
+  </nz-card>
+</ng-container>
 
 <nz-card nzTitle="Add a custom task">
   <form nz-form [formGroup]="form" (ngSubmit)="addTask()" nzLayout="inline">
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input a task name">
         <nz-input-group nzPrefixIcon="user">
-          <input type="text" nz-input formControlName="label" placeholder="Name"/>
+          <input type="text" nz-input formControlName="label" placeholder="Name" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
@@ -83,21 +95,21 @@
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input a minimum ilvl">
         <nz-input-group nzPrefixIcon="info">
-          <input type="number" nz-input formControlName="minIlvl" placeholder="Min ilvl"/>
+          <input type="number" nz-input formControlName="minIlvl" placeholder="Min ilvl" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input a maximum ilvl">
         <nz-input-group nzPrefixIcon="info">
-          <input type="number" nz-input formControlName="maxIlvl" placeholder="Max ilvl"/>
+          <input type="number" nz-input formControlName="maxIlvl" placeholder="Max ilvl" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input a repetition count">
         <nz-input-group nzPrefixIcon="number">
-          <input type="number" nz-input formControlName="amount" placeholder="Repetitions"/>
+          <input type="number" nz-input formControlName="amount" placeholder="Repetitions" />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
