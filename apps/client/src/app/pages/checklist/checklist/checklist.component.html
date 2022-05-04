@@ -35,7 +35,10 @@
                 [class.completed]="row.allDone"
                 [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                 [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
-              <td>{{row.task.label}}</td>
+              <td class="task-name">
+                <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
+                {{row.task.label}}
+              </td>
               <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
                 <td colspan="99">
                   <div class="counter roster">
