@@ -10,18 +10,19 @@ import { LostarkClass } from "../../../model/lostark-class";
   styleUrls: ["./roster.component.less"]
 })
 export class RosterComponent {
+
   public LostarkClass = LostarkClass;
 
   public classes = Object.keys(LostarkClass)
-    .filter(key => !isNaN(+key) && !LostarkClass[key].startsWith('UNRELEASED'))
+    .filter(key => !isNaN(+key) && !LostarkClass[key].startsWith("UNRELEASED"))
     .map(key => {
       return {
         id: key,
         name: `${LostarkClass[key][0]}${LostarkClass[key].slice(1).toLowerCase()}`,
-        icon: `class_${key.padStart(2, '0')}.png`
-      }
+        icon: `class_${key.padStart(2, "0")}.png`
+      };
 
-    })
+    });
 
   public roster$ = this.rosterService.roster$;
 
@@ -39,6 +40,7 @@ export class RosterComponent {
   public addCharacter(roster: Character[]): void {
     const form = this.form.getRawValue();
     roster.push({
+      id: (roster.map(c => c.id).sort().reverse()[0] || -1) + 1,
       name: form.name,
       ilvl: form.ilvl,
       lazy: form.lazy,
@@ -55,7 +57,7 @@ export class RosterComponent {
 
   public saveCharacter(character: Character, roster: Character[]): void {
     this.rosterService.saveRoster(roster.map(char => {
-      if (char.name === character.name) {
+      if (char.id === character.id) {
         return character;
       }
       return char;
