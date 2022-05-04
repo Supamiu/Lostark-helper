@@ -9,7 +9,7 @@ import { SettingsService } from "../settings/settings.service";
 })
 export class TasksService {
 
-  private static readonly VERSION = 7;
+  private static readonly VERSION = 8;
 
   private reloader$ = new BehaviorSubject<void>(void 0);
 
@@ -55,7 +55,7 @@ export class TasksService {
     const version = +(localStorage.getItem("tasks:version") || "0");
     const currentTasks: LostarkTask[] = JSON.parse(localStorage.getItem("tasks:default") || "[]");
     const corrupted = currentTasks.some((task, i) => {
-      return currentTasks.findIndex(t => t.label === task.label) !== i;
+      return currentTasks.findIndex(t => t.id === task.id) !== i;
     });
     if (version < TasksService.VERSION || corrupted) {
       localStorage.setItem("tasks:default", JSON.stringify(tasks.map(task => {
@@ -92,14 +92,8 @@ export class TasksService {
     const lsKey = task.custom ? "tasks:custom" : "tasks:default";
     const tasks: LostarkTask[] = JSON.parse(localStorage.getItem(lsKey) || "[]");
     localStorage.setItem(lsKey, JSON.stringify(tasks.map(t => {
-      if (task.custom) {
-        if (t.id === task.id) {
-          return task;
-        }
-      } else {
-        if (t.label === task.label) {
-          return task;
-        }
+      if (t.id === task.id) {
+        return task;
       }
       return t;
     })));
