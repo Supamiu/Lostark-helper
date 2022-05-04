@@ -24,9 +24,6 @@
         <th>Min ilvl</th>
         <th>Max ilvl</th>
         <th>Tracked</th>
-        <th>Apply Lazy <i nz-icon nzType="clock-circle" nzTheme="outline"
-                          nz-tooltip nzTooltipTitle="Apply character's lazy status and reset only every 3 days"></i>
-        </th>
         <th>Manage</th>
       </tr>
       </thead>
@@ -57,8 +54,6 @@
           <nz-input-number [(ngModel)]="task.maxIlvl" (ngModelChange)="updateTask(task)"></nz-input-number>
         </td>
         <td><label nz-checkbox [(ngModel)]="task.enabled" (ngModelChange)="updateTask(task)"></label></td>
-        <td><label nz-checkbox [(ngModel)]="task.applyLazy" (ngModelChange)="updateTask(task)"
-                   *ngIf="task.frequency === TaskFrequency.DAILY"></label></td>
         <td>
           <button nz-button nzDanger [disabled]="!task.custom" nz-popconfirm nzPopconfirmTitle="Are you sure?"
                   (nzOnConfirm)="removeTask(task)">

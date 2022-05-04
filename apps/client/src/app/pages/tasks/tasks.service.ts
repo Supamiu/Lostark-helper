@@ -18,22 +18,6 @@ export class TasksService {
         ...JSON.parse(localStorage.getItem("tasks:custom") || "[]"),
         ...JSON.parse(localStorage.getItem("tasks:default") || "[]")
       ];
-    }),
-    map(tasks => {
-      return tasks.map(task => {
-        return new LostarkTask(
-          task.label,
-          task.minIlvl,
-          task.frequency,
-          task.scope,
-          task.amount,
-          task.maxIlvl,
-          task.iconPath,
-          task.enabled,
-          task.custom,
-          task.daysFilter
-        )
-      })
     })
   );
 
