@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, timer } from "rxjs";
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
 import { subDays } from "date-fns";
@@ -9,6 +9,8 @@ import { Completion } from "../../../model/completion";
 import { RosterService } from "../../roster/roster.service";
 import { TasksService } from "../../tasks/tasks.service";
 import { SettingsService } from "../../settings/settings.service";
+import { Energy } from "../../../model/energy";
+import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -27,6 +29,44 @@ export class ChecklistComponent {
   public completion$: Observable<Completion> = this.completionReloader$.pipe(
     map(() => {
       return JSON.parse(localStorage.getItem("completion") || "{}");
+    })
+  );
+
+  public energy$: Observable<Energy> = this.completionReloader$.pipe(
+    map(() => {
+      return {
+        energy: JSON.parse(localStorage.getItem("energy") || "{}") as Energy,
+        updated: +(localStorage.getItem("energy:updated") || "0")
+      };
+    }),
+    switchMap(({ energy, updated }) => {
+      return combineLatest([
+        this.lastDailyReset$,
+        this.roster$,
+        this.tasks$,
+        this.completion$
+      ]).pipe(
+        map(([reset, roster, tasks, completion]) => {
+          if (updated < reset) {
+            roster.forEach(character => {
+              tasks.forEach(task => {
+                const completionEntry = completion[getCompletionEntryKey(character.name, task)];
+                const entry = energy[getCompletionEntryKey(character.name, task)] || {
+                  amount: 0
+                };
+                if (completionEntry && (reset - completionEntry.updated) > 86400000) {
+                  const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
+                  entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
+                  energy[getCompletionEntryKey(character.name, task)] = entry;
+                }
+              });
+            });
+            localStorage.setItem("energy", JSON.stringify(energy));
+            localStorage.setItem("energy:updated", Date.now().toString());
+          }
+          return energy;
+        })
+      );
     })
   );
 
@@ -82,9 +122,10 @@ export class ChecklistComponent {
     this.completion$,
     this.lastDailyReset$,
     this.lastWeeklyReset$,
-    this.settings.settings$.pipe(pluck("lazytracking"))
+    this.settings.settings$.pipe(pluck("lazytracking")),
+    this.energy$
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking, energy]) => {
       const data = tasks
         .map(task => {
           const completionData = roster.map(character => {
@@ -97,12 +138,14 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
-              doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl
+              doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl,
+              energy: energy[getCompletionEntryKey(character.name, task)] || 0
             };
           });
           return {
             task,
             completion: completionData.map(row => row.done),
+            energy: completionData.map(row => row.energy),
             completionData,
             allDone: completionData.every(({ doable, done }) => !doable || done >= task.amount || done === -1)
           };
@@ -146,24 +189,32 @@ export class ChecklistComponent {
               private settings: SettingsService) {
   }
 
-  public markAsDone(completion: Completion, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {
+  public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (done) {
-      const existingEntry = completion[this.getCompletionEntryKey(characterName, task)];
+      const existingEntry = completion[getCompletionEntryKey(characterName, task)];
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
-      completion[this.getCompletionEntryKey(characterName, task)] = {
+      completion[getCompletionEntryKey(characterName, task)] = {
         ...(existingEntry || {}),
         amount: (existingEntry?.amount || 0) + 1,
         updated: Date.now()
       };
+      if (task.scope === TaskScope.CHARACTER
+        && task.frequency === TaskFrequency.DAILY
+        && ["Chaos", "Guardian", "Una"].some(n => task.label.startsWith(n))) {
+        const energyEntry = energy[getCompletionEntryKey(characterName, task)] || { amount: 0 };
+        energyEntry.amount = Math.max(energyEntry.amount - 10, 0);
+        energy[getCompletionEntryKey(characterName, task)] = energyEntry;
+        localStorage.setItem("energy", JSON.stringify(energy));
+      }
     } else if (task.scope === TaskScope.ROSTER && !done) {
       roster.forEach(c => {
-        delete completion[this.getCompletionEntryKey(c.name, task)];
+        delete completion[getCompletionEntryKey(c.name, task)];
       });
     } else {
-      delete completion[this.getCompletionEntryKey(characterName, task)];
+      delete completion[getCompletionEntryKey(characterName, task)];
     }
     localStorage.setItem("completion", JSON.stringify(completion));
     this.completionReloader$.next();
@@ -172,7 +223,6 @@ export class ChecklistComponent {
   private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
     if (character.lazy) {
       const lazyTrackingFlag = lazyTracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`];
-      console.log(task.label, character.name, lazyTrackingFlag);
       if (lazyTrackingFlag === undefined || lazyTrackingFlag) {
         dailyReset = subDays(new Date(dailyReset), 2).getTime();
       }
@@ -180,7 +230,7 @@ export class ChecklistComponent {
     if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(new Date().getDay() - 1)) {
       return -1;
     }
-    const completionFlag = completion[this.getCompletionEntryKey(character.name, task)];
+    const completionFlag = completion[getCompletionEntryKey(character.name, task)];
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (!completionFlag) {
       return 0;
@@ -190,12 +240,5 @@ export class ChecklistComponent {
 
   trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string {
     return entry.task.label;
-  }
-
-  private getCompletionEntryKey(characterName: string, task: LostarkTask): string {
-    if (task.scope === TaskScope.ROSTER) {
-      return `${task.label}:${task.frequency}`;
-    }
-    return `${characterName}:${task.label}:${task.frequency}`;
   }
 }

@@ -8,6 +8,10 @@ import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 import { FormsModule } from "@angular/forms";
 import { NzTableModule } from "ng-zorro-antd/table";
 import { NzSwitchModule } from "ng-zorro-antd/switch";
+import { NzCardModule } from "ng-zorro-antd/card";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number";
+import { NzButtonModule } from "ng-zorro-antd/button";
+import { NzPopconfirmModule } from "ng-zorro-antd/popconfirm";
 
 const routes: Routes = [{
   path: "",
@@ -24,7 +28,11 @@ const routes: Routes = [{
     NzCheckboxModule,
     FormsModule,
     NzTableModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzCardModule,
+    NzInputNumberModule,
+    NzButtonModule,
+    NzPopconfirmModule
   ]
 })
 export class SettingsModule {
