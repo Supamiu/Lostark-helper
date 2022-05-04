@@ -13,7 +13,7 @@
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
 }
 
 .header-trigger {
@@ -21,7 +21,7 @@
   padding: 20px 24px;
   font-size: 20px;
   cursor: pointer;
-  transition: all .3s,padding 0s;
+  transition: all .3s, padding 0s;
 }
 
 .trigger:hover {
@@ -51,7 +51,7 @@
   color: #fff;
   font-weight: 600;
   font-size: 14px;
-  font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
   vertical-align: middle;
 }
 
@@ -66,7 +66,7 @@ nz-header {
   height: 64px;
   padding: 0;
   background: #1F1F1F;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 }
 
 nz-content {
@@ -78,4 +78,61 @@ nz-content {
   padding: 24px;
   background: #1F1F1F;
   min-height: 100%;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 64px);
+
+  .main-navbar {
+    flex: 1 1 auto;
+  }
+
+  .bottom-navbar {
+    transition: all .2s;
+
+    > div {
+      transition: all .2s;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+
+      &.collapsed {
+        justify-content: center;
+        padding: 0;
+
+        > a > span {
+          display: inline-block;
+          position: absolute;
+          opacity: 0;
+        }
+      }
+
+      > a {
+        transition: all .2s;
+        color: white;
+        text-decoration: none;
+
+        > span {
+          transition: all .2s;
+        }
+      }
+
+
+      .icon {
+        width: 40px;
+        padding: 8px;
+      }
+    }
+
+    .github-menu-entry {
+      background-color: black;
+    }
+
+    .discord-menu-entry {
+      background-color: #5865F2;
+    }
+  }
 }

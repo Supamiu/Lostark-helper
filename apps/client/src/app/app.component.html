@@ -7,20 +7,38 @@
       <img src="./assets/logo.png" alt="logo">
       <h1>Lost Ark Helper</h1>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-menu-item nzMatchRouter routerLink="/checklist">
-        <i nz-icon nzType="check-square" nzTheme="outline"></i>
-        <span>Checklist</span>
-      </li>
-      <li nz-menu-item nzMatchRouter routerLink="/roster">
-        <i nz-icon nzType="team" nzTheme="outline"></i>
-        <span>Roster</span>
-      </li>
-      <li nz-menu-item nzMatchRouter routerLink="/tasks-manager">
-        <i nz-icon nzType="solution" nzTheme="outline"></i>
-        <span>Tasks Manager</span>
-      </li>
-    </ul>
+    <div class="sidebar-container">
+      <div class="main-navbar">
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+          <li nz-menu-item nzMatchRouter routerLink="/checklist">
+            <i nz-icon nzType="check-square" nzTheme="outline"></i>
+            <span>Checklist</span>
+          </li>
+          <li nz-menu-item nzMatchRouter routerLink="/roster">
+            <i nz-icon nzType="team" nzTheme="outline"></i>
+            <span>Roster</span>
+          </li>
+          <li nz-menu-item nzMatchRouter routerLink="/tasks-manager">
+            <i nz-icon nzType="solution" nzTheme="outline"></i>
+            <span>Tasks Manager</span>
+          </li>
+        </ul>
+      </div>
+      <div class="bottom-navbar">
+        <div class="github-menu-entry" [class.collapsed]="isCollapsed">
+          <a href="https://github.com/Supamiu/Lostark-helper" target="_blank">
+            <i nz-icon nzType="github" nzTheme="outline" class="icon"></i>
+            <span>Github</span>
+          </a>
+        </div>
+        <div class="discord-menu-entry" [class.collapsed]="isCollapsed">
+          <a href="https://discord.gg/ZyYSJChpX9" target="_blank">
+            <img src="./assets/Discord-Logo-White.svg" alt="Discord" class="icon">
+            <span>Discord</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </nz-sider>
   <nz-layout>
     <nz-header>
