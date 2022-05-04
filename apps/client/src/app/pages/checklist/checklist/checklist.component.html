@@ -9,8 +9,14 @@
         <tr>
           <th>Task</th>
           <th *ngFor="let character of display.roster">
-            <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
-            {{character.name}} [{{character.ilvl}}] <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i>
+            <div class="character-title">
+              <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt=""
+                   class="class-icon">
+              {{character.name}} [{{character.ilvl}}]
+              <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i>
+              <i nz-icon nzType="clock-circle" nzTheme="outline" *ngIf="character.lazy"
+                 nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
+            </div>
           </th>
         </tr>
         </thead>

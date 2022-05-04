@@ -7,6 +7,7 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {FormsModule} from "@angular/forms";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {IconsProviderModule} from "../../icons-provider.module";
+import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 const routes = [{
   path: '',
@@ -24,8 +25,9 @@ const routes = [{
     NzCheckboxModule,
     FormsModule,
     NzButtonModule,
-    IconsProviderModule
-  ],
+    IconsProviderModule,
+    NzToolTipModule
+  ]
 })
 export class ChecklistModule {
 }

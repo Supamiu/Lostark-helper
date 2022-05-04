@@ -35,6 +35,7 @@ export class TasksService {
         }
         return task;
       })));
+      localStorage.setItem("tasks:version", TasksService.VERSION.toString());
       this.reloader$.next();
     }
   }

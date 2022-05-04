@@ -11,7 +11,9 @@
                            (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
         </ng-template>
         <ng-template #setLazyAction>
-          <label nz-checkbox [(ngModel)]="character.lazy"></label>
+          <label nz-checkbox [(ngModel)]="character.lazy" (ngModelChange)="saveCharacter(character, roster)"></label>
+          Lazy
+          <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
         </ng-template>
         <ng-template #setClassAction>
           <nz-select class="class-selector"
@@ -70,6 +72,12 @@
             </nz-select>
           </nz-input-group>
         </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <label nz-checkbox formControlName="lazy">
+          Lazy
+          <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
+        </label>
       </nz-form-item>
       <button nz-button [nzType]="'primary'" [disabled]="!form.valid">Add</button>
     </form>

@@ -14,6 +14,7 @@ import {IconsProviderModule} from "../../icons-provider.module";
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
+import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 const routes = [{
   path: '',
@@ -37,7 +38,8 @@ const routes = [{
     NzInputNumberModule,
     FormsModule,
     NzSelectModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzToolTipModule
   ]
 })
 export class RosterModule {

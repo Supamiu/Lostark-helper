@@ -166,6 +166,9 @@ export class ChecklistComponent {
   }
 
   private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number): number {
+    if (character.lazy) {
+      dailyReset = subDays(new Date(dailyReset), 2).getTime();
+    }
     const completionFlag = completion[this.getCompletionEntryKey(character.name, task)];
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (!completionFlag) {
