@@ -3,6 +3,13 @@ import { RosterService } from "../roster.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Character } from "../../../model/character";
 import { LostarkClass } from "../../../model/lostark-class";
+import {
+  TextQuestionPopupComponent
+} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import { filter } from "rxjs/operators";
+import { Clipboard } from "@angular/cdk/clipboard";
+import { NzMessageService } from "ng-zorro-antd/message";
+import { NzModalService } from "ng-zorro-antd/modal";
 
 @Component({
   selector: "lostark-helper-roster",
@@ -33,7 +40,9 @@ export class RosterComponent {
   });
 
   constructor(private rosterService: RosterService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder, private clipboard: Clipboard,
+              private message: NzMessageService,
+              private modal: NzModalService) {
   }
 
   public addCharacter(roster: Character[]): void {
@@ -62,6 +71,33 @@ export class RosterComponent {
       return char;
     }));
     this.form.reset();
+  }
+
+  exportRoster(roster: Character[]): void {
+    this.clipboard.copy(JSON.stringify(roster));
+    this.message.success("Roster copied to your clipboard");
+  }
+
+  importRoster(): void {
+    this.modal.create({
+      nzTitle: "Import roster",
+      nzContent: TextQuestionPopupComponent,
+      nzComponentParams: {
+        placeholder: "Paste your exported roster here"
+      },
+      nzFooter: null
+    }).afterClose
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((rosterJson) => {
+        try {
+          this.rosterService.saveRoster(JSON.parse(rosterJson));
+          this.message.success("Custom tasks imported");
+        } catch (e: unknown) {
+          this.message.error((e as Error).message);
+        }
+      });
   }
 
   trackByCharacter(index: number, character: Character): string {

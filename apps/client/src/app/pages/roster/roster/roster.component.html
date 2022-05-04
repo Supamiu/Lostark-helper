@@ -1,4 +1,14 @@
 <ng-container *ngIf="roster$ | async as roster">
+  <nz-page-header nzTitle="Roster manager" nzSubtitle="Manage & configure your roster">
+    <nz-page-header-extra>
+      <button nz-button (click)="exportRoster(roster)" nz-tooltip nzTooltipTitle="Export roster">
+        <i nz-icon nzType="download" nzTheme="outline"></i>
+      </button>
+      <button nz-button (click)="importRoster()" nz-tooltip nzTooltipTitle="Import roster">
+        <i nz-icon nzType="upload" nzTheme="outline"></i>
+      </button>
+    </nz-page-header-extra>
+  </nz-page-header>
   <nz-card nzTitle="Characters">
     <nz-list [nzDataSource]="roster">
       <nz-list-item *ngFor="let character of roster;trackBy: trackByCharacter"
