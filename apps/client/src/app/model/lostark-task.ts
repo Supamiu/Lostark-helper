@@ -4,6 +4,8 @@ import { TaskScope } from "./task-scope";
 export class LostarkTask {
   public readonly createdAt = Date.now();
 
+  public applyLazy = true;
+
   constructor(
     public label: string,
     public minIlvl: number,
