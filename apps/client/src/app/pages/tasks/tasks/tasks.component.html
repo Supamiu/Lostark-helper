@@ -48,12 +48,10 @@
                            [nzDisabled]="!task.custom"></nz-input-number>
         </td>
         <td>
-          <nz-input-number [(ngModel)]="task.minIlvl" (ngModelChange)="updateTask(task)"
-                           [nzDisabled]="!task.custom"></nz-input-number>
+          <nz-input-number [(ngModel)]="task.minIlvl" (ngModelChange)="updateTask(task)"></nz-input-number>
         </td>
         <td>
-          <nz-input-number [(ngModel)]="task.maxIlvl" (ngModelChange)="updateTask(task)"
-                           [nzDisabled]="!task.custom"></nz-input-number>
+          <nz-input-number [(ngModel)]="task.maxIlvl" (ngModelChange)="updateTask(task)"></nz-input-number>
         </td>
         <td><label nz-checkbox [(ngModel)]="task.enabled" (ngModelChange)="updateTask(task)"></label></td>
         <td>

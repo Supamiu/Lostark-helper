@@ -32,7 +32,7 @@ export const tasks = [
   new LostarkTask(`Tranquil Karkosa`, 960, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1325,  'abyssal-dungeon.webp'),
   new LostarkTask(`Alaric's Sanctuary`, 960, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1325,  'abyssal-dungeon.webp'),
   new LostarkTask(`Aira's Oculus`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, 'abyssal-dungeon.webp'),
-  new LostarkTask(`Oreha Preveza`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, 'abyssal-dungeon.webp'),
+  new LostarkTask(`Oreha Preveza`, 1340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, 'abyssal-dungeon.webp'),
   new LostarkTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, 'abyssal-raid.webp'),
 
   // Weekly Roster
