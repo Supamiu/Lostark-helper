@@ -5,6 +5,12 @@ import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { FormBuilder, Validators } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { Clipboard } from "@angular/cdk/clipboard";
+import { NzModalService } from "ng-zorro-antd/modal";
+import {
+  TextQuestionPopupComponent
+} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "lostark-helper-tasks",
@@ -28,7 +34,9 @@ export class TasksComponent {
 
   constructor(private tasksService: TasksService,
               private fb: FormBuilder,
-              private message: NzMessageService) {
+              private message: NzMessageService,
+              private clipboard: Clipboard,
+              private modal: NzModalService) {
   }
 
   addTask(): void {
@@ -66,6 +74,33 @@ export class TasksComponent {
 
   saveTask(task: LostarkTask): void {
     this.tasksService.removeTask(task);
+  }
+
+  exportTasks(): void {
+    this.clipboard.copy(this.tasksService.exportTasks());
+    this.message.success("Custom tasks copied to your clipboard");
+  }
+
+  importTasks(): void {
+    this.modal.create({
+      nzTitle: "Import tasks",
+      nzContent: TextQuestionPopupComponent,
+      nzComponentParams: {
+        placeholder: "Paste your exported tasks here"
+      },
+      nzFooter: null
+    }).afterClose
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((tasksJson) => {
+        try {
+          this.tasksService.importTasks(JSON.parse(tasksJson || "[]"));
+          this.message.success("Custom tasks imported");
+        } catch (e: unknown) {
+          this.message.error((e as Error).message);
+        }
+      });
   }
 
   trackByTask(index: number, task: LostarkTask): string {

@@ -1,0 +1,7 @@
+<form (submit)="submit()" >
+  <textarea nz-input [formControl]="control" rows="5" [placeholder]="placeholder" class="text-area">
+  </textarea>
+  <button nz-button [disabled]="!control.valid" nzType="primary"
+          type="submit">Submit
+  </button>
+</form>

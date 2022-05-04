@@ -84,4 +84,17 @@ export class TasksService {
     });
     this.reloader$.next();
   }
+
+  public exportTasks(): string {
+    return localStorage.getItem("tasks:custom") || "[]";
+  }
+
+  importTasks(tasks: LostarkTask[]): void {
+    if (!tasks.length) {
+      throw new Error("Tried to import tasks as Object");
+    }
+    console.log(tasks);
+    localStorage.setItem("tasks:custom", JSON.stringify(tasks));
+    this.reloader$.next();
+  }
 }
