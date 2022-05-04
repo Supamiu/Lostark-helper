@@ -18,6 +18,7 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Icon</th>
         <th>Frequency</th>
         <th>Scope</th>
         <th>Repetitions</th>
@@ -31,6 +32,19 @@
       <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask">
         <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
                    nz-input></td>
+        <td>
+          <div class="task-icon-wrapper">
+            <img *ngIf="task.iconPath" src="./assets/icons/{{task.iconPath}}" alt="" class="task-icon">
+            <nz-select [(ngModel)]="task.iconPath" (ngModelChange)="updateTask(task)"
+                       nzAllowClear
+                       class="icon-select"
+                       *ngIf="task.custom">
+              <nz-option *ngFor="let icon of icons" [nzValue]="icon" [nzLabel]="icon" nzCustomContent>
+                <img src="./assets/icons/{{icon}}" alt="" class="task-icon">
+              </nz-option>
+            </nz-select>
+          </div>
+        </td>
         <td>
           <nz-select [(ngModel)]="task.frequency" (ngModelChange)="updateTask(task)" [nzDisabled]="!task.custom">
             <nz-option [nzValue]="TaskFrequency.DAILY" nzLabel="Daily"></nz-option>
@@ -73,6 +87,23 @@
       <nz-form-control nzErrorTip="Please input a task name">
         <nz-input-group nzPrefixIcon="user">
           <input type="text" nz-input formControlName="label" placeholder="Name" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Please input a task frequency">
+        <nz-input-group [nzAddOnBefore]="imagePreview">
+          <ng-template #imagePreview>
+            <img *ngIf="form.value.iconPath" src="./assets/icons/{{form.value.iconPath}}" alt="" class="task-icon preview">
+            <span *ngIf="!form.value.iconPath">Icon</span>
+          </ng-template>
+          <nz-select formControlName="iconPath"
+                     nzAllowClear
+                     class="icon-select">
+            <nz-option *ngFor="let icon of icons" [nzValue]="icon" [nzLabel]="icon" nzCustomContent>
+              <img src="./assets/icons/{{icon}}" alt="" class="task-icon">
+            </nz-option>
+          </nz-select>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>

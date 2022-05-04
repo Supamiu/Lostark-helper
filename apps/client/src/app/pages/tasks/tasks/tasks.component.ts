@@ -29,8 +29,24 @@ export class TasksComponent {
     scope: [TaskScope.CHARACTER],
     amount: [null, Validators.required],
     minIlvl: [null, [Validators.required, Validators.min(0), Validators.max(9999)]],
-    maxIlvl: [null, [Validators.required, Validators.min(0), Validators.max(9999)]]
+    maxIlvl: [null, [Validators.required, Validators.min(0), Validators.max(9999)]],
+    iconPath: [null]
   });
+
+  public icons = [
+    'abyssal-dungeon.webp',
+    'abyssal-raid.webp',
+    'chaos-dungeon.webp',
+    'chaos_gate.png',
+    'daily.webp',
+    'ghostship.png',
+    'guardian.png',
+    'island.webp',
+    'pirate_coin.png',
+    'rapport.webp',
+    'sylmael.png',
+    'weekly.webp',
+  ];
 
   constructor(private tasksService: TasksService,
               private fb: FormBuilder,

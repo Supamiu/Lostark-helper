@@ -9,7 +9,7 @@ import { SettingsService } from "../settings/settings.service";
 })
 export class TasksService {
 
-  private static readonly VERSION = 5;
+  private static readonly VERSION = 6;
 
   private reloader$ = new BehaviorSubject<void>(void 0);
 
@@ -36,9 +36,12 @@ export class TasksService {
               task.custom,
               task.daysFilter
             );
+            Object.assign(
+              prepared,
+              task
+            );
 
             if (prepared.label.startsWith("Affinity") && !settings.crystallineAura) {
-              console.log(prepared);
               prepared.amount -= 1;
             }
             return prepared;
@@ -50,8 +53,11 @@ export class TasksService {
 
   constructor(private settings: SettingsService) {
     const version = +(localStorage.getItem("tasks:version") || "0");
-    if (version < TasksService.VERSION) {
-      const currentTasks: LostarkTask[] = JSON.parse(localStorage.getItem("tasks:default") || "[]");
+    const currentTasks: LostarkTask[] = JSON.parse(localStorage.getItem("tasks:default") || "[]");
+    const corrupted = currentTasks.some((task, i) => {
+      return currentTasks.findIndex(t => t.label === task.label) !== i;
+    });
+    if (version < TasksService.VERSION || corrupted) {
       localStorage.setItem("tasks:default", JSON.stringify(tasks.map(task => {
         const existingConfig = currentTasks.find(t => t.label === task.label);
         if (existingConfig) {
