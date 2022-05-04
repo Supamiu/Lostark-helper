@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, map, Observable, switchMap } from "rxjs";
 import { LostarkTask } from "../../model/lostark-task";
 import { tasks } from "../../core/tasks";
+import { SettingsService } from "../settings/settings.service";
 
 @Injectable({
   providedIn: "root"
@@ -18,10 +19,36 @@ export class TasksService {
         ...JSON.parse(localStorage.getItem("tasks:custom") || "[]"),
         ...JSON.parse(localStorage.getItem("tasks:default") || "[]")
       ];
+    }),
+    switchMap((tasks) => {
+      return this.settings.settings$.pipe(
+        map(settings => {
+          return tasks.map(task => {
+            const prepared = new LostarkTask(
+              task.label,
+              task.minIlvl,
+              task.frequency,
+              task.scope,
+              task.amount,
+              task.maxIlvl,
+              task.iconPath,
+              task.enabled,
+              task.custom,
+              task.daysFilter
+            );
+
+            if (prepared.label.startsWith("Affinity") && !settings.crystallineAura) {
+              console.log(prepared);
+              prepared.amount -= 1;
+            }
+            return prepared;
+          });
+        })
+      );
     })
   );
 
-  constructor() {
+  constructor(private settings: SettingsService) {
     const version = +(localStorage.getItem("tasks:version") || "0");
     if (version < TasksService.VERSION) {
       const currentTasks: LostarkTask[] = JSON.parse(localStorage.getItem("tasks:default") || "[]");

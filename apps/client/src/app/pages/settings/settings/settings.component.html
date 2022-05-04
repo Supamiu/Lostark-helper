@@ -1,0 +1,5 @@
+<nz-page-header nzTitle="Settings" nzSubtitle="Configure your experience">
+</nz-page-header>
+<div nz-row *ngIf="settings$ | async as settings">
+  <div nz-col><label nz-checkbox [(ngModel)]="settings.crystallineAura" (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura</div>
+</div>
