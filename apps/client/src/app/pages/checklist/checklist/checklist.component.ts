@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
-import {BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, timer} from "rxjs";
-import {LostarkTask} from "../../../model/lostark-task";
-import {Character} from "../../../model/character";
-import {subDays} from "date-fns";
-import {TaskFrequency} from "../../../model/task-frequency";
-import {TaskScope} from "../../../model/task-scope";
-import {Completion} from "../../../model/completion";
-import {RosterService} from "../../roster/roster.service";
-import {TasksService} from "../../tasks/tasks.service";
+import { Component } from "@angular/core";
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, timer } from "rxjs";
+import { LostarkTask } from "../../../model/lostark-task";
+import { Character } from "../../../model/character";
+import { subDays } from "date-fns";
+import { TaskFrequency } from "../../../model/task-frequency";
+import { TaskScope } from "../../../model/task-scope";
+import { Completion } from "../../../model/completion";
+import { RosterService } from "../../roster/roster.service";
+import { TasksService } from "../../tasks/tasks.service";
 
 @Component({
-  selector: 'lostark-helper-checklist',
-  templateUrl: './checklist.component.html',
-  styleUrls: ['./checklist.component.less'],
+  selector: "lostark-helper-checklist",
+  templateUrl: "./checklist.component.html",
+  styleUrls: ["./checklist.component.less"]
 })
 export class ChecklistComponent {
 
@@ -25,7 +25,7 @@ export class ChecklistComponent {
 
   public completion$: Observable<Completion> = this.completionReloader$.pipe(
     map(() => {
-      return JSON.parse(localStorage.getItem('completion') || '{}');
+      return JSON.parse(localStorage.getItem("completion") || "{}");
     })
   );
 
@@ -37,7 +37,7 @@ export class ChecklistComponent {
       return tasks.filter(task => {
         return task.enabled &&
           (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= task.minIlvl));
-      })
+      });
     })
   );
 
@@ -95,30 +95,43 @@ export class ChecklistComponent {
                 weeklyReset
               ),
               doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl
-            }
+            };
           });
           return {
             task,
             completion: completionData.map(row => row.done),
-            allDone: completionData.every(({doable, done}) => !doable || done >= task.amount)
-          }
+            completionData,
+            allDone: completionData.every(({ doable, done }) => !doable || done >= task.amount)
+          };
         })
         .reduce((acc, row) => {
-          const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? 'daily' : 'weekly';
-          const scopeKey = row.task.scope === TaskScope.CHARACTER ? 'Character' : 'Roster';
+          const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
+          const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
           return {
             ...acc,
             [`${frequencyKey}${scopeKey}`]: [
               ...acc[`${frequencyKey}${scopeKey}`],
               row
             ]
-          }
-        }, {dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: []})
+          };
+        }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [] });
+
       return {
+        roster: roster.map((c, i) => {
+          const done = [...data.dailyCharacter, ...data.weeklyCharacter].every(
+            (row: { completionData: { doable: boolean, done: number }[], task: LostarkTask }) => {
+              const completion = row.completionData[i];
+              return !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
+            });
+          return {
+            ...c,
+            done
+          };
+        }),
         dailyReset,
         weeklyReset,
         data
-      }
+      };
     })
   );
 
@@ -144,11 +157,11 @@ export class ChecklistComponent {
     } else if (task.scope === TaskScope.ROSTER && !done) {
       roster.forEach(c => {
         delete completion[this.getCompletionEntryKey(c.name, task)];
-      })
+      });
     } else {
       delete completion[this.getCompletionEntryKey(characterName, task)];
     }
-    localStorage.setItem('completion', JSON.stringify(completion));
+    localStorage.setItem("completion", JSON.stringify(completion));
     this.completionReloader$.next();
   }
 

@@ -8,7 +8,7 @@
         <thead>
         <tr>
           <th>Task</th>
-          <th *ngFor="let character of roster">{{character.name}} [{{character.ilvl}}]</th>
+          <th *ngFor="let character of display.roster">{{character.name}} [{{character.ilvl}}] <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i> </th>
         </tr>
         </thead>
         <tbody>
