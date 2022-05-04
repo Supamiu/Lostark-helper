@@ -9,7 +9,7 @@ import { SettingsService } from "../settings/settings.service";
 })
 export class TasksService {
 
-  private static readonly VERSION = 6;
+  private static readonly VERSION = 7;
 
   private reloader$ = new BehaviorSubject<void>(void 0);
 
@@ -93,7 +93,7 @@ export class TasksService {
     const tasks: LostarkTask[] = JSON.parse(localStorage.getItem(lsKey) || "[]");
     localStorage.setItem(lsKey, JSON.stringify(tasks.map(t => {
       if (task.custom) {
-        if (t.createdAt === task.createdAt) {
+        if (t.id === task.id) {
           return task;
         }
       } else {
