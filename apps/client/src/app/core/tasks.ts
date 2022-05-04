@@ -33,9 +33,7 @@ export const tasks = [
   new LostarkTask(`Alaric's Sanctuary`, 960, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1325),
   new LostarkTask(`Aira's Oculus`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
   new LostarkTask(`Oreha Preveza`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
-  new LostarkTask(`Argos P1`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
-  new LostarkTask(`Argos P2`, 1385, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
-  new LostarkTask(`Argos P3`, 1400, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
+  new LostarkTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1),
 
   // Weekly Roster
   new LostarkTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1),

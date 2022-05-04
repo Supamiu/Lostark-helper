@@ -7,7 +7,11 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "standard-version": "standard-version",
+    "standard-version:patch": "git fetch origin && standard-version --release-as patch && npm run standard-version:after",
+    "standard-version:minor": "git fetch origin && standard-version --release-as minor && npm run standard-version:after",
+    "standard-version:dry": "standard-version --dry-run"
   },
   "private": true,
   "dependencies": {
@@ -53,6 +57,7 @@
     "jest-preset-angular": "11.1.1",
     "nx": "14.0.5",
     "prettier": "^2.5.1",
+    "standard-version": "^9.3.2",
     "ts-jest": "27.1.4",
     "ts-node": "9.1.1",
     "typescript": "~4.6.2"

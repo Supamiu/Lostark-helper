@@ -36,7 +36,7 @@ export class ChecklistComponent {
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.some(c => c.ilvl < task.maxIlvl && c.ilvl > task.minIlvl));
+          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= task.minIlvl));
       })
     })
   );
