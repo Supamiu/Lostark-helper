@@ -8,7 +8,7 @@ import { tasks } from "../../core/tasks";
 })
 export class TasksService {
 
-  private static readonly VERSION = 4;
+  private static readonly VERSION = 5;
 
   private reloader$ = new BehaviorSubject<void>(void 0);
 

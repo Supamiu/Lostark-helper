@@ -57,7 +57,7 @@ export class RosterComponent {
 
   public saveCharacter(character: Character, roster: Character[]): void {
     this.rosterService.saveRoster(roster.map(char => {
-      if (char.id === character.id) {
+      if (character.id && char.id === character.id) {
         return character;
       }
       return char;

@@ -1,7 +1,8 @@
-import {TaskFrequency} from "./task-frequency";
-import {TaskScope} from "./task-scope";
+import { TaskFrequency } from "./task-frequency";
+import { TaskScope } from "./task-scope";
 
 export class LostarkTask {
+  public readonly createdAt = Date.now();
 
   constructor(
     public label: string,
@@ -13,7 +14,7 @@ export class LostarkTask {
     public iconPath?: string,
     public enabled = true,
     public custom = false,
-    public readonly createdAt = Date.now()
+    public readonly daysFilter: number[] = []
   ) {
   }
 }

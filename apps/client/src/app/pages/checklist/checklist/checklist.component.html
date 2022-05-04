@@ -11,7 +11,7 @@
           <th *ngFor="let character of display.roster">
             <div class="character-title">
               <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt=""
-                   class="class-icon">
+                   class="class-icon" *ngIf="character.class !== null">
               {{character.name}} [{{character.ilvl}}]
               <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i>
               <i nz-icon nzType="clock-circle" nzTheme="outline" *ngIf="character.lazy"
@@ -47,7 +47,7 @@
               </td>
               <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
                 <td colspan="99">
-                  <div class="counter roster">
+                  <div class="counter roster"  *ngIf="row.completion[0] > -1">
                     <div>
                       <button nz-button
                               nzSize="small"
@@ -65,7 +65,11 @@
                       </button>
                     </div>
                   </div>
+                  <div class="roster"  *ngIf="row.completion[0] === -1">
+                    Not available today
+                  </div>
                 </td>
+
               </ng-container>
               <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
                 <td *ngFor="let col of row.completion; index as i">
