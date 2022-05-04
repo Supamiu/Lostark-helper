@@ -1,20 +1,36 @@
-import {Component} from '@angular/core';
-import {RosterService} from "../roster.service";
-import {FormBuilder, Validators} from "@angular/forms";
-import {Character} from '../../../model/character';
+import { Component } from "@angular/core";
+import { RosterService } from "../roster.service";
+import { FormBuilder, Validators } from "@angular/forms";
+import { Character } from "../../../model/character";
+import { LostarkClass } from "../../../model/lostark-class";
 
 @Component({
-  selector: 'lostark-helper-roster',
-  templateUrl: './roster.component.html',
-  styleUrls: ['./roster.component.less'],
+  selector: "lostark-helper-roster",
+  templateUrl: "./roster.component.html",
+  styleUrls: ["./roster.component.less"]
 })
 export class RosterComponent {
+  public LostarkClass = LostarkClass;
+
+  public classes = Object.keys(LostarkClass)
+    .filter(key => !isNaN(+key) && !LostarkClass[key].startsWith('UNRELEASED'))
+    .map(key => {
+      return {
+        id: key,
+        name: `${LostarkClass[key][0]}${LostarkClass[key].slice(1).toLowerCase()}`,
+        icon: `class_${key.padStart(2, '0')}.png`
+      }
+
+    })
+
   public roster$ = this.rosterService.roster$;
 
   public form = this.fb.group({
-    name: ['', Validators.required],
-    ilvl: [null, Validators.required]
-  })
+    name: ["", Validators.required],
+    ilvl: [null, Validators.required],
+    lazy: [false],
+    class: [null, Validators.required]
+  });
 
   constructor(private rosterService: RosterService,
               private fb: FormBuilder) {
@@ -24,8 +40,10 @@ export class RosterComponent {
     const form = this.form.getRawValue();
     roster.push({
       name: form.name,
-      ilvl: form.ilvl
-    })
+      ilvl: form.ilvl,
+      lazy: form.lazy,
+      class: form.class
+    });
     this.rosterService.saveRoster(roster);
     this.form.reset();
   }

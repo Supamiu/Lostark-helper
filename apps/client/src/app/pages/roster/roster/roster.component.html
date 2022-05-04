@@ -1,10 +1,32 @@
 <ng-container *ngIf="roster$ | async as roster">
   <nz-card nzTitle="Characters">
     <nz-list [nzDataSource]="roster">
-      <nz-list-item *ngFor="let character of roster;trackBy: trackByCharacter" [nzActions]="[deleteAction]">
-        <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"></nz-list-item-meta>
+      <nz-list-item *ngFor="let character of roster;trackBy: trackByCharacter"
+                    [nzActions]="[setLazyAction, setClassAction, deleteAction]">
+        <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"
+                           nzAvatar="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png"></nz-list-item-meta>
         <ng-template #description>
-          ilvl <nz-input-number [(ngModel)]="character.ilvl" (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
+          ilvl
+          <nz-input-number [(ngModel)]="character.ilvl"
+                           (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
+        </ng-template>
+        <ng-template #setLazyAction>
+          <label nz-checkbox [(ngModel)]="character.lazy"></label>
+        </ng-template>
+        <ng-template #setClassAction>
+          <nz-select class="class-selector"
+                     [(ngModel)]="character.class"
+                     (ngModelChange)="saveCharacter(character, roster)"
+                     nzShowSearch>
+            <nz-option *ngFor="let row of classes"
+                       [nzValue]="row.id" [nzLabel]="row.name"
+                       nzCustomContent>
+              <div class="class-row">
+                <img src="./assets/icons/classes/{{row.icon}}" alt="" class="class-icon">
+                <div>{{row.name}}</div>
+              </div>
+            </nz-option>
+          </nz-select>
         </ng-template>
         <ng-template #deleteAction>
           <button nz-button nzDanger nz-popconfirm
@@ -22,14 +44,30 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input a character name">
           <nz-input-group nzPrefixIcon="user">
-            <input type="text" nz-input formControlName="name" placeholder="Name"/>
+            <input type="text" nz-input formControlName="name" placeholder="Name" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input an ilvl">
           <nz-input-group nzPrefixIcon="info">
-            <input nz-input formControlName="ilvl" placeholder="Item Level" type="number"/>
+            <input nz-input formControlName="ilvl" placeholder="Item Level" type="number" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input a class">
+          <nz-input-group nzAddOnBefore="Class">
+            <nz-select formControlName="class" class="class-selector" nzShowSearch>
+              <nz-option *ngFor="let row of classes"
+                         [nzValue]="row.id" [nzLabel]="row.name"
+                         nzCustomContent class="class-row">
+                <div class="class-row">
+                  <img src="./assets/icons/classes/{{row.icon}}" alt="" class="class-icon">
+                  <div>{{row.name}}</div>
+                </div>
+              </nz-option>
+            </nz-select>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
