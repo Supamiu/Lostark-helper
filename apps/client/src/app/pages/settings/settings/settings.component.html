@@ -40,41 +40,45 @@
           </nz-card>
         </div>
         <ng-container *ngIf="energy$ | async as energy">
-          <div nz-row *ngIf="restBonus$ | async as restBonus">
-            <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small">
-              <ng-template #reset>
-                <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="resetBonuses()">Reset all bonuses</button>
-              </ng-template>
-              <div class="lazy-matrix">
-                <nz-table #tasksTable [nzData]="restBonus"
-                          [nzPageSize]="999"
-                          nzHideOnSinglePage
-                          nzSize="middle">
-                  <thead>
-                  <tr>
-                    <th>Task</th>
-                    <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let row of tasksTable.data; trackBy: trackByTask">
-                    <td class="task-name">
-                      <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt=""
-                           class="task-icon">
-                      {{row.task.label}}
-                    </td>
-                    <td *ngFor="let bonus of row.energy; index as i; trackBy: trackByBonus">
-                      <nz-input-number [ngModel]="bonus"
-                                       [nzMin]="0"
-                                       [nzMax]="100"
-                                       (ngModelChange)="setRestBonus(energy, row.task,roster[i], $event)"></nz-input-number>
-                    </td>
-                  </tr>
-                  </tbody>
-                </nz-table>
-              </div>
-            </nz-card>
-          </div>
+          <ng-container *ngIf="fullRoster$ | async as fullRoster">
+            <div nz-row *ngIf="restBonus$ | async as restBonus">
+              <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small">
+                <ng-template #reset>
+                  <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="resetBonuses()">Reset
+                    all bonuses
+                  </button>
+                </ng-template>
+                <div class="lazy-matrix">
+                  <nz-table #tasksTable [nzData]="restBonus"
+                            [nzPageSize]="999"
+                            nzHideOnSinglePage
+                            nzSize="middle">
+                    <thead>
+                    <tr>
+                      <th>Task</th>
+                      <th *ngFor="let character of fullRoster">{{character.name}}[{{character.ilvl}}]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let row of tasksTable.data; trackBy: trackByTask">
+                      <td class="task-name">
+                        <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt=""
+                             class="task-icon">
+                        {{row.task.label}}
+                      </td>
+                      <td *ngFor="let bonus of row.energy; index as i; trackBy: trackByBonus">
+                        <nz-input-number [ngModel]="bonus"
+                                         [nzMin]="0"
+                                         [nzMax]="100"
+                                         (ngModelChange)="setRestBonus(energy, row.task,fullRoster[i], $event)"></nz-input-number>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </nz-table>
+                </div>
+              </nz-card>
+            </div>
+          </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>

@@ -31,6 +31,8 @@ export class SettingsComponent {
     map(roster => roster.filter(c => c.lazy))
   );
 
+  public fullRoster$ = this.rosterService.roster$;
+
   public lazyFlags$ = combineLatest([
     this.tasksService.tasks$,
     this.roster$,
@@ -54,7 +56,7 @@ export class SettingsComponent {
 
   public restBonus$ = combineLatest([
     this.tasksService.tasks$,
-    this.roster$,
+    this.rosterService.roster$,
     this.energy$
   ]).pipe(
     map(([tasks, roster, energy]) => {
