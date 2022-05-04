@@ -6,6 +6,8 @@ import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { NzGridModule } from "ng-zorro-antd/grid";
 import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 import { FormsModule } from "@angular/forms";
+import { NzTableModule } from "ng-zorro-antd/table";
+import { NzSwitchModule } from "ng-zorro-antd/switch";
 
 const routes: Routes = [{
   path: "",
@@ -20,7 +22,9 @@ const routes: Routes = [{
     NzPageHeaderModule,
     NzGridModule,
     NzCheckboxModule,
-    FormsModule
+    FormsModule,
+    NzTableModule,
+    NzSwitchModule
   ]
 })
 export class SettingsModule {

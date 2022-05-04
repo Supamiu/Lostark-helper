@@ -24,4 +24,12 @@ export class SettingsService {
     localStorage.setItem("settings", JSON.stringify(settings));
     this.reloader$.next();
   }
+
+  public patch(settings: Partial<Settings>): void {
+    localStorage.setItem("settings", JSON.stringify({
+      ...JSON.parse(localStorage.getItem("settings") || "{}"),
+      ...settings
+    }));
+    this.reloader$.next();
+  }
 }

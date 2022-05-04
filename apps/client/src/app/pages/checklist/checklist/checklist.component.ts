@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, timer } from "rxjs";
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
 import { subDays } from "date-fns";
@@ -8,6 +8,7 @@ import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
 import { RosterService } from "../../roster/roster.service";
 import { TasksService } from "../../tasks/tasks.service";
+import { SettingsService } from "../../settings/settings.service";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -80,9 +81,10 @@ export class ChecklistComponent {
     this.tasks$,
     this.completion$,
     this.lastDailyReset$,
-    this.lastWeeklyReset$
+    this.lastWeeklyReset$,
+    this.settings.settings$.pipe(pluck("lazytracking"))
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking]) => {
       const data = tasks
         .map(task => {
           const completionData = roster.map(character => {
@@ -92,7 +94,8 @@ export class ChecklistComponent {
                 character,
                 completion,
                 dailyReset,
-                weeklyReset
+                weeklyReset,
+                lazyTracking
               ),
               doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl
             };
@@ -139,7 +142,8 @@ export class ChecklistComponent {
     map(roster => roster.length === 0)
   );
 
-  constructor(private rosterService: RosterService, private tasksService: TasksService) {
+  constructor(private rosterService: RosterService, private tasksService: TasksService,
+              private settings: SettingsService) {
   }
 
   public markAsDone(completion: Completion, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {
@@ -165,9 +169,13 @@ export class ChecklistComponent {
     this.completionReloader$.next();
   }
 
-  private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number): number {
+  private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
     if (character.lazy) {
-      dailyReset = subDays(new Date(dailyReset), 2).getTime();
+      const lazyTrackingFlag = lazyTracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`];
+      console.log(task.label, character.name, lazyTrackingFlag);
+      if (lazyTrackingFlag === undefined || lazyTrackingFlag) {
+        dailyReset = subDays(new Date(dailyReset), 2).getTime();
+      }
     }
     if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(new Date().getDay() - 1)) {
       return -1;
