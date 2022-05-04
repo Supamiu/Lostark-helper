@@ -21,7 +21,6 @@ export class RosterComponent {
         name: `${LostarkClass[key][0]}${LostarkClass[key].slice(1).toLowerCase()}`,
         icon: `class_${key.padStart(2, "0")}.png`
       };
-
     });
 
   public roster$ = this.rosterService.roster$;
