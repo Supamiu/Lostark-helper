@@ -1,3 +1,16 @@
+:host ::ng-deep {
+  .ant-table-thead > tr > th {
+    text-align: center;
+    background-color: #001529 !important;
+    color: white;
+    border-bottom: 0;
+  }
+
+  .ant-table-body {
+    overflow-x: hidden;
+  }
+}
+
 .counter {
   display: flex;
   align-items: center;
@@ -97,22 +110,6 @@ table {
         }
       }
     }
-  }
-
-  tr:hover {
-    background-color: #444;
-  }
-
-  td, th {
-    padding: 8px;
-  }
-
-  th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: center;
-    background-color: #001529;
-    color: white;
   }
 }
 

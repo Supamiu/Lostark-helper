@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
@@ -185,8 +185,16 @@ export class ChecklistComponent {
     map(roster => roster.length === 0)
   );
 
+  public tableHeight!: number;
+
   constructor(private rosterService: RosterService, private tasksService: TasksService,
               private settings: SettingsService) {
+    this.setTableHeight();
+  }
+
+  @HostListener("window:resize")
+  setTableHeight(): void {
+    this.tableHeight = window.innerHeight - 64 - 48 - 64 - 56;
   }
 
   public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {
