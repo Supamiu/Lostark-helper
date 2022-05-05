@@ -1,5 +1,15 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  Observable,
+  pluck,
+  switchMap,
+  tap,
+  timer
+} from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
 import { subDays, subHours } from "date-fns";
@@ -106,12 +116,18 @@ export class ChecklistComponent {
       // Target reset day Thursday
       const weeklyReset = 4;
       // Only supports EU servers for now.
-      const reset = new Date();
+      let reset = new Date();
       reset.setUTCSeconds(0);
       reset.setUTCMinutes(0);
       reset.setUTCMilliseconds(0);
       // Last Thursday
-      reset.setDate(reset.getDate() - (reset.getDay() == weeklyReset ? 7 : (reset.getDay() + (7 - weeklyReset)) % 7));
+      if (reset.getUTCDay() === weeklyReset) {
+        if (reset.getUTCHours() < 10) {
+          reset = subDays(reset, 7);
+        }
+      } else {
+        reset = subDays(reset, 7 - (weeklyReset - reset.getUTCDay()));
+      }
       reset.setUTCHours(10);
       return reset.getTime();
     }),
@@ -154,9 +170,6 @@ export class ChecklistComponent {
           };
         })
         .reduce((acc, row) => {
-          if (row.hasEnergy) {
-            console.log(row);
-          }
           const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
           return {
