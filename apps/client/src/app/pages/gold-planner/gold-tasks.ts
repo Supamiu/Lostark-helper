@@ -92,7 +92,8 @@ export const goldTasks: GoldTask[] = [
     taskName: "Aira's Oculus",
     chestPrice: 300,
     completionId: "T3.1",
-    entryId: "T3.1.0"
+    entryId: "T3.1.0",
+    overrideMinIlvl: 1370
   },
   {
     name: "Oreha Preveza (Hard)",
@@ -100,7 +101,8 @@ export const goldTasks: GoldTask[] = [
     taskName: "Oreha Preveza",
     chestPrice: 500,
     completionId: "T3.1",
-    entryId: "T3.1.1"
+    entryId: "T3.1.1",
+    overrideMinIlvl: 1370
   },
 
   // T3 Abyss Raid
