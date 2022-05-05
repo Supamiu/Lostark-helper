@@ -28,8 +28,9 @@
                     <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
                     {{row.task.label}}
                   </td>
-                  <td *ngFor="let flag of row.flags; index as i">
-                    <nz-switch nzCheckedChildren="Lazy" nzUnCheckedChildren="Not Lazy"
+                  <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
+                    <nz-switch nzCheckedChildren="Lazy"
+                               nzUnCheckedChildren="Not Lazy"
                                [ngModel]="flag"
                                (ngModelChange)="setLazyFlag(tracking, row.task, roster[i], $event)"></nz-switch>
                   </td>
@@ -66,11 +67,11 @@
                              class="task-icon">
                         {{row.task.label}}
                       </td>
-                      <td *ngFor="let bonus of row.energy; index as i; trackBy: trackByBonus">
+                      <td *ngFor="let bonus of row.energy; index as i; trackBy: trackByIndex">
                         <nz-input-number [ngModel]="bonus"
                                          [nzMin]="0"
                                          [nzMax]="100"
-                                         (ngModelChange)="setRestBonus(energy, row.task,fullRoster[i], $event)"></nz-input-number>
+                                         (ngModelChange)="setRestBonus(energy, row.task, fullRoster[i], $event)"></nz-input-number>
                       </td>
                     </tr>
                     </tbody>

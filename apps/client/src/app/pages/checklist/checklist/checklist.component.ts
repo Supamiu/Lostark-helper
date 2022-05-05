@@ -242,4 +242,8 @@ export class ChecklistComponent {
   trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string {
     return entry.task.label;
   }
+
+  trackByIndex(index: number): number {
+    return index;
+  }
 }

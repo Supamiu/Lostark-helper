@@ -85,7 +85,7 @@ export class SettingsComponent {
     return row.task.label;
   }
 
-  trackByBonus(index: number): number {
+  trackByIndex(index: number): number {
     return index;
   }
 
