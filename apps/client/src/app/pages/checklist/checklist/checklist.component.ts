@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
-import { subDays } from "date-fns";
+import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
@@ -227,7 +227,8 @@ export class ChecklistComponent {
         dailyReset = subDays(new Date(dailyReset), 2).getTime();
       }
     }
-    if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(new Date().getDay() - 1)) {
+    const currentLADay = subHours(new Date(), 10);
+    if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay() - 1)) {
       return -1;
     }
     const completionFlag = completion[getCompletionEntryKey(character.name, task)];
