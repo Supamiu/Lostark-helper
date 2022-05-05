@@ -27,7 +27,9 @@ interface GoldPlannerDisplay {
   styleUrls: ["./gold-planner.component.less"]
 })
 export class GoldPlannerComponent {
-  public roster$ = this.rosterService.roster$;
+  public roster$ = this.rosterService.roster$.pipe(
+    map(roster => roster.slice(0, 6))
+  );
 
   public tasks$ = this.tasksService.tasks$;
 
