@@ -10,6 +10,7 @@ import { filter } from "rxjs/operators";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzModalService } from "ng-zorro-antd/modal";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "lostark-helper-roster",
@@ -104,4 +105,8 @@ export class RosterComponent {
     return character.name;
   }
 
+  drop(event: CdkDragDrop<Character[], Character>): void {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.rosterService.saveRoster(event.container.data);
+  }
 }

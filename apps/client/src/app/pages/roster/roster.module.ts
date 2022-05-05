@@ -18,6 +18,7 @@ import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { NzMessageModule } from "ng-zorro-antd/message";
 import { NzModalModule } from "ng-zorro-antd/modal";
 import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 const routes = [{
   path: "",
@@ -45,7 +46,8 @@ const routes = [{
     NzToolTipModule,
     NzMessageModule,
     NzModalModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    DragDropModule
   ]
 })
 export class RosterModule {

@@ -10,9 +10,10 @@
     </nz-page-header-extra>
   </nz-page-header>
   <nz-card nzTitle="Characters">
-    <nz-list [nzDataSource]="roster">
+    <nz-list [nzDataSource]="roster" cdkDropList [cdkDropListData]="roster" (cdkDropListDropped)="drop($event)">
       <nz-list-item *ngFor="let character of roster;trackBy: trackByCharacter"
-                    [nzActions]="[setLazyAction, setClassAction, deleteAction]">
+                    [nzActions]="[setLazyAction, setClassAction, deleteAction]"
+                    cdkDrag [cdkDragData]="character">
         <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"
                            nzAvatar="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png"></nz-list-item-meta>
         <ng-template #description>
