@@ -28,8 +28,10 @@
         <th>Manage</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask">
+      <tbody cdkDropList
+        (cdkDropListDropped)="dropTask($event)"
+             [cdkDropListData]="tasks">
+      <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask" cdkDrag [cdkDragData]="task">
         <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
                    nz-input></td>
         <td>

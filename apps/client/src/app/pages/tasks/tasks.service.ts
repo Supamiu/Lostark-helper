@@ -45,7 +45,8 @@ export class TasksService {
               prepared.amount -= 1;
             }
             return prepared;
-          });
+          })
+            .sort((a, b) => a.index - b.index);
         })
       );
     })
@@ -125,6 +126,31 @@ export class TasksService {
     }
     console.log(tasks);
     localStorage.setItem("tasks:custom", JSON.stringify(tasks));
+    this.reloader$.next();
+  }
+
+  saveTasks(tasks: LostarkTask[]): void {
+    const grouped = tasks.reduce((acc, task) => {
+      if (task.custom) {
+        return {
+          ...acc,
+          custom: [
+            ...acc.custom,
+            task
+          ]
+        };
+      } else {
+        return {
+          ...acc,
+          default: [
+            ...acc.default,
+            task
+          ]
+        };
+      }
+    }, { custom: [] as LostarkTask[], default: [] as LostarkTask[] });
+    localStorage.setItem("tasks:custom", JSON.stringify(grouped.custom));
+    localStorage.setItem("tasks:default", JSON.stringify(grouped.default));
     this.reloader$.next();
   }
 }

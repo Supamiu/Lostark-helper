@@ -3,7 +3,7 @@ import { TaskScope } from "./task-scope";
 
 export class LostarkTask {
   public id = Math.floor(Math.random() * Date.now());
-  public index = 0;
+  public index = -1;
 
   constructor(
     public label: string,

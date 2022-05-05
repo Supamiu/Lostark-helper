@@ -11,6 +11,7 @@ import {
   TextQuestionPopupComponent
 } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { filter } from "rxjs/operators";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "lostark-helper-tasks",
@@ -34,18 +35,18 @@ export class TasksComponent {
   });
 
   public icons = [
-    'abyssal-dungeon.webp',
-    'abyssal-raid.webp',
-    'chaos-dungeon.webp',
-    'chaos_gate.png',
-    'daily.webp',
-    'ghostship.png',
-    'guardian.png',
-    'island.webp',
-    'pirate_coin.png',
-    'rapport.webp',
-    'sylmael.png',
-    'weekly.webp',
+    "abyssal-dungeon.webp",
+    "abyssal-raid.webp",
+    "chaos-dungeon.webp",
+    "chaos_gate.png",
+    "daily.webp",
+    "ghostship.png",
+    "guardian.png",
+    "island.webp",
+    "pirate_coin.png",
+    "rapport.webp",
+    "sylmael.png",
+    "weekly.webp"
   ];
 
   constructor(private tasksService: TasksService,
@@ -74,6 +75,14 @@ export class TasksComponent {
       scope: TaskScope.CHARACTER
     });
     this.message.success("Custom task added to the list");
+  }
+
+  dropTask(event: CdkDragDrop<LostarkTask[]>): void {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.tasksService.saveTasks(event.container.data.map((task, i) => {
+      task.index = i;
+      return task;
+    }));
   }
 
   setTrackAll(track: boolean): void {
