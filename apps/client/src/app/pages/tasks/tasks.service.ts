@@ -41,7 +41,7 @@ export class TasksService {
               task
             );
 
-            if (prepared.label.startsWith("Affinity") && !settings.crystallineAura) {
+            if (prepared.label?.startsWith("Affinity") && !settings.crystallineAura) {
               prepared.amount -= 1;
             }
             return prepared;

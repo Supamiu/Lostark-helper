@@ -60,7 +60,7 @@ export class ChecklistComponent {
           if (updated < reset) {
             roster.forEach(character => {
               tasks
-                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label.startsWith(n)))
+                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)))
                 .forEach(task => {
                   const completionEntry = completion[getCompletionEntryKey(character.name, task)];
                   const entry = energy[getCompletionEntryKey(character.name, task)] || {
@@ -162,7 +162,7 @@ export class ChecklistComponent {
           });
           return {
             task,
-            hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label.startsWith(n)),
+            hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)),
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
@@ -230,7 +230,7 @@ export class ChecklistComponent {
       };
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
-        && ["Chaos", "Guardian", "Una"].some(n => task.label.startsWith(n))) {
+        && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n))) {
         const energyEntry = energy[getCompletionEntryKey(characterName, task)] || { amount: 0 };
         energyEntry.amount = Math.max(energyEntry.amount - 20, 0);
         energy[getCompletionEntryKey(characterName, task)] = energyEntry;

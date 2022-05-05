@@ -63,7 +63,7 @@ export class SettingsComponent {
       return tasks
         .filter(task => task.frequency === TaskFrequency.DAILY
           && task.scope === TaskScope.CHARACTER
-          && ["Chaos", "Guardian", "Una"].some(n => task.label.startsWith(n)))
+          && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n)))
         .map(task => {
           return {
             task,
