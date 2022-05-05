@@ -30,11 +30,11 @@
                            (ngModelChange)="setChestFlag(display.tracking, row.gTask, roster[i], $event)"></nz-switch>
                 (<img src="./assets/icons/gold.png" class="gold-icon" alt="gold">{{row.gTask.chestPrice}})
               </ng-container>
-              <ng-container *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
+              <div *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
                 <label nz-checkbox [(ngModel)]="flag.force"
                        (ngModelChange)="setForceAbyss(display.forceAbyss, row.gTask, roster[i], $event)"></label>
                 Force
-              </ng-container>
+              </div>
             </div>
           </td>
         </tr>
