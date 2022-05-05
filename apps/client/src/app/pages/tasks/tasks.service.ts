@@ -63,6 +63,8 @@ export class TasksService {
         if (existingConfig) {
           return {
             ...task,
+            maxIlvl: existingConfig.maxIlvl,
+            minIlvl: existingConfig.minIlvl,
             enabled: existingConfig.enabled
           };
         }
