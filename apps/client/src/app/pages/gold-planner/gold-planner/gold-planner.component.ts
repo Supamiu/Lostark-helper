@@ -126,7 +126,7 @@ export class GoldPlannerComponent {
           const { gTask, flags } = row;
           flags.forEach((flag, i) => {
             let chestPrice = (gTask.chestPrice || 0);
-            if (gTask.chestId) {
+            if (gTask.chestId && flag.value === false) {
               if (chestIdsDone[`${gTask.chestId}:${i}`]) {
                 chestPrice = 0;
               }
