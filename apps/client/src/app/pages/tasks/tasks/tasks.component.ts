@@ -66,8 +66,7 @@ export class TasksComponent {
       formData.amount,
       formData.maxIlvl,
       formData.iconPath,
-      true,
-      true
+      { custom: true }
     );
     this.tasksService.addTask(task);
     this.form.reset({

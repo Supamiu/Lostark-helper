@@ -4,6 +4,9 @@ import { TaskScope } from "./task-scope";
 export class LostarkTask {
   public id = Math.floor(Math.random() * Date.now());
   public index = -1;
+  public daysFilter: number[] = [];
+  public enabled = true;
+  public custom = false;
 
   constructor(
     public label: string,
@@ -13,9 +16,8 @@ export class LostarkTask {
     public amount = 1,
     public maxIlvl = 9999,
     public iconPath?: string,
-    public enabled = true,
-    public custom = false,
-    public readonly daysFilter: number[] = []
+    public readonly additionalParams: Partial<LostarkTask> = {}
   ) {
+    Object.assign(this, additionalParams);
   }
 }

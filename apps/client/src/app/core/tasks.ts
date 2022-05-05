@@ -12,10 +12,10 @@ export const tasks = [
 
 
   // Daily roster
-  new LostarkTask("Chaos gate", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "chaos_gate.png", true, false, [0, 3, 5, 6]),
+  new LostarkTask("Chaos gate", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "chaos_gate.png", { daysFilter: [0, 3, 5, 6] }),
   new LostarkTask("Anguished Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1),
   new LostarkTask("Adventure Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "island.webp"),
-  new LostarkTask("Procyon Boss", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "island.webp", true, false, [1, 4, 6]),
+  new LostarkTask("Procyon Boss", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "island.webp", { daysFilter: [1, 4, 6] }),
   new LostarkTask("Affinity Song", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 6, 9999, "rapport.webp"),
   new LostarkTask("Affinity Emote", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 6, 9999, "rapport.webp"),
 
@@ -36,7 +36,7 @@ export const tasks = [
   new LostarkTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp"),
 
   // Weekly Roster
-  new LostarkTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1, 9999, "ghostship.png", true, false, [1, 3, 5]),
+  new LostarkTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1, 9999, "ghostship.png", { daysFilter: [1, 3, 5] }),
   new LostarkTask(`South Vern Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2),
   //new LostarkTask(`Trial of the Abyss`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2),
 

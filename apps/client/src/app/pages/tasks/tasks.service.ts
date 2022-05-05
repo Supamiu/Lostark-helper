@@ -31,10 +31,7 @@ export class TasksService {
               task.scope,
               task.amount,
               task.maxIlvl,
-              task.iconPath,
-              task.enabled,
-              task.custom,
-              task.daysFilter
+              task.iconPath
             );
             Object.assign(
               prepared,

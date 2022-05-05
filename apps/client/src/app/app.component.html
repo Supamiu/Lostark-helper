@@ -10,22 +10,36 @@
     <div class="sidebar-container">
       <div class="main-navbar">
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-          <li nz-menu-item nzMatchRouter routerLink="/checklist">
-            <i nz-icon nzType="check-square" nzTheme="outline"></i>
-            <span>Checklist</span>
+          <li nz-submenu nzTitle="Helpers" nzIcon="appstore" nzOpen>
+            <ul>
+              <li nz-menu-item nzMatchRouter routerLink="/checklist">
+                <i nz-icon nzType="check-square" nzTheme="outline"></i>
+                <span>Checklist</span>
+              </li>
+              <li nz-menu-item nzMatchRouter routerLink="/gold-planner">
+                <i nz-icon nzType="gold" nzTheme="outline"></i>
+                <span>Gold planner</span>
+              </li>
+            </ul>
           </li>
-          <li nz-menu-item nzMatchRouter routerLink="/roster">
-            <i nz-icon nzType="team" nzTheme="outline"></i>
-            <span>Roster</span>
+          <li nz-submenu nzTitle="Configuration" nzIcon="setting" nzOpen>
+            <ul>
+              <li nz-menu-item nzMatchRouter routerLink="/roster">
+                <i nz-icon nzType="team" nzTheme="outline"></i>
+                <span>Roster</span>
+              </li>
+              <li nz-menu-item nzMatchRouter routerLink="/tasks-manager">
+                <i nz-icon nzType="solution" nzTheme="outline"></i>
+                <span>Tasks Manager</span>
+              </li>
+              <li nz-menu-item nzMatchRouter routerLink="/settings">
+                <i nz-icon nzType="setting" nzTheme="outline"></i>
+                <span>Settings</span>
+              </li>
+            </ul>
           </li>
-          <li nz-menu-item nzMatchRouter routerLink="/tasks-manager">
-            <i nz-icon nzType="solution" nzTheme="outline"></i>
-            <span>Tasks Manager</span>
-          </li>
-          <li nz-menu-item nzMatchRouter routerLink="/settings">
-            <i nz-icon nzType="setting" nzTheme="outline"></i>
-            <span>Settings</span>
-          </li>
+
+
         </ul>
       </div>
       <div class="bottom-navbar">

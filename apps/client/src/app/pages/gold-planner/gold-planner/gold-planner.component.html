@@ -1,0 +1,61 @@
+<nz-page-header nzTitle="Gold Planner"
+                nzSubtitle="Plan how much gold income you're generating with weeklies"></nz-page-header>
+
+<ng-container *ngIf="roster$ | async as roster">
+  <div class="chest-matrix" *ngIf="display$ | async as display">
+    <nz-table #tasksTable [nzData]="display.chestsData"
+              [nzPageSize]="999"
+              nzHideOnSinglePage
+              nzBordered
+              nzSize="middle">
+      <thead>
+      <tr>
+        <th>Source</th>
+        <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
+        <tr>
+          <td class="task-name">
+            <img *ngIf="row.task?.iconPath" src="./assets/icons/{{row.task?.iconPath}}" alt="" class="task-icon">
+            {{row.gTask.name}}
+          </td>
+          <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
+            <div class="cell-container">
+              <ng-container *ngIf="flag.value !== null || flag.force">
+                <nz-switch nzCheckedChildren="Skip chest"
+                           nzUnCheckedChildren="Take chest"
+                           [ngModel]="flag.value"
+                           (ngModelChange)="setChestFlag(display.tracking, row.gTask, roster[i], $event)"></nz-switch>
+                (<img src="./assets/icons/gold.png" class="gold-icon" alt="gold">{{row.gTask.chestPrice}})
+              </ng-container>
+              <ng-container *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
+                <label nz-checkbox [(ngModel)]="flag.force"
+                       (ngModelChange)="setForceAbyss(display.forceAbyss, row.gTask, roster[i], $event)"></label>
+                Force
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td>Large Gold Chest(s)</td>
+        <td colspan="99" class="roster-income">
+          <img src="./assets/icons/gold.png"
+               class="gold-icon" alt="gold">{{display.chestGold | number}}
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td class="total-cell">Total: <img src="./assets/icons/gold.png"
+                                           class="gold-icon" alt="gold">{{display.grandTotal | number}} </td>
+        <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png"
+                                                                      class="gold-icon" alt="gold">{{row | number}}
+        </td>
+      </tr>
+      </tfoot>
+    </nz-table>
+  </div>
+</ng-container>
