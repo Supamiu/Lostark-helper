@@ -49,17 +49,19 @@ export class ChecklistComponent {
         map(([reset, roster, tasks, completion]) => {
           if (updated < reset) {
             roster.forEach(character => {
-              tasks.forEach(task => {
-                const completionEntry = completion[getCompletionEntryKey(character.name, task)];
-                const entry = energy[getCompletionEntryKey(character.name, task)] || {
-                  amount: 0
-                };
-                if (completionEntry && (reset - completionEntry.updated) > 86400000) {
-                  const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
-                  entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
-                  energy[getCompletionEntryKey(character.name, task)] = entry;
-                }
-              });
+              tasks
+                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label.startsWith(n)))
+                .forEach(task => {
+                  const completionEntry = completion[getCompletionEntryKey(character.name, task)];
+                  const entry = energy[getCompletionEntryKey(character.name, task)] || {
+                    amount: 0
+                  };
+                  if (completionEntry && (reset - completionEntry.updated) > 86400000) {
+                    const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
+                    entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
+                    energy[getCompletionEntryKey(character.name, task)] = entry;
+                  }
+                });
             });
             localStorage.setItem("energy", JSON.stringify(energy));
             localStorage.setItem("energy:updated", Date.now().toString());
@@ -144,6 +146,7 @@ export class ChecklistComponent {
           });
           return {
             task,
+            hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label.startsWith(n)),
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
@@ -151,6 +154,9 @@ export class ChecklistComponent {
           };
         })
         .reduce((acc, row) => {
+          if (row.hasEnergy) {
+            console.log(row);
+          }
           const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
           return {

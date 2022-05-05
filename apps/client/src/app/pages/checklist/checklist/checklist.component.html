@@ -101,7 +101,7 @@
                               <i nz-icon nzType="reload" nzTheme="outline"></i>
                             </button>
                           </div>
-                          <div class="energy-bar" *ngIf="row.energy[i].amount" nz-tooltip
+                          <div class="energy-bar" *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy" nz-tooltip
                                nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
                             <div class="progress" [style.width.%]="row.energy[i].amount"></div>
                           </div>
