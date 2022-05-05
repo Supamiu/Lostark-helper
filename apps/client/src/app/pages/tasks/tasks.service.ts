@@ -9,7 +9,7 @@ import { SettingsService } from "../settings/settings.service";
 })
 export class TasksService {
 
-  private static readonly VERSION = 8;
+  private static readonly VERSION = 9;
 
   private reloader$ = new BehaviorSubject<void>(void 0);
 
