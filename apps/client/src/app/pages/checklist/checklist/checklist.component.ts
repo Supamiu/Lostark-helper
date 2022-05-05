@@ -1,15 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  Observable,
-  pluck,
-  switchMap,
-  tap,
-  timer
-} from "rxjs";
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
 import { subDays, subHours } from "date-fns";
@@ -232,9 +222,11 @@ export class ChecklistComponent {
         && task.frequency === TaskFrequency.DAILY
         && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n))) {
         const energyEntry = energy[getCompletionEntryKey(characterName, task)] || { amount: 0 };
-        energyEntry.amount = Math.max(energyEntry.amount - 20, 0);
-        energy[getCompletionEntryKey(characterName, task)] = energyEntry;
-        localStorage.setItem("energy", JSON.stringify(energy));
+        if (energyEntry.amount >= 20) {
+          energyEntry.amount = Math.max(energyEntry.amount - 20, 0);
+          energy[getCompletionEntryKey(characterName, task)] = energyEntry;
+          localStorage.setItem("energy", JSON.stringify(energy));
+        }
       }
     } else if (task.scope === TaskScope.ROSTER && !done) {
       roster.forEach(c => {
