@@ -205,7 +205,7 @@ export class ChecklistComponent {
         && task.frequency === TaskFrequency.DAILY
         && ["Chaos", "Guardian", "Una"].some(n => task.label.startsWith(n))) {
         const energyEntry = energy[getCompletionEntryKey(characterName, task)] || { amount: 0 };
-        energyEntry.amount = Math.max(energyEntry.amount - 10, 0);
+        energyEntry.amount = Math.max(energyEntry.amount - 20, 0);
         energy[getCompletionEntryKey(characterName, task)] = energyEntry;
         localStorage.setItem("energy", JSON.stringify(energy));
       }
