@@ -117,18 +117,28 @@ export class GoldPlannerComponent {
           };
         });
 
+      const chestIdsDone = {};
+
       const total = chestsData
         .filter(row => row.task)
+        .reverse()
         .reduce((acc, row) => {
           const { gTask, flags } = row;
           flags.forEach((flag, i) => {
+            let chestPrice = (gTask.chestPrice || 0);
+            if (gTask.chestId) {
+              if (chestIdsDone[`${gTask.chestId}:${i}`]) {
+                chestPrice = 0;
+              }
+              chestIdsDone[`${gTask.chestId}:${i}`] = true;
+            }
             // Switch case to avoid null == false
             switch (flag.value) {
               case true:
                 acc[i] += (gTask.goldReward || 0);
                 break;
               case false:
-                acc[i] += (gTask.goldReward || 0) - (gTask.chestPrice || 0);
+                acc[i] += (gTask.goldReward || 0) - chestPrice;
                 break;
             }
           });
