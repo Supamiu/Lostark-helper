@@ -46,6 +46,7 @@ export class TasksComponent {
     "pirate_coin.png",
     "rapport.webp",
     "sylmael.png",
+    "gold.png",
     "weekly.webp"
   ];
 
@@ -56,7 +57,7 @@ export class TasksComponent {
               private message: NzMessageService,
               private clipboard: Clipboard,
               private modal: NzModalService) {
-    this.setTableHeight()
+    this.setTableHeight();
   }
 
   @HostListener("window:resize")
