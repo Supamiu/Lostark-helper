@@ -62,7 +62,7 @@
                         <div>
                           <button nz-button
                                   nz-tooltip
-                                  nzTooltipTitle="Ctrl + Click to mark as done entirely"
+                                  [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
                                   [nzTooltipMouseEnterDelay]="1"
                                   nzSize="small"
                                   nzBlock
@@ -92,7 +92,7 @@
                           <div>
                             <button nz-button
                                     nz-tooltip
-                                    nzTooltipTitle="Ctrl + Click to mark as done entirely"
+                                    [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
                                     [nzTooltipMouseEnterDelay]="1"
                                     nzSize="small"
                                     nzType="primary"
