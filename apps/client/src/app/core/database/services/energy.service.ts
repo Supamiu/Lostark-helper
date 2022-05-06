@@ -54,11 +54,22 @@ export class EnergyService extends FirestoreStorage<Energy> {
                     const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
                     entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
                     energy.data[getCompletionEntryKey(character.name, task)] = entry;
+                  } else if (!completionEntry) {
+                    energy.data[getCompletionEntryKey(character.name, task)] = {
+                      amount: 20
+                    };
+                    completion.data[getCompletionEntryKey(character.name, task)] = {
+                      amount: 0,
+                      updated: Date.now()
+                    };
                   }
                 });
             });
             energy.updated = Date.now();
-            return this.setOne(energy.$key, energy).pipe(
+            return combineLatest([
+              this.setOne(energy.$key, energy),
+              this.completionService.setOne(completion.$key, completion)
+            ]).pipe(
               mapTo(energy)
             );
           }
