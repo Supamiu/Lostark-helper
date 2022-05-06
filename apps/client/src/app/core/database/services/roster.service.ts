@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map, Observable, switchMap } from "rxjs";
+import { map, Observable, shareReplay, switchMap } from "rxjs";
 import { FirestoreStorage } from "../firestore-storage";
 import { Roster } from "../../../model/roster";
 import { AuthService } from "./auth.service";
@@ -22,7 +22,8 @@ export class RosterService extends FirestoreStorage<Roster> {
           return roster;
         })
       );
-    })
+    }),
+    shareReplay(1)
   );
 
   constructor(private auth: AuthService, firestore: Firestore) {

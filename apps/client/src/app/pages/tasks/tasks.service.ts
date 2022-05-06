@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, map, Observable, switchMap } from "rxjs";
 import { LostarkTask } from "../../model/lostark-task";
 import { tasks } from "../../core/tasks";
-import { SettingsService } from "../settings/settings.service";
+import { SettingsService } from "../../core/database/services/settings.service";
 
 @Injectable({
   providedIn: "root"

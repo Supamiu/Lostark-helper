@@ -1,5 +1,8 @@
+import { DataModel } from "../core/database/data-model";
 import { CompletionEntry } from "./completion-entry";
 
-export interface Completion {
-  [index: string]: CompletionEntry
+export interface Completion extends DataModel {
+  data: {
+    [index: string]: CompletionEntry
+  };
 }

@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
 import { TasksService } from "../../tasks/tasks.service";
-import { Settings } from "../settings";
 import { BehaviorSubject, combineLatest, map, Observable, pluck } from "rxjs";
-import { SettingsService } from "../settings.service";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { Character } from "../../../model/character";
 import { TaskScope } from "../../../model/task-scope";
@@ -10,6 +8,9 @@ import { LostarkTask } from "../../../model/lostark-task";
 import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
 import { RosterService } from "../../../core/database/services/roster.service";
+import { Settings } from "../../../model/settings";
+import { SettingsService } from "../../../core/database/services/settings.service";
+import { EnergyService } from "../../../core/database/services/energy.service";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -23,16 +24,14 @@ export class SettingsComponent {
 
   public lazyTracking$ = this.settings$.pipe(pluck("lazytracking"));
 
-  public energy$ = this.energyReloader$.pipe(
-    map(() => JSON.parse(localStorage.getItem("energy") || "{}") as Energy)
-  );
+  public energy$ = this.energyService.energy$;
 
   public roster$ = this.rosterService.roster$.pipe(
     map(roster => roster.characters.filter(c => c.lazy))
   );
 
   public fullRoster$ = this.rosterService.roster$.pipe(
-    pluck('characters')
+    pluck("characters")
   );
 
   public lazyFlags$ = combineLatest([
@@ -69,14 +68,14 @@ export class SettingsComponent {
         .map(task => {
           return {
             task,
-            energy: roster.characters.map(c => energy[getCompletionEntryKey(c.name, task)]?.amount || 0)
+            energy: roster.characters.map(c => energy.data[getCompletionEntryKey(c.name, task)]?.amount || 0)
           };
         });
     })
   );
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
-              private settings: SettingsService) {
+              private settings: SettingsService, private energyService: EnergyService) {
   }
 
   saveSettings(settings: Settings): void {
@@ -91,21 +90,21 @@ export class SettingsComponent {
     return index;
   }
 
-  setLazyFlag(tracking: Record<string, boolean>, task: LostarkTask, character: Character, flag: boolean): void {
+  setLazyFlag(settingsKey: string, tracking: Record<string, boolean>, task: LostarkTask, character: Character, flag: boolean): void {
     tracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`] = flag;
     this.settings.patch({
+      $key: settingsKey,
       lazytracking: tracking
     });
   }
 
   setRestBonus(energy: Energy, task: LostarkTask, character: Character, value: number): void {
-    energy[getCompletionEntryKey(character.name, task)] = { amount: Math.max(Math.min(100, value), 0) };
-    localStorage.setItem("energy", JSON.stringify(energy));
-    this.energyReloader$.next();
+    this.energyService.updateOne(energy.$key, {
+      [`data.${getCompletionEntryKey(character.name, task)}`]: { amount: Math.max(Math.min(100, value), 0) }
+    });
   }
 
-  resetBonuses(): void {
-    localStorage.setItem("energy", "{}");
-    this.energyReloader$.next();
+  resetBonuses(key: string): void {
+    this.energyService.setOne(key, { data: {}, updated: Date.now() });
   }
 }

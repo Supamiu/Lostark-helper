@@ -32,7 +32,7 @@
                     <nz-switch nzCheckedChildren="Lazy"
                                nzUnCheckedChildren="Not Lazy"
                                [ngModel]="flag"
-                               (ngModelChange)="setLazyFlag(tracking, row.task, roster[i], $event)"></nz-switch>
+                               (ngModelChange)="setLazyFlag(settings.$key, tracking, row.task, roster[i], $event)"></nz-switch>
                   </td>
                 </tr>
                 </tbody>
@@ -45,7 +45,7 @@
             <div nz-row *ngIf="restBonus$ | async as restBonus">
               <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small">
                 <ng-template #reset>
-                  <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="resetBonuses()">Reset
+                  <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="resetBonuses(energy.$key)">Reset
                     all bonuses
                   </button>
                 </ng-template>

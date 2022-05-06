@@ -23,7 +23,7 @@ export abstract class FirestoreStorage<T extends DataModel> {
       const workingCopy: Partial<WithFieldValue<T>> = { ...modelObject } as Partial<WithFieldValue<T>>;
       delete workingCopy.$key;
       delete workingCopy.notFound;
-      return modelObject as T;
+      return workingCopy as T;
     },
     fromFirestore(snapshot: QueryDocumentSnapshot): T {
       return {

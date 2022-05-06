@@ -2,11 +2,11 @@ import { Component } from "@angular/core";
 import { TasksService } from "../../tasks/tasks.service";
 import { combineLatest, map, Observable, of, pluck } from "rxjs";
 import { Character } from "../../../model/character";
-import { SettingsService } from "../../settings/settings.service";
 import { goldTasks } from "../gold-tasks";
 import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
+import { SettingsService } from "../../../core/database/services/settings.service";
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -30,6 +30,8 @@ export class GoldPlannerComponent {
   public roster$ = this.rosterService.roster$.pipe(
     map(roster => roster.characters.slice(0, 6))
   );
+
+  public settings$ = this.settings.settings$;
 
   public tasks$ = this.tasksService.tasks$;
 
@@ -173,16 +175,18 @@ export class GoldPlannerComponent {
     return `${characterName}:gold:${gTask.name}`;
   }
 
-  setChestFlag(tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+  setChestFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[this.getGoldChestFlag(character.name, gTask)] = flag;
     this.settings.patch({
+      $key: settingsKey,
       chestConfiguration: tracking
     });
   }
 
-  setForceAbyss(tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+  setForceAbyss(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[`${character.name}:${gTask.name}`] = flag;
     this.settings.patch({
+      $key: settingsKey,
       forceAbyss: tracking
     });
   }
