@@ -94,7 +94,7 @@ export class RosterComponent {
       .subscribe((rosterJson) => {
         try {
           this.rosterService.saveRoster(JSON.parse(rosterJson));
-          this.message.success("Custom tasks imported");
+          this.message.success("Roster imported");
         } catch (e: unknown) {
           this.message.error((e as Error).message);
         }
