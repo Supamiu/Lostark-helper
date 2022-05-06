@@ -47,7 +47,8 @@ export class TasksComponent {
     "rapport.webp",
     "sylmael.png",
     "gold.png",
-    "weekly.webp"
+    "weekly.webp",
+    "rift_piece.png"
   ];
 
   public tableHeight!: number;
