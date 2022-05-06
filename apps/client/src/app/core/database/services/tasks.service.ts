@@ -160,8 +160,11 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   }
 
   importTasks(tasks: LostarkTask[]): Observable<void> {
-    if (!tasks.length) {
+    if (!tasks.length && tasks.length !== 0) {
       throw new Error("Tried to import tasks as Object");
+    }
+    if (tasks.length === 0) {
+      return of(void 0);
     }
     return combineLatest(tasks.map(task => this.addOne(task))).pipe(
       mapTo(void 0)

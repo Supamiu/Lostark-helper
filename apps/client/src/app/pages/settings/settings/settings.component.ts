@@ -11,6 +11,7 @@ import { Settings } from "../../../model/settings";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { EnergyService } from "../../../core/database/services/energy.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
+import { LocalStorageService } from "../../../core/database/services/local-storage.service";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -75,12 +76,28 @@ export class SettingsComponent {
     })
   );
 
+  public hasLocalstorageData = false;
+
   constructor(private rosterService: RosterService, private tasksService: TasksService,
-              private settings: SettingsService, private energyService: EnergyService) {
+              private settings: SettingsService, private energyService: EnergyService,
+              private localStorageService: LocalStorageService) {
+    this.updateHasLocalStorageData();
+  }
+
+  private updateHasLocalStorageData(): void {
+    this.hasLocalstorageData = this.localStorageService.canMigrateEverything();
   }
 
   saveSettings(settings: Settings): void {
     this.settings.save(settings);
+  }
+
+  migrate(): void {
+    this.localStorageService.migrate();
+  }
+
+  clearLocalstorageData(): void {
+    this.localStorageService.clear();
   }
 
   trackByTask(index: number, row: { task: LostarkTask }): string | undefined {

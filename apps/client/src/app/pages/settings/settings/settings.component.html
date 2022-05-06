@@ -1,9 +1,18 @@
 <nz-page-header nzTitle="Settings" nzSubtitle="Configure your experience">
 </nz-page-header>
 <div *ngIf="settings$ | async as settings">
-  <div nz-row>
-    <div nz-col nzOffset="1"><label nz-checkbox [(ngModel)]="settings.crystallineAura"
-                                    (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura
+  <div nz-row [nzGutter]="[10, 10]">
+    <div nz-col nzMd="24">
+      <label nz-checkbox [(ngModel)]="settings.crystallineAura"
+                       (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura
+    </div>
+    <div nz-col *ngIf="hasLocalstorageData">
+      <button nz-button nzType="primary" (click)="migrate()">Import everything from LocalStorage</button>
+    </div>
+    <div nz-col *ngIf="hasLocalstorageData">
+      <button nzDanger nz-button nzType="primary" nz-popconfirm nzPopconfirmTitle="Are you sure? This cannot be undone"
+              (nzOnConfirm)="clearLocalstorageData()">Clear LocalStorage data
+      </button>
     </div>
   </div>
   <ng-container *ngIf="lazyTracking$ | async as tracking">
@@ -45,7 +54,8 @@
             <div nz-row *ngIf="restBonus$ | async as restBonus">
               <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small">
                 <ng-template #reset>
-                  <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="resetBonuses(energy.$key)">Reset
+                  <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?"
+                          (nzOnConfirm)="resetBonuses(energy.$key)">Reset
                     all bonuses
                   </button>
                 </ng-template>
