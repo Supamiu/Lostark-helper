@@ -1,8 +1,18 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  Observable,
+  pluck,
+  switchMap,
+  tap,
+  timer
+} from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
-import { subDays, subHours } from "date-fns";
+import { addDays, subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
@@ -116,7 +126,13 @@ export class ChecklistComponent {
           reset = subDays(reset, 7);
         }
       } else {
-        reset = subDays(reset, 7 - (weeklyReset - reset.getUTCDay()));
+        let diff = weeklyReset - reset.getUTCDay();
+        if (diff < 0) {
+          diff = Math.abs(diff);
+        } else {
+          diff = 7 - diff;
+        }
+        reset = subDays(reset, diff);
       }
       reset.setUTCHours(10);
       return reset.getTime();
