@@ -13,7 +13,7 @@ export class SettingsService extends FirestoreStorage<Settings> {
     switchMap(uid => {
       return this.getOne(uid).pipe(
         switchMap(settings => {
-          if (settings.notFound) {
+          if (settings.notFound || Object.keys(settings).length < 5) {
             const result = {
               ...settings,
               crystallineAura: true,

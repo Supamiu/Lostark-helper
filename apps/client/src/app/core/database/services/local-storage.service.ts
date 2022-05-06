@@ -61,7 +61,12 @@ export class LocalStorageService {
         const completion = JSON.parse(localStorage.getItem("completion") || "{}");
         const completionMigration$ = combineLatest([
           this.tasksService.tasks$,
-          this.tasksService.importTasks(customTasks)
+          this.tasksService.importTasks(customTasks.map(task => {
+            return {
+              ...task,
+              authorId: uid
+            };
+          }))
         ]).pipe(
           first(),
           switchMap(([tasks]) => {

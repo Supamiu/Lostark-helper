@@ -167,7 +167,7 @@ export class ChecklistComponent {
 
   private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
     if (character.lazy) {
-      const lazyTrackingFlag = lazyTracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`];
+      const lazyTrackingFlag = lazyTracking && lazyTracking[`${character.name}:${task.$key}`];
       if (lazyTrackingFlag === undefined || lazyTrackingFlag) {
         dailyReset = subDays(new Date(dailyReset), 2).getTime();
       }
