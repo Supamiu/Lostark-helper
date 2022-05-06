@@ -76,7 +76,7 @@ export class GoldPlannerComponent {
                 value: null
               };
             }
-            const cantDoTask = task && (character.ilvl < (task.minIlvl || 0) || character.ilvl > task.maxIlvl);
+            const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= task.maxIlvl);
             const cantDoGoldTask = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
             const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
             if (gTask.entryId) {
