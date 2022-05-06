@@ -3,7 +3,20 @@ import { doc, Firestore, where } from "@angular/fire/firestore";
 import { FirestoreStorage } from "../firestore-storage";
 import { LostarkTask, TASKS_VERSION } from "../../../model/lostark-task";
 import { AuthService } from "./auth.service";
-import { combineLatest, debounceTime, from, map, mapTo, Observable, pluck, shareReplay, switchMap, tap } from "rxjs";
+import {
+  combineLatest,
+  debounceTime,
+  from,
+  map,
+  mapTo,
+  Observable,
+  of,
+  pairwise,
+  pluck,
+  shareReplay,
+  switchMap,
+  tap
+} from "rxjs";
 import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
 
@@ -70,7 +83,6 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     shareReplay(1)
   );
 
-
   constructor(firestore: Firestore, private auth: AuthService) {
     super(firestore);
     this.baseData$.pipe(
@@ -95,6 +107,36 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         );
       })
     ).subscribe();
+
+    const cleanupRegistry: string[] = [];
+
+    combineLatest([
+      // Only trigger on log in from anonymous
+      this.auth.isAnonymous$.pipe(pairwise()),
+      this.auth.uid$.pipe(pairwise()),
+      this.tasks$.pipe(pairwise())
+    ]).pipe(
+      filter(([, [previousUid, currentUid]]) => {
+        return !cleanupRegistry.includes(`${previousUid}:${currentUid}`);
+      }),
+      switchMap(([[wasAnonymous, isAnonymous], [previousUid, currentUid], [tasks]]) => {
+        cleanupRegistry.push(`${previousUid}:${currentUid}`);
+        if (previousUid !== currentUid && !isAnonymous && wasAnonymous) {
+          const batch = this.batch();
+          tasks.forEach(task => {
+            batch.delete(this.docRef(task.$key));
+          });
+          return from(batch.commit()).pipe(
+            mapTo(tasks.length)
+          );
+        }
+        return of(0);
+      })
+    ).subscribe((tasks) => {
+      if (tasks > 0) {
+        console.log(`Deleted ${tasks} tasks for cleanup`);
+      }
+    });
   }
 
   public addTask(task: LostarkTask): Observable<string> {

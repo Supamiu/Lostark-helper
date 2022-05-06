@@ -12,7 +12,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { Roster } from "../../../model/roster";
-import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
+import { arrayRemove } from "@angular/fire/firestore";
 import { AuthService } from "../../../core/database/services/auth.service";
 
 @Component({
@@ -55,16 +55,15 @@ export class RosterComponent {
 
   public addCharacter(roster: Roster): void {
     const form = this.form.getRawValue();
-    this.rosterService.updateOne(roster.$key, {
-      characters: arrayUnion({
-        id: (roster.characters.map(c => c.id).sort().reverse()[0] || -1) + 1,
-        name: form.name,
-        ilvl: form.ilvl,
-        lazy: form.lazy,
-        class: form.class
-      })
+    roster.characters.push({
+      id: (roster.characters.map(c => c.id).sort().reverse()[0] || -1) + 1,
+      name: form.name,
+      ilvl: form.ilvl,
+      lazy: form.lazy,
+      class: form.class
     });
     this.form.reset();
+    this.rosterService.setOne(roster.$key, roster);
   }
 
   public removeCharacter(character: Character, roster: Roster): void {

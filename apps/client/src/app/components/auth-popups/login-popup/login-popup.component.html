@@ -1,0 +1,36 @@
+<form (ngSubmit)="login()" [formGroup]="form" nz-form>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired>Email</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input formControlName="email" id="email" nz-input type="email">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input formControlName="password" id="password" nz-input type="password">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-control [nzOffset]="6" [nzSpan]="14">
+      <button [disabled]="!form.valid" nz-button nzType="primary" type="submit">Sign in</button>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item nz-row>
+    <nz-form-control [nzOffset]="6" [nzSpan]="14">
+      <button (click)="sendResetPassword()" [disabled]="form.pristine ||(form.errors && form.errors['email'])"
+              nz-button
+              type="button">
+        Forgot your password?
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<nz-divider nzText="Or"></nz-divider>
+<div class="oauth-buttons">
+  <button (click)="googleOauth()" nz-button nzBlock
+          nzType="primary">
+    <i nz-icon nzType="google" nzTheme="outline"></i>
+    Log in with Google
+  </button>
+</div>
