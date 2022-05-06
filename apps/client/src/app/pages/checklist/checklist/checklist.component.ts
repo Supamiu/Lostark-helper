@@ -6,11 +6,11 @@ import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
-import { RosterService } from "../../roster/roster.service";
 import { TasksService } from "../../tasks/tasks.service";
 import { SettingsService } from "../../settings/settings.service";
 import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
+import { RosterService } from "../../../core/database/services/roster.service";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -24,7 +24,9 @@ export class ChecklistComponent {
 
   private completionReloader$ = new BehaviorSubject<void>(void 0);
 
-  public roster$: Observable<Character[]> = this.rosterService.roster$;
+  public roster$: Observable<Character[]> = this.rosterService.roster$.pipe(
+    pluck('characters')
+  );
 
   public completion$: Observable<Completion> = this.completionReloader$.pipe(
     map(() => {
@@ -209,7 +211,7 @@ export class ChecklistComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 64 - 56;
+    this.tableHeight = window.innerHeight - 64 - 48 - 130;
   }
 
   public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {

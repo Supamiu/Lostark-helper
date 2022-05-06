@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { RosterService } from "../../roster/roster.service";
 import { TasksService } from "../../tasks/tasks.service";
 import { combineLatest, map, Observable, of, pluck } from "rxjs";
 import { Character } from "../../../model/character";
@@ -7,6 +6,7 @@ import { SettingsService } from "../../settings/settings.service";
 import { goldTasks } from "../gold-tasks";
 import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
+import { RosterService } from "../../../core/database/services/roster.service";
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -28,7 +28,7 @@ interface GoldPlannerDisplay {
 })
 export class GoldPlannerComponent {
   public roster$ = this.rosterService.roster$.pipe(
-    map(roster => roster.slice(0, 6))
+    map(roster => roster.characters.slice(0, 6))
   );
 
   public tasks$ = this.tasksService.tasks$;

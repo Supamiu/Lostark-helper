@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { RosterService } from "../../roster/roster.service";
 import { TasksService } from "../../tasks/tasks.service";
 import { Settings } from "../settings";
 import { BehaviorSubject, combineLatest, map, Observable, pluck } from "rxjs";
@@ -10,6 +9,7 @@ import { TaskScope } from "../../../model/task-scope";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
+import { RosterService } from "../../../core/database/services/roster.service";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -28,10 +28,12 @@ export class SettingsComponent {
   );
 
   public roster$ = this.rosterService.roster$.pipe(
-    map(roster => roster.filter(c => c.lazy))
+    map(roster => roster.characters.filter(c => c.lazy))
   );
 
-  public fullRoster$ = this.rosterService.roster$;
+  public fullRoster$ = this.rosterService.roster$.pipe(
+    pluck('characters')
+  );
 
   public lazyFlags$ = combineLatest([
     this.tasksService.tasks$,
@@ -67,7 +69,7 @@ export class SettingsComponent {
         .map(task => {
           return {
             task,
-            energy: roster.map(c => energy[getCompletionEntryKey(c.name, task)]?.amount || 0)
+            energy: roster.characters.map(c => energy[getCompletionEntryKey(c.name, task)]?.amount || 0)
           };
         });
     })
