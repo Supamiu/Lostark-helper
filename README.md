@@ -4,7 +4,7 @@ A set of tools to help you organizing your Lost Ark adventure
 
 [https://lostark-helper.com](https://lostark-helper.com)
 
-![](https://user-images.githubusercontent.com/11519203/166442296-7a45fd76-d8a8-432a-9324-96c179ef8b99.png)
+![](https://user-images.githubusercontent.com/11519203/167081443-faaba8b0-2c55-449c-9cf3-650c436479cf.png)
 
 ## Checklist
 
@@ -21,3 +21,8 @@ The tech stack is pretty simple:
 
  - Angular w/ Ant Design
  - Firebase hosting
+
+To start the project locally:
+
+ - npm install
+ - npm start
