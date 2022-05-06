@@ -60,6 +60,31 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
+      <div class="flex-spacer"></div>
+      <div class="user-menu" [class.anonymous]="anonymous$ | async" nz-dropdown [nzDropdownMenu]="menu"
+           nzOverlayClassName="user-menu">
+        <i nz-icon nzType="user" nzTheme="outline"></i>
+        <ng-container *ngIf="anonymous$ | async">Anonymous</ng-container>
+        <ng-container *ngIf="user$ | async as user">{{user.name}}</ng-container>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <ng-container *ngIf="anonymous$ | async">
+              <li nz-menu-item class="menu-item" (click)="signIn()">
+                <i nz-icon nzType="login" nzTheme="outline"></i>
+                Sign in
+              </li>
+              <li nz-menu-item class="menu-item" (click)="register()">
+                <i nz-icon nzType="form" nzTheme="outline"></i>
+                Register
+              </li>
+            </ng-container>
+            <li nz-menu-item nzDanger *ngIf="(anonymous$ | async) === false" (click)="disconnect()" class="menu-item">
+              <i nz-icon nzType="logout" nzTheme="outline"></i>
+              Log out
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
     </nz-header>
     <nz-content>
       <div class="inner-content">

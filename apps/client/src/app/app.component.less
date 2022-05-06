@@ -5,6 +5,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+::ng-deep .user-menu {
+  .menu-item {
+    padding: 10px;
+
+    > i {
+      margin-right: 10px;
+    }
+  }
+}
+
 .app-layout {
   height: 100vh;
 }
@@ -69,14 +79,30 @@ nz-header {
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 }
 
+nz-header {
+  display: flex;
+
+  .user-menu {
+    padding: 0 20px;
+    background-color: rgba(0, 45, 82, 0.5);
+
+    > i {
+      margin-right: 5px;
+    }
+
+    &.anonymous {
+      background-color: rgba(231, 99, 99, 0.5);
+    }
+  }
+}
+
 nz-content {
   overflow-y: auto;
-  margin: 24px;
 }
 
 .inner-content {
   padding: 24px;
-  background: #1F1F1F;
+  background: #333;
   min-height: 100%;
 }
 

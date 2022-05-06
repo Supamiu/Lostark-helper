@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import { RosterService } from "../../roster/roster.service";
-import { TasksService } from "../../tasks/tasks.service";
 import { combineLatest, map, Observable, of, pluck } from "rxjs";
 import { Character } from "../../../model/character";
-import { SettingsService } from "../../settings/settings.service";
 import { goldTasks } from "../gold-tasks";
 import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
+import { RosterService } from "../../../core/database/services/roster.service";
+import { SettingsService } from "../../../core/database/services/settings.service";
+import { TasksService } from "../../../core/database/services/tasks.service";
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -28,8 +28,10 @@ interface GoldPlannerDisplay {
 })
 export class GoldPlannerComponent {
   public roster$ = this.rosterService.roster$.pipe(
-    map(roster => roster.slice(0, 6))
+    map(roster => roster.characters.slice(0, 6))
   );
+
+  public settings$ = this.settings.settings$;
 
   public tasks$ = this.tasksService.tasks$;
 
@@ -64,7 +66,7 @@ export class GoldPlannerComponent {
         })
         .filter(({ task }) => {
           return !task || (task.enabled
-            && roster.some(c => c.ilvl >= task.minIlvl && c.ilvl <= task.maxIlvl));
+            && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= task.maxIlvl));
         })
         .map(({ gTask, task }, i, array) => {
           const flagsData = roster.map(character => {
@@ -74,7 +76,7 @@ export class GoldPlannerComponent {
                 value: null
               };
             }
-            const cantDoTask = task && (character.ilvl < task.minIlvl || character.ilvl > task.maxIlvl);
+            const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= task.maxIlvl);
             const cantDoGoldTask = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
             const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
             if (gTask.entryId) {
@@ -173,16 +175,18 @@ export class GoldPlannerComponent {
     return `${characterName}:gold:${gTask.name}`;
   }
 
-  setChestFlag(tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+  setChestFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[this.getGoldChestFlag(character.name, gTask)] = flag;
     this.settings.patch({
+      $key: settingsKey,
       chestConfiguration: tracking
     });
   }
 
-  setForceAbyss(tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+  setForceAbyss(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[`${character.name}:${gTask.name}`] = flag;
     this.settings.patch({
+      $key: settingsKey,
       forceAbyss: tracking
     });
   }

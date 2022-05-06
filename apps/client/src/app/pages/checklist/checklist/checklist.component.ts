@@ -1,16 +1,19 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
+import { combineLatest, map, Observable, pluck } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
 import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
-import { RosterService } from "../../roster/roster.service";
-import { TasksService } from "../../tasks/tasks.service";
-import { SettingsService } from "../../settings/settings.service";
 import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
+import { RosterService } from "../../../core/database/services/roster.service";
+import { SettingsService } from "../../../core/database/services/settings.service";
+import { EnergyService } from "../../../core/database/services/energy.service";
+import { TimeService } from "../../../core/time.service";
+import { CompletionService } from "../../../core/database/services/completion.service";
+import { TasksService } from "../../../core/database/services/tasks.service";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -22,55 +25,16 @@ export class ChecklistComponent {
   public TaskFrequency = TaskFrequency;
   public TaskScope = TaskScope;
 
-  private completionReloader$ = new BehaviorSubject<void>(void 0);
-
-  public roster$: Observable<Character[]> = this.rosterService.roster$;
-
-  public completion$: Observable<Completion> = this.completionReloader$.pipe(
-    map(() => {
-      return JSON.parse(localStorage.getItem("completion") || "{}");
-    })
+  public roster$: Observable<Character[]> = this.rosterService.roster$.pipe(
+    pluck("characters")
   );
 
-  public energy$: Observable<Energy> = this.completionReloader$.pipe(
-    map(() => {
-      return {
-        energy: JSON.parse(localStorage.getItem("energy") || "{}") as Energy,
-        updated: +(localStorage.getItem("energy:updated") || "0")
-      };
-    }),
-    switchMap(({ energy, updated }) => {
-      return combineLatest([
-        this.lastDailyReset$,
-        this.roster$,
-        this.tasks$,
-        this.completion$
-      ]).pipe(
-        map(([reset, roster, tasks, completion]) => {
-          if (updated < reset) {
-            roster.forEach(character => {
-              tasks
-                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)))
-                .forEach(task => {
-                  const completionEntry = completion[getCompletionEntryKey(character.name, task)];
-                  const entry = energy[getCompletionEntryKey(character.name, task)] || {
-                    amount: 0
-                  };
-                  if (completionEntry && (reset - completionEntry.updated) > 86400000) {
-                    const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
-                    entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
-                    energy[getCompletionEntryKey(character.name, task)] = entry;
-                  }
-                });
-            });
-            localStorage.setItem("energy", JSON.stringify(energy));
-            localStorage.setItem("energy:updated", Date.now().toString());
-          }
-          return energy;
-        })
-      );
-    })
-  );
+  public completion$: Observable<Completion> = this.completionService.completion$;
+
+  public energy$ = this.energyService.energy$;
+
+  public lastDailyReset$ = this.timeService.lastDailyReset$;
+  public lastWeeklyReset$ = this.timeService.lastWeeklyReset$;
 
   public tasks$: Observable<LostarkTask[]> = combineLatest([
     this.roster$,
@@ -79,55 +43,9 @@ export class ChecklistComponent {
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= task.minIlvl));
+          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= (task.minIlvl || 0)));
       });
     })
-  );
-
-  public lastDailyReset$ = timer(0, 1000).pipe(
-    map(() => {
-      // Only supports EU servers for now.
-      let reset = new Date();
-      reset.setUTCSeconds(0);
-      reset.setUTCMinutes(0);
-      reset.setUTCMilliseconds(0);
-      if (reset.getUTCHours() < 10) {
-        // This means the reset was yesterday
-        reset = subDays(reset, 1);
-      }
-      reset.setUTCHours(10);
-      return reset.getTime();
-    }),
-    distinctUntilChanged()
-  );
-
-  public lastWeeklyReset$ = timer(0, 1000).pipe(
-    map(() => {
-      // Target reset day Thursday
-      const weeklyReset = 4;
-      // Only supports EU servers for now.
-      let reset = new Date();
-      reset.setUTCSeconds(0);
-      reset.setUTCMinutes(0);
-      reset.setUTCMilliseconds(0);
-      // Last Thursday
-      if (reset.getUTCDay() === weeklyReset) {
-        if (reset.getUTCHours() < 10) {
-          reset = subDays(reset, 7);
-        }
-      } else {
-        let diff = weeklyReset - reset.getUTCDay();
-        if (diff < 0) {
-          diff = Math.abs(diff);
-        } else {
-          diff = 7 - diff;
-        }
-        reset = subDays(reset, diff);
-      }
-      reset.setUTCHours(10);
-      return reset.getTime();
-    }),
-    distinctUntilChanged()
   );
 
   public tableDisplay$ = combineLatest([
@@ -152,8 +70,8 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
-              doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl,
-              energy: energy[getCompletionEntryKey(character.name, task)] || 0
+              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl,
+              energy: energy.data[getCompletionEntryKey(character.name, task)] || 0
             };
           });
           return {
@@ -203,24 +121,25 @@ export class ChecklistComponent {
   public tableHeight!: number;
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
-              private settings: SettingsService) {
+              private settings: SettingsService, private energyService: EnergyService,
+              private timeService: TimeService, private completionService: CompletionService) {
     this.setTableHeight();
   }
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 64 - 56;
+    this.tableHeight = window.innerHeight - 64 - 48 - 130;
   }
 
   public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (done) {
       const setAllDone = clickEvent?.ctrlKey;
-      const existingEntry = completion[getCompletionEntryKey(characterName, task)];
+      const existingEntry = completion.data[getCompletionEntryKey(characterName, task)];
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
-      completion[getCompletionEntryKey(characterName, task)] = {
+      completion.data[getCompletionEntryKey(characterName, task)] = {
         ...(existingEntry || {}),
         amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
         updated: Date.now()
@@ -228,22 +147,22 @@ export class ChecklistComponent {
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
         && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n))) {
-        const energyEntry = energy[getCompletionEntryKey(characterName, task)] || { amount: 0 };
+        const energyEntry = energy.data[getCompletionEntryKey(characterName, task)] || { amount: 0 };
         if (energyEntry.amount >= 20) {
-          energyEntry.amount = Math.max(energyEntry.amount - 20, 0);
-          energy[getCompletionEntryKey(characterName, task)] = energyEntry;
-          localStorage.setItem("energy", JSON.stringify(energy));
+          energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 1)), 0);
+          this.energyService.updateOne(energy.$key, {
+            [`data.${getCompletionEntryKey(characterName, task)}`]: energyEntry
+          });
         }
       }
     } else if (task.scope === TaskScope.ROSTER && !done) {
       roster.forEach(c => {
-        delete completion[getCompletionEntryKey(c.name, task)];
+        delete completion.data[getCompletionEntryKey(c.name, task)];
       });
     } else {
-      delete completion[getCompletionEntryKey(characterName, task)];
+      delete completion.data[getCompletionEntryKey(characterName, task)];
     }
-    localStorage.setItem("completion", JSON.stringify(completion));
-    this.completionReloader$.next();
+    this.completionService.setOne(completion.$key, completion);
   }
 
   private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
@@ -257,7 +176,7 @@ export class ChecklistComponent {
     if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay() - 1)) {
       return -1;
     }
-    const completionFlag = completion[getCompletionEntryKey(character.name, task)];
+    const completionFlag = completion.data[getCompletionEntryKey(character.name, task)];
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (!completionFlag) {
       return 0;
@@ -265,7 +184,7 @@ export class ChecklistComponent {
     return completionFlag.updated < reset ? 0 : completionFlag.amount;
   }
 
-  trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string {
+  trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string | undefined {
     return entry.task.label;
   }
 

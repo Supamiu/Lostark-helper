@@ -6,4 +6,5 @@ export interface Character {
   ilvl: number;
   lazy: boolean;
   class: LostarkClass;
+  index?: number;
 }
