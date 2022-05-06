@@ -74,7 +74,7 @@ export abstract class FirestoreStorage<T extends DataModel> {
     );
   }
 
-  public addOne(row: T): Observable<string> {
+  public addOne(row: Omit<T, "$key">): Observable<string> {
     return from(addDoc(this.collection, row)).pipe(
       map(ref => ref.id)
     );

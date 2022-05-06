@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'roster', loadChildren: () => import('./pages/roster/roster.module').then(m => m.RosterModule) },
   { path: 'tasks-manager', loadChildren: () => import('./pages/tasks/tasks.module').then(m => m.TasksModule) },
   { path: 'gold-planner', loadChildren: () => import('./pages/gold-planner/gold-planner.module').then(m => m.GoldPlannerModule) },
+  { path: 'friends', loadChildren: () => import('./pages/friends/friends.module').then(m => m.FriendsModule) },
   { path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule) },
 ];
 
