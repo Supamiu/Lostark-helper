@@ -12,6 +12,7 @@ import { SettingsService } from "../../../core/database/services/settings.servic
 import { EnergyService } from "../../../core/database/services/energy.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { LocalStorageService } from "../../../core/database/services/local-storage.service";
+import { AuthService } from "../../../core/database/services/auth.service";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -20,6 +21,8 @@ import { LocalStorageService } from "../../../core/database/services/local-stora
 })
 export class SettingsComponent {
   public energyReloader$ = new BehaviorSubject<void>(void 0);
+
+  public uid$ = this.auth.uid$;
 
   public settings$: Observable<Settings> = this.settings.settings$;
 
@@ -80,7 +83,7 @@ export class SettingsComponent {
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
               private settings: SettingsService, private energyService: EnergyService,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService, private auth: AuthService) {
     this.updateHasLocalStorageData();
   }
 

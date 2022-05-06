@@ -25,40 +25,54 @@ import { filter } from "rxjs/operators";
 })
 export class TasksService extends FirestoreStorage<LostarkTask> {
 
+  private sortedTasks = tasks.map((t, i) => {
+    return {
+      ...t,
+      index: i
+    };
+  });
+
   public baseData$ = this.auth.uid$.pipe(
     switchMap(uid => {
       return this.query(where("authorId", "==", uid)).pipe(
+        debounceTime(100),
         map(userTasks => {
-          const toCreate = tasks
+          const toCreate = this.sortedTasks
             .filter(defaultTask => {
-              return !userTasks.some(t => t.label === defaultTask.label);
+              return !userTasks.some(t => t.label === defaultTask.label && t.frequency === defaultTask.frequency && !t.custom);
             })
             .map(task => {
               task.$key = doc(this.collection).id;
               task.authorId = uid;
               return task;
             });
+          const toUpdate: LostarkTask[] = [];
           const result = [
             ...toCreate,
             ...userTasks
-              .map(t => {
+              .map((t) => {
                 const instance = new LostarkTask();
                 if (!t.custom && t.version < TASKS_VERSION) {
-                  const defaultTask = tasks.find(dt => dt.label === t.label);
+                  const defaultTask = this.sortedTasks.find(dt => dt.label === t.label && dt.frequency === t.frequency && !dt.custom);
                   if (defaultTask) {
                     Object.assign(instance, {
                       ...defaultTask,
                       $key: t.$key,
                       maxIlvl: t.maxIlvl,
                       minIlvl: t.minIlvl,
-                      enabled: t.enabled
+                      enabled: t.enabled,
+                      authorId: uid,
+                      version: TASKS_VERSION
                     });
                   } else {
                     Object.assign(instance, {
                       ...t,
-                      custom: true
+                      custom: true,
+                      authorId: uid,
+                      version: TASKS_VERSION
                     });
                   }
+                  toUpdate.push(instance);
                 } else {
                   Object.assign(instance, t);
                 }
@@ -70,6 +84,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
 
           return {
             toCreate,
+            toUpdate,
             result
           };
         })
@@ -86,15 +101,13 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   constructor(firestore: Firestore, private auth: AuthService) {
     super(firestore);
     this.baseData$.pipe(
-      pluck("toCreate")
-    ).pipe(
+      pluck("toCreate"),
       debounceTime(1000),
       filter(toCreate => toCreate.length > 0),
       switchMap(toCreate => {
         const batch = this.batch();
-        toCreate.forEach((task, i) => {
+        toCreate.forEach(task => {
           if (task.$key) {
-            task.index = i;
             batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
           } else {
             console.error("Tried to create a task with no key? WTF?");
@@ -103,6 +116,22 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         return from(batch.commit()).pipe(
           tap(() => {
             console.log(`Generated ${toCreate.length} tasks in database.`);
+          })
+        );
+      })
+    ).subscribe();
+    this.baseData$.pipe(
+      pluck("toUpdate"),
+      debounceTime(1000),
+      filter(toUpdate => toUpdate.length > 0),
+      switchMap(toUpdate => {
+        const batch = this.batch();
+        toUpdate.forEach((task) => {
+          batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
+        });
+        return from(batch.commit()).pipe(
+          tap(() => {
+            console.log(`Updated ${toUpdate.length} tasks in database.`);
           })
         );
       })

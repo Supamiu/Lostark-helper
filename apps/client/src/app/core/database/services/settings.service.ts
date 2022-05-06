@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { FirestoreStorage } from "../firestore-storage";
 import { Firestore } from "@angular/fire/firestore";
 import { Settings } from "../../../model/settings";
-import { map, Observable, shareReplay, switchMap } from "rxjs";
+import { mapTo, Observable, of, shareReplay, switchMap } from "rxjs";
 import { AuthService } from "./auth.service";
 
 @Injectable({
@@ -12,17 +12,23 @@ export class SettingsService extends FirestoreStorage<Settings> {
   public settings$: Observable<Settings> = this.auth.uid$.pipe(
     switchMap(uid => {
       return this.getOne(uid).pipe(
-        map(settings => {
+        switchMap(settings => {
           if (settings.notFound) {
-            return {
+            const result = {
               ...settings,
               crystallineAura: true,
               lazytracking: {},
               chestConfiguration: {},
               forceAbyss: {}
             };
+            return this.setOne(uid, result).pipe(
+              mapTo({
+                ...result,
+                $key: uid
+              })
+            );
           }
-          return settings;
+          return of(settings);
         })
       );
     }),

@@ -1,10 +1,13 @@
 <nz-page-header nzTitle="Settings" nzSubtitle="Configure your experience">
+  <nz-page-header-extra>
+    <i nz-tooltip nzTooltipTitle="You can share this freely, it won't compromise your account">User ID: {{uid$ | async}}</i>
+  </nz-page-header-extra>
 </nz-page-header>
 <div *ngIf="settings$ | async as settings">
   <div nz-row [nzGutter]="[10, 10]">
     <div nz-col nzMd="24">
       <label nz-checkbox [(ngModel)]="settings.crystallineAura"
-                       (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura
+             (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura
     </div>
     <div nz-col *ngIf="hasLocalstorageData">
       <button nz-button nzType="primary" (click)="migrate()">Import everything from LocalStorage</button>

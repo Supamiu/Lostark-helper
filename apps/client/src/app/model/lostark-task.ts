@@ -3,7 +3,7 @@ import { TaskScope } from "./task-scope";
 import { DataModel } from "../core/database/data-model";
 
 
-export const TASKS_VERSION = 9;
+export const TASKS_VERSION = 19;
 
 export class LostarkTask implements DataModel {
   public $key!: string;
@@ -15,6 +15,7 @@ export class LostarkTask implements DataModel {
   public daysFilter: number[] = [];
   public enabled = true;
   public custom = false;
+  public shared = false;
 
   constructor(
     public label?: string,

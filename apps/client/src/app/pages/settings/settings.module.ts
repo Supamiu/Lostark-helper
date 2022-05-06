@@ -12,6 +12,7 @@ import { NzCardModule } from "ng-zorro-antd/card";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzPopconfirmModule } from "ng-zorro-antd/popconfirm";
+import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 const routes: Routes = [{
   path: "",
@@ -32,7 +33,8 @@ const routes: Routes = [{
     NzCardModule,
     NzInputNumberModule,
     NzButtonModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzToolTipModule
   ]
 })
 export class SettingsModule {
