@@ -1,18 +1,8 @@
 import { Component, HostListener } from "@angular/core";
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  Observable,
-  pluck,
-  switchMap,
-  tap,
-  timer
-} from "rxjs";
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, Observable, pluck, switchMap, timer } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
-import { addDays, subDays, subHours } from "date-fns";
+import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
@@ -222,16 +212,17 @@ export class ChecklistComponent {
     this.tableHeight = window.innerHeight - 64 - 48 - 64 - 56;
   }
 
-  public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number): void {
+  public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (done) {
+      const setAllDone = clickEvent?.ctrlKey;
       const existingEntry = completion[getCompletionEntryKey(characterName, task)];
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
       completion[getCompletionEntryKey(characterName, task)] = {
         ...(existingEntry || {}),
-        amount: (existingEntry?.amount || 0) + 1,
+        amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
         updated: Date.now()
       };
       if (task.scope === TaskScope.CHARACTER
