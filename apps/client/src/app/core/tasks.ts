@@ -2,6 +2,7 @@ import { LostarkTask } from "../model/lostark-task";
 import { TaskFrequency } from "../model/task-frequency";
 import { TaskScope } from "../model/task-scope";
 
+
 export const tasks = [
   // Daily character
   new LostarkTask("Chaos dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp"),

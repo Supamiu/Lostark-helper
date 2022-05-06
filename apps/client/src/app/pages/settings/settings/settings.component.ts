@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { TasksService } from "../../tasks/tasks.service";
 import { BehaviorSubject, combineLatest, map, Observable, pluck } from "rxjs";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { Character } from "../../../model/character";
@@ -11,6 +10,7 @@ import { RosterService } from "../../../core/database/services/roster.service";
 import { Settings } from "../../../model/settings";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { EnergyService } from "../../../core/database/services/energy.service";
+import { TasksService } from "../../../core/database/services/tasks.service";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -64,6 +64,7 @@ export class SettingsComponent {
       return tasks
         .filter(task => task.frequency === TaskFrequency.DAILY
           && task.scope === TaskScope.CHARACTER
+          && !task.custom
           && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n)))
         .map(task => {
           return {
@@ -82,7 +83,7 @@ export class SettingsComponent {
     this.settings.save(settings);
   }
 
-  trackByTask(index: number, row: { task: LostarkTask }): string {
+  trackByTask(index: number, row: { task: LostarkTask }): string | undefined {
     return row.task.label;
   }
 

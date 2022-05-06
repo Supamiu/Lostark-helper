@@ -1,5 +1,4 @@
 import { Component, HostListener } from "@angular/core";
-import { TasksService } from "../tasks.service";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -12,6 +11,9 @@ import {
 } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { filter } from "rxjs/operators";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { TasksService } from "../../../core/database/services/tasks.service";
+import { AuthService } from "../../../core/database/services/auth.service";
+import { map } from "rxjs";
 
 @Component({
   selector: "lostark-helper-tasks",
@@ -22,7 +24,9 @@ export class TasksComponent {
   public TaskFrequency = TaskFrequency;
   public TaskScope = TaskScope;
 
-  public tasks$ = this.tasksService.tasks$;
+  public tasks$ = this.tasksService.tasks$.pipe(
+    map(tasks => tasks.sort((a, b) => a.index - b.index))
+  );
 
   public form = this.fb.group({
     label: ["", Validators.required],
@@ -33,6 +37,8 @@ export class TasksComponent {
     maxIlvl: [null, [Validators.required, Validators.min(0), Validators.max(9999)]],
     iconPath: [null]
   });
+
+  public uid$ = this.authService.uid$;
 
   public icons = [
     "abyssal-dungeon.webp",
@@ -57,7 +63,8 @@ export class TasksComponent {
               private fb: FormBuilder,
               private message: NzMessageService,
               private clipboard: Clipboard,
-              private modal: NzModalService) {
+              private modal: NzModalService,
+              private authService: AuthService) {
     this.setTableHeight();
   }
 
@@ -70,7 +77,7 @@ export class TasksComponent {
     this.tableHeight = Math.max(computed, 300);
   }
 
-  addTask(): void {
+  addTask(uid: string): void {
     const formData = this.form.getRawValue();
     const task = new LostarkTask(
       formData.label,
@@ -82,12 +89,14 @@ export class TasksComponent {
       formData.iconPath,
       { custom: true }
     );
-    this.tasksService.addTask(task);
-    this.form.reset({
-      frequency: TaskFrequency.DAILY,
-      scope: TaskScope.CHARACTER
+    task.authorId = uid;
+    this.tasksService.addTask(task).subscribe(() => {
+      this.form.reset({
+        frequency: TaskFrequency.DAILY,
+        scope: TaskScope.CHARACTER
+      });
+      this.message.success("Custom task added to the list");
     });
-    this.message.success("Custom task added to the list");
   }
 
   dropTask(event: CdkDragDrop<LostarkTask[]>): void {
@@ -98,8 +107,8 @@ export class TasksComponent {
     }));
   }
 
-  setTrackAll(track: boolean): void {
-    this.tasksService.setTrackAll(track);
+  setTrackAll(tasks: LostarkTask[], track: boolean): void {
+    this.tasksService.setTrackAll(tasks, track);
   }
 
   updateTask(task: LostarkTask): void {
@@ -114,8 +123,8 @@ export class TasksComponent {
     this.tasksService.removeTask(task);
   }
 
-  exportTasks(): void {
-    this.clipboard.copy(this.tasksService.exportTasks());
+  exportTasks(tasks: LostarkTask[]): void {
+    this.clipboard.copy(JSON.stringify(tasks.map(t => t.custom)));
     this.message.success("Custom tasks copied to your clipboard");
   }
 
@@ -141,7 +150,7 @@ export class TasksComponent {
       });
   }
 
-  trackByTask(index: number, task: LostarkTask): string {
+  trackByTask(index: number, task: LostarkTask): string | undefined {
     return task.label;
   }
 }

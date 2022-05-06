@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { TasksService } from "../../tasks/tasks.service";
 import { combineLatest, map, Observable, of, pluck } from "rxjs";
 import { Character } from "../../../model/character";
 import { goldTasks } from "../gold-tasks";
@@ -7,6 +6,7 @@ import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
+import { TasksService } from "../../../core/database/services/tasks.service";
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -66,7 +66,7 @@ export class GoldPlannerComponent {
         })
         .filter(({ task }) => {
           return !task || (task.enabled
-            && roster.some(c => c.ilvl >= task.minIlvl && c.ilvl <= task.maxIlvl));
+            && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= task.maxIlvl));
         })
         .map(({ gTask, task }, i, array) => {
           const flagsData = roster.map(character => {
@@ -76,7 +76,7 @@ export class GoldPlannerComponent {
                 value: null
               };
             }
-            const cantDoTask = task && (character.ilvl < task.minIlvl || character.ilvl > task.maxIlvl);
+            const cantDoTask = task && (character.ilvl < (task.minIlvl || 0) || character.ilvl > task.maxIlvl);
             const cantDoGoldTask = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
             const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
             if (gTask.entryId) {

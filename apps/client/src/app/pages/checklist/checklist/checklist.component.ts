@@ -6,7 +6,6 @@ import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
-import { TasksService } from "../../tasks/tasks.service";
 import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
 import { RosterService } from "../../../core/database/services/roster.service";
@@ -14,6 +13,7 @@ import { SettingsService } from "../../../core/database/services/settings.servic
 import { EnergyService } from "../../../core/database/services/energy.service";
 import { TimeService } from "../../../core/time.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
+import { TasksService } from "../../../core/database/services/tasks.service";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -43,7 +43,7 @@ export class ChecklistComponent {
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= task.minIlvl));
+          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= (task.minIlvl || 0)));
       });
     })
   );
@@ -70,7 +70,7 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
-              doable: character.ilvl >= task.minIlvl && character.ilvl <= task.maxIlvl,
+              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl,
               energy: energy.data[getCompletionEntryKey(character.name, task)] || 0
             };
           });
@@ -184,7 +184,7 @@ export class ChecklistComponent {
     return completionFlag.updated < reset ? 0 : completionFlag.amount;
   }
 
-  trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string {
+  trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string | undefined {
     return entry.task.label;
   }
 

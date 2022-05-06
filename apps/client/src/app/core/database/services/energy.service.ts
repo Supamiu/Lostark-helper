@@ -7,9 +7,8 @@ import { Energy } from "../../../model/energy";
 import { getCompletionEntryKey } from "../../get-completion-entry-key";
 import { RosterService } from "./roster.service";
 import { TimeService } from "../../time.service";
-import { TasksService } from "../../../pages/tasks/tasks.service";
 import { CompletionService } from "./completion.service";
-import { formatDistance } from "date-fns";
+import { TasksService } from "./tasks.service";
 
 @Injectable({
   providedIn: "root"
@@ -45,7 +44,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
           if (energy.updated < reset) {
             roster.characters.forEach(character => {
               tasks
-                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)))
+                .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)) && !task.custom)
                 .forEach(task => {
                   const completionEntry = completion.data[getCompletionEntryKey(character.name, task)];
                   const entry = energy.data[getCompletionEntryKey(character.name, task)] || {

@@ -3,18 +3,26 @@ import { from, map, Observable } from "rxjs";
 import {
   addDoc,
   collection,
+  collectionData,
+  deleteDoc,
   doc,
   docData,
   DocumentData,
   DocumentReference,
   Firestore,
   FirestoreDataConverter,
+  query,
   QueryDocumentSnapshot,
+  runTransaction,
   setDoc,
+  Transaction,
   UpdateData,
   updateDoc,
-  WithFieldValue
+  WithFieldValue,
+  WriteBatch,
+  writeBatch
 } from "@angular/fire/firestore";
+import { QueryConstraint } from "@firebase/firestore";
 
 export abstract class FirestoreStorage<T extends DataModel> {
 
@@ -23,6 +31,12 @@ export abstract class FirestoreStorage<T extends DataModel> {
       const workingCopy: Partial<WithFieldValue<T>> = { ...modelObject } as Partial<WithFieldValue<T>>;
       delete workingCopy.$key;
       delete workingCopy.notFound;
+      Object.entries(workingCopy)
+        .forEach(([key, value]) => {
+          if (value === undefined) {
+            delete workingCopy[key];
+          }
+        });
       return workingCopy as T;
     },
     fromFirestore(snapshot: QueryDocumentSnapshot): T {
@@ -38,8 +52,12 @@ export abstract class FirestoreStorage<T extends DataModel> {
   protected constructor(protected firestore: Firestore) {
   }
 
-  private docRef(key: string): DocumentReference<T> {
+  protected docRef(key: string): DocumentReference<T> {
     return doc(this.firestore, this.getCollectionName(), key).withConverter(this.converter);
+  }
+
+  public query(filterQuery: QueryConstraint): Observable<T[]> {
+    return collectionData(query(this.collection, filterQuery).withConverter(this.converter));
   }
 
   public getOne(key: string): Observable<T> {
@@ -62,12 +80,24 @@ export abstract class FirestoreStorage<T extends DataModel> {
     );
   }
 
+  public deleteOne(key: string): Observable<void> {
+    return from(deleteDoc(this.docRef(key)));
+  }
+
   public setOne(key: string, row: Omit<T, "$key" | "notFound">): Observable<void> {
     return from(setDoc(this.docRef(key), row));
   }
 
   public updateOne(key: string, row: UpdateData<T>): Observable<void> {
     return from(updateDoc(this.docRef(key), row));
+  }
+
+  protected transaction<R>(transaction: (t: Transaction) => Promise<R>): Observable<R> {
+    return from(runTransaction(this.firestore, transaction));
+  }
+
+  protected batch(): WriteBatch {
+    return writeBatch(this.firestore);
   }
 
   protected abstract getCollectionName(): string;
