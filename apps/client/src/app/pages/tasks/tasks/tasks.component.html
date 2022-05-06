@@ -1,5 +1,5 @@
 <ng-container *ngIf="tasks$ | async as tasks">
-  <nz-page-header nzTitle="Task manager" nzSubtitle="Manage custom tasks, enable/disable existing ones">
+  <nz-page-header nzTitle="Task Manager" nzSubtitle="Manage custom tasks, enable/disable existing ones">
     <nz-page-header-extra>
       <button nz-button nzType="primary" (click)="setTrackAll( true)">Track all tasks</button>
       <button nz-button (click)="setTrackAll( false)">Untrack all tasks</button>
@@ -13,7 +13,7 @@
   </nz-page-header>
   <nz-card nzTitle="Tasks">
     <nz-table #tasksTable [nzData]="tasks"
-              [nzScroll]="{y:'290px'}" [nzPageSize]="999" nzHideOnSinglePage
+              [nzScroll]="{y:tableHeight + 'px'}" [nzPageSize]="999" nzHideOnSinglePage
               nzSize="middle">
       <thead>
       <tr>
@@ -29,7 +29,7 @@
       </tr>
       </thead>
       <tbody cdkDropList
-        (cdkDropListDropped)="dropTask($event)"
+             (cdkDropListDropped)="dropTask($event)"
              [cdkDropListData]="tasks">
       <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask" cdkDrag [cdkDragData]="task">
         <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
@@ -96,7 +96,8 @@
       <nz-form-control nzErrorTip="Please input a task frequency">
         <nz-input-group [nzAddOnBefore]="imagePreview">
           <ng-template #imagePreview>
-            <img *ngIf="form.value.iconPath" src="./assets/icons/{{form.value.iconPath}}" alt="" class="task-icon preview">
+            <img *ngIf="form.value.iconPath" src="./assets/icons/{{form.value.iconPath}}" alt=""
+                 class="task-icon preview">
             <span *ngIf="!form.value.iconPath">Icon</span>
           </ng-template>
           <nz-select formControlName="iconPath"

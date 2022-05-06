@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { TasksService } from "../tasks.service";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
@@ -49,11 +49,23 @@ export class TasksComponent {
     "weekly.webp"
   ];
 
+  public tableHeight!: number;
+
   constructor(private tasksService: TasksService,
               private fb: FormBuilder,
               private message: NzMessageService,
               private clipboard: Clipboard,
               private modal: NzModalService) {
+    this.setTableHeight()
+  }
+
+  @HostListener("window:resize")
+  setTableHeight(): void {
+    const computed = window.innerHeight
+      - 64 - 48 - 64 - 56 // Page Layout
+      - 72 // nz-page-title
+      - 245; //Form w/card
+    this.tableHeight = Math.max(computed, 300);
   }
 
   addTask(): void {
