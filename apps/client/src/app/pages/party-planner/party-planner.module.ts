@@ -8,6 +8,7 @@ import { NzTableModule } from "ng-zorro-antd/table";
 import { IconsProviderModule } from "../../icons-provider.module";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { PipesModule } from "../../core/pipes/pipes.module";
+import { NzAlertModule } from "ng-zorro-antd/alert";
 
 const routes: Routes = [{
   path: "",
@@ -24,7 +25,8 @@ const routes: Routes = [{
     NzTableModule,
     IconsProviderModule,
     NzToolTipModule,
-    PipesModule
+    PipesModule,
+    NzAlertModule
   ]
 })
 export class PartyPlannerModule {

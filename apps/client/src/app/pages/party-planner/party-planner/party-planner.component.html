@@ -5,6 +5,8 @@
 </nz-page-header>
 
 <ng-container *ngIf="roster$ | async as roster">
+  <nz-alert *ngIf="roster.characters.length === 0"
+            nzMessage="No characters in your roster, please add some in the roster page" nzShowIcon></nz-alert>
   <ng-container *ngIf="display$ | async as display">
     <nz-table [nzData]="[{}]"
               nzHideOnSinglePage
@@ -64,7 +66,8 @@
                            class="class-icon" *ngIf="fc.c.class !== null">
                       <div nz-tooltip nzTooltipTitle="ilvl {{fc.c.ilvl}}">{{fc.c.name}}</div>&nbsp;
                       <div nz-tooltip nzTooltipTitle="You can do {{fc.doable}} runs together">
-                      ({{fc.doable}})</div>
+                        ({{fc.doable}})
+                      </div>
                       <div *ngIf="fc.c.lazy" class="lazy-icon">
                         <i nz-icon nzType="clock-circle" nzTheme="outline"
                            nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>

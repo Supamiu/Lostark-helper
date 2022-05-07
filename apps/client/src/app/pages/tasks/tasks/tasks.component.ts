@@ -151,6 +151,6 @@ export class TasksComponent {
   }
 
   trackByTask(index: number, task: LostarkTask): string | undefined {
-    return task.label;
+    return task.$key;
   }
 }
