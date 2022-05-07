@@ -4,6 +4,8 @@
 <ng-container *ngIf="roster$ | async as roster">
   <div class="fullpage-message" *ngIf="roster.length === 0">
     No characters in your roster, please add some in the roster page
+    <br>
+    <a nz-button nzType="primary" routerLink="/roster">Click here to navigate to the roster manager and add your first character</a>
   </div>
   <ng-container *ngIf="roster.length > 0">
     <ng-container *ngIf="completion$ | async as completion">
