@@ -10,12 +10,14 @@
       <ng-container *ngIf="energy$ | async as energy">
 
         <nz-table *ngIf="tableDisplay$ | async as display"
+                  [nzNoResult]="empty"
                   [nzScroll]="{y:tableHeight+'px'}"
                   [nzPageSize]="999"
                   nzHideOnSinglePage
                   nzBordered
                   nzOuterBordered
                   nzSize="middle">
+          <ng-template #empty></ng-template>
           <table>
             <thead>
             <tr>
