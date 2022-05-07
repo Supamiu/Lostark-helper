@@ -181,7 +181,7 @@ export class PartyPlannerComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 130;
+    this.tableHeight = window.innerHeight - 64 - 48 - 180;
   }
 
   setIgnoredFriends(ids: string[]): void {
