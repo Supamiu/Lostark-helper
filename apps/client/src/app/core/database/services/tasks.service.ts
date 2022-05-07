@@ -19,6 +19,8 @@ import {
 } from "rxjs";
 import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
+import { SettingsService } from "./settings.service";
+import { subHours } from "date-fns";
 
 @Injectable({
   providedIn: "root"
@@ -93,12 +95,32 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     shareReplay(1)
   );
 
-  public tasks$ = this.baseData$.pipe(
-    pluck("result"),
+  public tasks$ = combineLatest([
+    this.baseData$.pipe(
+      pluck("result")
+    ),
+    this.settings.settings$
+  ]).pipe(
+    map(([tasks, settings]) => {
+      const currentLADay = subHours(new Date(), 10);
+      return tasks.map(task => {
+        if (task.label?.startsWith("Affinity") && !task.custom && !settings.crystallineAura) {
+          task.amount = 5;
+        } else {
+          task.amount = 6;
+        }
+        if (task.label?.startsWith("Adventure Island") && !task.custom && [0, 6].includes(currentLADay.getUTCDay())) {
+          task.amount = 2;
+        } else {
+          task.amount = 1;
+        }
+        return task;
+      });
+    }),
     shareReplay(1)
   );
 
-  constructor(firestore: Firestore, private auth: AuthService) {
+  constructor(firestore: Firestore, private auth: AuthService, private settings: SettingsService) {
     super(firestore);
     this.baseData$.pipe(
       pluck("toCreate"),

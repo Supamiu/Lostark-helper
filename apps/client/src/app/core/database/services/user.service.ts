@@ -3,7 +3,7 @@ import { FirestoreStorage } from "../firestore-storage";
 import { LAHUser } from "../../../model/lah-user";
 import { Firestore } from "@angular/fire/firestore";
 import { AuthService } from "./auth.service";
-import { combineLatest, map, of, switchMap } from "rxjs";
+import { combineLatest, map, of, shareReplay, switchMap } from "rxjs";
 import {
   TextQuestionPopupComponent
 } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
@@ -44,11 +44,13 @@ export class UserService extends FirestoreStorage<LAHUser> {
           return of(user);
         })
       );
-    })
+    }),
+    shareReplay(1)
   );
 
   public friendIds$ = this.user$.pipe(
-    map(user => user?.friends || [])
+    map(user => user?.friends || []),
+    shareReplay(1)
   );
 
   constructor(firestore: Firestore, private auth: AuthService,
