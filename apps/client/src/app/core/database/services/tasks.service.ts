@@ -104,15 +104,19 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     map(([tasks, settings]) => {
       const currentLADay = subHours(new Date(), 10);
       return tasks.map(task => {
-        if (task.label?.startsWith("Affinity") && !task.custom && !settings.crystallineAura) {
-          task.amount = 5;
-        } else {
-          task.amount = 6;
+        if (task.label?.startsWith("Affinity") && !task.custom) {
+          if (settings.crystallineAura) {
+            task.amount = 6;
+          } else {
+            task.amount = 5;
+          }
         }
-        if (task.label?.startsWith("Adventure Island") && !task.custom && [0, 6].includes(currentLADay.getUTCDay())) {
-          task.amount = 2;
-        } else {
-          task.amount = 1;
+        if (task.label?.startsWith("Adventure Island") && !task.custom) {
+          if ([0, 6].includes(currentLADay.getUTCDay())) {
+            task.amount = 2;
+          } else {
+            task.amount = 1;
+          }
         }
         return task;
       });
