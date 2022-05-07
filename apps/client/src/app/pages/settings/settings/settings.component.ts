@@ -53,7 +53,7 @@ export class SettingsComponent {
             task,
             flags: roster
               .map(character => {
-                const flag = tracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`];
+                const flag = tracking[`${character.name}:${task.$key}`];
                 return flag === undefined ? true : flag;
               })
           };
@@ -114,7 +114,7 @@ export class SettingsComponent {
   }
 
   setLazyFlag(settingsKey: string, tracking: Record<string, boolean>, task: LostarkTask, character: Character, flag: boolean): void {
-    tracking[`${character.name}:${task.label}:${task.scope}:${task.amount}`] = flag;
+    tracking[`${character.name}:${task.$key}`] = flag;
     this.settings.patch({
       $key: settingsKey,
       lazytracking: tracking

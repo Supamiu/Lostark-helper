@@ -75,7 +75,7 @@ export class RosterComponent {
   public saveCharacter(character: Character, roster: Roster): void {
     this.rosterService.updateOne(roster.$key, {
       characters: roster.characters.map(char => {
-        if (character.id && char.id === character.id) {
+        if (character.index !== null && char.index === character.index) {
           return character;
         }
         return char;

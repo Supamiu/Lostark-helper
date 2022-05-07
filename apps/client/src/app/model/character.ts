@@ -8,4 +8,12 @@ export interface Character {
   class: LostarkClass;
   index?: number;
   isPrivate?: boolean;
+  tickets?: {
+    t1Cube: number;
+    t2BossRush: number;
+    t2Cube: number;
+    t3BossRush: number;
+    t3Cube: number;
+    platinumFields: number;
+  };
 }
