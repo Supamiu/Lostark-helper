@@ -1,4 +1,5 @@
-<nz-page-header nzTitle="Checklist" nzSubtitle="Track your daily and weekly tasks with automated resets and rest bonus support"></nz-page-header>
+<nz-page-header nzTitle="Checklist"
+                nzSubtitle="Track your daily and weekly tasks with automated resets and rest bonus support"></nz-page-header>
 
 <ng-container *ngIf="roster$ | async as roster">
   <div class="fullpage-message" *ngIf="roster.length === 0">
@@ -107,8 +108,14 @@
                               <i nz-icon nzType="reload" nzTheme="outline"></i>
                             </button>
                           </div>
-                          <div class="energy-bar" *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy" nz-tooltip
+                          <div class="energy-bar"
+                               *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy"
+                               nz-tooltip
                                nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
+                            <div class="threshold t-20"></div>
+                            <div class="threshold t-40"></div>
+                            <div class="threshold t-60"></div>
+                            <div class="threshold t-80"></div>
                             <div class="progress" [style.width.%]="row.energy[i].amount"></div>
                           </div>
                         </div>
