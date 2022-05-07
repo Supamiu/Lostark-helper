@@ -88,7 +88,7 @@ export class LocalStorageService {
                   taskName = split[0];
                   frequency = +split[1];
                 }
-                if (taskName === task.label && frequency === task.frequency) {
+                if (taskName.toLowerCase() === task.label.toLowerCase() && frequency === task.frequency) {
                   newCompletionData[getCompletionEntryKey(characterName || "", task)] = completion[key];
                 }
               });
