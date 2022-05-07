@@ -5,7 +5,7 @@ import { TaskScope } from "../model/task-scope";
 
 export const tasks = [
   // Daily character
-  new LostarkTask("Chaos dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp", {
+  new LostarkTask("Chaos Dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp", {
     partySize: 4
   }),
   new LostarkTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "guardian.png", {
@@ -14,11 +14,11 @@ export const tasks = [
   }),
   new LostarkTask(`Una's Task`, 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 3, 9999, "daily.webp"),
   new LostarkTask(`Kalthertz Slaves`, 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1),
-  new LostarkTask(`Guild support`, 0, TaskFrequency.DAILY, TaskScope.CHARACTER, 1),
+  new LostarkTask(`Guild Support`, 0, TaskFrequency.DAILY, TaskScope.CHARACTER, 1),
 
 
   // Daily roster
-  new LostarkTask("Chaos gate", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "chaos_gate.png", {
+  new LostarkTask("Chaos Gate", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "chaos_gate.png", {
     daysFilter: [0, 3, 5, 6]
   }),
   new LostarkTask("Anguished Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1),

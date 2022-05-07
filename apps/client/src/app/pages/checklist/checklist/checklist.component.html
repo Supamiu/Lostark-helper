@@ -69,11 +69,12 @@
                                   nz-tooltip
                                   [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
                                   [nzTooltipMouseEnterDelay]="1"
+                                  #tooltipRef="nzTooltip"
                                   nzSize="small"
                                   nzBlock
                                   nzType="primary"
                                   [disabled]="row.completion[0] >= row.task.amount"
-                                  (click)="markAsDone(completion, energy, roster[0].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                  (click)="tooltipRef.hide();markAsDone(completion, energy, roster[0].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
                             {{row.completion[0]}}/{{row.task.amount}}
                           </button>
                         </div>
@@ -99,10 +100,11 @@
                                     nz-tooltip
                                     [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
                                     [nzTooltipMouseEnterDelay]="1"
+                                    #tooltipRef="nzTooltip"
                                     nzSize="small"
                                     nzType="primary"
                                     [disabled]="col >= row.task.amount"
-                                    (click)="markAsDone(completion, energy, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                    (click)="tooltipRef.hide();markAsDone(completion, energy, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
                               {{col}}/{{row.task.amount}}
                             </button>
                           </div>
