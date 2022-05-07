@@ -5,6 +5,9 @@ import { NzModalService } from "ng-zorro-antd/modal";
 import { RegisterPopupComponent } from "./components/auth-popups/register-popup/register-popup.component";
 import { LoginPopupComponent } from "./components/auth-popups/login-popup/login-popup.component";
 import { LocalStorageService } from "./core/database/services/local-storage.service";
+import { FriendInvitesService } from "./core/database/services/friend-invites.service";
+import { filter, pairwise, startWith } from "rxjs";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Component({
   selector: "lostark-helper-root",
@@ -21,8 +24,21 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService,
               private auth: AuthService,
               private modalService: NzModalService,
-              private localStorageService: LocalStorageService
+              private localStorageService: LocalStorageService,
+              private friendInvitesService: FriendInvitesService,
+              private message: NzMessageService
   ) {
+    friendInvitesService.invitesReceived$
+      .pipe(
+        startWith([]),
+        pairwise(),
+        filter(([before, after]) => after.length > before.length)
+      )
+      .subscribe(([before, after]) => {
+        this.message.info(`You have ${after.length - before.length} pending friend invite(s), open friends page to manage them.`, {
+          nzDuration: 10000
+        });
+      });
   }
 
   saveCollapsed(collapsed: boolean): void {

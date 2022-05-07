@@ -7,6 +7,7 @@ import { combineLatest, map, Observable, of, switchMap } from "rxjs";
 import { FormBuilder, Validators } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { first, mapTo } from "rxjs/operators";
+import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
 
 @Component({
   selector: "lostark-helper-friends",
@@ -19,13 +20,12 @@ export class FriendsComponent {
   public uid$ = this.auth.uid$;
 
   public friendIds$ = this.userService.friendIds$;
-  public friends$ = this.userService.friends$;
 
-  public invites$: Observable<{ from: FriendInvite[], to: FriendInvite[] }> = combineLatest([
+  public invites$: Observable<{ sent: FriendInvite[], received: FriendInvite[] }> = combineLatest([
     this.friendInvitesService.invitesSent$,
     this.friendInvitesService.invitesReceived$
   ]).pipe(
-    map(([from, to]) => ({ from, to }))
+    map(([sent, received]) => ({ sent, received }))
   );
 
   public form = this.fb.group({
@@ -37,11 +37,19 @@ export class FriendsComponent {
               private message: NzMessageService) {
   }
 
-  inviteFriend(uid: string, invitesSent: FriendInvite[], friendIds: string[]): void {
+  inviteFriend(uid: string, invitesSent: FriendInvite[], invitesReceived: FriendInvite[], friendIds: string[]): void {
     const form = this.form.getRawValue();
     this.form.reset();
+    if (uid === form.uid) {
+      this.message.error(`Why are you trying to invite yourself as friend? Are you so lonely?`);
+      return;
+    }
     if (invitesSent.some(i => i.to === form.uid)) {
       this.message.error(`Cannot add another invite for user ID ${form.uid}.`);
+      return;
+    }
+    if (invitesReceived.some(i => i.from === form.uid)) {
+      this.message.error(`User with ID ${form.uid} is in your pending invites.`);
       return;
     }
     if (friendIds.includes(form.uid)) {
@@ -71,6 +79,19 @@ export class FriendsComponent {
     });
   }
 
+  acceptInvite(invite: FriendInvite): void {
+    combineLatest([
+      this.userService.updateOne(invite.to, { friends: arrayUnion(invite.from) }),
+      this.userService.updateOne(invite.from, { friends: arrayUnion(invite.to) })
+    ]).pipe(
+      switchMap(() => {
+        return this.friendInvitesService.deleteOne(invite.$key);
+      })
+    ).subscribe(() => {
+      this.message.success("Friend invite accepted");
+    });
+  }
+
   cancelInvite(invite: FriendInvite): void {
     this.friendInvitesService.deleteOne(invite.$key).subscribe(() => {
       this.message.success("Invite cancelled");
@@ -83,5 +104,14 @@ export class FriendsComponent {
 
   trackByFriendId(index: number, id: string): string {
     return id;
+  }
+
+  removeFriend(uid: string, friend: string): void {
+    combineLatest([
+      this.userService.updateOne(friend, { friends: arrayRemove(uid) }),
+      this.userService.updateOne(uid, { friends: arrayRemove(friend) })
+    ]).subscribe(() => {
+      this.message.success(`Removed user with ID ${friend} from your friends.`);
+    });
   }
 }

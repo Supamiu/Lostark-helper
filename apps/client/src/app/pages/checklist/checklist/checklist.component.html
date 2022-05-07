@@ -12,11 +12,9 @@
                   [nzScroll]="{y:tableHeight+'px'}"
                   [nzPageSize]="999"
                   nzHideOnSinglePage
-                  [nzNoResult]="empty"
                   nzBordered
                   nzOuterBordered
                   nzSize="middle">
-          <ng-template #empty></ng-template>
           <table>
             <thead>
             <tr>
@@ -47,7 +45,7 @@
             <ng-template #rowsDisplay let-rows let-title="title">
               <ng-container *ngIf="rows.length > 0">
                 <tr>
-                  <td colspan="99" class="section-span">{{title}}</td>
+                  <td [attr.colspan]="display.roster.length+1" class="section-span">{{title}}</td>
                 </tr>
                 <tr *ngFor="let row of rows; trackBy: trackByEntry; even as even"
                     [class.even]="even"

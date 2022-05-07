@@ -14,6 +14,7 @@ import { EnergyService } from "../../../core/database/services/energy.service";
 import { TimeService } from "../../../core/time.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
+import { isTaskDone } from "../../../core/is-task-done";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -62,7 +63,7 @@ export class ChecklistComponent {
         .map(task => {
           const completionData = roster.map(character => {
             return {
-              done: this.isTaskDone(
+              done: isTaskDone(
                 task,
                 character,
                 completion,
@@ -70,7 +71,7 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
-              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl,
+              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < task.maxIlvl,
               energy: energy.data[getCompletionEntryKey(character.name, task)] || 0
             };
           });
@@ -165,27 +166,8 @@ export class ChecklistComponent {
     this.completionService.setOne(completion.$key, completion);
   }
 
-  private isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
-    if (character.lazy) {
-      const lazyTrackingFlag = lazyTracking && lazyTracking[`${character.name}:${task.$key}`];
-      if (lazyTrackingFlag === undefined || lazyTrackingFlag) {
-        dailyReset = subDays(new Date(dailyReset), 2).getTime();
-      }
-    }
-    const currentLADay = subHours(new Date(), 10);
-    if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay() - 1)) {
-      return -1;
-    }
-    const completionFlag = completion.data[getCompletionEntryKey(character.name, task)];
-    const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
-    if (!completionFlag) {
-      return 0;
-    }
-    return completionFlag.updated < reset ? 0 : completionFlag.amount;
-  }
-
   trackByEntry(index: number, entry: { task: LostarkTask, completion: number[] }): string | undefined {
-    return entry.task.label;
+    return entry.task.$key;
   }
 
   trackByIndex(index: number): number {

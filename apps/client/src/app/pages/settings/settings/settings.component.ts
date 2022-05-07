@@ -24,6 +24,8 @@ export class SettingsComponent {
 
   public uid$ = this.auth.uid$;
 
+  public anonymous$ = this.auth.isAnonymous$;
+
   public settings$: Observable<Settings> = this.settings.settings$;
 
   public lazyTracking$ = this.settings$.pipe(pluck("lazytracking"));

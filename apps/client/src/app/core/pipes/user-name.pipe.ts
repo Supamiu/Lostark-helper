@@ -3,7 +3,8 @@ import { UserService } from "../database/services/user.service";
 import { Observable, pluck } from "rxjs";
 
 @Pipe({
-  name: "userName"
+  name: "userName",
+  pure: true
 })
 export class UserNamePipe implements PipeTransform {
 
