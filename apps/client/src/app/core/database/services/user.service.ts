@@ -47,6 +47,10 @@ export class UserService extends FirestoreStorage<LAHUser> {
     })
   );
 
+  public friendIds$ = this.user$.pipe(
+    map(user => user?.friends || [])
+  );
+
   constructor(firestore: Firestore, private auth: AuthService,
               private modal: NzModalService) {
     super(firestore);

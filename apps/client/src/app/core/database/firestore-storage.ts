@@ -1,5 +1,5 @@
 import { DataModel } from "./data-model";
-import { from, map, Observable } from "rxjs";
+import { from, map, Observable, shareReplay } from "rxjs";
 import {
   addDoc,
   collection,
@@ -47,6 +47,8 @@ export abstract class FirestoreStorage<T extends DataModel> {
     }
   };
 
+  protected cache: Record<string, Observable<T>> = {};
+
   protected readonly collection = collection(this.firestore, this.getCollectionName()).withConverter(this.converter);
 
   protected constructor(protected firestore: Firestore) {
@@ -61,20 +63,24 @@ export abstract class FirestoreStorage<T extends DataModel> {
   }
 
   public getOne(key: string): Observable<T> {
-    return docData(this.docRef(key)).pipe(
-      map(res => {
-        if (!res) {
-          return {
-            $key: key,
-            notFound: true
-          } as T;
-        }
-        return res;
-      })
-    );
+    if (!this.cache[key]) {
+      this.cache[key] = docData(this.docRef(key)).pipe(
+        map(res => {
+          if (!res) {
+            return {
+              $key: key,
+              notFound: true
+            } as T;
+          }
+          return res;
+        }),
+        shareReplay(1)
+      );
+    }
+    return this.cache[key];
   }
 
-  public addOne(row: T): Observable<string> {
+  public addOne(row: Omit<T, "$key">): Observable<string> {
     return from(addDoc(this.collection, row)).pipe(
       map(ref => ref.id)
     );

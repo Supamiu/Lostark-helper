@@ -1,0 +1,92 @@
+<ng-container *ngIf="uid$ | async as uid">
+  <nz-page-header nzTitle="Friends" nzSubtitle="Add friends, or remove some, for party-based features">
+    <nz-page-header-extra *ngIf="(anonymous$ | async) === false">
+      <i nz-tooltip nzTooltipTitle="You can share this freely, it won't compromise your account">User ID: {{uid}}</i>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <nz-alert nzType="error" *ngIf="anonymous$ | async"
+            nzMessage="You can't have friends as anonymous"
+            nzDescription="Please register by hovering the Anonymous label in the top-right corner and clicking Register"></nz-alert>
+  <div *ngIf="(anonymous$ | async) === false">
+    <nz-card nzTitle="Your friends" nzSize="small">
+      <nz-list *ngIf="friendIds$ | async as friends"
+               [nzDataSource]="friends"
+               nzNoResult="You have no friends"
+      >
+        <nz-list-item *ngFor="let friend of friends; trackBy: trackByFriendId"
+                      [nzActions]="[removeFriendTpl]">
+          <nz-list-item-meta *ngIf="friend | userName | async as friendName" [nzTitle]="friendName"
+                             [nzDescription]="friend"></nz-list-item-meta>
+          <ng-template #removeFriendTpl>
+            <button nz-button nzType="primary" nzDanger
+                    nz-tooltip nzTooltipTitle="Remove friend"
+                    nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="removeFriend(uid, friend)">
+              <i nz-icon nzType="close" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+    <ng-container *ngIf="invites$ | async as invites">
+      <nz-card nzTitle="Friend invites" nzSize="small">
+        <nz-list [nzDataSource]="invites.received"
+                 nzHeader="Pending invites"
+                 nzNoResult="No pending invites"
+        >
+          <nz-list-item *ngFor="let invite of invites.received; trackBy: trackByInvite"
+                        nzContent="{{invite.date | date:'medium'}}" [nzActions]="[acceptInviteTpl,cancelInviteTpl]">
+            <nz-list-item-meta *ngIf="invite.from | userName | async as targetName" [nzTitle]="targetName"
+                               [nzDescription]="invite.from"></nz-list-item-meta>
+            <ng-template #acceptInviteTpl>
+              <button nz-button nzType="primary"
+                      nz-tooltip nzTooltipTitle="Accept"
+                      nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="acceptInvite(invite)">
+                <i nz-icon nzType="check" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+            <ng-template #cancelInviteTpl>
+              <button nz-button nzType="primary" nzDanger
+                      nz-tooltip nzTooltipTitle="Decline"
+                      nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="cancelInvite(invite)">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+          </nz-list-item>
+        </nz-list>
+        <nz-list [nzDataSource]="invites.sent"
+                 nzHeader="Invites sent"
+                 nzNoResult="No invites sent">
+          <nz-list-item *ngFor="let invite of invites.sent; trackBy: trackByInvite"
+                        nzContent="{{invite.date | date:'medium'}}" [nzActions]="[cancelInviteTpl]">
+            <nz-list-item-meta *ngIf="invite.to | userName | async as targetName" [nzTitle]="targetName"
+                               [nzDescription]="invite.to"></nz-list-item-meta>
+            <ng-template #cancelInviteTpl>
+              <button nz-button nzDanger
+                      nz-tooltip nzTooltipTitle="Cancel this invite"
+                      nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="cancelInvite(invite)">
+                <i nz-icon nzType="stop" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+          </nz-list-item>
+        </nz-list>
+      </nz-card>
+      <ng-container *ngIf="friendIds$ | async as friendIds">
+        <nz-card nzTitle="Invite a friend" nzSize="small" *ngIf="uid$ | async as uid">
+          <form nz-form [formGroup]="form" (ngSubmit)="inviteFriend(uid, invites.sent, invites.received, friendIds)"
+                nzLayout="inline">
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input a user ID"
+                               nzExtra="User ID can be found in top-right of this page">
+                <nz-input-group nzPrefixIcon="user">
+                  <input type="text" nz-input formControlName="uid" placeholder="Target's user ID" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <button nz-button [nzType]="'primary'" [disabled]="form.invalid">Invite</button>
+          </form>
+        </nz-card>
+      </ng-container>
+    </ng-container>
+  </div>
+
+</ng-container>
