@@ -8,7 +8,7 @@ export interface Character {
   class: LostarkClass;
   index?: number;
   isPrivate?: boolean;
-  tickets?: {
+  tickets: {
     t1Cube: number;
     t2BossRush: number;
     t2Cube: number;

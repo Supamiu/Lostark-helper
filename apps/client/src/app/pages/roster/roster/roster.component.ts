@@ -60,7 +60,15 @@ export class RosterComponent {
       name: form.name,
       ilvl: form.ilvl,
       lazy: form.lazy,
-      class: form.class
+      class: form.class,
+      tickets: {
+        t1Cube: 0,
+        t2BossRush: 0,
+        t2Cube: 0,
+        t3BossRush: 0,
+        t3Cube: 0,
+        platinumFields: 0
+      }
     });
     this.form.reset();
     this.rosterService.setOne(roster.$key, roster);

@@ -3,7 +3,7 @@ import { UserService } from "../../../core/database/services/user.service";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
-import { BehaviorSubject, combineLatest, map, of, pluck, switchMap } from "rxjs";
+import { combineLatest, map, of, pluck, switchMap } from "rxjs";
 import { TimeService } from "../../../core/time.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -12,6 +12,8 @@ import { TaskScope } from "../../../model/task-scope";
 import { LostarkTask } from "../../../model/lostark-task";
 import { subtasks } from "../subtasks";
 import { LostarkTaskWithSubtask } from "../../../model/lostark-task-with-subtask";
+import { tickets } from "../tickets";
+import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 
 @Component({
   selector: "lostark-helper-party-planner",
@@ -26,7 +28,8 @@ export class PartyPlannerComponent {
 
   public friendIds$ = this.userService.friendIds$;
 
-  public ignoredFriends$ = new BehaviorSubject<string[]>(JSON.parse(localStorage.getItem("party-planner:ignored-friends") || "[]"));
+  public ignoredFriends$ = new LocalStorageBehaviorSubject<string[]>("party-planner:ignored-friends", []);
+  public includeTickets$ = new LocalStorageBehaviorSubject<boolean>("party-planner:include-tickets", true);
 
   public tasks$ = combineLatest([
     this.tasksService.tasks$,
@@ -97,75 +100,114 @@ export class PartyPlannerComponent {
           }));
         }),
         map((friendsData) => {
-          return tasks.map(task => {
-            return {
-              task,
-              data: roster.characters
-                .map(character => {
-                  const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, lazyTracking);
-                  const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl;
-                  if (done === -1 || done >= task.amount || !canDo) {
+          const ticketsData = tickets
+            .map(ticket => {
+              return {
+                ticket,
+                data: roster.characters
+                  .map(character => {
+                    const available = character.tickets[ticket.key];
+                    if (available === 0) {
+                      return {
+                        friends: []
+                      };
+                    }
                     return {
-                      task,
-                      friends: [],
-                      done: done,
-                      canDo: canDo
-                    };
-                  } else {
-                    const friendsDisplay = friendsData
-                      .map(({ friendId, friendRoster, friendCompletion, friendLazyTracking, friendTasks }) => {
-                        const friendTask = friendTasks.find(ft => {
-                          return ft.label === task.label
-                            && ft.frequency === task.frequency
-                            && ft.scope === task.scope
-                            && ft.iconPath === task.iconPath
-                            && !ft.custom;
-                        });
-                        if (friendTask) {
+                      friends: friendsData
+                        .map(({ friendId, friendRoster }) => {
                           return {
                             friendId,
                             characters: (friendRoster.characters || [])
                               .filter(c => !c.isPrivate)
-                              .filter(fChar => {
-                                const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
-                                return fDone >= 0 && fDone < task.amount
-                                  && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= task.maxIlvl;
+                              .filter(fc => {
+                                return fc.tickets[ticket.key] > 0;
                               })
                               .map(c => {
                                 return {
-                                  doable: Math.min(
-                                    task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, friendLazyTracking),
-                                    task.amount - done
-                                  ),
+                                  doable: Math.min(c.tickets[ticket.key], available),
                                   c
                                 };
                               })
                           };
-                        }
-                        return { friendId, characters: [] };
-                      })
-                      .filter(row => row.characters.length > 0);
-                    return {
-                      task,
-                      friends: friendsDisplay,
-                      done: done,
-                      canDo: true
+                        })
+                        .filter(res => res.characters.length > 0)
                     };
-                  }
-                })
-                .flat()
-            };
-          }).reduce((acc, row) => {
-            const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
-            const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
-            return {
-              ...acc,
-              [`${frequencyKey}${scopeKey}`]: [
-                ...acc[`${frequencyKey}${scopeKey}`],
-                row
-              ]
-            };
-          }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [] });
+                  })
+                  .filter(res => res.friends.length > 0)
+              };
+            })
+            .filter(ticket => ticket.data.length > 0);
+          return tasks
+            .map(task => {
+              return {
+                task,
+                data: roster.characters
+                  .map(character => {
+                    const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, lazyTracking);
+                    const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl;
+                    if (done === -1 || done >= task.amount || !canDo) {
+                      return {
+                        task,
+                        friends: [],
+                        done: done,
+                        canDo: canDo
+                      };
+                    } else {
+                      const friendsDisplay = friendsData
+                        .map(({ friendId, friendRoster, friendCompletion, friendLazyTracking, friendTasks }) => {
+                          const friendTask = friendTasks.find(ft => {
+                            return ft.label === task.label
+                              && ft.frequency === task.frequency
+                              && ft.scope === task.scope
+                              && ft.iconPath === task.iconPath
+                              && !ft.custom;
+                          });
+                          if (friendTask) {
+                            return {
+                              friendId,
+                              characters: (friendRoster.characters || [])
+                                .filter(c => !c.isPrivate)
+                                .filter(fChar => {
+                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
+                                  return fDone >= 0 && fDone < task.amount
+                                    && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= task.maxIlvl;
+                                })
+                                .map(c => {
+                                  return {
+                                    doable: Math.min(
+                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, friendLazyTracking),
+                                      task.amount - done
+                                    ),
+                                    c
+                                  };
+                                })
+                            };
+                          }
+                          return { friendId, characters: [] };
+                        })
+                        .filter(row => row.characters.length > 0);
+                      return {
+                        task,
+                        friends: friendsDisplay,
+                        done: done,
+                        canDo: true
+                      };
+                    }
+                  })
+                  .flat()
+              };
+            })
+            .reduce((acc, row) => {
+              const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
+              const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
+              return {
+                ...acc,
+                [`${frequencyKey}${scopeKey}`]: [
+                  ...acc[`${frequencyKey}${scopeKey}`],
+                  row
+                ]
+              };
+            }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [], ticketsData });
         })
       );
     })
@@ -182,11 +224,6 @@ export class PartyPlannerComponent {
   @HostListener("window:resize")
   setTableHeight(): void {
     this.tableHeight = window.innerHeight - 64 - 48 - 180;
-  }
-
-  setIgnoredFriends(ids: string[]): void {
-    localStorage.setItem("party-planner:ignored-friends", JSON.stringify(ids));
-    this.ignoredFriends$.next(ids);
   }
 
   trackByEntry(index: number, entry: { task: LostarkTask }): string | undefined {

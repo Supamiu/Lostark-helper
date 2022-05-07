@@ -3,9 +3,13 @@
     <a routerLink="/friends" nz-button nzType="primary">Go to friends page</a>
   </nz-page-header-extra>
   <nz-page-header-content>
-    <nz-input-group nzAddOnBefore="Hidden friends" *ngIf="friendIds$ | async as friends">
+    <nz-input-group nzAddOnBefore="Hidden friends" *ngIf="friendIds$ | async as friends" [nzAddOnAfter]="includeTicketsTpl">
+      <ng-template #includeTicketsTpl>
+        <label nz-checkbox [ngModel]="includeTickets$ | async" (ngModelChange)="includeTickets$.next($event);"></label>
+        Include Tickets
+      </ng-template>
       <nz-select class="ignore-friends" nzShowSearch nzMode="multiple" nzPlaceHolder="No hidden friends"
-                 [ngModel]="ignoredFriends$ | async" (ngModelChange)="setIgnoredFriends($event)">
+                 [ngModel]="ignoredFriends$ | async" (ngModelChange)="ignoredFriends$.next($event)">
         <nz-option *ngFor="let friendId of friends" [nzValue]="friendId"
                    [nzLabel]="friendId | userName | async"></nz-option>
       </nz-select>
@@ -38,6 +42,7 @@
       </tr>
       </thead>
       <tbody>
+
       <ng-container
         *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.dailyCharacter, title: 'Daily Character'}"></ng-container>
       <ng-container
@@ -46,6 +51,38 @@
         *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.weeklyCharacter, title: 'Weekly Character'}"></ng-container>
       <ng-container
         *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.weeklyRoster, title: 'Weekly Roster'}"></ng-container>
+
+      <ng-container *ngIf="includeTickets$ | async">
+        <ng-container *ngIf="display.ticketsData.length > 0">
+          <tr>
+            <td [attr.colspan]="roster.characters.length+1" class="section-span">Tickets</td>
+          </tr>
+          <tr *ngFor="let entry of display.ticketsData; trackBy: trackByIndex; even as even"
+              [class.even]="even">
+            <td class="task-name">
+              <img src="./assets/icons/{{entry.ticket.icon}}" alt="" class="task-icon">
+              <span>{{entry.ticket.name}}</span>
+            </td>
+            <td *ngFor="let ticket of entry.data" class="with-inner-table">
+              <div class="task-friends">
+                <div *ngFor="let friend of ticket.friends" class="task-friend-container">
+                  <div class="friend-name">{{friend.friendId | userName | async}}</div>
+                  <div class="friend-characters">
+                    <div *ngFor="let fc of friend.characters" class="friend-character">
+                      <img src="./assets/icons/classes/class_{{fc.c.class?.toString()?.padStart(2,'0')}}.png" alt=""
+                           class="class-icon" *ngIf="fc.c.class !== null">
+                      <div nz-tooltip nzTooltipTitle="ilvl {{fc.c.ilvl}}">{{fc.c.name}}</div>&nbsp;
+                      <div nz-tooltip nzTooltipTitle="You can do {{fc.doable}} runs together">
+                        ({{fc.doable}})
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
 
 
       <ng-template #rowsDisplay let-rows let-title="title">

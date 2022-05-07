@@ -2,7 +2,6 @@ import { Component, HostListener } from "@angular/core";
 import { combineLatest, map, Observable, pluck } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Character } from "../../../model/character";
-import { subDays, subHours } from "date-fns";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
@@ -15,6 +14,7 @@ import { TimeService } from "../../../core/time.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { isTaskDone } from "../../../core/is-task-done";
+import { Roster } from "../../../model/roster";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -26,9 +26,23 @@ export class ChecklistComponent {
   public TaskFrequency = TaskFrequency;
   public TaskScope = TaskScope;
 
-  public roster$: Observable<Character[]> = this.rosterService.roster$.pipe(
+  public rawRoster$ = this.rosterService.roster$;
+
+  public roster$: Observable<Character[]> = this.rawRoster$.pipe(
     pluck("characters")
   );
+
+  public tiersAvailability$ = this.roster$.pipe(
+    map(characters => {
+      return {
+        t1: characters.some(c => c.ilvl < 802),
+        t2: characters.some(c => c.ilvl >= 802 && c.ilvl < 1302),
+        t3: characters.some(c => c.ilvl >= 1302)
+      };
+    })
+  );
+
+  public ticketsTrackingOpened = localStorage.getItem("checklist:tickets-opened") === "true";
 
   public completion$: Observable<Completion> = this.completionService.completion$;
 
@@ -129,7 +143,12 @@ export class ChecklistComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 130;
+    this.tableHeight = window.innerHeight - 64 - 48 - 190;
+  }
+
+  public ticketsTrackingOpenedChange(opened: boolean): void {
+    localStorage.setItem("checklist:tickets-opened", opened.toString());
+    this.ticketsTrackingOpened = opened;
   }
 
   public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
@@ -172,5 +191,13 @@ export class ChecklistComponent {
 
   trackByIndex(index: number): number {
     return index;
+  }
+
+  trackByCharacter(index: number, character: Character): string {
+    return character.name;
+  }
+
+  saveRoster(roster: Roster): void {
+    this.rosterService.setOne(roster.$key, roster);
   }
 }

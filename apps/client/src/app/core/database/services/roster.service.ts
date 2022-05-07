@@ -30,6 +30,27 @@ export class RosterService extends FirestoreStorage<Roster> {
     super(firestore);
   }
 
+  override getOne(key: string): Observable<Roster> {
+    return super.getOne(key).pipe(
+      map(roster => {
+        roster.characters = roster.characters.map(c => {
+          if (!c.tickets) {
+            c.tickets = {
+              t1Cube: 0,
+              t2BossRush: 0,
+              t2Cube: 0,
+              t3BossRush: 0,
+              t3Cube: 0,
+              platinumFields: 0
+            };
+          }
+          return c;
+        });
+        return roster;
+      })
+    );
+  }
+
   protected getCollectionName(): string {
     return "roster";
   }

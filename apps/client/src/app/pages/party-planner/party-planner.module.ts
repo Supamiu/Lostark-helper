@@ -12,6 +12,7 @@ import { NzAlertModule } from "ng-zorro-antd/alert";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { FormsModule } from "@angular/forms";
+import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 
 const routes: Routes = [{
   path: "",
@@ -32,7 +33,8 @@ const routes: Routes = [{
     NzAlertModule,
     NzSelectModule,
     NzInputModule,
-    FormsModule
+    FormsModule,
+    NzCheckboxModule
   ]
 })
 export class PartyPlannerModule {
