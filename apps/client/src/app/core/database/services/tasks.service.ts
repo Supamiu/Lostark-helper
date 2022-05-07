@@ -21,6 +21,7 @@ import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
 import { subHours } from "date-fns";
+import { CompletionService } from "./completion.service";
 
 @Injectable({
   providedIn: "root"
@@ -41,7 +42,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         map(userTasks => {
           const toCreate = this.sortedTasks
             .filter(defaultTask => {
-              return !userTasks.some(t => t.label === defaultTask.label && t.frequency === defaultTask.frequency && !t.custom);
+              return !userTasks.some(t => t.label?.toLowerCase() === defaultTask.label?.toLowerCase() && t.frequency === defaultTask.frequency && !t.custom);
             })
             .map(task => {
               task.$key = doc(this.collection).id;
@@ -55,7 +56,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
               .map((t) => {
                 const instance = new LostarkTask();
                 if (!t.custom && t.version < TASKS_VERSION) {
-                  const defaultTask = this.sortedTasks.find(dt => dt.label === t.label && dt.frequency === t.frequency && !dt.custom);
+                  const defaultTask = this.sortedTasks.find(dt => dt.label?.toLowerCase() === t.label?.toLowerCase() && dt.frequency === t.frequency && !dt.custom);
                   if (defaultTask) {
                     Object.assign(instance, {
                       ...defaultTask,
@@ -124,7 +125,8 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     shareReplay(1)
   );
 
-  constructor(firestore: Firestore, private auth: AuthService, private settings: SettingsService) {
+  constructor(firestore: Firestore, private auth: AuthService, private settings: SettingsService,
+              private completion: CompletionService) {
     super(firestore);
     this.baseData$.pipe(
       pluck("toCreate"),
@@ -146,6 +148,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         );
       })
     ).subscribe();
+
     this.baseData$.pipe(
       pluck("toUpdate"),
       debounceTime(1000),
@@ -162,6 +165,39 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         );
       })
     ).subscribe();
+
+    combineLatest([
+      this.baseData$.pipe(
+        pluck("result"),
+        debounceTime(1000)
+      ),
+      this.completion.completion$
+    ])
+      .pipe(
+        map(([tasks, completion]) => {
+          return tasks.filter(task => {
+            return !task.custom
+              && tasks.filter(t => {
+                return t.label?.toLowerCase() === task.label?.toLowerCase()
+                  && t.frequency === task.frequency
+                  && !t.custom;
+              }).length > 1
+              && !Object.keys(completion.data).some(k => k.includes(task.$key));
+          });
+        }),
+        filter(toDelete => toDelete.length > 0),
+        switchMap(toDelete => {
+          const batch = this.batch();
+          toDelete.forEach((task) => {
+            batch.delete(this.docRef(task.$key));
+          });
+          return from(batch.commit()).pipe(
+            tap(() => {
+              console.log(`Deleted ${toDelete.length} tasks from database.`);
+            })
+          );
+        })
+      ).subscribe();
 
     const cleanupRegistry: string[] = [];
 

@@ -3,7 +3,7 @@ import { TaskScope } from "./task-scope";
 import { DataModel } from "../core/database/data-model";
 
 
-export const TASKS_VERSION = 22;
+export const TASKS_VERSION = 23;
 
 export class LostarkTask implements DataModel {
   public $key!: string;
