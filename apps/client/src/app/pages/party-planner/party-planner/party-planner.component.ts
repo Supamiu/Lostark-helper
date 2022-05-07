@@ -70,14 +70,16 @@ export class PartyPlannerComponent {
               this.completionService.getOne(friendId),
               this.settings.getOne(friendId).pipe(
                 pluck("lazytracking")
-              )
+              ),
+              this.tasksService.getUserTasks(friendId)
             ]).pipe(
-              map(([friendRoster, friendCompletion, friendLazyTracking]) => {
+              map(([friendRoster, friendCompletion, friendLazyTracking, friendTasks]) => {
                 return {
                   friendId,
                   friendRoster,
                   friendCompletion,
-                  friendLazyTracking
+                  friendLazyTracking,
+                  friendTasks
                 };
               })
             );
@@ -99,30 +101,41 @@ export class PartyPlannerComponent {
                       canDo: canDo
                     };
                   } else {
-                    return {
-                      task,
-                      friends: friendsData
-                        .map(({ friendId, friendRoster, friendCompletion, friendLazyTracking }) => {
+                    const friendsDisplay = friendsData
+                      .map(({ friendId, friendRoster, friendCompletion, friendLazyTracking, friendTasks }) => {
+                        const friendTask = friendTasks.find(ft => {
+                          return ft.label === task.label
+                            && ft.frequency === task.frequency
+                            && ft.scope === task.scope
+                            && ft.iconPath === task.iconPath
+                            && !ft.custom;
+                        });
+                        if (friendTask) {
                           return {
                             friendId,
                             characters: (friendRoster.characters || [])
                               .filter(fChar => {
-                                const fDone = isTaskDone(task, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
+                                const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
                                 return fDone >= 0 && fDone < task.amount
                                   && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= task.maxIlvl;
                               })
                               .map(c => {
                                 return {
                                   doable: Math.min(
-                                    task.amount - isTaskDone(task, c, friendCompletion, dailyReset, weeklyReset, friendLazyTracking),
+                                    task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, friendLazyTracking),
                                     task.amount - done
                                   ),
                                   c
                                 };
                               })
                           };
-                        })
-                        .filter(row => row.characters.length > 0),
+                        }
+                        return { friendId, characters: [] };
+                      })
+                      .filter(row => row.characters.length > 0);
+                    return {
+                      task,
+                      friends: friendsDisplay,
                       done: done,
                       canDo: true
                     };

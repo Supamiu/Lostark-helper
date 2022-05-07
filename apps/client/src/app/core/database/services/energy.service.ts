@@ -41,6 +41,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
         this.completionService.completion$
       ]).pipe(
         switchMap(([reset, roster, tasks, completion]) => {
+          const newEnergy = Object.keys(energy.data).length === 0;
           if (energy.updated < reset) {
             roster.characters.forEach(character => {
               tasks
@@ -54,7 +55,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
                     const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
                     entry.amount = Math.min(daysWithoutDoingIt * 20, 100);
                     energy.data[getCompletionEntryKey(character.name, task)] = entry;
-                  } else if (!completionEntry) {
+                  } else if (!completionEntry && !newEnergy) {
                     energy.data[getCompletionEntryKey(character.name, task)] = {
                       amount: 20
                     };

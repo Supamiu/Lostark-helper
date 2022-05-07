@@ -37,7 +37,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
 
   public baseData$ = this.auth.uid$.pipe(
     switchMap(uid => {
-      return this.query(where("authorId", "==", uid)).pipe(
+      return this.getUserTasks(uid).pipe(
         debounceTime(100),
         map(userTasks => {
           const toCreate = this.sortedTasks
@@ -228,6 +228,10 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
         console.log(`Deleted ${tasks} tasks for cleanup`);
       }
     });
+  }
+
+  public getUserTasks(uid: string): Observable<LostarkTask[]> {
+    return this.query(where("authorId", "==", uid));
   }
 
   public addTask(task: LostarkTask): Observable<string> {
