@@ -5,7 +5,7 @@
 </nz-page-header>
 
 <ng-container *ngIf="roster$ | async as roster">
-  <nz-alert *ngIf="roster.characters.length === 0"
+  <nz-alert *ngIf="roster.notFound || roster.characters?.length === 0"
             nzMessage="No characters in your roster, please add some in the roster page" nzShowIcon></nz-alert>
   <ng-container *ngIf="display$ | async as display">
     <nz-table [nzData]="[{}]"
