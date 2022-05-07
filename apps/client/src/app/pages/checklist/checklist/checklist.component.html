@@ -1,5 +1,7 @@
 <nz-page-header nzTitle="Checklist"
-                nzSubtitle="Track your daily and weekly tasks with automated resets and rest bonus support"></nz-page-header>
+                nzSubtitle="Track your daily and weekly tasks with automated resets and rest bonus support">
+  <nz-page-header-extra>Ctrl + Click a task to mark it as entirely done in a single click</nz-page-header-extra>
+</nz-page-header>
 
 <ng-container *ngIf="roster$ | async as roster">
   <div class="fullpage-message" *ngIf="roster.length === 0">
@@ -66,15 +68,11 @@
                       <div class="counter roster" *ngIf="row.completion[0] > -1">
                         <div>
                           <button nz-button
-                                  nz-tooltip
-                                  [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
-                                  [nzTooltipMouseEnterDelay]="1"
-                                  #tooltipRef="nzTooltip"
                                   nzSize="small"
                                   nzBlock
                                   nzType="primary"
                                   [disabled]="row.completion[0] >= row.task.amount"
-                                  (click)="tooltipRef.hide();markAsDone(completion, energy, roster[0].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                  (click)="markAsDone(completion, energy, roster[0].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
                             {{row.completion[0]}}/{{row.task.amount}}
                           </button>
                         </div>
@@ -97,14 +95,10 @@
                         <div class="counter">
                           <div>
                             <button nz-button
-                                    nz-tooltip
-                                    [nzTooltipTitle]="row.task.amount > 1 ? 'Ctrl + Click to mark as done entirely' : null"
-                                    [nzTooltipMouseEnterDelay]="1"
-                                    #tooltipRef="nzTooltip"
                                     nzSize="small"
                                     nzType="primary"
                                     [disabled]="col >= row.task.amount"
-                                    (click)="tooltipRef.hide();markAsDone(completion, energy, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                    (click)="markAsDone(completion, energy, roster[i].name, row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
                               {{col}}/{{row.task.amount}}
                             </button>
                           </div>
