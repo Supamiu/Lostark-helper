@@ -33,7 +33,7 @@ export class RosterService extends FirestoreStorage<Roster> {
   override getOne(key: string): Observable<Roster> {
     return super.getOne(key).pipe(
       map(roster => {
-        roster.characters = roster.characters.map(c => {
+        roster.characters = (roster.characters || []).map(c => {
           if (!c.tickets) {
             c.tickets = {
               t1Cube: 0,
