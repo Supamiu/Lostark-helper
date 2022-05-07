@@ -3,7 +3,7 @@ import { UserService } from "../../../core/database/services/user.service";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
-import { combineLatest, map, of, pluck, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, of, pluck, switchMap } from "rxjs";
 import { TimeService } from "../../../core/time.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -23,6 +23,10 @@ export class PartyPlannerComponent {
   public TaskScope = TaskScope;
 
   public roster$ = this.rosterService.roster$;
+
+  public friendIds$ = this.userService.friendIds$;
+
+  public ignoredFriends$ = new BehaviorSubject<string[]>(JSON.parse(localStorage.getItem("party-planner:ignored-friends") || "[]"));
 
   public tasks$ = combineLatest([
     this.tasksService.tasks$,
@@ -50,6 +54,13 @@ export class PartyPlannerComponent {
     })
   );
 
+  private friendIdsToConsider$ = combineLatest([
+    this.friendIds$,
+    this.ignoredFriends$
+  ]).pipe(
+    map(([ids, ignored]) => ids.filter(id => !ignored.includes(id)))
+  );
+
   public display$ = combineLatest([
     this.tasks$,
     this.rosterService.roster$,
@@ -59,7 +70,7 @@ export class PartyPlannerComponent {
     this.settings.settings$.pipe(pluck("lazytracking"))
   ]).pipe(
     switchMap(([tasks, roster, completion, dailyReset, weeklyReset, lazyTracking]) => {
-      return this.userService.friendIds$.pipe(
+      return this.friendIdsToConsider$.pipe(
         switchMap(friendIds => {
           if (friendIds.length === 0) {
             return of([]);
@@ -171,6 +182,11 @@ export class PartyPlannerComponent {
   @HostListener("window:resize")
   setTableHeight(): void {
     this.tableHeight = window.innerHeight - 64 - 48 - 130;
+  }
+
+  setIgnoredFriends(ids: string[]): void {
+    localStorage.setItem("party-planner:ignored-friends", JSON.stringify(ids));
+    this.ignoredFriends$.next(ids);
   }
 
   trackByEntry(index: number, entry: { task: LostarkTask }): string | undefined {

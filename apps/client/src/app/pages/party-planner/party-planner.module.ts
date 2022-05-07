@@ -9,6 +9,9 @@ import { IconsProviderModule } from "../../icons-provider.module";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { PipesModule } from "../../core/pipes/pipes.module";
 import { NzAlertModule } from "ng-zorro-antd/alert";
+import { NzSelectModule } from "ng-zorro-antd/select";
+import { NzInputModule } from "ng-zorro-antd/input";
+import { FormsModule } from "@angular/forms";
 
 const routes: Routes = [{
   path: "",
@@ -26,7 +29,10 @@ const routes: Routes = [{
     IconsProviderModule,
     NzToolTipModule,
     PipesModule,
-    NzAlertModule
+    NzAlertModule,
+    NzSelectModule,
+    NzInputModule,
+    FormsModule
   ]
 })
 export class PartyPlannerModule {

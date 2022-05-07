@@ -2,6 +2,15 @@
   <nz-page-header-extra>
     <a routerLink="/friends" nz-button nzType="primary">Go to friends page</a>
   </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-input-group nzAddOnBefore="Hidden friends" *ngIf="friendIds$ | async as friends">
+      <nz-select class="ignore-friends" nzShowSearch nzMode="multiple" nzPlaceHolder="No hidden friends"
+                 [ngModel]="ignoredFriends$ | async" (ngModelChange)="setIgnoredFriends($event)">
+        <nz-option *ngFor="let friendId of friends" [nzValue]="friendId"
+                   [nzLabel]="friendId | userName | async"></nz-option>
+      </nz-select>
+    </nz-input-group>
+  </nz-page-header-content>
 </nz-page-header>
 
 <ng-container *ngIf="roster$ | async as roster">
