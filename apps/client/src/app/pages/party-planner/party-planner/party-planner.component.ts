@@ -114,6 +114,7 @@ export class PartyPlannerComponent {
                           return {
                             friendId,
                             characters: (friendRoster.characters || [])
+                              .filter(c => !c.isPrivate)
                               .filter(fChar => {
                                 const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
                                 return fDone >= 0 && fDone < task.amount

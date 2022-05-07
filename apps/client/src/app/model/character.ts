@@ -7,4 +7,5 @@ export interface Character {
   lazy: boolean;
   class: LostarkClass;
   index?: number;
+  isPrivate?: boolean;
 }

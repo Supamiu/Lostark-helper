@@ -20,7 +20,7 @@
   <nz-card nzTitle="Characters">
     <nz-list [nzDataSource]="roster.characters" cdkDropList [cdkDropListData]="roster.characters" (cdkDropListDropped)="drop(roster, $event)">
       <nz-list-item *ngFor="let character of roster.characters;trackBy: trackByCharacter"
-                    [nzActions]="[setLazyAction, setClassAction, deleteAction]"
+                    [nzActions]="[setPrivateAction, setLazyAction, setClassAction, deleteAction]"
                     cdkDrag [cdkDragData]="character">
         <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"
                            nzAvatar="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png"></nz-list-item-meta>
@@ -28,6 +28,11 @@
           ilvl
           <nz-input-number [(ngModel)]="character.ilvl"
                            (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
+        </ng-template>
+        <ng-template #setPrivateAction>
+          <label nz-checkbox [(ngModel)]="character.isPrivate" (ngModelChange)="saveCharacter(character, roster)"></label>
+          Private
+          <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Do not share this character with your friends"></i>
         </ng-template>
         <ng-template #setLazyAction>
           <label nz-checkbox [(ngModel)]="character.lazy" (ngModelChange)="saveCharacter(character, roster)"></label>
