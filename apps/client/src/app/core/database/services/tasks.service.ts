@@ -266,10 +266,10 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     );
   }
 
-  saveTasks(tasks: LostarkTask[]): Observable<void> {
+  updateIndexes(tasks: LostarkTask[]): Observable<void> {
     const batch = this.batch();
     tasks.forEach(task => {
-      batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
+      batch.update(this.docRef(task.$key), { index: task.index });
     });
     return from(batch.commit());
   }

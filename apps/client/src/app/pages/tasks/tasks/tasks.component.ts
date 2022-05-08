@@ -101,7 +101,7 @@ export class TasksComponent {
 
   dropTask(event: CdkDragDrop<LostarkTask[]>): void {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.tasksService.saveTasks(event.container.data.map((task, i) => {
+    this.tasksService.updateIndexes(event.container.data.map((task, i) => {
       task.index = i;
       return task;
     }));
