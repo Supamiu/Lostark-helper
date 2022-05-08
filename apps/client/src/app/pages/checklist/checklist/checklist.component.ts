@@ -182,6 +182,7 @@ export class ChecklistComponent {
     } else {
       delete completion.data[getCompletionEntryKey(characterName, task)];
     }
+    this.tasksService.createMissingTasks();
     this.completionService.setOne(completion.$key, completion);
   }
 

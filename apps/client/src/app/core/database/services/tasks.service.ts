@@ -18,7 +18,7 @@ import {
   tap
 } from "rxjs";
 import { tasks } from "../../tasks";
-import { filter } from "rxjs/operators";
+import { filter, first } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
 import { subHours } from "date-fns";
 import { CompletionService } from "./completion.service";
@@ -129,27 +129,6 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
               private completion: CompletionService) {
     super(firestore);
     this.baseData$.pipe(
-      pluck("toCreate"),
-      debounceTime(1000),
-      filter(toCreate => toCreate.length > 0),
-      switchMap(toCreate => {
-        const batch = this.batch();
-        toCreate.forEach(task => {
-          if (task.$key) {
-            batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
-          } else {
-            console.error("Tried to create a task with no key? WTF?");
-          }
-        });
-        return from(batch.commit()).pipe(
-          tap(() => {
-            console.log(`Generated ${toCreate.length} tasks in database.`);
-          })
-        );
-      })
-    ).subscribe();
-
-    this.baseData$.pipe(
       pluck("toUpdate"),
       debounceTime(1000),
       filter(toUpdate => toUpdate.length > 0),
@@ -230,11 +209,36 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     });
   }
 
+  public createMissingTasks(): void {
+    this.baseData$.pipe(
+      first(),
+      pluck("toCreate"),
+      debounceTime(1000),
+      filter(toCreate => toCreate.length > 0),
+      switchMap(toCreate => {
+        const batch = this.batch();
+        toCreate.forEach(task => {
+          if (task.$key) {
+            batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
+          } else {
+            console.error("Tried to create a task with no key? WTF?");
+          }
+        });
+        return from(batch.commit()).pipe(
+          tap(() => {
+            console.log(`Generated ${toCreate.length} tasks in database.`);
+          })
+        );
+      })
+    ).subscribe();
+  }
+
   public getUserTasks(uid: string): Observable<LostarkTask[]> {
     return this.query(where("authorId", "==", uid));
   }
 
   public addTask(task: LostarkTask): Observable<string> {
+    this.createMissingTasks();
     return this.addOne(task);
   }
 
@@ -243,10 +247,12 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   }
 
   public updateTask(task: LostarkTask): Observable<void> {
+    this.createMissingTasks();
     return this.setOne(task.$key, task);
   }
 
   public setTrackAll(tasks: LostarkTask[], track: boolean): Observable<void> {
+    this.createMissingTasks();
     const batch = this.batch();
     tasks.forEach(task => {
       batch.update(this.docRef(task.$key), { enabled: track });
@@ -255,6 +261,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   }
 
   importTasks(tasks: LostarkTask[]): Observable<void> {
+    this.createMissingTasks();
     if (!tasks.length && tasks.length !== 0) {
       throw new Error("Tried to import tasks as Object");
     }
@@ -267,6 +274,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   }
 
   saveTasks(tasks: LostarkTask[]): Observable<void> {
+    this.createMissingTasks();
     const batch = this.batch();
     tasks.forEach(task => {
       batch.set(this.docRef(task.$key), this.converter.toFirestore(task));
