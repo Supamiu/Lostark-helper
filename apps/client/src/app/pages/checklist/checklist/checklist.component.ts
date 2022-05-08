@@ -175,12 +175,11 @@ export class ChecklistComponent {
           });
         }
       }
-    } else if (task.scope === TaskScope.ROSTER && !done) {
-      roster.forEach(c => {
-        delete completion.data[getCompletionEntryKey(c.name, task)];
-      });
     } else {
-      delete completion.data[getCompletionEntryKey(characterName, task)];
+      completion.data[getCompletionEntryKey(characterName, task)] = {
+        amount: 0,
+        updated: Date.now()
+      };
     }
     this.completionService.setOne(completion.$key, completion);
   }

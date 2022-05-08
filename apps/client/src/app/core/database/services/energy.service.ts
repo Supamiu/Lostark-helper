@@ -52,12 +52,19 @@ export class EnergyService extends FirestoreStorage<Energy> {
                     amount: 0
                   };
                   if (completionEntry && (reset - completionEntry.updated) > 86400000) {
-                    const daysWithoutDoingIt = Math.floor((reset - completionEntry.updated) / 86400000);
-                    entry.amount = Math.min(entry.amount + daysWithoutDoingIt * task.amount * 10, 100);
+                    const daysWithoutDoingTheTask = Math.floor((reset - completionEntry.updated) / 86400000);
+                    const daysWithoutEnergyUpdate = Math.floor((reset - energy.updated) / 86400000);
+                    const firstTaskUpdateSinceLastDone = daysWithoutDoingTheTask === daysWithoutEnergyUpdate;
+                    const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * 10 : 0;
+                    const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * 10;
+                    entry.amount = Math.min(entry.amount + timeBonus + baseBonus, 100);
                     energy.data[getCompletionEntryKey(character.name, task)] = entry;
                   } else if (!completionEntry && !newEnergy) {
+                    energy.data[getCompletionEntryKey(character.name, task)] = {
+                      amount: 0
+                    };
                     completion.data[getCompletionEntryKey(character.name, task)] = {
-                      amount: 20,
+                      amount: 0,
                       updated: Date.now()
                     };
                   }
@@ -83,7 +90,6 @@ export class EnergyService extends FirestoreStorage<Energy> {
               private tasksService: TasksService, private completionService: CompletionService) {
     super(firestore);
   }
-
 
   public save(energy: Energy): void {
     this.setOne(energy.$key, energy);
