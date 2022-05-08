@@ -15,6 +15,10 @@ const routes: Routes = [
     path: "party-planner",
     loadChildren: () => import("./pages/party-planner/party-planner.module").then(m => m.PartyPlannerModule)
   },
+  {
+    path: "mari-optimizer",
+    loadChildren: () => import("./pages/mari-optimizer/mari-optimizer.module").then(m => m.MariOptimizerModule)
+  },
   { path: "settings", loadChildren: () => import("./pages/settings/settings.module").then(m => m.SettingsModule) }
 ];
 

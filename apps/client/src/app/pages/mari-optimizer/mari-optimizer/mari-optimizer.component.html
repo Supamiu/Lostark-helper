@@ -1,0 +1,9 @@
+<nz-page-header nzTitle="Mari Optimizer"
+                nzSubtitle="Compare Mari's offers with marketboard prices to see what's worth buying">
+  <nz-page-header-content>
+      Current exchange rate: <nz-input-group [nzAddOnBefore]="crystalIconTpl"><nz-input-number [ngModel]="goldPrice$ | async" (ngModelChange)="goldPrice$.next($event)"></nz-input-number></nz-input-group>
+    <ng-template #crystalIconTpl>
+      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon" src="./assets/icons/gold.png" alt="Gold">x
+    </ng-template>
+  </nz-page-header-content>
+</nz-page-header>
