@@ -133,10 +133,9 @@ export class PartyPlannerComponent {
                         .filter(res => res.characters.length > 0)
                     };
                   })
-                  .filter(res => res.friends.length > 0)
               };
             })
-            .filter(ticket => ticket.data.length > 0);
+            .filter(ticket => ticket.data.filter(row => row.friends.length > 0).length > 0);
           return tasks
             .map(task => {
               return {
