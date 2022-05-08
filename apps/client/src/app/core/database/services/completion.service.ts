@@ -30,10 +30,6 @@ export class CompletionService extends FirestoreStorage<Completion> {
     super(firestore);
   }
 
-  override setOne(key: string, row: Omit<Completion, "$key" | "notFound">): Observable<void> {
-    return super.setOne(key, row);
-  }
-
   protected getCollectionName(): string {
     return "completion";
   }
