@@ -66,7 +66,7 @@ export class GoldPlannerComponent {
         })
         .filter(({ task }) => {
           return !task || (task.enabled
-            && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= task.maxIlvl));
+            && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
         .map(({ gTask, task }, i, array) => {
           const flagsData = roster.map(character => {
@@ -76,7 +76,7 @@ export class GoldPlannerComponent {
                 value: null
               };
             }
-            const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= task.maxIlvl);
+            const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
             const cantDoGoldTask = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
             const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
             if (gTask.entryId) {

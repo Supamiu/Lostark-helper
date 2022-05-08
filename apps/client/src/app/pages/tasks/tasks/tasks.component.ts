@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { LostarkTask } from "../../../model/lostark-task";
+import { createTask, LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -13,7 +13,7 @@ import { filter } from "rxjs/operators";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { AuthService } from "../../../core/database/services/auth.service";
-import { map } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs";
 
 @Component({
   selector: "lostark-helper-tasks",
@@ -25,7 +25,8 @@ export class TasksComponent {
   public TaskScope = TaskScope;
 
   public tasks$ = this.tasksService.tasks$.pipe(
-    map(tasks => tasks.sort((a, b) => a.index - b.index))
+    map(tasks => tasks.sort((a, b) => a.index - b.index)),
+    distinctUntilChanged((a,b) => JSON.stringify(a) === JSON.stringify(b))
   );
 
   public form = this.fb.group({
@@ -79,7 +80,7 @@ export class TasksComponent {
 
   addTask(uid: string): void {
     const formData = this.form.getRawValue();
-    const task = new LostarkTask(
+    const task = createTask(
       formData.label,
       formData.minIlvl,
       formData.frequency,

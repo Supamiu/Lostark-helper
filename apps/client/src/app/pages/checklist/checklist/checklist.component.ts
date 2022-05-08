@@ -58,7 +58,7 @@ export class ChecklistComponent {
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.some(c => c.ilvl <= task.maxIlvl && c.ilvl >= (task.minIlvl || 0)));
+          (!task.maxIlvl || roster.some(c => c.ilvl <= (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0)));
       });
     })
   );
@@ -85,7 +85,7 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
-              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < task.maxIlvl,
+              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
               energy: energy.data[getCompletionEntryKey(character.name, task)] || 0
             };
           });

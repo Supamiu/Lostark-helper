@@ -54,7 +54,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
             ...toCreate,
             ...userTasks
               .map((t) => {
-                const instance = new LostarkTask();
+                const instance = { ...t };
                 if (!t.custom && t.version < TASKS_VERSION) {
                   const defaultTask = this.sortedTasks.find(dt => dt.label?.toLowerCase() === t.label?.toLowerCase() && dt.frequency === t.frequency && !dt.custom);
                   if (defaultTask) {

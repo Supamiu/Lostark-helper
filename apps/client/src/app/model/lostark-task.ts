@@ -5,29 +5,50 @@ import { DataModel } from "../core/database/data-model";
 
 export const TASKS_VERSION = 24;
 
-export class LostarkTask implements DataModel {
-  public $key!: string;
-  public notFound?: boolean;
-  public authorId!: string;
-  public version = TASKS_VERSION;
+export interface LostarkTask extends DataModel {
+  authorId?: string;
+  version: number;
+  index: number;
+  daysFilter: number[];
+  enabled: boolean;
+  custom: boolean;
+  shared: boolean;
+  partySize: number;
+  label: string;
+  minIlvl: number;
+  frequency: TaskFrequency;
+  scope: TaskScope;
+  amount: number;
+  maxIlvl?: number;
+  iconPath?: string;
+}
 
-  public index = -1;
-  public daysFilter: number[] = [];
-  public enabled = true;
-  public custom = false;
-  public shared = false;
-  public partySize = 0;
-
-  constructor(
-    public label?: string,
-    public minIlvl?: number,
-    public frequency?: TaskFrequency,
-    public scope?: TaskScope,
-    public amount = 1,
-    public maxIlvl = 9999,
-    public iconPath?: string,
-    additionalParams: Partial<LostarkTask> = {}
-  ) {
-    Object.assign(this, additionalParams);
-  }
+export function createTask(
+  label: string,
+  minIlvl: number,
+  frequency: TaskFrequency,
+  scope: TaskScope,
+  amount = 1,
+  maxIlvl = 9999,
+  iconPath?: string,
+  additionalParams: Partial<LostarkTask> = {}
+): LostarkTask {
+  return {
+    $key: 'generated',
+    label,
+    minIlvl,
+    frequency,
+    scope,
+    amount,
+    maxIlvl,
+    iconPath,
+    version: TASKS_VERSION,
+    index: -1,
+    daysFilter: [],
+    enabled: true,
+    custom: false,
+    shared: false,
+    partySize: 0,
+    ...additionalParams
+  };
 }

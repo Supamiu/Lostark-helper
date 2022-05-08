@@ -44,7 +44,11 @@ export class PartyPlannerComponent {
             return [task];
           }
           return taskChildren.map((child, i) => {
-            return new LostarkTaskWithSubtask(task, child, taskChildren[i + 1]?.minIlvl - 1 || 9999);
+            return {
+              ...task,
+              subTask: child,
+              maxIlvl: taskChildren[i + 1]?.minIlvl - 1 || 9999
+            } as LostarkTaskWithSubtask;
           });
         })
         .flat()
@@ -52,7 +56,7 @@ export class PartyPlannerComponent {
           return task.enabled
             && task.shared
             && !task.custom
-            && roster.characters.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl < task.maxIlvl);
+            && roster.characters.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl < (task.maxIlvl || Infinity));
         });
     })
   );
@@ -143,7 +147,7 @@ export class PartyPlannerComponent {
                 data: roster.characters
                   .map(character => {
                     const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, lazyTracking);
-                    const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl <= task.maxIlvl;
+                    const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl <= (task.maxIlvl || Infinity);
                     if (done === -1 || done >= task.amount || !canDo) {
                       return {
                         task,
@@ -169,7 +173,7 @@ export class PartyPlannerComponent {
                                 .filter(fChar => {
                                   const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
                                   return fDone >= 0 && fDone < task.amount
-                                    && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= task.maxIlvl;
+                                    && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= (task.maxIlvl || Infinity);
                                 })
                                 .map(c => {
                                   return {
