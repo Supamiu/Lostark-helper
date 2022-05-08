@@ -13,7 +13,7 @@ export function isTaskDone(task: LostarkTask, character: Character, completion: 
     }
   }
   const currentLADay = subHours(new Date(), 10);
-  if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay() - 1)) {
+  if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay())) {
     return -1;
   }
   const completionFlag = completion.data[getCompletionEntryKey(character.name, task)];
