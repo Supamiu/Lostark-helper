@@ -147,7 +147,7 @@ export class PartyPlannerComponent {
                 data: roster.characters
                   .map(character => {
                     const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, lazyTracking);
-                    const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl <= (task.maxIlvl || Infinity);
+                    const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity);
                     if (done === -1 || done >= task.amount || !canDo) {
                       return {
                         task,
