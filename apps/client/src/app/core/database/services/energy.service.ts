@@ -9,6 +9,9 @@ import { RosterService } from "./roster.service";
 import { TimeService } from "../../time.service";
 import { CompletionService } from "./completion.service";
 import { TasksService } from "./tasks.service";
+import { CompletionEntry } from "../../../model/completion-entry";
+import { LostarkTask } from "../../../model/lostark-task";
+import { Character } from "../../../model/character";
 
 @Injectable({
   providedIn: "root"
@@ -52,13 +55,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
                     amount: 0
                   };
                   if (completionEntry && (reset - completionEntry.updated) > 86400000) {
-                    const daysWithoutDoingTheTask = Math.floor((reset - completionEntry.updated) / 86400000);
-                    const daysWithoutEnergyUpdate = Math.floor((reset - energy.updated) / 86400000);
-                    const firstTaskUpdateSinceLastDone = daysWithoutDoingTheTask === daysWithoutEnergyUpdate;
-                    const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * 10 : 0;
-                    const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * 10;
-                    entry.amount = Math.min(entry.amount + timeBonus + baseBonus, 100);
-                    energy.data[getCompletionEntryKey(character.name, task)] = entry;
+                    energy.data[getCompletionEntryKey(character.name, task)] = this.getEnergyUpdate(reset, completionEntry, energy, task, entry);
                   } else if (!completionEntry && !newEnergy) {
                     energy.data[getCompletionEntryKey(character.name, task)] = {
                       amount: 0
@@ -89,6 +86,16 @@ export class EnergyService extends FirestoreStorage<Energy> {
               private rosterService: RosterService, private timeService: TimeService,
               private tasksService: TasksService, private completionService: CompletionService) {
     super(firestore);
+  }
+
+  public getEnergyUpdate(reset: number, completionEntry: CompletionEntry, energy: Energy, task: LostarkTask, entry: { amount: number }): { amount: number } {
+    const daysWithoutDoingTheTask = Math.ceil((reset - completionEntry.updated) / 86400000);
+    const daysWithoutEnergyUpdate = Math.ceil((reset - energy.updated) / 86400000);
+    const firstTaskUpdateSinceLastDone = daysWithoutDoingTheTask === daysWithoutEnergyUpdate;
+    const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * 10 : 0;
+    const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * 10;
+    entry.amount = Math.min(entry.amount + timeBonus + baseBonus, 100);
+    return entry;
   }
 
   public save(energy: Energy): void {
