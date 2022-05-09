@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { combineLatest, map, merge, ReplaySubject } from "rxjs";
 import { mariTrades } from "../../mari-optimizer/mari-trades";
-import { RosterService } from "../../../core/database/services/roster.service";
 import { honingChances } from "../honing-chances";
 import { MariTrade } from "../../mari-optimizer/mari-trade";
 
@@ -120,10 +119,10 @@ export class HoningCostOptimizerComponent {
               item,
               quantity: honingItemsQuantities[item.name.toLowerCase().replace("solar ", "")],
               isHoningItem: true,
-              price: prices[`${item.name}:${item.quantity}`]
+              price: prices[`${item.name}:${item.quantity}`] || 0
             };
             if (buyFromMari) {
-              entry.price = item.crystalPrice * (goldPer95Crystal / 95) / item.quantity;
+              entry.price = Math.ceil(item.crystalPrice * (goldPer95Crystal / 95) / item.quantity);
             }
             return entry;
           })
@@ -147,7 +146,7 @@ export class HoningCostOptimizerComponent {
     this.appliedChances$
   ]).pipe(
     map(([honing, materials, baseChances, chances]) => {
-      const goldPricePerTentative = materials
+      const goldPricePerTentative = Math.floor(materials
         .filter(m => !m.item?.name?.startsWith("Solar"))
         .reduce((acc, material) => {
           let buyoutsNeeded = Math.ceil(material.quantity / (material.item?.mbQuantity || 1));
@@ -155,14 +154,14 @@ export class HoningCostOptimizerComponent {
             buyoutsNeeded = buyoutsNeeded / 500;
           }
           return acc + material.price * buyoutsNeeded;
-        }, honing?.gold || 0);
+        }, honing?.gold || 0));
 
-      const honingChanceItemsCost = materials
+      const honingChanceItemsCost = Math.floor(materials
         .filter(m => m.item?.name?.startsWith("Solar"))
         .reduce((acc, material) => {
           const buyoutsNeeded = Math.ceil(material.quantity / (material.item?.mbQuantity || 1));
           return acc + material.price * buyoutsNeeded;
-        }, 0);
+        }, 0));
       const preparedBaseChances = 1 - (1.1 * baseChances / 100);
       const preparedChances = 1 - (chances / 100);
       const chancesForTwoTries = (1 - (preparedChances * preparedBaseChances)) * 100;
@@ -189,9 +188,6 @@ export class HoningCostOptimizerComponent {
     })
   );
 
-  constructor(private rosterService: RosterService) {
-  }
-
   setItemPrice(trade?: MariTrade, price?: number): void {
     if (trade && price) {
       this.itemPrices$.next({
@@ -206,5 +202,9 @@ export class HoningCostOptimizerComponent {
       ...this.chanceItemsQuantities$.value,
       [quantityKey]: quantity
     });
+  }
+
+  trackByIndex(index: number): number {
+    return index;
   }
 }

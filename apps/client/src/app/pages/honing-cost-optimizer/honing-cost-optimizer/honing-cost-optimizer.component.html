@@ -38,7 +38,7 @@
       <nz-form-label nzSpan="7">Target</nz-form-label>
       <nz-form-control *ngIf="targets$ | async as targets">
         <nz-select [ngModel]="target$ | async" (ngModelChange)="target$.next($event)" name="rarity">
-          <nz-option *ngFor="let target of targets" [nzValue]="target.target" nzLabel="+{{target.target}}"></nz-option>
+          <nz-option *ngFor="let target of targets; trackBy:trackByIndex" [nzValue]="target.target" nzLabel="+{{target.target}}"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -61,7 +61,7 @@
       <nz-form-control *ngIf="chanceItemsQuantitiesDisplay$ | async as chanceItemsQuantities">
         <nz-switch nzCheckedChildren="Buy from Mari" nzUnCheckedChildren="Buy from MB" [ngModel]="buyFromMari$ | async"
                    (ngModelChange)="buyFromMari$.next($event)" name="buy-from-mari"></nz-switch>
-        <nz-input-group [nzAddOnBefore]="itemTpl" *ngFor="let material of chanceItemsQuantities" class="price-input">
+        <nz-input-group [nzAddOnBefore]="itemTpl" *ngFor="let material of chanceItemsQuantities; trackBy:trackByIndex" class="price-input">
           <ng-template #itemTpl>
             <div class="price-prefix">
               <img src="./assets/icons/shop/{{material.icon}}" alt="{{material.name}}" *ngIf="material.icon" class="item-icon">
@@ -77,7 +77,7 @@
     <nz-form-item>
       <nz-form-label nzSpan="7">Materials Costs</nz-form-label>
       <nz-form-control>
-        <nz-input-group *ngFor="let material of materialsNeeded$ | async" [nzAddOnBefore]="itemTpl" [nzAddOnAfter]="priceSuffix" class="price-input">
+        <nz-input-group *ngFor="let material of materialsNeeded$ | async; trackBy:trackByIndex" [nzAddOnBefore]="itemTpl" [nzAddOnAfter]="priceSuffix" class="price-input">
           <ng-template #itemTpl>
             <div class="price-prefix">
               <img src="./assets/icons/shop/{{material.item?.icon}}" alt="{{material.item?.name}}" *ngIf="material.item?.icon" class="item-icon">
