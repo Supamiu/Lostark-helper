@@ -1,9 +1,58 @@
 <nz-page-header nzTitle="Mari Optimizer"
                 nzSubtitle="Compare Mari's offers with marketboard prices to see what's worth buying">
   <nz-page-header-content>
-      Current exchange rate: <nz-input-group [nzAddOnBefore]="crystalIconTpl"><nz-input-number [ngModel]="goldPrice$ | async" (ngModelChange)="goldPrice$.next($event)"></nz-input-number></nz-input-group>
+    Current exchange rate:
+    <nz-input-group [nzAddOnBefore]="crystalIconTpl">
+      <nz-input-number [ngModel]="exchangeRateGoldPrice$ | async"
+                       (ngModelChange)="exchangeRateGoldPrice$.next($event)"></nz-input-number>
+    </nz-input-group>
     <ng-template #crystalIconTpl>
-      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon" src="./assets/icons/gold.png" alt="Gold">x
+      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon"
+                                                                                         src="./assets/icons/gold.png"
+                                                                                         alt="Gold">x
     </ng-template>
   </nz-page-header-content>
 </nz-page-header>
+
+<nz-table *ngIf="display$ | async as display"
+          #table
+          [nzData]="display"
+          [nzPageSize]="99"
+          nzHideOnSinglePage
+          nzSize="middle">
+  <thead>
+  <tr>
+    <th>Item</th>
+    <th>Marketboard price</th>
+    <th>Cheaper by %</th>
+    <th>Optimized purchase</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of table.data; trackBy: trackByDisplayRow">
+    <td><img src="./assets/icons/shop/{{row.trade.icon}}" alt="" *ngIf="row.trade.icon" class="item-icon">{{row.trade.name}}
+      [{{row.trade.quantity}}]
+    </td>
+    <td>
+      <nz-input-group [nzAddOnBefore]="goldIconTpl" [nzAddOnAfter]="suffix" class="gold-price-input">
+        <ng-template #goldIconTpl><img class="prefix-icon" src="./assets/icons/gold.png" alt="Gold"></ng-template>
+        <nz-input-number [ngModel]="row.itemPriceEntry"
+                         (ngModelChange)="setItemPrice(row.trade, $event)"></nz-input-number>
+        <ng-template #suffix>/{{row.trade.mbQuantity}}</ng-template>
+      </nz-input-group>
+
+    </td>
+    <td>
+      <span class="price-diff"
+            *ngIf="row.itemPriceEntry > 0"
+            [class.bad]="row.diffPercent < 0"
+            [class.good]="row.diffPercent > 0">{{row.diffPercent}}%</span>
+      <span *ngIf="row.itemPriceEntry === 0">Please set a marketboard price</span>
+    </td>
+    <td>
+      <span *ngIf="row.diffPercent > 0"><img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal"> Mari</span>
+      <span *ngIf="row.diffPercent <= 0"><img class="prefix-icon" src="./assets/icons/gold.png" alt="Gold"> Marketboard</span>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

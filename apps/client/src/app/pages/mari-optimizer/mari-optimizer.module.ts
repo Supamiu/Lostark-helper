@@ -6,6 +6,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { FormsModule } from "@angular/forms";
+import { NzTableModule } from "ng-zorro-antd/table";
 
 const routes: Routes = [{
   path: '',
@@ -21,7 +22,8 @@ const routes: Routes = [{
     NzPageHeaderModule,
     NzInputModule,
     NzInputNumberModule,
-    FormsModule
+    FormsModule,
+    NzTableModule
   ]
 })
 export class MariOptimizerModule {}
