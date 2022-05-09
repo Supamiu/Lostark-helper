@@ -1,0 +1,146 @@
+<nz-page-header nzTitle="Honing Cost Optimizer"
+                nzSubtitle="Check if it's cheaper to buy additional honing materials or use honing chances upgrade materials">
+  <nz-page-header-content>
+    Current exchange rate:
+    <nz-input-group [nzAddOnBefore]="crystalIconTpl">
+      <nz-input-number [ngModel]="exchangeRateGoldPrice$ | async"
+                       (ngModelChange)="exchangeRateGoldPrice$.next($event)"></nz-input-number>
+    </nz-input-group>
+    <ng-template #crystalIconTpl>
+      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon"
+                                                                                         src="./assets/icons/gold.png"
+                                                                                         alt="Gold">x
+    </ng-template>
+  </nz-page-header-content>
+</nz-page-header>
+
+<div nz-row [nzGutter]="[20,20]">
+  <form nz-form nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24">
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Gear piece type</nz-form-label>
+      <nz-form-control>
+        <nz-select [ngModel]="type$ | async" (ngModelChange)="type$.next($event)" name="type">
+          <nz-option nzValue="armor" nzLabel="Armor"></nz-option>
+          <nz-option nzValue="weapon" nzLabel="Weapon"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Rarity</nz-form-label>
+      <nz-form-control>
+        <nz-select [ngModel]="rarity$ | async" (ngModelChange)="rarity$.next($event)" name="target">
+          <nz-option nzValue="epic" nzLabel="Epic"></nz-option>
+          <nz-option nzValue="legendary/relic" nzLabel="Legendary/Relic"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Target</nz-form-label>
+      <nz-form-control *ngIf="targets$ | async as targets">
+        <nz-select [ngModel]="target$ | async" (ngModelChange)="target$.next($event)" name="rarity">
+          <nz-option *ngFor="let target of targets" [nzValue]="target.target" nzLabel="+{{target.target}}"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Current chances</nz-form-label>
+      <nz-form-control *ngIf="appliedChances$ | async as chances">
+        <nz-input-group nzAddOnAfter="%">
+          <nz-input-number [ngModel]="chances" (ngModelChange)="chancesInput$.next($event)" name="chances" class="number-input"></nz-input-number>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Include shards price</nz-form-label>
+      <nz-form-control>
+        <label nz-checkbox [ngModel]="includeShards$ | async" (ngModelChange)="includeShards$.next($event)" name="includeShards"></label>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Honing Items</nz-form-label>
+      <nz-form-control *ngIf="chanceItemsQuantitiesDisplay$ | async as chanceItemsQuantities">
+        <nz-switch nzCheckedChildren="Buy from Mari" nzUnCheckedChildren="Buy from MB" [ngModel]="buyFromMari$ | async"
+                   (ngModelChange)="buyFromMari$.next($event)" name="buy-from-mari"></nz-switch>
+        <nz-input-group [nzAddOnBefore]="itemTpl" *ngFor="let material of chanceItemsQuantities" class="price-input">
+          <ng-template #itemTpl>
+            <div class="price-prefix">
+              <img src="./assets/icons/shop/{{material.icon}}" alt="{{material.name}}" *ngIf="material.icon" class="item-icon">
+              {{material.name}}
+            </div>
+          </ng-template>
+          <nz-input-number [ngModel]="material.quantity"
+                           (ngModelChange)="setHoningItemQuantity(material.quantityKey, $event)"
+                           name="{{material.name}}-price"></nz-input-number>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="7">Materials Costs</nz-form-label>
+      <nz-form-control>
+        <nz-input-group *ngFor="let material of materialsNeeded$ | async" [nzAddOnBefore]="itemTpl" [nzAddOnAfter]="priceSuffix" class="price-input">
+          <ng-template #itemTpl>
+            <div class="price-prefix">
+              <img src="./assets/icons/shop/{{material.item?.icon}}" alt="{{material.item?.name}}" *ngIf="material.item?.icon" class="item-icon">
+              {{material.item?.name}}
+            </div>
+          </ng-template>
+          <ng-template #priceSuffix>
+            <img src="./assets/icons/gold.png" alt="Gold" class="item-icon">
+            /{{material.item?.mbQuantity}}
+          </ng-template>
+          <nz-input-number
+            [nzDisabled]="material.isHoningItem && (buyFromMari$ | async)"
+            [ngModel]="material.price"
+            (ngModelChange)="setItemPrice(material.item, $event)"
+            name="{{material?.priceKey}}-price"
+            class="number-input"></nz-input-number>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-card [nzLg]="16" [nzMd]="12" [nzSm]="24" nz-col nzTitle="Metrics and optimizations" *ngIf="result$ | async as result">
+    <ng-template #goldIconTpl>
+      <img src="./assets/icons/gold.png" alt="Gold" class="item-icon">
+    </ng-template>
+    <nz-row [nzGutter]="[16, 16]">
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Max honing chances" [nzValue]="result.maxChances" nzSuffix="%">
+        </nz-statistic>
+      </nz-col>
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Cost per try @ {{result.chances}}%" [nzValue]="(result.goldPricePerTentative | number: '1.0-0')!" [nzPrefix]="goldIconTpl">
+        </nz-statistic>
+      </nz-col>
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Cost per try @ {{result.maxChances}}%" [nzValue]="(result.goldPricePerTentativeWithHoningMaterials | number: '1.0-0')!" [nzPrefix]="goldIconTpl">
+        </nz-statistic>
+      </nz-col>
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Gold per % chance @ {{result.maxChances}}%" [nzValue]="(result.pricePerPercentBoosted | number: '1.0-0')!" [nzPrefix]="goldIconTpl">
+        </nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="[16, 16]">
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Chances to succeed after 2 tries" [nzValue]="(result.chancesForTwoTries | number:'1.2')!" nzSuffix="%">
+        </nz-statistic>
+      </nz-col>
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Cost for two tries" [nzValue]="(result.goldPriceForTwoTries | number: '1.0-0')!" [nzPrefix]="goldIconTpl">
+        </nz-statistic>
+      </nz-col>
+      <nz-col>
+        <nz-statistic nz-col nzTitle="Gold per % chance for two tries" [nzValue]="(result.pricePerPercentTwoTries | number: '1.0-0')!" [nzPrefix]="goldIconTpl">
+        </nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="[16, 16]">
+      <nz-col>
+        <nz-statistic nz-col
+                      nzTitle="Conclusion"
+                      [nzValue]="result.conclusion">
+        </nz-statistic>
+      </nz-col>
+    </nz-row>
+  </nz-card>
+</div>
