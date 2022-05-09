@@ -175,7 +175,7 @@ export const mariTrades: MariTrade[] = [
   // Fusion Materials
   {
     name: "Basic Oreha Fusion Material",
-    icon: "",
+    icon: "basic_oreha.png",
     crystalPrice: 72,
     minIlvl: 1302,
     maxIlvl: 9999,
@@ -184,7 +184,7 @@ export const mariTrades: MariTrade[] = [
   },
   {
     name: "Simple Oreha Fusion Material",
-    icon: "",
+    icon: "simple_oreha.png",
     crystalPrice: 54,
     minIlvl: 1302,
     maxIlvl: 9999,
@@ -193,7 +193,7 @@ export const mariTrades: MariTrade[] = [
   },
   {
     name: "Caldarr Fusion Material",
-    icon: "",
+    icon: "caldarr.png",
     crystalPrice: 60,
     minIlvl: 802,
     maxIlvl: 1100,
