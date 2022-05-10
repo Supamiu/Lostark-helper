@@ -34,7 +34,7 @@ describe("EnergyService", () => {
           provide: TimeService,
           useValue: {
             // Sun 08/05/2022 @10AM UTC +1s
-            lastDailyReset$: of(1652005000)
+            lastDailyReset$: of(1652005000000)
           }
         },
         {
@@ -71,13 +71,27 @@ describe("EnergyService", () => {
   });
 
   it("should update energy properly", () => {
-    const reset = 1652005000;
+    const reset = 1652005000000;
     const twoDaysBefore = reset + 3600000 - 2 * 86400000;
     const completionEntry: CompletionEntry = {
       amount: 2,
       updated: twoDaysBefore
     };
     const energy = { $key: "test", data: {}, updated: twoDaysBefore };
+    const task = tasks[0]; // Chaos dungeon
+    const entry = { amount: 0 };
+
+    expect(service.getEnergyUpdate(reset, completionEntry, energy, task, entry).amount).toBe(20);
+  });
+
+  it("should update energy properly on specific case", () => {
+    const reset = 1652176800000;
+    const completionDate = 1652038911993;
+    const completionEntry: CompletionEntry = {
+      amount: 2,
+      updated: completionDate
+    };
+    const energy = { $key: "test", data: {}, updated: 1652176800000 - 3600000 };
     const task = tasks[0]; // Chaos dungeon
     const entry = { amount: 0 };
 
