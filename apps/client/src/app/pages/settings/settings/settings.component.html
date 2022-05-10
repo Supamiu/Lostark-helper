@@ -23,33 +23,38 @@
       <ng-container *ngIf="lazyFlags$ | async as lazyFlags">
         <div nz-row class="lazy-matrix">
           <nz-card nz-col nzMd="24" nzTitle="Lazy tasks" nzSize="small">
-            <div *ngIf="lazyFlags.length > 0">
-              <nz-table #tasksTable [nzData]="lazyFlags"
-                        [nzPageSize]="999"
-                        nzHideOnSinglePage
-                        nzSize="middle">
-                <thead>
-                <tr>
-                  <th>Task</th>
-                  <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let row of tasksTable.data; trackBy: trackByTask">
-                  <td class="task-name">
-                    <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
-                    {{row.task.label}}
-                  </td>
-                  <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
-                    <nz-switch nzCheckedChildren="Lazy"
-                               nzUnCheckedChildren="Not Lazy"
-                               [ngModel]="flag"
-                               (ngModelChange)="setLazyFlag(settings.$key, tracking, row.task, roster[i], $event)"></nz-switch>
-                  </td>
-                </tr>
-                </tbody>
-              </nz-table>
-            </div>
+            <ng-container *ngIf="hasLazyCharacters$ | async; else noLazyCharacters">
+              <div *ngIf="lazyFlags.length > 0">
+                <nz-table #tasksTable [nzData]="lazyFlags"
+                          [nzPageSize]="999"
+                          nzHideOnSinglePage
+                          nzSize="middle">
+                  <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let row of tasksTable.data; trackBy: trackByTask">
+                    <td class="task-name">
+                      <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
+                      {{row.task.label}}
+                    </td>
+                    <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
+                      <nz-switch nzCheckedChildren="Lazy"
+                                 nzUnCheckedChildren="Not Lazy"
+                                 [ngModel]="flag"
+                                 (ngModelChange)="setLazyFlag(settings.$key, tracking, row.task, roster[i], $event)"></nz-switch>
+                    </td>
+                  </tr>
+                  </tbody>
+                </nz-table>
+              </div>
+            </ng-container>
+            <ng-template #noLazyCharacters>
+              <nz-empty nzNotFoundContent="No lazy characters"></nz-empty>
+            </ng-template>
           </nz-card>
         </div>
         <ng-container *ngIf="energy$ | async as energy">

@@ -81,6 +81,10 @@ export class SettingsComponent {
     })
   );
 
+  public hasLazyCharacters$ = this.roster$.pipe(
+    map(roster => roster.some(c => c.lazy))
+  );
+
   public hasLocalstorageData = false;
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
