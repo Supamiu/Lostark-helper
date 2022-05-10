@@ -12,7 +12,9 @@
         <thead>
         <tr>
           <th>Source</th>
-          <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]</th>
+          <th *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]
+            <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note"
+               nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i></th>
         </tr>
         </thead>
         <tbody>

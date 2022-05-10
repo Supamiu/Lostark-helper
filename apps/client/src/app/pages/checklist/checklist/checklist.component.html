@@ -91,6 +91,8 @@
                        class="class-icon" *ngIf="character.class !== null">
                   {{character.name}} [{{character.ilvl}}]
                   <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i>
+                  <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note"
+                     nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i>
                   <i nz-icon nzType="clock-circle" nzTheme="outline" *ngIf="character.lazy"
                      nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
                 </div>

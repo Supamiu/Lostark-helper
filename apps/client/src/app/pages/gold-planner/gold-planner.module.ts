@@ -8,6 +8,8 @@ import { NzSwitchModule } from "ng-zorro-antd/switch";
 import { FormsModule } from "@angular/forms";
 import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
+import { IconsProviderModule } from "../../icons-provider.module";
+import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 const routes: Routes = [{
   path: "",
@@ -24,7 +26,9 @@ const routes: Routes = [{
     NzSwitchModule,
     FormsModule,
     NzPageHeaderModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    IconsProviderModule,
+    NzToolTipModule
   ]
 })
 export class GoldPlannerModule {
