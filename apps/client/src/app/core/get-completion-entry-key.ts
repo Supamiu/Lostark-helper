@@ -21,8 +21,10 @@ export function getCompletionEntry<T>(data: Record<string, T>, character: Charac
 }
 
 export function setCompletionEntry<T>(data: Record<string, T>, character: Character, task: LostarkTask, entry: T): void {
-  data[getCompletionEntryKey(character, task)] = entry;
-  if (data[getCompletionEntryKey(character, task, true)]) {
-    delete data[getCompletionEntryKey(character, task, true)];
+  const key = getCompletionEntryKey(character, task);
+  data[key] = entry;
+  const fullNameKey = getCompletionEntryKey(character, task, true);
+  if (key !== fullNameKey && data[fullNameKey]) {
+    delete data[fullNameKey];
   }
 }
