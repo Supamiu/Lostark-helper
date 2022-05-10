@@ -2,7 +2,7 @@ import { LostarkTask } from "../model/lostark-task";
 import { Character } from "../model/character";
 import { Completion } from "../model/completion";
 import { subDays, subHours } from "date-fns";
-import { getCompletionEntryKey } from "./get-completion-entry-key";
+import { getCompletionEntry } from "./get-completion-entry-key";
 import { TaskFrequency } from "../model/task-frequency";
 
 export function isTaskDone(task: LostarkTask, character: Character, completion: Completion, dailyReset: number, weeklyReset: number, lazyTracking: Record<string, boolean>): number {
@@ -16,7 +16,7 @@ export function isTaskDone(task: LostarkTask, character: Character, completion: 
   if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay())) {
     return -1;
   }
-  const completionFlag = completion.data[getCompletionEntryKey(character.name, task)];
+  const completionFlag = getCompletionEntry(completion.data, character, task);
   const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
   if (!completionFlag) {
     return 0;

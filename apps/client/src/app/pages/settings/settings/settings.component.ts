@@ -5,7 +5,7 @@ import { Character } from "../../../model/character";
 import { TaskScope } from "../../../model/task-scope";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Energy } from "../../../model/energy";
-import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
+import { getCompletionEntry, getCompletionEntryKey } from "../../../core/get-completion-entry-key";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { Settings } from "../../../model/settings";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -75,7 +75,7 @@ export class SettingsComponent {
         .map(task => {
           return {
             task,
-            energy: roster.characters.map(c => energy.data[getCompletionEntryKey(c.name, task)]?.amount || 0)
+            energy: roster.characters.map(c => getCompletionEntry(energy.data, c, task)?.amount || 0)
           };
         });
     })
@@ -123,7 +123,7 @@ export class SettingsComponent {
 
   setRestBonus(energy: Energy, task: LostarkTask, character: Character, value: number): void {
     this.energyService.updateOne(energy.$key, {
-      [`data.${getCompletionEntryKey(character.name, task)}`]: { amount: Math.max(Math.min(100, value), 0) }
+      [`data.${getCompletionEntryKey(character, task)}`]: { amount: Math.max(Math.min(100, value), 0) }
     });
   }
 

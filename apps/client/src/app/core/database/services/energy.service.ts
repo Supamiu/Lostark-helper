@@ -4,14 +4,13 @@ import { Firestore } from "@angular/fire/firestore";
 import { combineLatest, map, mapTo, Observable, of, shareReplay, switchMap } from "rxjs";
 import { AuthService } from "./auth.service";
 import { Energy } from "../../../model/energy";
-import { getCompletionEntryKey } from "../../get-completion-entry-key";
+import { getCompletionEntry, setCompletionEntry } from "../../get-completion-entry-key";
 import { RosterService } from "./roster.service";
 import { TimeService } from "../../time.service";
 import { CompletionService } from "./completion.service";
 import { TasksService } from "./tasks.service";
 import { CompletionEntry } from "../../../model/completion-entry";
 import { LostarkTask } from "../../../model/lostark-task";
-import { Character } from "../../../model/character";
 
 @Injectable({
   providedIn: "root"
@@ -50,20 +49,18 @@ export class EnergyService extends FirestoreStorage<Energy> {
               tasks
                 .filter(task => ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)) && !task.custom)
                 .forEach(task => {
-                  const completionEntry = completion.data[getCompletionEntryKey(character.name, task)];
-                  const entry = energy.data[getCompletionEntryKey(character.name, task)] || {
+                  const completionEntry = getCompletionEntry(completion.data, character, task);
+                  const entry = getCompletionEntry(energy.data, character, task) || {
                     amount: 0
                   };
                   if (completionEntry && (reset - completionEntry.updated) > 86400000) {
-                    energy.data[getCompletionEntryKey(character.name, task)] = this.getEnergyUpdate(reset, completionEntry, energy, task, entry);
+                    setCompletionEntry(energy.data, character, task, this.getEnergyUpdate(reset, completionEntry, energy, task, entry));
                   } else if (!completionEntry && !newEnergy) {
-                    energy.data[getCompletionEntryKey(character.name, task)] = {
-                      amount: 0
-                    };
-                    completion.data[getCompletionEntryKey(character.name, task)] = {
+                    setCompletionEntry(energy.data, character, task, { amount: 0 });
+                    setCompletionEntry(completion.data, character, task, {
                       amount: 0,
                       updated: Date.now()
-                    };
+                    });
                   }
                 });
             });

@@ -6,7 +6,7 @@ import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
 import { Energy } from "../../../model/energy";
-import { getCompletionEntryKey } from "../../../core/get-completion-entry-key";
+import { getCompletionEntry, getCompletionEntryKey, setCompletionEntry } from "../../../core/get-completion-entry-key";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { EnergyService } from "../../../core/database/services/energy.service";
@@ -86,7 +86,7 @@ export class ChecklistComponent {
                 lazyTracking
               ),
               doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
-              energy: energy.data[getCompletionEntryKey(character.name, task)] || 0
+              energy: getCompletionEntry(energy.data, character, task) || 0
             };
           });
           return {
@@ -151,32 +151,32 @@ export class ChecklistComponent {
     this.ticketsTrackingOpened = opened;
   }
 
-  public markAsDone(completion: Completion, energy: Energy, characterName: string, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
+  public markAsDone(completion: Completion, energy: Energy, character: Character, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
     const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
     if (done) {
       const setAllDone = clickEvent?.ctrlKey;
-      const existingEntry = completion.data[getCompletionEntryKey(characterName, task)];
+      const existingEntry = getCompletionEntry(completion.data, character, task);
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
-      completion.data[getCompletionEntryKey(characterName, task)] = {
+      setCompletionEntry(completion.data, character, task, {
         ...(existingEntry || {}),
         amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
         updated: Date.now()
-      };
+      });
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
         && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n))) {
-        const energyEntry = energy.data[getCompletionEntryKey(characterName, task)] || { amount: 0 };
+        const energyEntry = getCompletionEntry(energy.data, character, task) || { amount: 0 };
         if (energyEntry.amount >= 20) {
           energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 1)), 0);
           this.energyService.updateOne(energy.$key, {
-            [`data.${getCompletionEntryKey(characterName, task)}`]: energyEntry
+            [`data.${getCompletionEntryKey(character, task)}`]: energyEntry
           });
         }
       }
     } else {
-      completion.data[getCompletionEntryKey(characterName, task)] = {
+      completion.data[getCompletionEntryKey(character, task)] = {
         amount: 0,
         updated: Date.now()
       };

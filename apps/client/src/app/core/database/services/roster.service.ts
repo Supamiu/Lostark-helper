@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { map, Observable, shareReplay, switchMap } from "rxjs";
+import { map, Observable, of, shareReplay, switchMap } from "rxjs";
 import { FirestoreStorage } from "../firestore-storage";
 import { Roster } from "../../../model/roster";
 import { AuthService } from "./auth.service";
 import { Firestore } from "@angular/fire/firestore";
+import { mapTo } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -32,9 +33,15 @@ export class RosterService extends FirestoreStorage<Roster> {
 
   override getOne(key: string): Observable<Roster> {
     return super.getOne(key).pipe(
-      map(roster => {
+      switchMap(roster => {
+        let shouldSave = false;
         roster.characters = (roster.characters || []).map(c => {
+          if (!c.id) {
+            shouldSave = true;
+            c.id = Math.floor(Math.random() * 1000000000);
+          }
           if (!c.tickets) {
+            shouldSave = true;
             c.tickets = {
               t1Cube: 0,
               t2BossRush: 0,
@@ -46,7 +53,12 @@ export class RosterService extends FirestoreStorage<Roster> {
           }
           return c;
         });
-        return roster;
+        if (shouldSave) {
+          return this.setOne(key, roster).pipe(
+            mapTo(roster)
+          );
+        }
+        return of(roster);
       })
     );
   }

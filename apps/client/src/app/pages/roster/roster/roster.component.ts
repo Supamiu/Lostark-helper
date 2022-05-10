@@ -2,10 +2,8 @@ import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Character } from "../../../model/character";
 import { LostarkClass } from "../../../model/lostark-class";
-import {
-  TextQuestionPopupComponent
-} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
-import { filter, switchMap, withLatestFrom } from "rxjs/operators";
+import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import { filter, first, switchMap, withLatestFrom } from "rxjs/operators";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzModalService } from "ng-zorro-antd/modal";
@@ -14,6 +12,9 @@ import { RosterService } from "../../../core/database/services/roster.service";
 import { Roster } from "../../../model/roster";
 import { arrayRemove } from "@angular/fire/firestore";
 import { AuthService } from "../../../core/database/services/auth.service";
+import { CompletionService } from "../../../core/database/services/completion.service";
+import { EnergyService } from "../../../core/database/services/energy.service";
+import { combineLatest, of } from "rxjs";
 
 @Component({
   selector: "lostark-helper-roster",
@@ -50,6 +51,8 @@ export class RosterComponent {
               private fb: FormBuilder,
               private clipboard: Clipboard,
               private message: NzMessageService,
+              private completionService: CompletionService,
+              private energyService: EnergyService,
               private modal: NzModalService) {
   }
 
@@ -77,6 +80,43 @@ export class RosterComponent {
   public removeCharacter(character: Character, roster: Roster): void {
     this.rosterService.updateOne(roster.$key, {
       characters: arrayRemove(character)
+    });
+  }
+
+  public saveCharacterName(character: Character, roster: Roster, newName: string): void {
+    combineLatest([
+      this.completionService.completion$,
+      this.energyService.energy$
+    ]).pipe(
+      first(),
+      switchMap(([completion, energy]) => {
+        let updated = false;
+        Object.keys(completion.data).forEach(key => {
+          if (key.startsWith(character.name)) {
+            updated = true;
+            completion.data[`${character.id}:${key.split(":")[1]}`] = completion.data[key];
+            delete completion.data[key];
+          }
+        });
+        Object.keys(energy.data).forEach(key => {
+          if (key.startsWith(character.name)) {
+            updated = true;
+            energy.data[`${character.id}:${key.split(":")[1]}`] = energy.data[key];
+            delete completion.data[key];
+          }
+        });
+        if (updated) {
+          return combineLatest([
+            this.completionService.setOne(completion.$key, completion),
+            this.energyService.setOne(energy.$key, energy)
+          ]);
+        }
+        return of(null);
+      })
+    ).subscribe();
+    this.saveCharacter(character, {
+      ...roster,
+      characters: roster.characters.map(c => c.id === character.id ? { ...character, name: newName } : c)
     });
   }
 

@@ -22,11 +22,14 @@
       <nz-list-item *ngFor="let character of roster.characters;trackBy: trackByCharacter"
                     [nzActions]="[setPrivateAction, setLazyAction, setClassAction, deleteAction]"
                     cdkDrag [cdkDragData]="character">
-        <nz-list-item-meta [nzTitle]="character.name" [nzDescription]="description"
+        <nz-list-item-meta [nzTitle]="title" [nzDescription]="description"
                            nzAvatar="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png"></nz-list-item-meta>
+        <ng-template #title>
+          <input type="text" nz-input [ngModel]="character.name" [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="saveCharacterName(character, roster, $event)" class="character-name-input">
+        </ng-template>
         <ng-template #description>
           ilvl
-          <nz-input-number [(ngModel)]="character.ilvl"
+          <nz-input-number [(ngModel)]="character.ilvl" [ngModelOptions]="{updateOn: 'blur'}"
                            (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
         </ng-template>
         <ng-template #setPrivateAction>

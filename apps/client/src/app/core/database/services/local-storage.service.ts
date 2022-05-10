@@ -8,7 +8,6 @@ import { NzMessageService } from "ng-zorro-antd/message";
 import { first } from "rxjs/operators";
 import { combineLatest, switchMap } from "rxjs";
 import { TaskFrequency } from "../../../model/task-frequency";
-import { getCompletionEntryKey } from "../../get-completion-entry-key";
 import { AuthService } from "./auth.service";
 
 @Injectable({
@@ -89,7 +88,7 @@ export class LocalStorageService {
                   frequency = +split[1];
                 }
                 if (taskName.toLowerCase() === task.label?.toLowerCase() && frequency === task.frequency) {
-                  newCompletionData[getCompletionEntryKey(characterName || "", task)] = completion[key];
+                  newCompletionData[`${characterName}:${task.$key}`] = completion[key];
                 }
               });
             });
