@@ -102,88 +102,104 @@
             <tbody>
 
             <ng-container
-              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyCharacter, title: 'Daily Character'}"></ng-container>
+              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyCharacter, title: 'Daily Character', key:'dailyCharacter' }"></ng-container>
             <ng-container
-              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyRoster, title: 'Daily Roster'}"></ng-container>
+              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.dailyRoster, title: 'Daily Roster', key:'dailyRoster' }"></ng-container>
             <ng-container
-              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyCharacter, title: 'Weekly Character'}"></ng-container>
+              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyCharacter, title: 'Weekly Character', key:'weeklyCharacter' }"></ng-container>
             <ng-container
-              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster'}"></ng-container>
+              *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster', key:'weeklyRoster' }"></ng-container>
 
-            <ng-template #rowsDisplay let-rows let-title="title">
+            <ng-template #rowsDisplay let-rows let-title="title" let-key="key">
               <ng-container *ngIf="rows.length > 0">
-                <tr>
-                  <td [attr.colspan]="display.roster.length+1" class="section-span">{{title}}</td>
-                </tr>
-                <tr *ngFor="let row of rows; trackBy: trackByEntry; even as even"
-                    [class.even]="even"
-                    [class.completed]="row.allDone"
-                    [class.daily]="row.task.frequency === TaskFrequency.DAILY"
-                    [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
-                  <td [style.width.px]="375" class="task-name">
-                    <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
-                    {{row.task.label}}
-                  </td>
-                  <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
-                    <td colspan="99">
-                      <div class="counter roster" *ngIf="row.completion[0] > -1">
-                        <div>
-                          <button nz-button
-                                  nzSize="small"
-                                  nzBlock
-                                  nzType="primary"
-                                  [disabled]="row.completion[0] >= row.task.amount"
-                                  (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
-                            {{row.completion[0]}}/{{row.task.amount}}
-                          </button>
-                        </div>
-                        <div *ngIf="row.completion[0] > 0" class="reset-button">
-                          <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount"
-                                  (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset)">
-                            <i nz-icon nzType="reload" nzTheme="outline"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="roster" *ngIf="row.completion[0] === -1">
-                        Not available today
+                <ng-container *ngIf="categoriesDisplay$ | async as categoriesDisplay">
+                  <tr>
+                    <td [attr.colspan]="display.roster.length+1" class="section-span">
+                      <div class="section-span-toggle">
+                        <nz-switch [nzCheckedChildren]="checked"
+                                   [nzUnCheckedChildren]="unchecked"
+                                   [(ngModel)]="categoriesDisplay[key]"
+                                   (ngModelChange)="categoriesDisplay$.next(categoriesDisplay)"
+                                   nzSize="small" class="visibility-switch">
+                          <ng-template #checked><i nz-icon nzType="eye" nzTheme="outline"></i></ng-template>
+                          <ng-template #unchecked><i nz-icon nzType="eye-invisible" nzTheme="outline"></i></ng-template>
+                        </nz-switch>
+                        {{title}}
                       </div>
                     </td>
+                  </tr>
+                  <ng-container *ngIf="categoriesDisplay[key]">
+                    <tr *ngFor="let row of rows; trackBy: trackByEntry; even as even"
+                        [class.even]="even"
+                        [class.completed]="row.allDone"
+                        [class.daily]="row.task.frequency === TaskFrequency.DAILY"
+                        [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
+                      <td [style.width.px]="375" class="task-name">
+                        <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
+                        {{row.task.label}}
+                      </td>
+                      <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
+                        <td colspan="99">
+                          <div class="counter roster" *ngIf="row.completion[0] > -1">
+                            <div>
+                              <button nz-button
+                                      nzSize="small"
+                                      nzBlock
+                                      nzType="primary"
+                                      [disabled]="row.completion[0] >= row.task.amount"
+                                      (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                {{row.completion[0]}}/{{row.task.amount}}
+                              </button>
+                            </div>
+                            <div *ngIf="row.completion[0] > 0" class="reset-button">
+                              <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount"
+                                      (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                                <i nz-icon nzType="reload" nzTheme="outline"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="roster" *ngIf="row.completion[0] === -1">
+                            Not available today
+                          </div>
+                        </td>
 
-                  </ng-container>
-                  <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
-                    <td *ngFor="let col of row.completion; index as i; trackBy: trackByIndex">
-                      <ng-container *ngIf="roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl <= row.task.maxIlvl">
-                        <div class="counter">
-                          <div>
-                            <button nz-button
-                                    nzSize="small"
-                                    nzType="primary"
-                                    [disabled]="col >= row.task.amount"
-                                    (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
-                              {{col}}/{{row.task.amount}}
-                            </button>
-                          </div>
-                          <div *ngIf="col > 0" class="reset-button">
-                            <button nz-button nzSize="small" *ngIf="col > 0"
-                                    (click)="markAsDone(completion, energy, roster[i], row.task, roster, false, display.dailyReset, display.weeklyReset)">
-                              <i nz-icon nzType="reload" nzTheme="outline"></i>
-                            </button>
-                          </div>
-                          <div class="energy-bar"
-                               *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy"
-                               nz-tooltip
-                               nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
-                            <div class="threshold t-20"></div>
-                            <div class="threshold t-40"></div>
-                            <div class="threshold t-60"></div>
-                            <div class="threshold t-80"></div>
-                            <div class="progress" [style.width.%]="row.energy[i].amount"></div>
-                          </div>
-                        </div>
                       </ng-container>
-                    </td>
+                      <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
+                        <td *ngFor="let col of row.completion; index as i; trackBy: trackByIndex">
+                          <ng-container *ngIf="roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl <= row.task.maxIlvl">
+                            <div class="counter">
+                              <div>
+                                <button nz-button
+                                        nzSize="small"
+                                        nzType="primary"
+                                        [disabled]="col >= row.task.amount"
+                                        (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                  {{col}}/{{row.task.amount}}
+                                </button>
+                              </div>
+                              <div *ngIf="col > 0" class="reset-button">
+                                <button nz-button nzSize="small" *ngIf="col > 0"
+                                        (click)="markAsDone(completion, energy, roster[i], row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                                  <i nz-icon nzType="reload" nzTheme="outline"></i>
+                                </button>
+                              </div>
+                              <div class="energy-bar"
+                                   *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy"
+                                   nz-tooltip
+                                   nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
+                                <div class="threshold t-20"></div>
+                                <div class="threshold t-40"></div>
+                                <div class="threshold t-60"></div>
+                                <div class="threshold t-80"></div>
+                                <div class="progress" [style.width.%]="row.energy[i].amount"></div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </td>
+                      </ng-container>
+                    </tr>
                   </ng-container>
-                </tr>
+                </ng-container>
               </ng-container>
             </ng-template>
             </tbody>

@@ -15,6 +15,7 @@ import { CompletionService } from "../../../core/database/services/completion.se
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { Roster } from "../../../model/roster";
+import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -27,6 +28,13 @@ export class ChecklistComponent {
   public TaskScope = TaskScope;
 
   public rawRoster$ = this.rosterService.roster$;
+
+  public categoriesDisplay$ = new LocalStorageBehaviorSubject<{
+    dailyCharacter: boolean,
+    weeklyCharacter: boolean,
+    dailyRoster: boolean,
+    weeklyRoster: boolean
+  }>('checklist:displayed', { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
 
   public roster$: Observable<Character[]> = this.rawRoster$.pipe(
     pluck("characters")
