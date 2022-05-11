@@ -12,9 +12,9 @@ export function getCompletionEntryKey(character: { id?: number, name: string }, 
   return `${character.name}:${task.$key}`;
 }
 
-export function getCompletionEntry<T>(data: Record<string, T>, character: Character, task: LostarkTask): T {
+export function getCompletionEntry<T>(data: Record<string, T>, character: Character, task: LostarkTask, skipFallback = false): T {
   const baseKey = getCompletionEntryKey(character, task);
-  if (data[baseKey]) {
+  if (data[baseKey] !== undefined || skipFallback) {
     return data[baseKey];
   }
   return data[getCompletionEntryKey(character, task, true)];

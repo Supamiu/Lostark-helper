@@ -96,7 +96,7 @@ export class LocalStorageService {
           })
         );
         return combineLatest([
-          this.rosterService.setOne(uid, { characters: roster }),
+          this.rosterService.setOne(uid, { characters: roster, trackedTasks: {} }),
           this.energyService.setOne(uid, { data: energy, updated: energyUpdated }),
           this.settingsService.setOne(uid, settings),
           completionMigration$

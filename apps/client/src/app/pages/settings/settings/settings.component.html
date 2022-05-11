@@ -1,5 +1,5 @@
 <nz-page-header nzTitle="Settings" nzSubtitle="Configure your experience">
-  <nz-page-header-extra  *ngIf="(anonymous$ | async) === false">
+  <nz-page-header-extra *ngIf="(anonymous$ | async) === false">
     <i nz-tooltip nzTooltipTitle="You can share this freely, it won't compromise your account">User ID: {{uid$ | async}}</i>
   </nz-page-header-extra>
 </nz-page-header>
@@ -60,7 +60,7 @@
         <ng-container *ngIf="energy$ | async as energy">
           <ng-container *ngIf="fullRoster$ | async as fullRoster">
             <div nz-row *ngIf="restBonus$ | async as restBonus">
-              <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small">
+              <nz-card nz-col nzMd="24" nzTitle="Rest bonus" [nzExtra]="reset" nzSize="small" class="lazy-matrix">
                 <ng-template #reset>
                   <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure?"
                           (nzOnConfirm)="resetBonuses(energy.$key)">Reset
@@ -99,6 +99,38 @@
               </nz-card>
             </div>
           </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="rawRoster$ | async as rawRoster">
+          <nz-card nz-col nzMd="24" nzTitle="Task tracking" nzSize="small" *ngIf="taskTracking$ | async as taskTracking" class="lazy-matrix">
+            <div class="lazy-matrix">
+              <nz-table #tasksTable [nzData]="taskTracking"
+                        [nzPageSize]="999"
+                        nzHideOnSinglePage
+                        [nzScroll]="{y: '300px'}"
+                        nzSize="middle">
+                <thead>
+                <tr>
+                  <th>Task</th>
+                  <th *ngFor="let character of rawRoster.characters">{{character.name}}[{{character.ilvl}}]</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of tasksTable.data; trackBy: trackByTask">
+                  <td class="task-name">
+                    <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt=""
+                         class="task-icon">
+                    {{row.task.label}}
+                  </td>
+                  <td *ngFor="let flag of row.data; index as i; trackBy: trackByIndex">
+                    <nz-switch nzCheckedChildren="tracked" nzUnCheckedChildren="ignored"
+                               [ngModel]="flag" (ngModelChange)="setTrackedTask(rawRoster, row.task, rawRoster.characters[i], $event)"></nz-switch>
+                  </td>
+                </tr>
+                </tbody>
+              </nz-table>
+            </div>
+          </nz-card>
         </ng-container>
       </ng-container>
     </ng-container>

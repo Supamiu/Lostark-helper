@@ -34,7 +34,7 @@ export class ChecklistComponent {
     weeklyCharacter: boolean,
     dailyRoster: boolean,
     weeklyRoster: boolean
-  }>('checklist:displayed', { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
+  }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
 
   public roster$: Observable<Character[]> = this.rawRoster$.pipe(
     pluck("characters")
@@ -72,7 +72,7 @@ export class ChecklistComponent {
   );
 
   public tableDisplay$ = combineLatest([
-    this.roster$,
+    this.rawRoster$,
     this.tasks$,
     this.completion$,
     this.lastDailyReset$,
@@ -83,7 +83,7 @@ export class ChecklistComponent {
     map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking, energy]) => {
       const data = tasks
         .map(task => {
-          const completionData = roster.map(character => {
+          const completionData = roster.characters.map(character => {
             return {
               done: isTaskDone(
                 task,
@@ -93,6 +93,7 @@ export class ChecklistComponent {
                 weeklyReset,
                 lazyTracking
               ),
+              tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
               doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
               energy: getCompletionEntry(energy.data, character, task) || 0
             };
@@ -103,7 +104,7 @@ export class ChecklistComponent {
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
-            allDone: completionData.every(({ doable, done }) => !doable || done >= task.amount || done === -1)
+            allDone: completionData.every(({ doable, done, tracked }) => !tracked || !doable || done >= task.amount || done === -1)
           };
         })
         .reduce((acc, row) => {
@@ -119,11 +120,11 @@ export class ChecklistComponent {
         }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [] });
 
       return {
-        roster: roster.map((c, i) => {
+        roster: roster.characters.map((c, i) => {
           const done = [...data.dailyCharacter, ...data.weeklyCharacter].every(
-            (row: { completionData: { doable: boolean, done: number }[], task: LostarkTask }) => {
+            (row: { completionData: { doable: boolean, done: number, tracked: boolean }[], task: LostarkTask }) => {
               const completion = row.completionData[i];
-              return !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
+              return !completion.tracked || !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
             });
           return {
             ...c,

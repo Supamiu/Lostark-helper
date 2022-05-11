@@ -17,7 +17,8 @@ export class RosterService extends FirestoreStorage<Roster> {
           if (roster.notFound) {
             return {
               $key: uid,
-              characters: []
+              characters: [],
+              trackedTasks: {}
             };
           }
           return roster;
@@ -53,6 +54,9 @@ export class RosterService extends FirestoreStorage<Roster> {
           }
           return c;
         });
+        if (!roster.trackedTasks) {
+          roster.trackedTasks = {};
+        }
         if (shouldSave) {
           return this.setOne(key, roster).pipe(
             mapTo(roster)

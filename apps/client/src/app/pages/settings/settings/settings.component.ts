@@ -13,6 +13,7 @@ import { EnergyService } from "../../../core/database/services/energy.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { LocalStorageService } from "../../../core/database/services/local-storage.service";
 import { AuthService } from "../../../core/database/services/auth.service";
+import { Roster } from "../../../model/roster";
 
 @Component({
   selector: "lostark-helper-settings",
@@ -39,6 +40,8 @@ export class SettingsComponent {
   public fullRoster$ = this.rosterService.roster$.pipe(
     pluck("characters")
   );
+
+  public rawRoster$ = this.rosterService.roster$;
 
   public lazyFlags$ = combineLatest([
     this.tasksService.tasks$,
@@ -76,6 +79,28 @@ export class SettingsComponent {
           return {
             task,
             energy: roster.characters.map(c => getCompletionEntry(energy.data, c, task)?.amount || 0)
+          };
+        });
+    })
+  );
+
+  public taskTracking$ = combineLatest([
+    this.tasksService.tasks$,
+    this.rosterService.roster$
+  ]).pipe(
+    map(([tasks, roster]) => {
+      return tasks
+        .filter(task => task.scope === TaskScope.CHARACTER)
+        .map(task => {
+          return {
+            task,
+            data: roster.characters.map(c => {
+              const entry = getCompletionEntry(roster.trackedTasks, c, task, true);
+              if (entry === undefined) {
+                return true;
+              }
+              return entry;
+            })
           };
         });
     })
@@ -129,6 +154,12 @@ export class SettingsComponent {
   setRestBonus(energy: Energy, task: LostarkTask, character: Character, value: number): void {
     this.energyService.updateOne(energy.$key, {
       [`data.${getCompletionEntryKey(character, task)}`]: { amount: Math.max(Math.min(100, value), 0) }
+    });
+  }
+
+  setTrackedTask(roster: Roster, task: LostarkTask, character: Character, value: boolean): void {
+    this.rosterService.updateOne(roster.$key, {
+      [`trackedTasks.${getCompletionEntryKey(character, task)}`]: value
     });
   }
 
