@@ -40,7 +40,7 @@ export class RegisterPopupComponent {
     this.auth.register(creds.email, creds.password)
       .pipe(
         switchMap((res) => {
-          return this.userService.setOne(res.user.uid, { name: creds.username, friends: [], region: LostarkRegion.EUROPE_WEST });
+          return this.userService.setOne(res.user.uid, { name: creds.username, friends: [], region: LostarkRegion.EUROPE_CENTRAL });
         })
       )
       .subscribe(() => {

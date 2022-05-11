@@ -35,7 +35,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
               .afterClose
               .pipe(
                 switchMap(name => {
-                  return this.setOne(user.$key, { ...user, name, region: LostarkRegion.EUROPE_WEST });
+                  return this.setOne(user.$key, { ...user, name, region: LostarkRegion.EUROPE_CENTRAL });
                 }),
                 map(() => user)
               );
@@ -46,7 +46,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
     }),
     map(user => {
       if (!user.region) {
-        user.region = LostarkRegion.EUROPE_WEST;
+        user.region = LostarkRegion.EUROPE_CENTRAL;
       }
       return user;
     }),
@@ -54,7 +54,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
   );
 
   public region$ = this.user$.pipe(
-    map(user => user.region || LostarkRegion.EUROPE_WEST)
+    map(user => user.region || LostarkRegion.EUROPE_CENTRAL)
   );
 
   public friendIds$ = this.user$.pipe(

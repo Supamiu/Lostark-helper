@@ -84,9 +84,17 @@ export class AppComponent implements OnInit {
     }
   }
 
-  setUserRegion(user: LAHUser, region: LostarkRegion):void {
-    this.userService.updateOne(user.$key, {
-      region: region
-    })
+  setUserRegion(user: LAHUser, region: LostarkRegion, anonymous?: boolean): void {
+    if (anonymous) {
+      this.userService.setOne(user.$key, {
+        name: "Anonymous",
+        region: region,
+        friends: []
+      });
+    } else {
+      this.userService.updateOne(user.$key, {
+        region: region
+      });
+    }
   }
 }
