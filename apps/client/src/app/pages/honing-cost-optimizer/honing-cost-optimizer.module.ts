@@ -12,6 +12,7 @@ import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 import { NzCardModule } from "ng-zorro-antd/card";
 import { NzStatisticModule } from "ng-zorro-antd/statistic";
 import { NzSwitchModule } from "ng-zorro-antd/switch";
+import { MarketHeaderModule } from "../../components/market-header/market-header.module";
 
 const routes: Routes = [{
   path: "",
@@ -33,7 +34,8 @@ const routes: Routes = [{
     NzCheckboxModule,
     NzCardModule,
     NzStatisticModule,
-    NzSwitchModule
+    NzSwitchModule,
+    MarketHeaderModule
   ]
 })
 export class HoningCostOptimizerModule {

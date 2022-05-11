@@ -4,6 +4,7 @@ import { combineLatest, map, merge, ReplaySubject } from "rxjs";
 import { mariTrades } from "../../mari-optimizer/mari-trades";
 import { honingChances } from "../honing-chances";
 import { MariTrade } from "../../mari-optimizer/mari-trade";
+import { PricesService } from "../../../core/services/prices.service";
 
 @Component({
   selector: "lostark-helper-honing-cost-optimizer",
@@ -11,13 +12,13 @@ import { MariTrade } from "../../mari-optimizer/mari-trade";
   styleUrls: ["./honing-cost-optimizer.component.less"]
 })
 export class HoningCostOptimizerComponent {
-  public exchangeRateGoldPrice$ = new LocalStorageBehaviorSubject<number>("mari:gold", 500);
+  public exchangeRateGoldPrice$ = this.pricesService.exchangeRateGoldPrice$;
 
   private honingChancesMaterials = mariTrades.filter(t => {
     return t.name.startsWith("Solar ");
   });
 
-  public itemPrices$ = new LocalStorageBehaviorSubject<Record<string, number>>("mari:items", {});
+  public itemPrices$ = this.pricesService.itemPrices$;
 
   public type$ = new LocalStorageBehaviorSubject<"armor" | "weapon">("honing:type", "armor");
 
@@ -188,12 +189,12 @@ export class HoningCostOptimizerComponent {
     })
   );
 
+  constructor(private pricesService: PricesService) {
+  }
+
   setItemPrice(trade?: MariTrade, price?: number): void {
     if (trade && price) {
-      this.itemPrices$.next({
-        ...this.itemPrices$.value,
-        [`${trade.name}:${trade.quantity}`]: price
-      });
+      this.pricesService.setItemPrice(trade, price);
     }
   }
 

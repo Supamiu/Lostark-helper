@@ -1,18 +1,4 @@
-<nz-page-header nzTitle="Mari Optimizer"
-                nzSubtitle="Compare Mari's offers with marketboard prices to see what's worth buying">
-  <nz-page-header-content>
-    Current exchange rate:
-    <nz-input-group [nzAddOnBefore]="crystalIconTpl">
-      <nz-input-number [ngModel]="exchangeRateGoldPrice$ | async"
-                       (ngModelChange)="exchangeRateGoldPrice$.next($event)"></nz-input-number>
-    </nz-input-group>
-    <ng-template #crystalIconTpl>
-      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon"
-                                                                                         src="./assets/icons/gold.png"
-                                                                                         alt="Gold">x
-    </ng-template>
-  </nz-page-header-content>
-</nz-page-header>
+<lostark-helper-market-header title="Mari Optimizer" subTitle="Compare Mari's offers with marketboard prices to see what's worth buying"></lostark-helper-market-header>
 
 <nz-table *ngIf="display$ | async as display"
           #table

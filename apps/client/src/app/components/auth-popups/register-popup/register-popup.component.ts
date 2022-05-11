@@ -1,12 +1,10 @@
 import { Component } from "@angular/core";
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from "@angular/forms";
 import { AuthService } from "../../../core/database/services/auth.service";
-import { NzModalRef, NzModalService } from "ng-zorro-antd/modal";
+import { NzModalRef } from "ng-zorro-antd/modal";
 import { switchMap } from "rxjs";
 import { UserService } from "../../../core/database/services/user.service";
-import {
-  TextQuestionPopupComponent
-} from "../../text-question-popup/text-question-popup/text-question-popup.component";
+import { LostarkRegion } from "../../../model/lostark-region";
 
 @Component({
   selector: "lostark-helper-register-popup",
@@ -42,7 +40,7 @@ export class RegisterPopupComponent {
     this.auth.register(creds.email, creds.password)
       .pipe(
         switchMap((res) => {
-          return this.userService.setOne(res.user.uid, { name: creds.username, friends: [] });
+          return this.userService.setOne(res.user.uid, { name: creds.username, friends: [], region: LostarkRegion.EUROPE_WEST });
         })
       )
       .subscribe(() => {

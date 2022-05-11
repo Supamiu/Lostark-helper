@@ -1,18 +1,4 @@
-<nz-page-header nzTitle="Honing Cost Optimizer"
-                nzSubtitle="Check if it's cheaper to buy additional honing materials or use honing chances upgrade materials">
-  <nz-page-header-content>
-    Current exchange rate:
-    <nz-input-group [nzAddOnBefore]="crystalIconTpl">
-      <nz-input-number [ngModel]="exchangeRateGoldPrice$ | async"
-                       (ngModelChange)="exchangeRateGoldPrice$.next($event)"></nz-input-number>
-    </nz-input-group>
-    <ng-template #crystalIconTpl>
-      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon"
-                                                                                         src="./assets/icons/gold.png"
-                                                                                         alt="Gold">x
-    </ng-template>
-  </nz-page-header-content>
-</nz-page-header>
+<lostark-helper-market-header title="Honing Cost Optimizer" subTitle="Check if it's cheaper to buy additional honing materials or use honing chances upgrade materials"></lostark-helper-market-header>
 
 <div nz-row [nzGutter]="[20,20]">
   <form nz-form nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24">

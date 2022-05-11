@@ -22,6 +22,8 @@ import { NzDropDownModule } from "ng-zorro-antd/dropdown";
 import { AuthPopupsModule } from "./components/auth-popups/auth-popups.module";
 import { NzModalModule } from "ng-zorro-antd/modal";
 import { NzMessageModule } from "ng-zorro-antd/message";
+import { NzInputModule } from "ng-zorro-antd/input";
+import { NzSelectModule } from "ng-zorro-antd/select";
 
 registerLocaleData(en);
 
@@ -47,7 +49,9 @@ registerLocaleData(en);
     NzDropDownModule,
     AuthPopupsModule,
     NzModalModule,
-    NzMessageModule
+    NzMessageModule,
+    NzInputModule,
+    NzSelectModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

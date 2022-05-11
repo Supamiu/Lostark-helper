@@ -1,0 +1,20 @@
+<nz-page-header [nzTitle]="title" [nzSubtitle]="subTitle">
+  <nz-page-header-extra>
+    <button nz-button nzType="primary"
+            (click)="updatePricesFromLostarkMarket()"
+            [nzLoading]="updatingFromMarket"
+            [disabled]="updatingFromMarket">Update prices from LostArkMarket.online</button>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    Current exchange rate:
+    <nz-input-group [nzAddOnBefore]="crystalIconTpl">
+      <nz-input-number [ngModel]="exchangeRateGoldPrice$ | async"
+                       (ngModelChange)="exchangeRateGoldPrice$.next($event)"></nz-input-number>
+    </nz-input-group>
+    <ng-template #crystalIconTpl>
+      <img class="prefix-icon" src="./assets/icons/crystal.png" alt="Crystal">x95 = <img class="prefix-icon"
+                                                                                         src="./assets/icons/gold.png"
+                                                                                         alt="Gold">x
+    </ng-template>
+  </nz-page-header-content>
+</nz-page-header>

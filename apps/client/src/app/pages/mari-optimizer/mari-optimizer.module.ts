@@ -7,6 +7,8 @@ import { NzInputModule } from "ng-zorro-antd/input";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { FormsModule } from "@angular/forms";
 import { NzTableModule } from "ng-zorro-antd/table";
+import { NzButtonModule } from "ng-zorro-antd/button";
+import { MarketHeaderModule } from "../../components/market-header/market-header.module";
 
 const routes: Routes = [{
   path: '',
@@ -23,7 +25,9 @@ const routes: Routes = [{
     NzInputModule,
     NzInputNumberModule,
     FormsModule,
-    NzTableModule
+    NzTableModule,
+    NzButtonModule,
+    MarketHeaderModule
   ]
 })
 export class MariOptimizerModule {}

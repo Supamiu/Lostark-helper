@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { combineLatest, map } from "rxjs";
 import { mariTrades } from "../mari-trades";
 import { MariTrade } from "../mari-trade";
+import { PricesService } from "../../../core/services/prices.service";
 
 @Component({
   selector: "lostark-helper-mari-optimizer",
@@ -11,9 +11,9 @@ import { MariTrade } from "../mari-trade";
   styleUrls: ["./mari-optimizer.component.less"]
 })
 export class MariOptimizerComponent {
-  public exchangeRateGoldPrice$ = new LocalStorageBehaviorSubject<number>("mari:gold", 500);
 
-  public itemPrices$ = new LocalStorageBehaviorSubject<Record<string, number>>("mari:items", {});
+  public itemPrices$ = this.pricesService.itemPrices$;
+  public exchangeRateGoldPrice$ = this.pricesService.exchangeRateGoldPrice$;
 
   public trades$ = this.rosterService.roster$.pipe(
     map(roster => {
@@ -45,7 +45,7 @@ export class MariOptimizerComponent {
     })
   );
 
-  constructor(private rosterService: RosterService) {
+  constructor(private rosterService: RosterService, private pricesService: PricesService) {
   }
 
   trackByDisplayRow(index: number, row: { trade: MariTrade }): string {
@@ -53,9 +53,6 @@ export class MariOptimizerComponent {
   }
 
   setItemPrice(trade: MariTrade, price: number): void {
-    this.itemPrices$.next({
-      ...this.itemPrices$.value,
-      [`${trade.name}:${trade.quantity}`]: price
-    });
+    this.pricesService.setItemPrice(trade, price);
   }
 }

@@ -8,6 +8,8 @@ import { LocalStorageService } from "./core/database/services/local-storage.serv
 import { FriendInvitesService } from "./core/database/services/friend-invites.service";
 import { filter, pairwise, startWith } from "rxjs";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { LostarkRegion } from "./model/lostark-region";
+import { LAHUser } from "./model/lah-user";
 
 @Component({
   selector: "lostark-helper-root",
@@ -16,6 +18,17 @@ import { NzMessageService } from "ng-zorro-antd/message";
 })
 export class AppComponent implements OnInit {
   isCollapsed = localStorage.getItem("sidebar:collapsed") === "true";
+
+  public allRegions = Object.keys(LostarkRegion)
+    .filter((k, i, array) => array.indexOf(k) === i)
+    .map(key => {
+      return {
+        value: key,
+        label: key.split("_")
+          .map(word => `${word[0]}${word.slice(1).toLowerCase()}`)
+          .join(" ")
+      };
+    });
 
   public user$ = this.userService.user$;
 
@@ -69,5 +82,11 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem("tasks:default") !== null && localStorage.getItem("imported") !== "true") {
       this.localStorageService.migrate();
     }
+  }
+
+  setUserRegion(user: LAHUser, region: LostarkRegion):void {
+    this.userService.updateOne(user.$key, {
+      region: region
+    })
   }
 }

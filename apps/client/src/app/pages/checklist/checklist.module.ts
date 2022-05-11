@@ -20,6 +20,9 @@ const routes = [{
 
 @NgModule({
   declarations: [ChecklistComponent],
+  exports: [
+    ChecklistComponent
+  ],
   imports: [
     CommonModule,
 
