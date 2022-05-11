@@ -200,4 +200,4 @@ export const mariTrades: MariTrade[] = [
     quantity: 15,
     mbQuantity: 1
   }
-];
+].sort((a,b) => a.minIlvl - b.minIlvl);
