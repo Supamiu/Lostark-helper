@@ -42,6 +42,16 @@ table {
     text-align: center;
     background-color: #090909;
 
+    &.completed {
+      &.weekly {
+        background-color: rgba(84, 58, 94, .5);
+      }
+
+      &.daily {
+        background-color: rgba(55, 105, 60, .5);
+      }
+    }
+
     .section-span-toggle {
       display: flex;
       align-items: center;

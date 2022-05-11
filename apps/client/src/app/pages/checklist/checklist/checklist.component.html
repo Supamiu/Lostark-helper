@@ -110,11 +110,14 @@
             <ng-container
               *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster', key:'weeklyRoster' }"></ng-container>
 
-            <ng-template #rowsDisplay let-rows let-title="title" let-key="key">
-              <ng-container *ngIf="rows.length > 0">
+            <ng-template #rowsDisplay let-entry let-title="title" let-key="key">
+              <ng-container *ngIf="entry.data.length > 0">
                 <ng-container *ngIf="categoriesDisplay$ | async as categoriesDisplay">
                   <tr>
-                    <td [attr.colspan]="display.roster.length+1" class="section-span">
+                    <td [attr.colspan]="display.roster.length+1" class="section-span"
+                        [class.completed]="entry.done"
+                        [class.daily]="entry.data[0].task.frequency === TaskFrequency.DAILY"
+                        [class.weekly]="entry.data[0].task.frequency === TaskFrequency.WEEKLY">
                       <div class="section-span-toggle">
                         <nz-switch [nzCheckedChildren]="checked"
                                    [nzUnCheckedChildren]="unchecked"
@@ -129,7 +132,7 @@
                     </td>
                   </tr>
                   <ng-container *ngIf="categoriesDisplay[key]">
-                    <tr *ngFor="let row of rows; trackBy: trackByEntry; even as even"
+                    <tr *ngFor="let row of entry.data; trackBy: trackByEntry; even as even"
                         [class.even]="even"
                         [class.completed]="row.allDone"
                         [class.daily]="row.task.frequency === TaskFrequency.DAILY"

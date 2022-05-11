@@ -110,18 +110,22 @@ export class ChecklistComponent {
         .reduce((acc, row) => {
           const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
+          const data = [
+            ...acc[`${frequencyKey}${scopeKey}`].data,
+            row
+          ];
           return {
             ...acc,
-            [`${frequencyKey}${scopeKey}`]: [
-              ...acc[`${frequencyKey}${scopeKey}`],
-              row
-            ]
+            [`${frequencyKey}${scopeKey}`]: {
+              data,
+              done: data.every(t => t.allDone)
+            }
           };
-        }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [] });
+        }, { dailyCharacter: { data: [], done: false }, weeklyCharacter: { data: [], done: false }, dailyRoster: { data: [], done: false }, weeklyRoster: { data: [], done: false } });
 
       return {
         roster: roster.characters.map((c, i) => {
-          const done = [...data.dailyCharacter, ...data.weeklyCharacter].every(
+          const done = [...data.dailyCharacter.data, ...data.weeklyCharacter.data].every(
             (row: { completionData: { doable: boolean, done: number, tracked: boolean }[], task: LostarkTask }) => {
               const completion = row.completionData[i];
               return !completion.tracked || !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
