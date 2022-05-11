@@ -107,6 +107,7 @@ export class SettingsComponent {
 
   clearLocalstorageData(): void {
     this.localStorageService.clear();
+    this.updateHasLocalStorageData();
   }
 
   trackByTask(index: number, row: { task: LostarkTask }): string | undefined {
