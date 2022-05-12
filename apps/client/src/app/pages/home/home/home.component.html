@@ -1,0 +1,16 @@
+<h1 class="title">Welcome to Lostark Helper !</h1>
+<h3 class="subtitle">What do you want to do today?</h3>
+<div nz-row [nzGutter]="[16,16]">
+  <div nz-col *ngFor="let feature of features">
+    <a nz-button nzType="primary" [routerLink]="feature.link">
+      <i nz-icon [nzType]="feature.icon"></i>
+      {{feature.label}}
+    </a>
+  </div>
+</div>
+<nz-carousel nzAutoPlay [nzAutoPlaySpeed]="5000">
+  <div nz-carousel-content *ngFor="let feature of featuredFeatures">
+    <h3>{{ feature.label }}</h3>
+    <img src="./assets/features/{{feature.link.slice(1)}}.png" alt="">
+  </div>
+</nz-carousel>

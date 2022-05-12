@@ -10,6 +10,10 @@
     <div class="sidebar-container">
       <div class="main-navbar">
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+          <a nz-menu-item nzMatchRouter nzMatchRouterExact routerLink="/">
+            <i nz-icon nzType="home" nzTheme="outline"></i>
+            <span>Home</span>
+          </a>
           <li nz-submenu nzTitle="Helpers" nzIcon="appstore" nzOpen>
             <ul>
               <li>
