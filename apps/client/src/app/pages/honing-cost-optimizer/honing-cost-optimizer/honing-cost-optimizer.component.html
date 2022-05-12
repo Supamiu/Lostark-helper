@@ -30,9 +30,9 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="7">Current chances</nz-form-label>
-      <nz-form-control *ngIf="appliedChances$ | async as chances">
+      <nz-form-control>
         <nz-input-group nzAddOnAfter="%">
-          <nz-input-number [ngModel]="chances" (ngModelChange)="chancesInput$.next($event)" name="chances" class="number-input"></nz-input-number>
+          <nz-input-number [ngModel]="appliedChances$ | async" (ngModelChange)="chancesInput$.next($event)" name="chances" class="number-input"></nz-input-number>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
