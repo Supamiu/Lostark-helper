@@ -33,8 +33,10 @@
              (cdkDropListDropped)="dropTask($event)"
              [cdkDropListData]="tasks">
       <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask" cdkDrag [cdkDragData]="task">
-        <td><input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
-                   nz-input></td>
+        <td>
+          <input type="text" [(ngModel)]="task.label" (ngModelChange)="updateTask(task)" [disabled]="!task.custom"
+                   nz-input>
+        </td>
         <td>
           <div class="task-icon-wrapper">
             <img *ngIf="task.iconPath" src="./assets/icons/{{task.iconPath}}" alt="" class="task-icon">
