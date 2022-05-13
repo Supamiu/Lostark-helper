@@ -6,14 +6,12 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { NzModalService } from "ng-zorro-antd/modal";
-import {
-  TextQuestionPopupComponent
-} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { filter } from "rxjs/operators";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { AuthService } from "../../../core/database/services/auth.service";
-import { distinctUntilChanged, map } from "rxjs";
+import { distinctUntilChanged, map, merge, Subject } from "rxjs";
 
 @Component({
   selector: "lostark-helper-tasks",
@@ -24,9 +22,14 @@ export class TasksComponent {
   public TaskFrequency = TaskFrequency;
   public TaskScope = TaskScope;
 
-  public tasks$ = this.tasksService.tasks$.pipe(
+  private optimisticTasks$ = new Subject<LostarkTask[]>();
+
+  public tasks$ = merge(
+    this.optimisticTasks$,
+    this.tasksService.tasks$
+  ).pipe(
     map(tasks => tasks.sort((a, b) => a.index - b.index)),
-    distinctUntilChanged((a,b) => JSON.stringify(a) === JSON.stringify(b))
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
   );
 
   public form = this.fb.group({
@@ -100,12 +103,15 @@ export class TasksComponent {
     });
   }
 
-  dropTask(event: CdkDragDrop<LostarkTask[]>): void {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    this.tasksService.updateIndexes(event.container.data.map((task, i) => {
+  dropTask(tasks: LostarkTask[], event: CdkDragDrop<LostarkTask[]>): void {
+    const tasksClone = [...tasks];
+    moveItemInArray(tasksClone, event.previousIndex, event.currentIndex);
+    const newTasks = tasksClone.map((task, i) => {
       task.index = i;
       return task;
-    }));
+    });
+    this.optimisticTasks$.next(newTasks);
+    this.tasksService.updateIndexes(newTasks);
   }
 
   setTrackAll(tasks: LostarkTask[], track: boolean): void {

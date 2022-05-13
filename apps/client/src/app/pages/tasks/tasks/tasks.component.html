@@ -30,7 +30,7 @@
       </tr>
       </thead>
       <tbody cdkDropList
-             (cdkDropListDropped)="dropTask($event)"
+             (cdkDropListDropped)="dropTask(tasks, $event)"
              [cdkDropListData]="tasks">
       <tr *ngFor="let task of tasksTable.data, trackBy: trackByTask" cdkDrag [cdkDragData]="task">
         <td>
