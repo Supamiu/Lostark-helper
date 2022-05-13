@@ -58,7 +58,13 @@ export class TasksComponent {
     "sylmael.png",
     "gold.png",
     "weekly.webp",
-    "rift_piece.png"
+    "anguished.png",
+    "rift_piece.png",
+    "t1_cube.png",
+    "t2_bossrush.png",
+    "t2_cube.png",
+    "t3_bossrush.png",
+    "t3_cube.png",
   ];
 
   public tableHeight!: number;

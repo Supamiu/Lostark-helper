@@ -21,7 +21,7 @@ export const tasks = [
   createTask("Chaos Gate", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "chaos_gate.png", {
     daysFilter: [1, 4, 6, 0]
   }),
-  createTask("Anguished Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1),
+  createTask("Anguished Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "anguished.png"),
   createTask("Adventure Island", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "island.webp"),
   createTask("Procyon Boss", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 1, 9999, "island.webp", {
     daysFilter: [2, 5, 0]
