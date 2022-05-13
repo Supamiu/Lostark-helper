@@ -31,7 +31,8 @@ export abstract class FirestoreStorage<T extends DataModel> {
 
   protected converter: FirestoreDataConverter<T> = {
     toFirestore(modelObject: WithFieldValue<T>): DocumentData {
-      const workingCopy: Partial<WithFieldValue<T>> = modelObject as Partial<WithFieldValue<T>>;
+      const workingCopy: Partial<WithFieldValue<T>> = { ...modelObject } as Partial<WithFieldValue<T>>;
+      delete workingCopy.$key;
       delete workingCopy.notFound;
       Object.entries(workingCopy)
         .forEach(([key, value]) => {
@@ -43,8 +44,8 @@ export abstract class FirestoreStorage<T extends DataModel> {
     },
     fromFirestore(snapshot: QueryDocumentSnapshot): T {
       return {
-        $key: snapshot.id,
-        ...snapshot.data()
+        ...snapshot.data(),
+        $key: snapshot.id
       } as T;
     }
   };

@@ -34,7 +34,6 @@ export function createTask(
   additionalParams: Partial<LostarkTask> = {}
 ): LostarkTask {
   return {
-    $key: 'generated',
     label,
     minIlvl,
     frequency,
@@ -50,5 +49,5 @@ export function createTask(
     shared: false,
     partySize: 0,
     ...additionalParams
-  };
+  } as LostarkTask;
 }

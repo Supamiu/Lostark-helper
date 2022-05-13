@@ -3,20 +3,7 @@ import { doc, Firestore, where } from "@angular/fire/firestore";
 import { FirestoreStorage } from "../firestore-storage";
 import { LostarkTask, TASKS_VERSION } from "../../../model/lostark-task";
 import { AuthService } from "./auth.service";
-import {
-  combineLatest,
-  debounceTime,
-  from,
-  map,
-  mapTo,
-  Observable,
-  of,
-  pairwise,
-  pluck,
-  shareReplay,
-  switchMap,
-  tap
-} from "rxjs";
+import { combineLatest, debounceTime, from, map, mapTo, Observable, of, pairwise, pluck, shareReplay, switchMap, tap } from "rxjs";
 import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
@@ -235,6 +222,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
   }
 
   public addTask(task: LostarkTask): Observable<string> {
+    delete (task as Partial<LostarkTask>).$key;
     return this.addOne(task);
   }
 
