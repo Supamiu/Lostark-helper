@@ -82,10 +82,25 @@ table {
     border-radius: 1px;
 
     .progress {
-      background-color: #8EAF37;
       height: 4px;
       position: absolute;
       border-radius: 1px;
+
+      &-10, &-20, &-30, &-40 {
+        background-color: #8EAF37;
+      }
+
+      &-50, &-60, &-70 {
+        background-color: #af9f37;
+      }
+
+      &-80, &-90 {
+        background-color: #af6137;
+      }
+
+      &-100 {
+        background-color: #af3737;
+      }
     }
 
     .threshold {
