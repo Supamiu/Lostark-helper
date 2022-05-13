@@ -85,14 +85,14 @@ export class ChecklistComponent {
         .map(task => {
           const completionData = roster.characters.map(character => {
             return {
-              done: isTaskDone(
+              done: Math.min(isTaskDone(
                 task,
                 character,
                 completion,
                 dailyReset,
                 weeklyReset,
                 lazyTracking
-              ),
+              ), task.amount),
               tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
               doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
               energy: getCompletionEntry(energy.data, character, task) || 0
