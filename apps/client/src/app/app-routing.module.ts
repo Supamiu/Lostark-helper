@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
-  { path: "", loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
+  { path: "", loadChildren: () => import("./pages/home/home.module").then(m => m.HomeModule) },
   { path: "checklist", loadChildren: () => import("./pages/checklist/checklist.module").then(m => m.ChecklistModule) },
   { path: "roster", loadChildren: () => import("./pages/roster/roster.module").then(m => m.RosterModule) },
   { path: "tasks-manager", loadChildren: () => import("./pages/tasks/tasks.module").then(m => m.TasksModule) },
@@ -23,7 +23,8 @@ const routes: Routes = [
     path: "honing-cost-optimizer",
     loadChildren: () => import("./pages/honing-cost-optimizer/honing-cost-optimizer.module").then(m => m.HoningCostOptimizerModule)
   },
-  { path: "settings", loadChildren: () => import("./pages/settings/settings.module").then(m => m.SettingsModule) }
+  { path: "settings", loadChildren: () => import("./pages/settings/settings.module").then(m => m.SettingsModule) },
+  { path: "other-tools", loadChildren: () => import("./pages/other-tools/other-tools.module").then(m => m.OtherToolsModule) }
 ];
 
 @NgModule({

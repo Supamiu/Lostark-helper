@@ -1,0 +1,10 @@
+<nz-page-header nzTitle="Other tools" nzSubtitle="More cool tools you might want to use">
+</nz-page-header>
+<div nz-row [nzGutter]="[24,24]">
+  <div nz-col [nzLg]="8" [nzMd]="12" *ngFor="let tool of otherTools">
+    <nz-card [nzCover]="picture" nzHoverable (click)="openTool(tool.url)">
+      <nz-card-meta [nzTitle]="tool.name" [nzDescription]="tool.description"></nz-card-meta>
+      <ng-template #picture><img src="./assets/other-tools/{{tool.image}}" alt=""></ng-template>
+    </nz-card>
+  </div>
+</div>
