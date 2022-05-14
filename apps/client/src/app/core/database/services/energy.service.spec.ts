@@ -112,6 +112,20 @@ describe("EnergyService", () => {
     expect(service.getEnergyUpdate(reset, completionEntry, energy, task, entry).amount).toBe(30);
   });
 
+  it("should update energy properly with partially done task on last day only", () => {
+    const reset = 1652004000;
+    const oneDayBefore = reset + 3600000 - 86400000;
+    const completionEntry: CompletionEntry = {
+      amount: 1,
+      updated: oneDayBefore
+    };
+    const energy = { $key: "test", data: {}, updated: oneDayBefore };
+    const task = tasks[0]; // Chaos dungeon
+    const entry = { amount: 0 };
+
+    expect(service.getEnergyUpdate(reset, completionEntry, energy, task, entry).amount).toBe(10);
+  });
+
   it("should update energy properly with partially done task after existing update", () => {
     const reset = 1652004000;
     const twoDaysBefore = reset + 3600000 - 2 * 86400000;
