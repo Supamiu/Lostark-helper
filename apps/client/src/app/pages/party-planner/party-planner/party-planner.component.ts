@@ -39,7 +39,8 @@ export class PartyPlannerComponent {
       return tasks
         .map(task => {
           const taskChildren = subtasks
-            .filter(st => st.parentName === task.label);
+            .filter(st => st.parentName === task.label)
+            .sort((a, b) => a.minIlvl - b.minIlvl);
           if (taskChildren.length === 0) {
             return [task];
           }
@@ -47,6 +48,7 @@ export class PartyPlannerComponent {
             return {
               ...task,
               subTask: child,
+              minIlvl: child.minIlvl,
               maxIlvl: taskChildren[i + 1]?.minIlvl - 1 || 9999
             } as LostarkTaskWithSubtask;
           });
@@ -172,8 +174,10 @@ export class PartyPlannerComponent {
                                 .filter(c => !c.isPrivate)
                                 .filter(fChar => {
                                   const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
-                                  return fDone >= 0 && fDone < task.amount
-                                    && fChar.ilvl >= (task.minIlvl || 0) && fChar.ilvl <= (task.maxIlvl || Infinity);
+                                  return fDone >= 0
+                                    && fDone < task.amount
+                                    && fChar.ilvl >= (task.minIlvl || 0)
+                                    && fChar.ilvl <= (task.maxIlvl || Infinity);
                                 })
                                 .map(c => {
                                   return {
