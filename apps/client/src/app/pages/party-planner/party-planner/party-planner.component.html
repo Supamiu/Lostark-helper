@@ -22,10 +22,12 @@
             nzMessage="No characters in your roster, please add some in the roster page" nzShowIcon></nz-alert>
   <ng-container *ngIf="display$ | async as display">
     <nz-table [nzData]="[{}]"
+              *ngIf="scroll$ | async as scroll"
               nzHideOnSinglePage
               nzBordered
               nzOuterBordered
-              [nzScroll]="{y:tableHeight+'px'}"
+              [nzScroll]="scroll"
+              [class.compact]="!scroll.x"
               nzSize="middle">
       <thead>
       <tr>

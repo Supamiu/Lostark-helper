@@ -3,7 +3,7 @@ import { UserService } from "../../../core/database/services/user.service";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
-import { combineLatest, map, of, pluck, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, of, pluck, switchMap } from "rxjs";
 import { TimeService } from "../../../core/time.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -220,7 +220,23 @@ export class PartyPlannerComponent {
     })
   );
 
-  public tableHeight!: number;
+  windowResized$ = new BehaviorSubject<void>(void 0);
+
+  public scroll$ = this.windowResized$.pipe(
+    switchMap(() => {
+      return this.roster$.pipe(
+        map(roster => {
+          const scroll: { x?: string, y: string } = {
+            y: `${window.innerHeight - 64 - 48 - 180}px`
+          };
+          if (roster.characters.length > 8) {
+            scroll.x = `${window.innerWidth - 80 - 48}px`;
+          }
+          return scroll;
+        })
+      );
+    })
+  );
 
   constructor(private userService: UserService, private rosterService: RosterService,
               private completionService: CompletionService, private tasksService: TasksService,
@@ -230,7 +246,7 @@ export class PartyPlannerComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 180;
+    this.windowResized$.next();
   }
 
   trackByEntry(index: number, entry: { task: LostarkTask }): string | undefined {
