@@ -29,9 +29,11 @@ export abstract class FirestoreStorage<T extends DataModel> {
 
   protected static OPERATIONS: Record<string, Record<"read" | "write" | "delete", number>> = {};
 
+  protected shouldClone = true;
+
   protected converter: FirestoreDataConverter<T> = {
-    toFirestore(modelObject: WithFieldValue<T>): DocumentData {
-      const workingCopy: Partial<WithFieldValue<T>> = { ...modelObject } as Partial<WithFieldValue<T>>;
+    toFirestore: (modelObject: WithFieldValue<T>): DocumentData => {
+      const workingCopy: Partial<WithFieldValue<T>> = (this.shouldClone ? { ...modelObject } : modelObject) as Partial<WithFieldValue<T>>;
       delete workingCopy.$key;
       delete workingCopy.notFound;
       Object.entries(workingCopy)

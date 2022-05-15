@@ -9,6 +9,8 @@ import { AuthService } from "./auth.service";
   providedIn: "root"
 })
 export class CompletionService extends FirestoreStorage<Completion> {
+  protected override shouldClone = false;
+
   public completion$: Observable<Completion> = this.auth.uid$.pipe(
     switchMap(uid => {
       return this.getOne(uid).pipe(
