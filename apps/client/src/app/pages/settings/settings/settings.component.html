@@ -88,6 +88,7 @@
                       <td *ngFor="let bonus of row.energy; index as i; trackBy: trackByIndex">
                         <nz-input-number [ngModel]="bonus"
                                          [nzMin]="0"
+                                         [nzStep]="10"
                                          [nzMax]="100"
                                          [ngModelOptions]="{updateOn: 'blur'}"
                                          (ngModelChange)="setRestBonus(energy, row.task, fullRoster[i], $event)"></nz-input-number>
