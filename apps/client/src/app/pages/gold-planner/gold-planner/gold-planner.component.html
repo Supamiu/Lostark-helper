@@ -23,6 +23,7 @@
             <td class="task-name">
               <img *ngIf="row.task?.iconPath" src="./assets/icons/{{row.task?.iconPath}}" alt="" class="task-icon">
               {{row.gTask.name}}
+              (<img src="./assets/icons/gold.png" class="gold-icon" alt="gold">{{row.gTask.goldReward}})
             </td>
             <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
               <div class="cell-container">
