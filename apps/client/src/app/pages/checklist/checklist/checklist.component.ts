@@ -59,6 +59,14 @@ export class ChecklistComponent {
   public lastDailyReset$ = this.timeService.lastDailyReset$;
   public lastWeeklyReset$ = this.timeService.lastWeeklyReset$;
 
+  public nextDailyReset$ = this.lastDailyReset$.pipe(
+    map(reset => reset + 86400000)
+  );
+
+  public nextWeeklyReset$ = this.lastWeeklyReset$.pipe(
+    map(reset => reset + 86400000 * 7)
+  );
+
   public tasks$: Observable<LostarkTask[]> = combineLatest([
     this.roster$,
     this.tasksService.tasks$
@@ -156,7 +164,7 @@ export class ChecklistComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 190;
+    this.tableHeight = window.innerHeight - 64 - 48 - 210;
   }
 
   public ticketsTrackingOpenedChange(opened: boolean): void {

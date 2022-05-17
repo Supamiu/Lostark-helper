@@ -12,6 +12,9 @@ import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { NzCollapseModule } from "ng-zorro-antd/collapse";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzSwitchModule } from "ng-zorro-antd/switch";
+import { NzStatisticModule } from "ng-zorro-antd/statistic";
+import { NzGridModule } from "ng-zorro-antd/grid";
+import { NzDividerModule } from "ng-zorro-antd/divider";
 
 const routes = [{
   path: "",
@@ -37,7 +40,10 @@ const routes = [{
     NzPageHeaderModule,
     NzCollapseModule,
     NzInputNumberModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzStatisticModule,
+    NzGridModule,
+    NzDividerModule
   ]
 })
 export class ChecklistModule {

@@ -9,6 +9,35 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
+
+
+  .countdowns-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .ant-statistic {
+      display: flex;
+      align-items: center;
+      line-height: normal;
+
+      .ant-statistic-title {
+        margin: 0 10px 0 0;
+      }
+
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+
+    .ant-statistic-content {
+      font-size: 1.1rem;
+    }
+
+    .ant-statistic-content-value {
+      font-size: 1.1rem;
+    }
+  }
 }
 
 .counter {

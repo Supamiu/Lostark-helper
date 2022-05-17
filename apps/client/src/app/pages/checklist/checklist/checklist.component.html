@@ -1,6 +1,15 @@
 <nz-page-header nzTitle="Checklist"
-                nzSubtitle="Track your daily and weekly tasks with automated resets and rest bonus support">
-  <nz-page-header-extra>Ctrl + Click a task to mark it as entirely done in a single click</nz-page-header-extra>
+                [nzSubtitle]="subtitle">
+  <ng-template #subtitle>
+    Track your daily and weekly tasks with automated resets and rest bonus support <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Ctrl + Click a task to mark it as entirely done in a single click"></i>
+  </ng-template>
+
+  <nz-page-header-extra>
+    <div class="countdowns-container">
+      <nz-countdown *ngIf="nextDailyReset$ | async as reset" [nzValue]="reset" nzTitle="Next daily reset: "></nz-countdown>
+      <nz-countdown *ngIf="nextWeeklyReset$ | async as reset" [nzValue]="reset" nzTitle="Next weekly reset: "></nz-countdown>
+    </div>
+  </nz-page-header-extra>
 </nz-page-header>
 
 <nz-collapse *ngIf="rawRoster$ | async as roster">
