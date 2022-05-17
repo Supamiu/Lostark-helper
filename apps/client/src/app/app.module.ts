@@ -16,7 +16,7 @@ import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { environment } from "../environments/environment";
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from "@angular/fire/analytics";
 import { getAuth, provideAuth } from "@angular/fire/auth";
-import { enableIndexedDbPersistence, getFirestore, provideFirestore } from "@angular/fire/firestore";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { USE_DEVICE_LANGUAGE } from "@angular/fire/compat/auth";
 import { NzDropDownModule } from "ng-zorro-antd/dropdown";
 import { AuthPopupsModule } from "./components/auth-popups/auth-popups.module";
@@ -41,11 +41,7 @@ registerLocaleData(en);
     provideAuth(() => getAuth()),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
-    provideFirestore(() => {
-      const firestore = getFirestore();
-      enableIndexedDbPersistence(firestore);
-      return firestore;
-    }),
+    provideFirestore(() => getFirestore()),
     NzDropDownModule,
     AuthPopupsModule,
     NzModalModule,
