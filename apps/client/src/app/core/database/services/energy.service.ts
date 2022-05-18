@@ -53,7 +53,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
                   const entry = getCompletionEntry(energy.data, character, task) || {
                     amount: 0
                   };
-                  if (completionEntry && (reset - completionEntry.updated) > 86400000) {
+                  if (completionEntry) {
                     setCompletionEntry(energy.data, character, task, this.getEnergyUpdate(reset, completionEntry, energy, task, entry));
                   } else if (!completionEntry && !newEnergy) {
                     setCompletionEntry(energy.data, character, task, { amount: 0 });
