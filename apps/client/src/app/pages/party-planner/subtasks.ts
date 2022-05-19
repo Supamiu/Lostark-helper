@@ -24,7 +24,7 @@ export const subtasks: Subtask[] = [
   { name: `Igrexion`, parentName: "Guardian", banner: "guardians/guardian_26.png", minIlvl: 1340 },
   { name: `Night Fox Yoho`, parentName: "Guardian", banner: "guardians/guardian_18.png", minIlvl: 1370 },
   // { name: `Velganos`, parentName: "Guardian", banner: 'guardians/guardian_.png', minIlvl: 1400 },
-  // { name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/guardian_.png', minIlvl: 1415 },
+  { name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/guardian_29.png', minIlvl: 1415 },
 
   // T3 Abyss
   { name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
@@ -35,5 +35,9 @@ export const subtasks: Subtask[] = [
   // Argos Phases
   { name: `Argos P1`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1370 },
   { name: `Argos P2`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1385 },
-  { name: `Argos P3`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1400 }
+  { name: `Argos P3`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1400 },
+
+  // Valtan Difficulties
+  { name: `Valtan Normal`, parentName: "Valtan", banner: "abyss_raids/abyss_02.png", minIlvl: 1415 },
+  { name: `Valtan Hard`, parentName: "Valtan", banner: "abyss_raids/abyss_02.png", minIlvl: 1445 }
 ];

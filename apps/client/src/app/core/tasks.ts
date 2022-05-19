@@ -31,7 +31,6 @@ export const tasks = [
 
   // Weekly Character
   createTask(`Una's Task`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "weekly.webp"),
-  //createTask(`Guardian`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3),
   createTask(`Demon Beast Canyon`, 340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 840, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
@@ -68,15 +67,19 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Aira's Oculus`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-dungeon.webp", {
+  createTask(`Aira's Oculus`, 1325, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1415, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
   }),
-  createTask(`Oreha Preveza`, 1340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-dungeon.webp", {
+  createTask(`Oreha Preveza`, 1340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1415, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
   }),
   createTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
+    shared: true,
+    partySize: 8
+  }),
+  createTask(`Valtan`, 1415, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
     shared: true,
     partySize: 8
   }),
@@ -86,6 +89,10 @@ export const tasks = [
     daysFilter: [2, 4, 6]
   }),
   createTask(`South Vern Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, ""),
+  createTask("Challenge Guardian", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 2, 9999, "guardian.png", {
+    shared: true,
+    partySize: 4
+  }),
   //createTask(`Trial of the Abyss`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2),
 
   // Trades
