@@ -89,7 +89,7 @@ export const tasks = [
     daysFilter: [2, 4, 6]
   }),
   createTask(`South Vern Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, ""),
-  createTask("Challenge Guardian", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 2, 9999, "guardian.png", {
+  createTask("Challenge Guardian", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 3, 9999, "guardian.png", {
     shared: true,
     partySize: 4
   }),
