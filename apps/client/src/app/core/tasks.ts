@@ -79,7 +79,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Valtan`, 1415, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
+  createTask(`Valtan`, 1415, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
