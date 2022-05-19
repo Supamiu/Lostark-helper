@@ -114,10 +114,7 @@ export class RosterComponent {
         return of(null);
       })
     ).subscribe();
-    this.saveCharacter(character, {
-      ...roster,
-      characters: roster.characters.map(c => c.id === character.id ? { ...character, name: newName } : c)
-    });
+    this.saveCharacter({ ...character, name: newName }, roster);
   }
 
   public saveCharacter(character: Character, roster: Roster): void {
