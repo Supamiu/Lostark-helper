@@ -116,9 +116,9 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Argos P2",
-    goldReward: 300,
+    goldReward: 900,
     taskName: "Argos",
-    chestPrice: 500,
+    chestPrice: 300,
     completionId: "T3.1",
     chestId: "Argos",
     overrideMinIlvl: 1385
