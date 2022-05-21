@@ -77,7 +77,8 @@ export class GoldPlannerComponent {
               };
             }
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
-            const cantDoGoldTask = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
+            const ilvlTooLow = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
+            const ilvlTooHigh = gTask.overrideMaxIlvl && character.ilvl >= gTask.overrideMaxIlvl;
             const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
             if (gTask.entryId) {
               // Find the other ones with same entry ID
@@ -92,10 +93,10 @@ export class GoldPlannerComponent {
                 };
               }
             }
-            if (cantDoTask || cantDoGoldTask) {
+            if (cantDoTask || ilvlTooLow || ilvlTooHigh) {
               if (!forceFlag) {
                 return {
-                  force: false,
+                  force: gTask.canForce ? false : null,
                   value: null
                 };
               }
@@ -117,6 +118,9 @@ export class GoldPlannerComponent {
             gTask,
             flags: flagsData
           };
+        })
+        .filter(({ flags }) => {
+          return flags.some(f => f.force !== null || f.value !== null);
         });
 
       const chestIdsDone = {};

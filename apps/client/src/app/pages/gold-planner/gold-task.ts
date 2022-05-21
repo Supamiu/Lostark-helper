@@ -8,4 +8,6 @@ export interface GoldTask {
   chestPrice?: number;
   chestId?: string;
   overrideMinIlvl?: number;
+  overrideMaxIlvl?: number;
+  canForce?: boolean;
 }

@@ -48,7 +48,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
                     Object.assign(instance, {
                       ...defaultTask,
                       $key: t.$key,
-                      maxIlvl: t.maxIlvl,
+                      maxIlvl: t.maxIlvl === 9999 ? defaultTask.maxIlvl : t.maxIlvl,
                       minIlvl: t.minIlvl,
                       enabled: t.enabled,
                       authorId: uid,

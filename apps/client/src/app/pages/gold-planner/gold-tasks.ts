@@ -121,7 +121,8 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 300,
     completionId: "T3.1",
     chestId: "Argos",
-    overrideMinIlvl: 1385
+    overrideMinIlvl: 1385,
+    canForce: true
   },
   {
     name: "Argos P3",
@@ -130,6 +131,45 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 500,
     completionId: "T3.1",
     chestId: "Argos",
-    overrideMinIlvl: 1400
+    overrideMinIlvl: 1400,
+    canForce: true
+  },
+
+  // T3 Legion Raid
+  {
+    name: "Valtan Normal Gate 1",
+    goldReward: 800,
+    taskName: "Valtan",
+    chestPrice: 500,
+    completionId: "T3.L1.1",
+    chestId: "Valtan1",
+    overrideMaxIlvl: 1445
+  },
+  {
+    name: "Valtan Normal Gate 2",
+    goldReward: 2500,
+    taskName: "Valtan",
+    chestPrice: 800,
+    completionId: "T3.L1.2",
+    chestId: "Valtan2",
+    overrideMaxIlvl: 1445
+  },
+  {
+    name: "Valtan Hard Gate 1",
+    goldReward: 1000,
+    taskName: "Valtan",
+    chestPrice: 900,
+    completionId: "T3.L1.1",
+    chestId: "Valtan1",
+    overrideMinIlvl: 1445
+  },
+  {
+    name: "Valtan Hard Gate 2",
+    goldReward: 3300,
+    taskName: "Valtan",
+    chestPrice: 800,
+    completionId: "T3.L1.2",
+    chestId: "Valtan2",
+    overrideMinIlvl: 1445
   }
 ];
