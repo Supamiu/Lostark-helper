@@ -165,9 +165,9 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Valtan Hard Gate 2",
-    goldReward: 3300,
+    goldReward: 3500,
     taskName: "Valtan",
-    chestPrice: 800,
+    chestPrice: 1200,
     completionId: "T3.L1.2",
     chestId: "Valtan2",
     overrideMinIlvl: 1445
