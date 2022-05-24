@@ -52,6 +52,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
                       minIlvl: t.minIlvl,
                       enabled: t.enabled,
                       authorId: uid,
+                      index: t.index,
                       version: TASKS_VERSION
                     });
                   } else {
@@ -59,6 +60,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
                       ...t,
                       custom: true,
                       authorId: uid,
+                      index: t.index,
                       version: TASKS_VERSION
                     });
                   }
