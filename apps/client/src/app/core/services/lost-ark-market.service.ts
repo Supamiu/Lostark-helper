@@ -14,12 +14,12 @@ export class LostArkMarketService {
 
   public readonly region$ = this.userService.region$;
 
-  public readonly fullDataFeed$ = combineLatest([
+  public readonly enhancementMaterialsFeed$ = combineLatest([
     this.region$,
     this.reloader$.pipe(throttleTime(5 * 60000)) // No more than one request every 5 minutes !
   ]).pipe(
     switchMap(([region]) => {
-      return this.http.get<LostArkMarketEntry[]>(`https://www.lostarkmarket.online/api/export-market-live/${this.toRegionFilter(region)}`);
+      return this.http.get<LostArkMarketEntry[]>(`https://www.lostarkmarket.online/api/export-market-live/${this.toRegionFilter(region)}?categories=Enhancement Material,Currency Exchange`);
     }),
     shareReplay(1)
   );

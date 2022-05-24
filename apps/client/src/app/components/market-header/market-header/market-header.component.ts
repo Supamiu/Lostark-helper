@@ -27,7 +27,7 @@ export class MarketHeaderComponent {
 
   updatePricesFromLostarkMarket(): void {
     this.updatingFromMarket = true;
-    this.lostArkMarket.fullDataFeed$.pipe(
+    this.lostArkMarket.enhancementMaterialsFeed$.pipe(
       first()
     ).subscribe(entries => {
       mariTrades.forEach(trade => {
