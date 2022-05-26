@@ -18,10 +18,10 @@ export const subtasks: Subtask[] = [
   { name: `Frost Helgaia`, parentName: "Guardian", banner: "guardians/monster_info_14.png", minIlvl: 960 },
   { name: `Lava Chromanium`, parentName: "Guardian", banner: "guardians/monster_info_15.png", minIlvl: 1000 },
   { name: `Levanos`, parentName: "Guardian", banner: "guardians/monster_info_09.png", minIlvl: 1040 },
-  { name: `Alberhastic`, parentName: "Guardian", banner: "guardians/monster_info_28.png", minIlvl: 1080 },
+  { name: `Alberhastic`, parentName: "Guardian", banner: "guardians/monster_info_26.png", minIlvl: 1080 },
   // T3 Guardians
   { name: `Armored Nacrasena`, parentName: "Guardian", banner: "guardians/monster_info_08.png", minIlvl: 1302 },
-  { name: `Igrexion`, parentName: "Guardian", banner: "guardians/monster_info_26.png", minIlvl: 1340 },
+  { name: `Igrexion`, parentName: "Guardian", banner: "guardians/monster_info_25.png", minIlvl: 1340 },
   { name: `Night Fox Yoho`, parentName: "Guardian", banner: "guardians/monster_info_18.png", minIlvl: 1370 },
   // { name: `Velganos`, parentName: "Guardian", banner: 'guardians/monster_info_.png', minIlvl: 1400 },
   { name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/monster_info_27.png', minIlvl: 1415 },
