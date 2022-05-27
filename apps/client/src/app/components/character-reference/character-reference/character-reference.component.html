@@ -1,0 +1,15 @@
+<ng-container *ngIf="data$ | async as data">
+  <ng-container *ngIf="data.userName; else userNotFound">
+    <div class="name-container" *ngIf="data.character; else characterNotFound" nz-tooltip [nzTooltipTitle]="data.userName">
+      <img src="./assets/icons/classes/class_{{data.character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+      {{data.character.name}}
+      <span *ngIf="showIlvl">[ilvl {{data.character.ilvl}}]</span>
+    </div>
+  </ng-container>
+  <ng-template #userNotFound>
+    <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i> User not found
+  </ng-template>
+  <ng-template #characterNotFound>
+    <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i> Character not found
+  </ng-template>
+</ng-container>

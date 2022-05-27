@@ -1,0 +1,133 @@
+<ng-container *ngIf="guild$ | async as guild">
+  <nz-empty *ngIf="guild.notFound" nzNotFoundContent="Guild not found"></nz-empty>
+
+  <div *ngIf="user$ | async as user" nz-row [nzGutter]="[10,10]">
+
+    <nz-page-header [nzTitle]="guild.name" [nzSubtitle]="guild.region | regionName"  nz-col [nzSpan]="24">
+      <nz-page-header-extra>
+        <button nz-button nzShape="circle"
+                nz-tooltip nzTooltipTitle="Copy invite link"
+                [cdkCopyToClipboard]="getInviteLink(guild)" (cdkCopyToClipboardCopied)="copyLinkSuccess()">
+          <i nz-icon nzType="link" nzTheme="outline"></i>
+        </button>
+        <a nz-button href="{{guild.discordServer}}" target="_blank" nzType="primary">
+          <img src="./assets/Discord-Logo-White.svg" alt="Discord" class="discord-logo">
+          Join discord server
+        </a>
+      </nz-page-header-extra>
+    </nz-page-header>
+
+    <nz-alert nzType="warning" nzBanner
+              nz-col [nzSpan]="24"
+              *ngIf="user.region !== guild.region"
+              nzMessage="This guild is on a different region"
+              nzDescription="This guild is on a region that's not the same as the one you have set in the header dropdown, you might not be able to join it ingame."></nz-alert>
+
+    <div nz-col [nzSpan]="24">
+      <nz-card nzTitle="Informations" nzSize="small">
+        <nz-list *ngIf="showMembers$ | async" nzGrid>
+          <nz-divider [nzText]="membersTpl" nzOrientation="left"></nz-divider>
+          <ng-template #membersTpl>Members ({{guild.users.length}} users, {{guild.members.length}} characters)
+            <nz-switch *ngIf="isOfficierOrLeader$ | async" nzCheckedChildren="private" nzUnCheckedChildren="public" [(ngModel)]="guild.privateMembers" (ngModelChange)="setPrivateMembers(guild, $event)"></nz-switch>
+          </ng-template>
+          <nz-alert nzType="info" *ngIf="guild.privateMembers" nzMessage="Only guild members are allowed to see this" nzShowIcon></nz-alert>
+          <div nz-row [nzGutter]="[10, 10]" class="members-list">
+            <div nz-col [nzMd]="4" *ngFor="let member of guild.members">
+              <nz-list-item>
+                <nz-card>
+                  <lostark-helper-character-reference [reference]="member" [showIlvl]="true"></lostark-helper-character-reference>
+                  <div class="member-actions">
+                    <nz-tag *ngIf="memberIsLeader(member, guild)" nzColor="cyan">Leader</nz-tag>
+                    <nz-tag *ngIf="memberIsOfficier(member, guild)" nzColor="green">Officier</nz-tag>
+                  </div>
+                  <div class="member-actions" *ngIf="isOfficierOrLeader$ | async">
+                    <ng-container *ngIf="isLeader$ | async">
+                      <ng-container *ngIf="!memberIsOfficier(member, guild) && !memberIsLeader(member, guild)">
+                        <button nz-button nzShape="circle" nz-tooltip nzTooltipTitle="Promote to officier" (click)="promoteOfficier(member, guild)">
+                          <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzShape="circle" nz-tooltip nzTooltipTitle="Promote leader" nz-popconfirm nzPopconfirmTitle="This will remove your leader status, are you sure?" (nzOnConfirm)="promoteLeader(member, guild)">
+                          <i nz-icon nzType="star" nzTheme="outline"></i>
+                        </button>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzShape="circle" nz-tooltip nzTooltipTitle="Kick" nzDanger nz-popconfirm nzPopconfirmTitle="This cannot be undone, are you sure?" (nzOnConfirm)="kick(member, guild)">
+                          <i nz-icon nzType="user-delete" nzTheme="outline"></i>
+                        </button>
+                      </ng-container>
+                      <ng-container *ngIf="memberIsOfficier(member, guild)">
+                        <button nz-button nzShape="circle" nzDanger nz-tooltip nzTooltipTitle="Demote to member" (click)="demoteOfficier(member, guild)">
+                          <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </nz-card>
+              </nz-list-item>
+            </div>
+          </div>
+        </nz-list>
+      </nz-card>
+    </div>
+
+    <div nz-col [nzSpan]="24">
+      <nz-card nzTitle="Candidates" nzSize="small" *ngIf="isMember$ | async">
+        <nz-list nzHeader="Candidates" [nzDataSource]="guild.candidates" [nzNoResult]="noCandidates">
+          <ng-template #noCandidates>
+            <nz-empty nzNotFoundContent="No candidates"></nz-empty>
+          </ng-template>
+          <nz-list-item *ngFor="let candidate of guild.candidates" [nzActions]="(isOfficierOrLeader$ | async) ? [acceptTpl, rejectTpl] : []">
+            <ng-template #acceptTpl>
+              <button nz-button nzType="primary" nzShape="circle" (click)="accept(candidate, guild)" nz-tooltip nzTooltipTitle="Accept this candidate">
+                <i nz-icon nzType="check" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+            <ng-template #rejectTpl>
+              <button nz-button nzDanger nzShape="circle" (click)="reject(candidate, guild)" nz-tooltip nzTooltipTitle="Reject this candidate">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+            <nz-list-item-meta [nzTitle]="candidateTitleTpl" [nzDescription]="candidate.message || 'No message'">
+              <ng-template #candidateTitleTpl>
+                <div>
+                  <lostark-helper-character-reference [reference]="candidate.ref" [showIlvl]="true"></lostark-helper-character-reference>
+                </div>
+              </ng-template>
+            </nz-list-item-meta>
+          </nz-list-item>
+        </nz-list>
+      </nz-card>
+    </div>
+
+    <ng-container *ngIf="characters$ | async as characters">
+      <div nz-col [nzSpan]="24" *ngIf="characters.length > 0">
+        <nz-card nzSize="small" nzTitle="Apply to join this guild">
+          <form nz-form [formGroup]="candidateForm" (ngSubmit)="pushCandidate(user.$key, guild)">
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please select a character">
+                <nz-input-group nzAddOnBefore="Character">
+                  <nz-select formControlName="character" class="select-box" nzShowSearch>
+                    <nz-option *ngFor="let character of characters"
+                               [nzValue]="character.id" [nzLabel]="character.name"
+                               nzCustomContent class="character-row">
+                      <div class="character-row">
+                        <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+                        <div>{{character.name}}</div>
+                      </div>
+                    </nz-option>
+                  </nz-select>
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <textarea nz-input placeholder="Message to attach to the application (Optional)" formControlName="message"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+            <button nz-button nzBlock [nzType]="'primary'" [disabled]="!candidateForm.valid">Apply</button>
+          </form>
+        </nz-card>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
