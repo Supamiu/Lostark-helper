@@ -38,6 +38,11 @@ export const honingChances: HoningChances[] = [
   { type: "armor", rarity: "legendary/relic", target: 18, chances: 5, stones: 686, shards: 396, leapstones: 16, fusionMaterial: 12, silver: 29040, gold: 280 },
   { type: "armor", rarity: "legendary/relic", target: 19, chances: 5, stones: 780, shards: 536, leapstones: 18, fusionMaterial: 14, silver: 29660, gold: 320 },
   { type: "armor", rarity: "legendary/relic", target: 20, chances: 3, stones: 780, shards: 728, leapstones: 20, fusionMaterial: 14, silver: 30320, gold: 350 },
+  { type: "armor", rarity: "legendary/relic", target: 21, chances: 3, stones: 780, shards: 988, leapstones: 22, fusionMaterial: 16, silver: 30980, gold: 360 },
+  { type: "armor", rarity: "legendary/relic", target: 22, chances: 1, stones: 874, shards: 1340, leapstones: 24, fusionMaterial: 18, silver: 31640, gold: 380 },
+  { type: "armor", rarity: "legendary/relic", target: 23, chances: 1, stones: 874, shards: 1818, leapstones: 26, fusionMaterial: 20, silver: 32320, gold: 390 },
+  { type: "armor", rarity: "legendary/relic", target: 24, chances: 0.5, stones: 874, shards: 2466, leapstones: 28, fusionMaterial: 22, silver: 33040, gold: 400 },
+  { type: "armor", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 968, shards: 3346, leapstones: 30, fusionMaterial: 24, silver: 33740, gold: 420 },
 
   // Epic weapon
   { type: "weapon", rarity: "epic", target: 7, chances: 60, stones: 258, shards: 60, leapstones: 8, fusionMaterial: 4, silver: 18320, gold: 120 },
@@ -64,5 +69,10 @@ export const honingChances: HoningChances[] = [
   { type: "weapon", rarity: "legendary/relic", target: 17, chances: 10, stones: 1144, shards: 422, leapstones: 24, fusionMaterial: 14, silver: 40580, gold: 480 },
   { type: "weapon", rarity: "legendary/relic", target: 18, chances: 5, stones: 1144, shards: 572, leapstones: 28, fusionMaterial: 16, silver: 41460, gold: 540 },
   { type: "weapon", rarity: "legendary/relic", target: 19, chances: 5, stones: 1300, shards: 776, leapstones: 30, fusionMaterial: 18, silver: 42360, gold: 640 },
-  { type: "weapon", rarity: "legendary/relic", target: 20, chances: 3, stones: 1300, shards: 1054, leapstones: 32, fusionMaterial: 20, silver: 43260, gold: 730 }
+  { type: "weapon", rarity: "legendary/relic", target: 20, chances: 3, stones: 1300, shards: 1054, leapstones: 32, fusionMaterial: 20, silver: 43260, gold: 730 },
+  { type: "weapon", rarity: "legendary/relic", target: 21, chances: 3, stones: 1300, shards: 1432, leapstones: 34, fusionMaterial: 22, silver: 44200, gold: 750 },
+  { type: "weapon", rarity: "legendary/relic", target: 22, chances: 1, stones: 1458, shards: 1944, leapstones: 38, fusionMaterial: 26, silver: 45160, gold: 780 },
+  { type: "weapon", rarity: "legendary/relic", target: 23, chances: 1, stones: 1458, shards: 2640, leapstones: 42, fusionMaterial: 28, silver: 46140, gold: 810 },
+  { type: "weapon", rarity: "legendary/relic", target: 24, chances: 0.5, stones: 1458, shards: 3586, leapstones: 44, fusionMaterial: 32, silver: 47160, gold: 840 },
+  { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870 },
 ];
