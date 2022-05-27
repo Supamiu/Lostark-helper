@@ -177,7 +177,7 @@ export class PartyPlannerComponent {
                                   return fDone >= 0
                                     && fDone < task.amount
                                     && fChar.ilvl >= (task.minIlvl || 0)
-                                    && fChar.ilvl <= (task.maxIlvl || Infinity);
+                                    && fChar.ilvl < (task.maxIlvl || Infinity);
                                 })
                                 .map(c => {
                                   return {
