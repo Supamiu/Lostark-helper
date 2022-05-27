@@ -47,6 +47,7 @@ export class TasksComponent {
   public icons = [
     "abyssal-dungeon.webp",
     "abyssal-raid.webp",
+    "legion_raid.png",
     "chaos-dungeon.webp",
     "chaos_gate.png",
     "daily.webp",
