@@ -4,9 +4,12 @@ import { LAHUser } from "../../../model/lah-user";
 import { Firestore } from "@angular/fire/firestore";
 import { AuthService } from "./auth.service";
 import { combineLatest, map, of, shareReplay, switchMap } from "rxjs";
-import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import {
+  TextQuestionPopupComponent
+} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { LostarkRegion } from "../../../model/lostark-region";
+import { emptyAvailability } from "../../../model/availability/availability";
 
 @Injectable({
   providedIn: "root"
@@ -47,6 +50,9 @@ export class UserService extends FirestoreStorage<LAHUser> {
     map(user => {
       if (!user.region) {
         user.region = LostarkRegion.EUROPE_CENTRAL;
+      }
+      if (!user.availability) {
+        user.availability = emptyAvailability();
       }
       return user;
     }),
