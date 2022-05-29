@@ -155,38 +155,36 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
       })
     ).subscribe();
 
-    combineLatest([
-      this.baseData$.pipe(
-        pluck("result"),
-        debounceTime(1000)
-      ),
-      this.completion.completion$
-    ])
-      .pipe(
-        map(([tasks, completion]) => {
-          return tasks.filter(task => {
+    this.baseData$.pipe(
+      pluck("result"),
+      debounceTime(1000),
+      map((tasks) => {
+        return tasks
+          .filter(task => {
             return !task.custom
               && tasks.filter(t => {
                 return t.label?.toLowerCase() === task.label?.toLowerCase()
                   && t.frequency === task.frequency
                   && !t.custom;
-              }).length > 1
-              && !Object.keys(completion.data).some(k => k.includes(task.$key));
+              }).length > 1;
           });
-        }),
-        filter(toDelete => toDelete.length > 0),
-        switchMap(toDelete => {
-          const batch = this.batch();
-          toDelete.forEach((task) => {
-            batch.delete(this.docRef(task.$key));
-          });
-          return from(batch.commit()).pipe(
-            tap(() => {
-              console.log(`Deleted ${toDelete.length} tasks from database.`);
-            })
-          );
-        })
-      ).subscribe();
+      }),
+      filter(toDelete => toDelete.length > 0),
+      map(duplicates => {
+        return duplicates.reverse().filter((task, i) => duplicates.findIndex(t => t.label?.toLowerCase() === task.label?.toLowerCase()) !== i);
+      }),
+      switchMap(toDelete => {
+        const batch = this.batch();
+        toDelete.forEach((task) => {
+          batch.delete(this.docRef(task.$key));
+        });
+        return from(batch.commit()).pipe(
+          tap(() => {
+            console.log(`Deleted ${toDelete.length} tasks from database.`);
+          })
+        );
+      })
+    ).subscribe();
 
     const cleanupRegistry: string[] = [];
 
