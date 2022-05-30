@@ -1,5 +1,5 @@
 import { LostarkTask } from "../model/lostark-task";
-import { Character } from "../model/character";
+import { Character } from "../model/character/character";
 import { Completion } from "../model/completion";
 import { subDays, subHours } from "date-fns";
 import { getCompletionEntry } from "./get-completion-entry-key";

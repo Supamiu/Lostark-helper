@@ -1,0 +1,17 @@
+<form [formGroup]="form" nz-form *ngIf="roster$ | async as roster" (ngSubmit)="submit()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="name" nzRequired>Name</nz-form-label>
+    <nz-form-control [nzSpan]="14">
+      <input nz-input formControlName="name" type="text" id="name">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="character">Character</nz-form-label>
+    <nz-form-control [nzSpan]="14">
+      <nz-select formControlName="character">
+        <nz-option *ngFor="let character of roster.characters" [nzLabel]="character.name" nzValue="{{roster.$key}}:{{character.id}}"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button type="submit" nzType="primary" [disabled]="form.invalid">Create a gearset</button>
+</form>

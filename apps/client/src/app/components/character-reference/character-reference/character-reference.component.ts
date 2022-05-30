@@ -22,6 +22,9 @@ export class CharacterReferenceComponent {
   @Input()
   showIlvl = false;
 
+  @Input()
+  disableTooltip = false;
+
   public data$ = this.reference$.pipe(
     filter(Boolean),
     switchMap(ref => {

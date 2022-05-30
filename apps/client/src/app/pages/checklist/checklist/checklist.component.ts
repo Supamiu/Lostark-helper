@@ -1,7 +1,6 @@
 import { Component, HostListener } from "@angular/core";
 import { combineLatest, map, Observable, pluck } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
-import { Character } from "../../../model/character";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
 import { Completion } from "../../../model/completion";
@@ -16,6 +15,7 @@ import { TasksService } from "../../../core/database/services/tasks.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
+import { Character } from "../../../model/character/character";
 
 @Component({
   selector: "lostark-helper-checklist",

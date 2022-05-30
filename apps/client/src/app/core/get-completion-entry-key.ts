@@ -1,6 +1,6 @@
 import { LostarkTask } from "../model/lostark-task";
 import { TaskScope } from "../model/task-scope";
-import { Character } from "../model/character";
+import { Character } from "../model/character/character";
 
 export function getCompletionEntryKey(character: { id?: number, name: string }, task: LostarkTask, forceName = false): string {
   if (task.scope === TaskScope.ROSTER) {

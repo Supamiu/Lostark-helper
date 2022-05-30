@@ -1,5 +1,5 @@
 import { DataModel } from "../core/database/data-model";
-import { Character } from "./character";
+import { Character } from "./character/character";
 
 export interface Roster extends DataModel {
   characters: Character[];

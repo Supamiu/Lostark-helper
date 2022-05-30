@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, map, Observable, pluck } from "rxjs";
 import { TaskFrequency } from "../../../model/task-frequency";
-import { Character } from "../../../model/character";
 import { TaskScope } from "../../../model/task-scope";
 import { LostarkTask } from "../../../model/lostark-task";
 import { Energy } from "../../../model/energy";
@@ -14,6 +13,7 @@ import { TasksService } from "../../../core/database/services/tasks.service";
 import { LocalStorageService } from "../../../core/database/services/local-storage.service";
 import { AuthService } from "../../../core/database/services/auth.service";
 import { Roster } from "../../../model/roster";
+import { Character } from "../../../model/character/character";
 
 @Component({
   selector: "lostark-helper-settings",

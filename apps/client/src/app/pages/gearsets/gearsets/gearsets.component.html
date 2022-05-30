@@ -1,0 +1,41 @@
+<nz-page-header nzTitle="Gearsets" nzSubtitle="Plan your gear, your upgrades, and share them with other players">
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" (click)="createGearset()">Create a gearset</button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-list *ngIf="gearsets$ | async as gearsets"
+         [nzDataSource]="gearsets"
+         [nzNoResult]="emptyState"
+         nzHeader="Your gearsets">
+  <ng-template #emptyState>
+    <nz-empty nzNotFoundContent="You have no gearsets"
+              [nzNotFoundFooter]="createGearsetTpl">
+      <ng-template #createGearsetTpl>
+        <button nz-button nzType="primary" (click)="createGearset()">Create a gearset</button>
+      </ng-template>
+    </nz-empty>
+  </ng-template>
+  <nz-list-item *ngFor="let gearset of gearsets" [nzContent]="characterLink" [nzActions]="[open, delete]">
+    <nz-list-item-meta>
+      <nz-list-item-meta-title>{{gearset.name}}</nz-list-item-meta-title>
+      <nz-list-item-meta-description>ilvl {{gearset.currentIlvl}}<span *ngIf="gearset.targetIlvl > gearset.currentIlvl">&nbsp;<i nz-icon nzType="arrow-right" nzTheme="outline"></i>&nbsp;{{gearset.targetIlvl}}</span></nz-list-item-meta-description>
+    </nz-list-item-meta>
+    <ng-template #open>
+      <a nz-button nzType="primary" nzShape="circle" routerLink="{{gearset.$key}}" nz-tooltip nzTooltipTitle="Open this gearset">
+        <i nz-icon nzType="folder-open" nzTheme="outline"></i>
+      </a>
+    </ng-template>
+    <ng-template #delete>
+      <a nz-button nzType="primary" nzShape="circle" nzDanger
+         nz-tooltip nzTooltipTitle="Delete this gearser"
+         nz-popconfirm nzPopconfirmTitle="Are you sure?"
+         (nzOnConfirm)="deleteGearset(gearset)">
+        <i nz-icon nzType="delete" nzTheme="outline"></i>
+      </a>
+    </ng-template>
+    <ng-template #characterLink>
+      <lostark-helper-character-reference *ngIf="gearset.character" [reference]="gearset.character" [disableTooltip]="true"></lostark-helper-character-reference>
+    </ng-template>
+  </nz-list-item>
+</nz-list>

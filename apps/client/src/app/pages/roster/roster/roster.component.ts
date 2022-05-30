@@ -1,7 +1,5 @@
 import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Character } from "../../../model/character";
-import { LostarkClass } from "../../../model/lostark-class";
 import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { filter, first, switchMap, withLatestFrom } from "rxjs/operators";
 import { Clipboard } from "@angular/cdk/clipboard";
@@ -15,6 +13,8 @@ import { AuthService } from "../../../core/database/services/auth.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { EnergyService } from "../../../core/database/services/energy.service";
 import { combineLatest, of } from "rxjs";
+import { LostarkClass } from "../../../model/character/lostark-class";
+import { Character } from "../../../model/character/character";
 
 @Component({
   selector: "lostark-helper-roster",

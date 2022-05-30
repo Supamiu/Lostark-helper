@@ -6,7 +6,7 @@ export interface HoningChances {
   stones: number;
   shards: number;
   leapstones: number;
-  fusionMaterial: number;
+  fusionMaterial?: number;
   silver: number;
   gold?: number;
 }
@@ -14,6 +14,12 @@ export interface HoningChances {
 
 export const honingChances: HoningChances[] = [
   // Epic armor
+  { type: "armor", rarity: "epic", target: 1, chances: 100, stones: 82, shards: 22, leapstones: 2, silver: 11100 },
+  { type: "armor", rarity: "epic", target: 2, chances: 100, stones: 82, shards: 22, leapstones: 2, silver: 11380 },
+  { type: "armor", rarity: "epic", target: 3, chances: 100, stones: 82, shards: 22, leapstones: 4, silver: 11660 },
+  { type: "armor", rarity: "epic", target: 4, chances: 100, stones: 120, shards: 36, leapstones: 4, fusionMaterial: 2, silver: 11960 },
+  { type: "armor", rarity: "epic", target: 5, chances: 100, stones: 120, shards: 36, leapstones: 4, fusionMaterial: 2, silver: 12240 },
+  { type: "armor", rarity: "epic", target: 6, chances: 100, stones: 120, shards: 36, leapstones: 4, fusionMaterial: 2, silver: 12540 },
   { type: "armor", rarity: "epic", target: 7, chances: 60, stones: 156, shards: 42, leapstones: 4, fusionMaterial: 2, silver: 12840, gold: 70 },
   { type: "armor", rarity: "epic", target: 8, chances: 45, stones: 156, shards: 42, leapstones: 4, fusionMaterial: 2, silver: 13160, gold: 70 },
   { type: "armor", rarity: "epic", target: 9, chances: 30, stones: 156, shards: 42, leapstones: 4, fusionMaterial: 2, silver: 13480, gold: 70 },
@@ -45,6 +51,12 @@ export const honingChances: HoningChances[] = [
   { type: "armor", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 968, shards: 3346, leapstones: 30, fusionMaterial: 24, silver: 33740, gold: 420 },
 
   // Epic weapon
+  { type: "weapon", rarity: "epic", target: 1, chances: 100, stones: 138, shards: 32, leapstones: 4, silver: 17040 },
+  { type: "weapon", rarity: "epic", target: 2, chances: 100, stones: 138, shards: 32, leapstones: 4, silver: 17460 },
+  { type: "weapon", rarity: "epic", target: 3, chances: 100, stones: 198, shards: 32, leapstones: 6, silver: 17900 },
+  { type: "weapon", rarity: "epic", target: 4, chances: 100, stones: 198, shards: 46, leapstones: 6, fusionMaterial: 2, silver: 17040 },
+  { type: "weapon", rarity: "epic", target: 5, chances: 100, stones: 198, shards: 46, leapstones: 6, fusionMaterial: 2, silver: 17460 },
+  { type: "weapon", rarity: "epic", target: 6, chances: 100, stones: 198, shards: 46, leapstones: 6, fusionMaterial: 2, silver: 17900 },
   { type: "weapon", rarity: "epic", target: 7, chances: 60, stones: 258, shards: 60, leapstones: 8, fusionMaterial: 4, silver: 18320, gold: 120 },
   { type: "weapon", rarity: "epic", target: 8, chances: 45, stones: 258, shards: 60, leapstones: 8, fusionMaterial: 4, silver: 18780, gold: 120 },
   { type: "weapon", rarity: "epic", target: 9, chances: 30, stones: 258, shards: 60, leapstones: 8, fusionMaterial: 4, silver: 19240, gold: 120 },
@@ -74,5 +86,5 @@ export const honingChances: HoningChances[] = [
   { type: "weapon", rarity: "legendary/relic", target: 22, chances: 1, stones: 1458, shards: 1944, leapstones: 38, fusionMaterial: 26, silver: 45160, gold: 780 },
   { type: "weapon", rarity: "legendary/relic", target: 23, chances: 1, stones: 1458, shards: 2640, leapstones: 42, fusionMaterial: 28, silver: 46140, gold: 810 },
   { type: "weapon", rarity: "legendary/relic", target: 24, chances: 0.5, stones: 1458, shards: 3586, leapstones: 44, fusionMaterial: 32, silver: 47160, gold: 840 },
-  { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870 },
+  { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870 }
 ];

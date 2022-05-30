@@ -1,7 +1,7 @@
 <lostark-helper-market-header title="Honing Cost Optimizer" subTitle="Check if it's cheaper to buy additional honing materials or use honing chances upgrade materials"></lostark-helper-market-header>
 
 <div nz-row [nzGutter]="[20,20]">
-  <form nz-form nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24">
+  <form nz-form nz-col [nzLg]="8" [nzMd]="14" [nzSm]="24">
     <nz-form-item>
       <nz-form-label nzSpan="7">Gear piece type</nz-form-label>
       <nz-form-control>
@@ -84,7 +84,7 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <nz-card [nzLg]="16" [nzMd]="12" [nzSm]="24" nz-col nzTitle="Metrics and optimizations" *ngIf="result$ | async as result">
+  <nz-card [nzLg]="16" [nzMd]="10" [nzSm]="24" nz-col nzTitle="Metrics and optimizations" *ngIf="result$ | async as result">
     <ng-template #goldIconTpl>
       <img src="./assets/icons/gold.png" alt="Gold" class="item-icon">
     </ng-template>

@@ -1,4 +1,5 @@
-import { Character } from "../../model/character";
+import { Character } from "../../model/character/character";
+
 
 export const tickets: {icon: string, key: keyof Character['tickets'], name: string}[] = [
   {

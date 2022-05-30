@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
 import { combineLatest, map, Observable, of, pluck } from "rxjs";
-import { Character } from "../../../model/character";
 import { goldTasks } from "../gold-tasks";
 import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
+import { Character } from "../../../model/character/character";
 
 interface GoldPlannerDisplay {
   chestsData: {
