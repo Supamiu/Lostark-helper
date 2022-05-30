@@ -97,8 +97,8 @@ export abstract class FirestoreStorage<T extends DataModel> {
     return doc(this.firestore, this.getCollectionName(), key).withConverter(this.converter);
   }
 
-  public query(filterQuery: QueryConstraint): Observable<T[]> {
-    return collectionData(query(this.collection, filterQuery).withConverter(this.converter));
+  public query(...filterQuery: QueryConstraint[]): Observable<T[]> {
+    return collectionData(query(this.collection, ...filterQuery).withConverter(this.converter));
   }
 
   public getOne(key: string): Observable<T> {

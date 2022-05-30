@@ -1,0 +1,12 @@
+<nz-page-header nzTitle="Guild planning" nzSubtitle="Plan daily and weekly tasks with your guild">
+</nz-page-header>
+
+<nz-select nzShowSearch
+           [ngModel]="selectedTask$ | async"
+           (ngModelChange)="selectedTask$.next($event)"
+           nzPlaceHolder="Select a task"
+           class="task-select-box">
+  <nz-option *ngFor="let subTask of availableTasks" [nzLabel]="subTask.name" [nzValue]="subTask" nzCustomContent>
+    <img *ngIf="subTask.parent?.iconPath" src="./assets/icons/{{subTask.parent?.iconPath}}" alt="" class="task-icon"> {{subTask.name}}
+  </nz-option>
+</nz-select>

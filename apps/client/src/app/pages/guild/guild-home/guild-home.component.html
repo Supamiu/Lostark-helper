@@ -1,0 +1,117 @@
+<nz-page-header nzTitle="Guilds" nzSubtitle="Manage your guild memberships, create guilds as you need"></nz-page-header>
+
+<div class="guilds-list" nz-row [nzGutter]="[10, 10]">
+  <div nz-col [nzSpan]="24">
+    <nz-card nzTitle="Your guilds" nzSize="small">
+      <nz-list *ngIf="userGuilds$ | async as guilds" [nzDataSource]="guilds" [nzNoResult]="emptyState" nzGrid>
+        <ng-template #emptyState>
+          <nz-empty nzNotFoundContent="You have no guilds"></nz-empty>
+        </ng-template>
+        <div nz-row [nzGutter]="[10, 10]">
+          <div nz-col [nzMd]="guilds.length > 1 ? 12 : 24" *ngFor="let row of guilds">
+            <nz-list-item>
+              <nz-card [nzTitle]="row.guild.name" [nzExtra]="badges" nzSize="small" [nzActions]="row.isLeader ? [openTpl, getInviteLinkTpl, deleteGuildTpl] : [openTpl, getInviteLinkTpl]">
+                <ng-template #deleteGuildTpl>
+                  <span nz-typography nzType="danger">
+                    <i nz-icon nzType="delete" nzTheme="outline"
+                       nz-popconfirm nzPopconfirmTitle="Are you sure? This cannot be undone !"
+                       (nzOnConfirm)="deleteGuild(row.guild)"
+                       nz-tooltip nzTooltipTitle="Delete this guild"></i>
+                  </span>
+                </ng-template>
+                <ng-template #getInviteLinkTpl>
+                  <i nz-icon nzType="link" nzTheme="outline"
+                     nz-tooltip nzTooltipTitle="Copy invite link"
+                     [cdkCopyToClipboard]="getInviteLink(row.guild)" (cdkCopyToClipboardCopied)="copyLinkSuccess()"></i>
+                </ng-template>
+                <ng-template #openTpl>
+                  <i nz-icon nzType="folder-open" nzTheme="outline"
+                     nz-tooltip nzTooltipTitle="Open details" [routerLink]="row.guild.$key"></i>
+                </ng-template>
+                <ng-template #badges>
+                  <nz-tag *ngIf="row.isLeader" nzColor="cyan">Leader</nz-tag>
+                  <nz-tag *ngIf="row.isOfficier" nzColor="green">Officier</nz-tag>
+                  <nz-tag *ngIf="!row.isOfficier && !row.isLeader">Member</nz-tag>
+                </ng-template>
+                <div nz-row [nzGutter]="[10, 10]">
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Region" [nzValue]="row.guild.region | regionName">
+                  </nz-statistic>
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Users" [nzValue]="row.guild.users.length">
+                  </nz-statistic>
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Characters" [nzValue]="row.guild.members.length">
+                  </nz-statistic>
+                  <nz-statistic nz-col [nzSpan]="6" [nzTitle]="guestsTitleTpl" [nzValue]="row.guild.guests.length">
+                    <ng-template #guestsTitleTpl>
+                      Guests <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Guests are external characters joining your guild for some content like weeklies, they are not considered as members."></i>
+                    </ng-template>
+                  </nz-statistic>
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Discord Server" [nzValueTemplate]="discordLink" *ngIf="row.guild.discordServer">
+                    <ng-template #discordLink>
+                      <a href="{{row.guild.discordServer}}" target="_blank">Join</a>
+                    </ng-template>
+                  </nz-statistic>
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Leader" [nzValueTemplate]="leaderTpl">
+                    <ng-template #leaderTpl>
+                      <lostark-helper-character-reference [reference]="row.guild.leader"></lostark-helper-character-reference>
+                    </ng-template>
+                  </nz-statistic>
+                </div>
+              </nz-card>
+            </nz-list-item>
+          </div>
+        </div>
+      </nz-list>
+    </nz-card>
+  </div>
+  <div nz-col [nzSpan]="24">
+    <nz-card nzTitle="Create a guild" nzSize="small" *ngIf="uid$ | async as uid">
+      <form nz-form [formGroup]="guildCreationForm" (ngSubmit)="createGuild(uid)">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input a name">
+            <nz-input-group nzPrefixIcon="idcard">
+              <input type="text" nz-input formControlName="name" placeholder="Name" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please set a region">
+            <nz-input-group nzAddOnBefore="Region">
+              <nz-select formControlName="region" class="select-box" nzShowSearch>
+                <nz-option *ngFor="let region of allRegions"
+                           [nzValue]="region.value"
+                           [nzLabel]="region.label"></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input a class">
+            <nz-input-group nzAddOnBefore="Leader character">
+              <nz-select formControlName="character" class="select-box" nzShowSearch>
+                <nz-option *ngFor="let character of characters$ | async"
+                           [nzValue]="character.id" [nzLabel]="character.name"
+                           nzCustomContent class="character-row">
+                  <div class="character-row">
+                    <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+                    <div>{{character.name}}</div>
+                  </div>
+                </nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group [nzAddOnBefore]="discordLogo">
+              <ng-template #discordLogo>
+                <img src="./assets/Discord-Logo-White.svg" alt="Discord" class="discord-logo">
+              </ng-template>
+              <input type="text" nz-input formControlName="discord" placeholder="Discord server invite link (optional)" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <button nz-button [nzType]="'primary'" [disabled]="!guildCreationForm.valid">Create the guild</button>
+      </form>
+    </nz-card>
+  </div>
+</div>

@@ -23,6 +23,14 @@ const routes: Routes = [
     path: "honing-cost-optimizer",
     loadChildren: () => import("./pages/honing-cost-optimizer/honing-cost-optimizer.module").then(m => m.HoningCostOptimizerModule)
   },
+  {
+    path: "guild",
+    loadChildren: () => import("./pages/guild/guild.module").then(m => m.GuildModule)
+  },
+  {
+    path: "availability",
+    loadChildren: () => import("./pages/availability/availability.module").then(m => m.AvailabilityModule)
+  },
   { path: "settings", loadChildren: () => import("./pages/settings/settings.module").then(m => m.SettingsModule) },
   { path: "other-tools", loadChildren: () => import("./pages/other-tools/other-tools.module").then(m => m.OtherToolsModule) }
 ];

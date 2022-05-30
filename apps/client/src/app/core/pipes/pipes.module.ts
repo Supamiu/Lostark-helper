@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserNamePipe } from './user-name.pipe';
+import { RegionNamePipe } from './region-name.pipe';
 
 
 
 @NgModule({
   declarations: [
-    UserNamePipe
+    UserNamePipe,
+    RegionNamePipe
   ],
   exports: [
-    UserNamePipe
+    UserNamePipe,
+    RegionNamePipe
   ],
   imports: [
     CommonModule

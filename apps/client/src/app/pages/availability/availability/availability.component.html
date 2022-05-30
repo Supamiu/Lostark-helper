@@ -1,0 +1,45 @@
+<ng-container *ngIf="user$ | async as user">
+  <ng-container *ngIf="availability$ | async as availability">
+    <nz-page-header nzTitle="Availability"
+                    nzSubtitle="Configure your availability for guild planning.">
+      <nz-page-header-content>
+        <nz-input-group nzAddOnBefore="Timezone: UTC{{availability.UTCOffset>=0?'+':''}}">
+          <nz-input-number [nzMin]="-12" [nzMax]="12" [(ngModel)]="availability.UTCOffset" (ngModelChange)="saveAvailability(user, availability)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+        </nz-input-group>
+      </nz-page-header-content>
+      <nz-page-header-extra>
+        Use Shift + click to toggle multiple rows at once (ex: click 2AM, then Shift + click 6AM)
+      </nz-page-header-extra>
+    </nz-page-header>
+    <nz-table nzSize="small" #availabilityTable
+              [nzData]="hours"
+              [nzPageSize]="25"
+              [nzScroll]="{y:tableHeight+'px'}"
+              nzHideOnSinglePage>
+      <thead>
+      <tr>
+        <th>Hour (local time)</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let hour of availabilityTable.data;trackBy: trackByIndex">
+        <td>{{hour}}:00 - {{(hour + 1) % 24}}:00</td>
+        <td *ngFor="let day of days">
+          <nz-switch [ngModel]="availability[day][hour] === AvailabilityStatus.AVAILABLE"
+                     (click)="setAvailable(user, availability, day, hour, $event)"
+                     [nzControl]="true"
+                     nzCheckedChildren="Available"
+                     nzUnCheckedChildren="Not available"></nz-switch>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</ng-container>
