@@ -1,11 +1,12 @@
 <ng-container *ngIf="gearset$ | async as gearset">
   <nz-empty *ngIf="gearset.notFound" nzNotFoundContent="Gearset not found"></nz-empty>
   <nz-page-header [nzTitle]="gearset.name">
-    <nz-page-header-extra>
+    <nz-page-header-extra *ngIf="(readonly$ | async) !== true">
       <button nz-button (click)="renameGearset(gearset)"><i nz-icon nzType="edit" nzTheme="outline"></i> Rename</button>
     </nz-page-header-extra>
     <nz-page-header-content *ngIf="roster$ | async as roster">
-      <nz-input-group nzAddOnBefore="Linked character">
+      <nz-input-group nzAddOnBefore="Linked character"
+                      *ngIf="(readonly$ | async) !== true">
         <nz-select [(ngModel)]="gearset.character"
                    class="character-selector"
                    nzPlaceHolder="You can link this gearset to a character">
@@ -19,7 +20,8 @@
     <div nz-col [nzMd]="24">
       <nz-card nzSize="small" nzTitle="Equipment" [nzExtra]="optimizeHoningTpl">
         <ng-template #optimizeHoningTpl>
-          <nz-input-group nzSearch nzAddOnBefore="Optimize for ilvl" [nzAddOnAfter]="startOptimizationTpl">
+          <nz-input-group nzSearch nzAddOnBefore="Optimize for ilvl" [nzAddOnAfter]="startOptimizationTpl"
+                          *ngIf="(readonly$ | async) !== true">
             <nz-input-number [(ngModel)]="optimizerIlvl"></nz-input-number>
           </nz-input-group>
           <ng-template #startOptimizationTpl>
@@ -38,14 +40,15 @@
             <th>Rarity</th>
             <th>Current honing</th>
             <th>Target honing</th>
-            <th>Average cost</th>
+            <th nzRight nzWidth="600px">Average cost</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let row of equipmentTable.data">
             <td>{{row.slot}}</td>
             <td>
-              <nz-select class="rarity-{{ItemRarity[row.piece.rarity]?.toLowerCase()}} td-select-box" [(ngModel)]="row.piece.rarity" (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
+              <nz-select [nzDisabled]="readonly$ | async"
+                         class="rarity-{{ItemRarity[row.piece.rarity]?.toLowerCase()}} td-select-box" [(ngModel)]="row.piece.rarity" (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
                 <nz-option [nzValue]="ItemRarity.RARE" nzLabel="Rare" nzCustomContent>
                   <span class="rarity-rare">Rare</span>
                 </nz-option>
@@ -61,18 +64,20 @@
               </nz-select>
             </td>
             <td>
-              <nz-select class="td-select-box" [(ngModel)]="row.piece.honing" nzShowSearch (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
+              <nz-select [nzDisabled]="readonly$ | async"
+                         class="td-select-box" [(ngModel)]="row.piece.honing" nzShowSearch (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
                 <nz-option *ngFor="let value of row.possibleHonings" [nzValue]="value" nzLabel="+{{value}}">
                 </nz-option>
               </nz-select>
             </td>
             <td>
-              <nz-select class="td-select-box" [(ngModel)]="row.piece.targetHoning" nzShowSearch (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
+              <nz-select [nzDisabled]="readonly$ | async"
+                         class="td-select-box" [(ngModel)]="row.piece.targetHoning" nzShowSearch (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
                 <nz-option *ngFor="let value of row.possibleHonings" [nzValue]="value" nzLabel="+{{value}}">
                 </nz-option>
               </nz-select>
             </td>
-            <td>
+            <td nzRight>
               <span *ngIf="!row.honingCost">-</span>
               <div class="cost-display" *ngIf="row.honingCost">
                 <img src="./assets/icons/shop/shop_{{row.piece.rarity >= ItemRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
@@ -95,7 +100,7 @@
             <td></td>
             <td>ilvl {{gearsetDisplay.ilvl | number:'1.0-2'}}</td>
             <td>ilvl {{gearsetDisplay.targetIlvl | number:'1.0-2'}}</td>
-            <td>
+            <td nzRight>
               <span *ngIf="!gearsetDisplay.honingCost">-</span>
               <div class="cost-display" *ngIf="gearsetDisplay.honingCost">
                 <ng-container *ngIf="gearsetDisplay.honingCost.GHleapstones">
@@ -114,11 +119,11 @@
                   <img src="./assets/icons/shop/shop_15.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.stones | number:'1.0-0'}}
                 </ng-container>
-                <ng-container  *ngIf="gearsetDisplay.honingCost.fusionMaterial">
+                <ng-container *ngIf="gearsetDisplay.honingCost.fusionMaterial">
                   <img src="./assets/icons/shop/basic_oreha.png" alt="fusion material" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.fusionMaterial | number:'1.0-0'}}
                 </ng-container>
-                <ng-container  *ngIf="gearsetDisplay.honingCost.lowFusionMaterial">
+                <ng-container *ngIf="gearsetDisplay.honingCost.lowFusionMaterial">
                   <img src="./assets/icons/shop/simple_oreha.png" alt="fusion material" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.lowFusionMaterial | number:'1.0-0'}}
                 </ng-container>

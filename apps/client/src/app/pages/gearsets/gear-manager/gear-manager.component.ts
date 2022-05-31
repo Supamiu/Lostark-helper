@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { GearsetService } from "../../../core/database/services/gearset.service";
 import { ActivatedRoute } from "@angular/router";
-import { map, switchMap } from "rxjs";
+import { combineLatest, map, shareReplay, switchMap } from "rxjs";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { ItemRarity } from "../../../model/item-rarity";
 import { GearsetPiece } from "../../../model/character/gearset-piece";
@@ -10,6 +10,8 @@ import { filter } from "rxjs/operators";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { HoningOptimizer } from "./honing-optimizer";
+import { HoningService } from "../../../core/services/honing.service";
+import { AuthService } from "../../../core/database/services/auth.service";
 
 const slots = [
   "headgear",
@@ -39,6 +41,14 @@ export class GearManagerComponent {
 
   public roster$ = this.rosterService.roster$;
 
+  public readonly$ = combineLatest([
+    this.auth.uid$,
+    this.gearset$
+  ]).pipe(
+    map(([uid, gearset]) => gearset.authorId !== uid),
+    shareReplay(1)
+  )
+
   public gearsetDisplay$ = this.gearset$.pipe(
     map(gearset => {
       const pieces = slots.map(slot => {
@@ -58,16 +68,16 @@ export class GearManagerComponent {
             .fill(null)
             .map((_, i) => i + 1)
             .filter(i => i > 5 || gearset[slot].rarity < ItemRarity.LEGENDARY),
-          honingCost: this.gearsetService.getHoningCost(gearset[slot], slot)
+          honingCost: this.honingService.getHoningCost(gearset[slot], slot)
         };
       });
       return {
         pieces,
         ilvl: pieces.reduce((acc, piece) => {
-          return acc + this.gearsetService.getIlvl(piece.piece);
+          return acc + this.honingService.getIlvl(piece.piece);
         }, 0) / 6,
         targetIlvl: pieces.reduce((acc, piece) => {
-          return acc + this.gearsetService.getIlvl({ ...piece.piece, honing: piece.piece.targetHoning });
+          return acc + this.honingService.getIlvl({ ...piece.piece, honing: piece.piece.targetHoning });
         }, 0) / 6,
         honingCost: pieces.reduce((acc, piece) => {
           if (piece.piece.rarity > ItemRarity.EPIC) {
@@ -101,8 +111,8 @@ export class GearManagerComponent {
     })
   );
 
-  constructor(private gearsetService: GearsetService, private rosterService: RosterService,
-              private route: ActivatedRoute, private nzModal: NzModalService) {
+  constructor(private gearsetService: GearsetService, private honingService: HoningService, private rosterService: RosterService,
+              private route: ActivatedRoute, private nzModal: NzModalService, private auth: AuthService) {
   }
 
   public saveSet(gearset: Gearset, piece: GearsetPiece, slot: string): void {
@@ -112,10 +122,10 @@ export class GearManagerComponent {
     this.gearsetService.updateOne(gearset.$key, {
       [slot.toLowerCase()]: piece,
       currentIlvl: slots.reduce((acc, slot) => {
-        return acc + this.gearsetService.getIlvl(gearset[slot]);
+        return acc + this.honingService.getIlvl(gearset[slot]);
       }, 0) / 6,
       targetIlvl: slots.reduce((acc, slot) => {
-        return acc + this.gearsetService.getIlvl({ ...gearset[slot], honing: gearset[slot].targetHoning });
+        return acc + this.honingService.getIlvl({ ...gearset[slot], honing: gearset[slot].targetHoning });
       }, 0) / 6
     });
   }
@@ -138,7 +148,7 @@ export class GearManagerComponent {
   }
 
   optimizeHoning(gearset: Gearset, ilvl: number): void {
-    const optimized = new HoningOptimizer(gearset, ilvl, this.gearsetService).run();
+    const optimized = new HoningOptimizer(gearset, ilvl, this.honingService).run();
     slots.forEach((slot, i) => {
       gearset[slot].targetHoning = optimized[i];
     });
