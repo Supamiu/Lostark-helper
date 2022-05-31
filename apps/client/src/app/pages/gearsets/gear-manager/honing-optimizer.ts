@@ -104,7 +104,7 @@ export class HoningOptimizer {
           case "gloves":
             bonus = 0.7;
             break;
-          case "headgear":
+          case "shoulders":
             bonus = 0.8;
             break;
         }
