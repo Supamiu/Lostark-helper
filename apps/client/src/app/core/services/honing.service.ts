@@ -40,12 +40,13 @@ export class HoningService {
 
   private getHoningChancesAvgTentatives(row: HoningChances): number {
     let tries = 1;
-    let chances = row.chances;
-    while (chances < 100) {
+    let total = row.chances;
+    let currentChances = row.chances;
+    while (total < 100) {
       tries++;
-      chances += chances;
-      if (chances < row.chances * 2) {
-        chances += (row.chances * 0.1);
+      total += currentChances;
+      if (currentChances < row.chances * 2) {
+        currentChances += (row.chances * 0.1);
       }
     }
     return tries;
