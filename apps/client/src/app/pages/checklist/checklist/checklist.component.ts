@@ -68,13 +68,13 @@ export class ChecklistComponent {
   );
 
   public tasks$: Observable<LostarkTask[]> = combineLatest([
-    this.roster$,
+    this.rawRoster$,
     this.tasksService.tasks$
   ]).pipe(
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0)));
+          (!task.maxIlvl || roster.characters.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0) && getCompletionEntry(roster.trackedTasks, c, task, true) !== false))
       });
     })
   );
