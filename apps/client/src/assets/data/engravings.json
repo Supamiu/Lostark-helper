@@ -1,0 +1,767 @@
+[
+  {
+    "id": 107,
+    "name": "Disrespect",
+    "nodes": [
+      "Damage to foes with 30% or lower HP +9%.",
+      "Damage to foes with 30% or lower HP +22%.",
+      "Damage to foes with 30% or lower HP +36%."
+    ]
+  },
+  {
+    "id": 109,
+    "name": "Spirit Absorption",
+    "nodes": [
+      "Atk.\/Move Speed +3%.",
+      "Atk.\/Move Speed +8%.",
+      "Atk.\/Move Speed +15%."
+    ]
+  },
+  {
+    "id": 110,
+    "name": "Ether Predator",
+    "nodes": [
+      "Attacking a foe creates an Ether that only you can collect. On collecting the Ether, Atk. Power +0.2% for 90s and All Defense +0.3%. Stacks up to 30 times. Chance on Ether collection to increases the stack by 3. (Cooldown: 10s)",
+      "Attacking a foe creates an Ether that only you can collect. On collecting the Ether, Atk. Power +0.3% for 90s and All Defense +0.6%. Stacks up to 30 times. Chance on Ether collection to increases the stack by 3. (Cooldown: 10s)",
+      "Attacking a foe creates an Ether that only you can collect. On collecting the Ether, Atk. Power +0.5% for 90s and All Defense +1%. Stacks up to 30 times. Chance on Ether collection to increases the stack by 3. (Cooldown: 10s)"
+    ]
+  },
+  {
+    "id": 111,
+    "name": "Stabilized Status",
+    "nodes": [
+      "Damage +3% when your HP is above 80%.",
+      "Damage +8% when your HP is above 80%.",
+      "Damage +16% when your HP is above 80%."
+    ]
+  },
+  {
+    "id": 118,
+    "name": "Grudge",
+    "nodes": [
+      "Damage +4% to Boss or above monsters. Incoming damage +20%.",
+      "Damage +10% to Boss or above monsters. Incoming damage +20%.",
+      "Damage +20% to Boss or above monsters. Incoming damage +20%."
+    ]
+  },
+  {
+    "id": 121,
+    "name": "Super Charge",
+    "nodes": [
+      "Charge skills' charging speed 8%. Damage +4%.",
+      "Charge skills' charging speed +20%. Damage +10%.",
+      "Charge skills' charging speed +40%. Damage +20%."
+    ]
+  },
+  {
+    "id": 123,
+    "name": "Strong Will",
+    "nodes": [
+      "Incoming Damage -5% while Pushed.",
+      "Incoming Damage -15% while Pushed.",
+      "Incoming Damage -30% while Pushed."
+    ]
+  },
+  {
+    "id": 125,
+    "name": "Mayhem",
+    "nodes": [
+      "Fury Meter remains at max, and turns into Burst mode with the power of darkness. Outgoing Damage +4%, Atk. and Move Speed +15%, all incoming Damage -65% in Burst mode. When turning in to Burst mode, converts into 25% of Max HP, and it cannot be exceeded even when Healing is applied. Can only receive 25% of shield's effect. Press the X key to cancel Burst mode to recover 25% of Max HP, but cannot Burst for 30s.",
+      "Fury Meter remains at max, and turns into Burst mode with the power of darkness. Outgoing Damage +9%, Atk. and Move Speed +15%, all incoming Damage -65% in Burst mode. When turning in to Burst mode, converts into 25% of Max HP, and it cannot be exceeded even when Healing is applied. Can only receive 25% of shield's effect. Press the X key to cancel Burst mode to recover 25% of Max HP, but cannot Burst for 30s.",
+      "Fury Meter remains at max, and turns into Burst mode with the power of darkness. Outgoing Damage +18%, Atk. and Move Speed +15%, all incoming Damage -65% in Burst mode. When turning in to Burst mode, converts into 25% of Max HP, and it cannot be exceeded even when Healing is applied. Can only receive 25% of shield's effect. Press the X key to cancel Burst mode to recover 25% of Max HP, but cannot Burst for 30s."
+    ]
+  },
+  {
+    "id": 127,
+    "name": "Esoteric Skill Enhancement",
+    "nodes": [
+      "Max number of Elemental Orbs +1. Esoteric skills inflict +8% Damage per Elemental Orb you have.Max number of Esoteric Orbs +1. Esoteric skills inflict +8% Damage per Esoteric Orb you have.",
+      "Max number of Esoteric Orbs +1. Esoteric skills inflict +10% Damage per Esoteric Orb you have.",
+      "Max number of Esoteric Orbs +1. Esoteric skills inflict +12% Damage per Esoteric Orb you have."
+    ]
+  },
+  {
+    "id": 129,
+    "name": "Enhanced Weapon",
+    "nodes": [
+      "Changing Stances enhances your weapon. Crit Rate +20% for 9s.",
+      "Changing Stances enhances your weapon. Crit Rate +25% for 9s.",
+      "Changing Stances enhances your weapon. Crit Rate +30% for 9s."
+    ]
+  },
+  {
+    "id": 130,
+    "name": "Firepower Enhancement",
+    "nodes": [
+      "Incoming Damage -20%. Crit Rate +(15%, 20%, 25% )depending on the level of the Firepower Buff.",
+      "Incoming Damage -25%. Crit Rate +(20%, 25%, 30%) depending on the level of the Firepower Buff.",
+      "Incoming Damage -30%. Crit Rate +(25%, 30%, 35%) depending on the level of the Firepower Buff."
+    ]
+  },
+  {
+    "id": 134,
+    "name": "Drops of Ether",
+    "nodes": [
+      "Attacks have a chance to create an Ether. (Cooldown: 90s).",
+      "Attacks have a chance to create an Ether. (Cooldown: 40s).",
+      "Attacks have a chance to create an Ether. (Cooldown: 20s)."
+    ]
+  },
+  {
+    "id": 140,
+    "name": "Crisis Evasion",
+    "nodes": [
+      "When receiving fatal damage, become invincible for 3s, recovering 50% of the damage taken during invincibility as HP. (Cooldown: 15m).",
+      "When receiving fatal damage, become invincible for 3s, recovering 50% of the damage taken during invincibility as HP. (Cooldown: 12m).",
+      "When receiving fatal damage, become invincible for 3s, recovering 50% of the damage taken during invincibility as HP. (Cooldown: 9m)."
+    ]
+  },
+  {
+    "id": 141,
+    "name": "Keen Blunt Weapon",
+    "nodes": [
+      "+10% Crit Damage but your attacks have a chance to deal Damage -20%.",
+      "+25% Crit Damage but your attacks have a chance to deal Damage -20%.",
+      "+50% Crit Damage but your attacks have a chance to deal Damage -20%."
+    ]
+  },
+  {
+    "id": 142,
+    "name": "Vital Point Strike",
+    "nodes": [
+      "Stagger attack effectiveness +6%.",
+      "Stagger attack effectiveness +18%.",
+      "Stagger attack effectiveness +36%."
+    ]
+  },
+  {
+    "id": 167,
+    "name": "Max MP Increase",
+    "nodes": [
+      "Max MP +5%.",
+      "Max MP +15%.",
+      "Max MP +30%."
+    ]
+  },
+  {
+    "id": 168,
+    "name": "MP Efficiency Increase",
+    "nodes": [
+      "MP Recovery +5%. When MP is at 50% or below, Damage to foes +3%.",
+      "MP Recovery +15%. When MP is at 50% or below, Damage to foes +6%.",
+      "MP Recovery +30%. When MP is at 50% or below, Damage to foes +12%."
+    ]
+  },
+  {
+    "id": 188,
+    "name": "Berserker's Technique",
+    "nodes": [
+      "While bursting, Crit Damage +30%. Negates Exhaustion after Burst ends.",
+      "While bursting, Crit Damage +40%. Negates Exhaustion after Burst ends.",
+      "While bursting, Crit Damage +50%. Negates Exhaustion after Burst ends."
+    ]
+  },
+  {
+    "id": 189,
+    "name": "First Intention",
+    "nodes": [
+      "Damage to foes +15%, but you can no longer gain Elemental Meter.",
+      "Damage to foes +20%, but you can no longer gain Elemental Meter.",
+      "Damage to foes +25%, but you can no longer gain Elemental Meter."
+    ]
+  },
+  {
+    "id": 190,
+    "name": "Ultimate Skill: Taijutsu",
+    "nodes": [
+      "Natural recovery speed of Stamina Energy +300%. Stamina skill Damage +30%. Shock skill Damage -30%.",
+      "Natural recovery speed of Stamina Energy +450%. Stamina skill Damage +45%. Shock skill Damage -30%.",
+      "Natural recovery speed of Stamina Energy +600%. Stamina skill Damage +60%. Shock skill Damage -30%."
+    ]
+  },
+  {
+    "id": 191,
+    "name": "Shock Training",
+    "nodes": [
+      "Shock skill Damage +10%. 2% of max Shock Energy recovered every 1s.",
+      "Shock skill damage +15%. 3% of max Shock Energy recovered every 1s.",
+      "Shock skill damage +20%. 4% of max Shock Energy recovered every 1s."
+    ]
+  },
+  {
+    "id": 192,
+    "name": "Pistoleer",
+    "nodes": [
+      "Can only use the Handgun Stance. Handgun Skill Damage +30%. Stagger Damage +40%. Awakening Skill Damage +15%.",
+      "Can only use the Handgun Stance. Handgun Skill Damage +45%. Stagger Damage +40%. Awakening Skill Damage +22%.",
+      "Can only use the Handgun Stance. Handgun Skill Damage +60%. Stagger Damage +40%. Awakening Skill Damage +30%."
+    ]
+  },
+  {
+    "id": 193,
+    "name": "Barrage Enhancement",
+    "nodes": [
+      "Barrage Skill Damage +20%. If you have no Firepower Buff, Firepower Meter +10%. Once the Firepower Meter is fully recharged, removes the Cooling effect.",
+      "Barrage Skill Damage +30%. If you have no Firepower Buff, Firepower Meter +20%, Once the Firepower Meter is fully recharged, Cooling effect removed.",
+      "Barrage Skill Damage +40%. If you have no Firepower Buff, Firepower Meter +30%, Once the Firepower Meter is fully recharged, Cooling effect removed."
+    ]
+  },
+  {
+    "id": 194,
+    "name": "True Courage",
+    "nodes": [
+      "Serenade of Courage makes outgoing Damage +10% and Crit Rate +10%.",
+      "Serenade of Courage makes outgoing Damage +15% and Crit Rate +10%.",
+      "Serenade of Courage makes outgoing Damage +20% and Crit Rate +10%."
+    ]
+  },
+  {
+    "id": 195,
+    "name": "Desperate Salvation",
+    "nodes": [
+      "When the recovery effect ends, an additional recovery effect is activated, recovering 8% of your Max HP.",
+      "When the recovery effect ends, an additional recovery effect is activated, recovering 16% of your Max HP.",
+      "When the recovery effect ends, an additional recovery effect is activated, recovering 24% of your Max HP."
+    ]
+  },
+  {
+    "id": 196,
+    "name": "Rage Hammer",
+    "nodes": [
+      "When using a Gravity Release Skill, Crit Rate +3% and Crit Damage +5% based on the amount of Cores used.",
+      "When using a Gravity Release Skill, Crit Rate +4% and Crit Damage +10% based on the amount of Cores used.",
+      "When using a Gravity Release Skill, Crit Rate+5% and Crit Damage +15% based on the amount of Cores used."
+    ]
+  },
+  {
+    "id": 197,
+    "name": "Gravity Training",
+    "nodes": [
+      "During combat, the Gravity Meter recovers 1% every 1s. Basic Attack and Vortex Gravity Crit Rate +10% and +4% Attack Damage to foes during Hypergravity Mode.",
+      "During combat, the Gravity Meter recovers 1.5% every 1s. Basic Attack and Vortex Gravity Crit Rate +20% and Attack Damage +10% to foes during Hypergravity Mode.",
+      "During combat, the Gravity Meter recovers 2% every 1s. +30% Basic Attack and Vortex Gravity Crit Rate and Attack Damage +20% to foes during Hypergravity Mode."
+    ]
+  },
+  {
+    "id": 198,
+    "name": "Master Summoner",
+    "nodes": [
+      "Ancient Elemental skill's Elemental Orb count -1. All Elemental Damage +5%.",
+      "Ancient Elemental skill's Elemental Orb count -1. All Elemental Damage +10%.",
+      "Ancient Elemental skill's Elemental Orb count -1. All Elemental Damage +15%."
+    ]
+  },
+  {
+    "id": 199,
+    "name": "Communication Overflow",
+    "nodes": [
+      "Summon duration +20% for Maririn, Pauru, Elcid, Shurdi, and Kelsion. Damage +10%.",
+      "Summon duration +25% for Marinin, Pauru, Elcid, Shurdi, and Kelsion. Damage +15%.",
+      "Summon duration +30% for Marinin, Pauru, Elcid, Shurdi, Kelsion. Damage +20%."
+    ]
+  },
+  {
+    "id": 200,
+    "name": "Empress's Grace",
+    "nodes": [
+      "4-stack Ruin damage +20%. When Ruin hits, recover 20% of consumed MP.",
+      "4-stack Ruin damage +25%. When Ruin hits, recover 20% of consumed MP.",
+      "4-stack Ruin damage +30%. When Ruin hits, recover 20% of consumed MP."
+    ]
+  },
+  {
+    "id": 201,
+    "name": "Order of the Emperor",
+    "nodes": [
+      "Normal Skills Deck Meter gain +50%. Damage +10% and an Emperor Card is added to the deck. The Emperor Card deals great damage in the surrounding area when used.",
+      "Normal Skills Deck Meter gain +50%. Damage +20% and an Emperor Card is added to the deck. The Emperor Card deals great damage in the surrounding area when used.",
+      "Normal Skills Deck Meter gain +50%. Damage +30% and an Emperor Card is added to the deck. The Emperor Card deals great damage in the surrounding area when used."
+    ]
+  },
+  {
+    "id": 202,
+    "name": "Master of Escape",
+    "nodes": [
+      "Stand Up Action Cooldown -4%.",
+      "Stand Up Action Cooldown -12%.",
+      "Stand Up Action Cooldown -25%."
+    ]
+  },
+  {
+    "id": 224,
+    "name": "Combat Readiness",
+    "nodes": [
+      "Normal skills Damage +20%. Shield Amount +30% in Defensive Stance. Damage +4% for 10s when hit while in Defensive Stance (stacked up to 3 times, once every 1s).",
+      "Normal skills Damage +20%. Shield Amount +40% in Defensive Stance. Damage +5% for 10s when hit while in Defensive Stance (stacked up to 3 times, once every 1s).",
+      "Normal skills Damage +20%. Shield Amount +50% in Defensive Stance. Damage +6% for 10s when hit while in Defensive Stance (stacked up to 3 times, once every 1s)."
+    ]
+  },
+  {
+    "id": 225,
+    "name": "Lone Knight",
+    "nodes": [
+      "Gunlance skill Crit Rate +5%. Crit Damage +30%. Battlefield Shield cannot be used. Shield Meter consumption during Defensive Stance +100%.",
+      "Gunlance skill Crit Rate +10%. Crit Damage +40%. Battlefield Shield cannot be used. Shield Meter consumption during Defensive Stance +100%.",
+      "Crit Rate of Gunlance skills +15%. Crit Damage +50%. Battlefield Shield cannot be used. Consumption of the Shield Meter during Defensive Stance +100%.Gunlance skill Crit Rate +15%. Crit Damage +50%. Battlefield Shield cannot be used. Shield Meter consumption during Defensive Stance +100%."
+    ]
+  },
+  {
+    "id": 235,
+    "name": "Fortitude",
+    "nodes": [
+      "Incoming damage is reduced proportional to HP lost. (Max. 5%)",
+      "Incoming damage is reduced proportional to HP lost. (Max. 15%)",
+      "Incoming damage is reduced proportional to HP lost. (Max. 30%)"
+    ]
+  },
+  {
+    "id": 236,
+    "name": "Crushing Fist",
+    "nodes": [
+      "On successful Counter Attack, Atk. Power +4%. For 3s Countered target takes +2% Damage from all party members.",
+      "On successful Counter Attack, Atk. Power +10%. For 3s Countered target takes +4% Damage from all party members.",
+      "On successful Counter Attack, Atk. Power +20%. For 3s Countered target takes +8% Damage from all party members."
+    ]
+  },
+  {
+    "id": 237,
+    "name": "Shield Piercing",
+    "nodes": [
+      "Damage to shields +16%.",
+      "Damage to shields +50%.",
+      "Damage to shields +100%."
+    ]
+  },
+  {
+    "id": 238,
+    "name": "Master's Tenacity",
+    "nodes": [
+      "Outgoing damage +3% at 50% or lower HP.",
+      "Outgoing damage +8% at 50% or lower HP.",
+      "Outgoing damage +16% at 50% or lower HP."
+    ]
+  },
+  {
+    "id": 239,
+    "name": "Divine Protection",
+    "nodes": [
+      "When attacked, there is a 20% chance of activing Divine Protection which reduces the damage received by 60%. (Cooldown: 60s)",
+      "When attacked, there is a 20% chance of activating Divine Protection which reduces the damage received by 60%. (Cooldown: 20s)",
+      "When attacked, there is a 20% chance of activating Divine Protection which reduces the damage received by 60%. (Cooldown: 10s)"
+    ]
+  },
+  {
+    "id": 240,
+    "name": "Heavy Armor",
+    "nodes": [
+      "All Defense +20%. This additional Defense is immune to Defense Reduction effects.",
+      "All Defense +50%. This additional Defense is immune to Defense Reduction effects.",
+      "All Defense +100%. This additional Defense is immune to Defense Reduction effects."
+    ]
+  },
+  {
+    "id": 241,
+    "name": "Explosive Expert",
+    "nodes": [
+      "Bomb\/grenade Battle Item carrying limit +1.",
+      "Bomb\/grenade Battle Item carrying limit +2.",
+      "Bomb\/grenade Battle Item carrying limit +3."
+    ]
+  },
+  {
+    "id": 242,
+    "name": "Enhanced Shield",
+    "nodes": [
+      "Become immune to all Status effects while affected by shields, but -90% Shields' HP and Defensive Stance's damage absorption amounts. (Not applicable to Battlefield Shield)",
+      "Become immune to all Status effects while affected by shields, but -75% Shields' HP and Defensive Stance's damage absorption amounts. (Not applicable to Battlefield Shield)",
+      "Become immune to all Status effects while affected by shields, but -50% Shields' HP and Defensive Stance's damage absorption amounts. (Not applicable to Battlefield Shield)"
+    ]
+  },
+  {
+    "id": 243,
+    "name": "Necromancy",
+    "nodes": [
+      "Attacks summon temporary soldiers that damage foes. (Cooldown: 75s)",
+      "Attacks summon temporary soldiers that damage foes. (Cooldown: 30s)",
+      "Attacks summon temporary soldiers that damage foes. (Cooldown: 15s)"
+    ]
+  },
+  {
+    "id": 244,
+    "name": "Preemptive Strike",
+    "nodes": [
+      "When attacking Challenge or lower monsters with full HP, your attack is a guaranteed crit with +30% Damage.",
+      "When attacking Challenge or lower monsters with full HP, your attack is a guaranteed crit with +80% Damage.",
+      "When attacking Challenge or lower monsters with full HP, your attack is a guaranteed crit with +160% Damage."
+    ]
+  },
+  {
+    "id": 245,
+    "name": "Broken Bone",
+    "nodes": [
+      "Damage to staggered foes +7.5%.",
+      "Damage to staggered foes +20%.",
+      "Damage to staggered foes +40%."
+    ]
+  },
+  {
+    "id": 246,
+    "name": "Lightning Fury",
+    "nodes": [
+      "Attacks have a 60% chance of generating a lightning orb. These lightning orbs can only be generated once every 4s. When 5 orbs are created, they explode and damage surrounding foes.",
+      "Attacks have a 60% chance of generating a lightning orb. These lightning orbs can only be generated once every 2s. When 5 orbs are created, they explode and damage surrounding foes.",
+      "Attacks have a 60% chance of generating a lightning orb. These lightning orbs can only be generated once every 1s. When 5 orbs are created, they explode and damage surrounding foes."
+    ]
+  },
+  {
+    "id": 247,
+    "name": "Cursed Doll",
+    "nodes": [
+      "Atk. Power +3%. Healing -25%, natural recovery excluded.",
+      "Atk. Power +8%. Healing -25%, natural recovery excluded.",
+      "Atk. Power +16%. Healing 25%, natural recovery excluded."
+    ]
+  },
+  {
+    "id": 248,
+    "name": "Contender",
+    "nodes": [
+      "Atk. Power +1% for 15s after killing a foe. (Max. 5 stacks)",
+      "Atk. Power +1.5% for 25s after killing a foe. (Max. 6 stacks)",
+      "Atk. Power +2.5% for 40s after killing a foe. (Max. 7 stacks)"
+    ]
+  },
+  {
+    "id": 249,
+    "name": "Master of Ambush",
+    "nodes": [
+      "Damage +5% for successful back attacks.",
+      "Damage +12% for successful back attacks.",
+      "Damage +25% for successful back attacks."
+    ]
+  },
+  {
+    "id": 251,
+    "name": "Magick Stream",
+    "nodes": [
+      "Stacks up to +5% MP Recovery every 3s while you are not attacked. When the maximum stack is reached, skill Cooldown -3%. Being hit removes 1 stack of the effect with a Cooldown of 10s.",
+      "Stacks up to +10% MP Recovery every 3s while you are not attacked. When the maximum stack is reached, skill Cooldown -6%. Being hit removes 1 stack of the effect with a Cooldown of 10s.",
+      "Stacks up to +15% MP Recovery every 3s while you are not attacked. When the maximum stack is reached, skill Cooldown -10%. Being hit removes 1 stack of the effect with a Cooldown of 10s."
+    ]
+  },
+  {
+    "id": 253,
+    "name": "Barricade",
+    "nodes": [
+      "Damage to foes while shielded +3%.",
+      "Damage to foes while shielded +8%.",
+      "Damage to foes while shielded +16%."
+    ]
+  },
+  {
+    "id": 254,
+    "name": "Raid Captain",
+    "nodes": [
+      "Outgoing Damage +10% of basic Move Speed bonus percentage.",
+      "Outgoing Damage +22% of basic Move Speed bonus percentage.",
+      "Outgoing Damage +45% of basic Move Speed bonus percentage."
+    ]
+  },
+  {
+    "id": 255,
+    "name": "Awakening",
+    "nodes": [
+      "Awakening Skill Cooldown -10%. +1 maximum use.",
+      "Awakening Skill Cooldown -25%. +2 maximum uses.",
+      "Awakening Skill Cooldown -50%. +3 maximum uses."
+    ]
+  },
+  {
+    "id": 256,
+    "name": "Energy Overflow",
+    "nodes": [
+      "Energy does not go below 1, but the additional Energy recovery effect is not applied during Hype. If Energy is below 30%, Damage +5% to foes.",
+      "Energy does not go below 1, but the additional Energy recovery effect is not applied during Hype. If Energy is below 30%, Damage +10% to foes.",
+      "Energy does not go below 1, but the additional Energy recovery effect is not applied during Hype. If Energy is below 30%, Damage +15% to foes."
+    ]
+  },
+  {
+    "id": 257,
+    "name": "Robust Spirit",
+    "nodes": [
+      "When using Hype, enters level 3 immediately, and while in Hype Mode, Energy recovery speed +200%. Damage +15%.",
+      "When using Hype, enters level 3 immediately, and while in Hype Mode, Energy recovery speed +200%. Damage +25%.",
+      "When using Hype, enters level 3 immediately, and while in Hype Mode, Energy recovery speed +200%. Damage +35%."
+    ]
+  },
+  {
+    "id": 258,
+    "name": "Loyal Companion",
+    "nodes": [
+      "Summons Silverhawk MK-II, allowing Move Speed +4%, Silver Hawk's Basic AoE Radius +60%, Silverhawk's Basic Attack Damage +50%, and Silverhawk's summon duration +30%. On basic attack or Wings of Storm hit, foes get a Mark of Death. Foe incoming Damage +4%.",
+      "Summons Silverhawk MK-II, allowing Move Speed +4%, Silver Hawk's Basic AoE Radius +60%, Silverhawk's Basic Attack Damage +100%, and Silverhawk's summon duration +60%. On basic attack or Wings of Storm hit, foes get a Mark of Death. Foe incoming Damage +8%.",
+      "Summons Silverhawk MK-II, allowing Move Speed +4%, Silver Hawk's Basic AoE Radius +60%, Silverhawk's Basic Attack Damage +150%, and Silverhawk's summon duration +100%. On basic attack or Wings of Storm hit, foes get a Mark of Death. Foe incoming Damage +12%."
+    ]
+  },
+  {
+    "id": 259,
+    "name": "Death Strike",
+    "nodes": [
+      "When using Last Rush, recover 50% of the remaining Hawk Meter. Hit foe Damage taken +20% for 8s.",
+      "When using Last Rush, recover 50% of the remaining Hawk Meter. Hit foe Damage taken +30% for 8s.",
+      "When using Last Rush, recover 50% of the remaining Hawk Meter. Hit foe Damage taken +40% for 8s."
+    ]
+  },
+  {
+    "id": 276,
+    "name": "Pinnacle",
+    "nodes": [
+      "Adds Pinnacle: Flurry\/Focus I instead of the Flurry\/Focus Stage 3 effect added upon changing stances while the Dual Meter is maxed at Level 3.",
+      "Adds Pinnacle: Flurry\/Focus II instead of the Flurry\/Focus Stage 3 effect added upon changing stances while the Dual Meter is maxed at Level 3.",
+      "Adds Pinnacle: Flurry\/Focus III instead of the Flurry\/Focus Stage 3 effect added upon changing stances while the Dual Meter is maxed at Level 3."
+    ]
+  },
+  {
+    "id": 277,
+    "name": "Control",
+    "nodes": [
+      "Cannot use Focus stance. Flurry skills Damage +15%.",
+      "Cannot use Focus stance. Flurry skills Damage +22%.",
+      "Cannot use Focus stance. Flurry skills Damage +30%."
+    ]
+  },
+  {
+    "id": 278,
+    "name": "Remaining Energy",
+    "nodes": [
+      "Art does not consume Art Meter for 2s when activated. Atk.\/Move Speed +6% on Burst. Atk. Power +(8%, 16%, 25%) depending on your Burst level, for 30s.",
+      "Art does not consume Art Meter for 2s when activated. Atk.\/Move Speed +9% on Burst. Atk. Power +(10%, 20%, 30%) depending on your Burst level, for 30s.",
+      "Art does not consume Art Meter for 2s when activated. Atk.\/Move Speed +12% on Burst. Atk. Power +(12%, 24%, 36%) depending on your Burst level, for 30s."
+    ]
+  },
+  {
+    "id": 279,
+    "name": "Surge",
+    "nodes": [
+      "Deathblade Surge is cast in the max level of Surge Zero form, regardless of the number of Death Orbs you have. When Arts is activated and skills other than Basic Attacks and Awakening Skills hit, the Surge Enhancement effect is stacked every 0.4 seconds. (Max 20 stacks). This effect causes Deathblade Surge Damage +7.5%. When Death Trance ends, gain Death Orb Meter for each Surge Enhancement effect you have. (5% each)",
+      "Deathblade Surge is cast in the max level of Surge Zero form, regardless of the number of Death Orbs you have. When Arts is activated and skills other than Basic Attacks and Awakening Skills hit, the Surge Enhancement effect is stacked every 0.4 seconds. (Max 20 stacks). This effect causes Deathblade Surge Damage +7.5% and Atk. Power +0.5%. When Death Trance ends, gain Death Orb Meter for each Surge Enhancement effect you have. (5% each)",
+      "Deathblade Surge is cast in the max level of Surge Zero form, regardless of the number of Death Orbs you have. When Arts is activated and skills other than Basic Attacks and Awakening Skills hit, the Surge Enhancement effect is stacked every 0.4 seconds. (Max 20 stacks). This effect causes Deathblade Surge Damage +7.5% and Atk. Power +1%. When Death Trance ends, gain Death Orb Meter for each Surge Enhancement effect you have. (5% each)"
+    ]
+  },
+  {
+    "id": 280,
+    "name": "Perfect Suppression",
+    "nodes": [
+      "Normal Skill Damage +20%. Shadowburst Meter +50% for all skills. Disables Demonize.",
+      "Normal Skill Damage +25%. Shadowburst Meter +50% for all skills. Disables Demonize.",
+      "Normal Skill Damage +30%. Shadowburst Meter +50% for all skills. Disables Demonize."
+    ]
+  },
+  {
+    "id": 281,
+    "name": "Demonic Impulse",
+    "nodes": [
+      "The Composure effect does not activate when Demonize ends. Upon Demonize, Demonic Skill Cooldown is reset.",
+      "The Composure effect does not activate when Demonize ends. Upon Demonize, Demonic Skill Cooldown is reset, and Crit Rate +15% while Demonic Mode is active.",
+      "The Composure effect does not activate when Demonize ends. Upon Demonize, Demonic Skill Cooldown is reset, and Crit Rate +30% while Demonic Mode is active."
+    ]
+  },
+  {
+    "id": 282,
+    "name": "Judgment",
+    "nodes": [
+      "Punishment Damage +15%. When Punishment skill hits, Piety Meter gain +100%. Duration of Sacred Executioner +100%.",
+      "Punishment Damage +20%. When Punishment skill hits, Piety Meter gain +100%. Duration of Sacred Executioner +100%.",
+      "Punishment Damage +25%. When Punishment skill hits, Piety Meter gain +100%. Duration of Sacred Executioner +100%."
+    ]
+  },
+  {
+    "id": 283,
+    "name": "Blessed Aura",
+    "nodes": [
+      "With Holy Aura, Damage received -10% and 2% of Max HP restored every 2.5s for all party members.",
+      "With Holy Aura, Damage received -15% and 2% of Max HP restored every 2s for all party members.",
+      "With Holy Aura, Damage received -20% and 2% of Max HP restored every 1.5s for all party members."
+    ]
+  },
+  {
+    "id": 284,
+    "name": "Arthetinean Skill",
+    "nodes": [
+      "Drone and Joint skill Damage +15%. Max Battery +10%. Move Speed +10% when Drones are attached to you.",
+      "Drone and Joint skill Damage +20%. Max Battery +10%. Move Speed +15% when Drones are attached to you.",
+      "Drone and Joint skill Damage +25%. Max Battery +10%. Move Speed +20% when Drones are attached to you."
+    ]
+  },
+  {
+    "id": 285,
+    "name": "Legacy of Evolution",
+    "nodes": [
+      "During Hypersync mode, on hit, Sync skills inflict Damage +2% (Max. 3 stacks) and Cooldown -0.5s. Also, Hypersync mode returns 40% of its Core Energy cost when canceled.",
+      "During Hypersync mode, on hit, Sync skills inflict Damage +4% (Max. 3 stacks) and Cooldown -0.5s. Also, Hypersync mode returns 40% of its Core Energy cost when canceled.",
+      "During Hypersync mode, on hit, Sync skills inflict Damage +6% (Max. 3 stacks) and Cooldown -0.5s. Also, Hypersync mode returns 40% of its Core Energy cost when canceled."
+    ]
+  },
+  {
+    "id": 286,
+    "name": "Hunger",
+    "nodes": [
+      "Chaos Meter +30%. Atk. Power +1% every 0.5s when the Chaos Meter is full. (Max 10 stacks).",
+      "Chaos Meter +30%. Atk. Power +1.5% every 0.5s when Chaos Meter is full. (Max 10 stacks).",
+      "Chaos Meter +30%. Atk. Power +2% every 0.5s when Chaos Meter is full. (Max 10 stacks)."
+    ]
+  },
+  {
+    "id": 287,
+    "name": "Lunar Voice",
+    "nodes": [
+      "Swoop Damage +120% instead of the Swoop Enhancement effect that stacks every 1s upon switching to Persona Mode.",
+      "Swoop Damage +140% instead of the Swoop Enhancement effect that stacks every 1s upon switching to Persona Mode.",
+      "Swoop Damage +160% instead of the Swoop Enhancement effect that stacks every 1s upon switching to Persona Mode."
+    ]
+  },
+  {
+    "id": 288,
+    "name": "Master Brawler",
+    "nodes": [
+      "Head attack Damage +5%.",
+      "Head attack Damage +12%.",
+      "Head attack Damage +25%."
+    ]
+  },
+  {
+    "id": 289,
+    "name": "Peacemaker",
+    "nodes": [
+      "Atk. Speed in Handgun Stance +8%. Crit Rate in Shotgun Stance +15%. Damage to foes +10% and additional Damage +10% to targets with 50% or lower HP for 9s while in Rifle Stance.",
+      "+12% Atk. Speed in Handgun Stance. +20% Crit Rate in Shotgun Stance. Damage +10% to foes and additional Damage +20% to targets with 50% or lower HP for 9s while in Rifle Stance.",
+      "+16% Atk. Speed in Handgun Stance. +25% Crit Rate in Shotgun Stance. Damage +10% to foes and additional Damage +30% to targets with 50% or lower HP for 9s while in Rifle Stance."
+    ]
+  },
+  {
+    "id": 290,
+    "name": "Time to Hunt",
+    "nodes": [
+      "Crit Rate +20% for Handgun and Rifle skills. Unable to use Shotgun Stance.",
+      "Crit Rate +25% for Handgun and Rifle skills. Unable to use Shotgun Stance.",
+      "Crit Rate +30% for Handgun and Rifle skills. Unable to use Shotgun Stance."
+    ]
+  },
+  {
+    "id": 291,
+    "name": "Deathblow",
+    "nodes": [
+      "Max number of Elemental Orbs +1. Esoteric skills consume all Elemental Orbs and inflict +17% Damage per Elemental Orb consumed.",
+      "Max number of Elemental Orbs +1. Esoteric skills consume all Elemental Orbs and inflict +26% Damage per Elemental Orb consumed.",
+      "Max number of Elemental Orbs +1. Esoteric skills consume all Elemental Orbs and inflict +35% Damage per Elemental Orb consumed."
+    ]
+  },
+  {
+    "id": 292,
+    "name": "Esoteric Flurry",
+    "nodes": [
+      "Only 1 Esoteric Orb is used when using Esoteric Skill, and Esoteric Skill Damage +8%.",
+      "Only 1 Esoteric Orb is used when using Esoteric Skill, and Esoteric Skill Damage +13%.",
+      "Only 1 Esoteric Orb is used when using Esoteric Skill, and Esoteric Skill Damage +18%."
+    ]
+  },
+  {
+    "id": 293,
+    "name": "Igniter",
+    "nodes": [
+      "When Magick Amplification is triggered, normal skills' Cooldown -50%. During Magick Amplification, Crit Rate +10% and Crit Damage +20%.",
+      "When Magick Amplification is triggered, normal skills' Cooldown -50%. During Magick Amplification, Crit Rate +17% and Crit Damage +35%.Disables Arcane Rupture, but Damage of skills (except Awakening and Movement skills) +12% and Cooldown -6%.",
+      "When Magick Amplification is triggered, normal skills' Cooldown -50%. During Magick Amplification, Crit Rate +25% and Crit Damage +50%."
+    ]
+  },
+  {
+    "id": 294,
+    "name": "Reflux",
+    "nodes": [
+      "Disables Arcane Rupture, but Damage of skills (except Awakening and Movement skills) +8% and Cooldown -3%.",
+      "Disables Arcane Rupture, but Damage of skills (except Awakening and Movement skills) +12% and Cooldown -6%.",
+      "Disables Arcane Rupture, but Damage of skills (except Awakening and Movement skills) +16% and Cooldown -10%."
+    ]
+  },
+  {
+    "id": 295,
+    "name": "Increases Mass",
+    "nodes": [
+      "Atk. Speed -10%, Atk. Power +4%.",
+      "Atk. Speed -10%. Atk. Power +10%.",
+      "Atk. Speed -10%. Atk. Power +18%."
+    ]
+  },
+  {
+    "id": 296,
+    "name": "Propulsion",
+    "nodes": [
+      "After using a Movement Skill, Damage of skills (excluding Basic Attack and Awakening Skills) +3% for 5s.",
+      "After using a Movement Skill, Damage of skills (excluding Basic Attack and Awakening Skills) +8% for 5s.",
+      "After using a Movement Skill, Damage of skills (excluding Basic Attack and Awakening Skills) +16% for 5s."
+    ]
+  },
+  {
+    "id": 297,
+    "name": "Hit Master",
+    "nodes": [
+      "Damage of attacks other than Back Attack and Frontal Attack +3%. Does not apply to Awakening Skills.",
+      "Damage of attacks other than Back Attack and Frontal Attack +8%. Does not apply to Awakening Skills.",
+      "Damage of attacks other than Back Attack and Frontal Attack +16%. Does not apply to Awakening Skills."
+    ]
+  },
+  {
+    "id": 298,
+    "name": "Sight Focus",
+    "nodes": [
+      "When \"!!!!!\" is outputted in normal chat, Sight Focus is activated for 6s. After the effect is activated, used offensive skill's damage +8%. Only half of the effect is applied to Awakening Skills. Does not apply to Basic Attack. Cooldown: 30s.",
+      "When \"!!!!!\" is outputted in normal chat, Sight Focus is activated for 6s. After the effect is activated, used offensive skill's damage +16%. Only half of the effect is applied to Awakening Skills. Does not apply to Basic Attack. Cooldown: 30s.",
+      "When \"!!!!!\" is outputted in normal chat, Sight Focus is activated for 6s. After the effect is activated, used offensive skill's damage +28%. Only half of the effect is applied to Awakening Skills. Does not apply to Basic Attack. Cooldown: 30s."
+    ]
+  },
+  {
+    "id": 299,
+    "name": "Adrenaline",
+    "nodes": [
+      "After using skills (excluding Movement Skills and Basic Attacks), Atk. Power +0.3% for 6s. Stacks up to 6 times. When max stacks are reached, Crit Rate +5%. If Cooldown reduction due to skill cancel is applied to this effect, it is applied after the end of the skill.",
+      "After using skills (excluding Movement Skills and Basic Attack), Atk. Power +0.6% for 6s. Stacks up to 6 times. When max stacks are reached, Crit Rate +10%. If Cooldown reduction due to skill cancel is applied to this effect, it is applied after the end of the skill.",
+      "After using skills (excluding Movement Skills and Basic Attack), Atk. Power +1% for 6s. Stacks up to 6 times. When max stacks are reached, Crit Rate +15%. If Cooldown reduction due to skill cancel is applied to this effect, it is applied after the end of the skill."
+    ]
+  },
+  {
+    "id": 300,
+    "name": "All-Out Attack",
+    "nodes": [
+      "Holding and Casting skill Speed +5%. Damage +4%.",
+      "Holding and Casting skill Speed +10%. Damage +10%.",
+      "Holding and Casting skill Speed +20%. Damage +20%."
+    ]
+  },
+  {
+    "id": 301,
+    "name": "Expert",
+    "nodes": [
+      "Shield and Healing effectiveness on all Party Members +6%. If target's HP is 50% or lower, +3% additional effectiveness.",
+      "Shield and Healing effectiveness on all Party Members +14%. If target's HP is 50% or lower, +7% additional effectiveness.",
+      "Shield and Healing effectiveness on all Party Members +24%. If target's HP is 50% or lower, +12% additional effectiveness."
+    ]
+  },
+  {
+    "id": 302,
+    "name": "Emergency Rescue",
+    "nodes": [
+      "When HP falls below 30%, gain a shield equal to 20% of Max HP for 6s. If the shield is not destroyed after 6s, recover 50% of the remaining shield as HP. (Cooldown: 300s.)",
+      "When HP falls below 30%, gain a shield equal to 30% of Max HP for 6s. If the shield is not destroyed after 6s, recover 50% of the remaining shield as HP. (Cooldown: 240s.)",
+      "When HP falls below 30%, gain a shield equal to 50% of Max HP for 6s. If the shield is not destroyed after 6s, recover 50% of the remaining shield as HP. (Cooldown: 180s.)"
+    ]
+  },
+  {
+    "id": 303,
+    "name": "Precision Dagger",
+    "nodes": [
+      "Crit Rate +4%. Crit Damage -12%.",
+      "Crit Rate +10%. Crit Damage -12%.",
+      "Crit Rate +20%. Crit Damage -12%."
+    ]
+  }
+]

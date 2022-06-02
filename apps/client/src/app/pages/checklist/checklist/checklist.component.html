@@ -178,7 +178,7 @@
                       </ng-container>
                       <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
                         <td *ngFor="let col of row.completion; index as i; trackBy: trackByIndex">
-                          <ng-container *ngIf="row.completionData[i].tracked && roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl <= row.task.maxIlvl">
+                          <ng-container *ngIf="row.completionData[i].tracked && roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl < row.task.maxIlvl">
                             <div class="counter">
                               <div>
                                 <button nz-button

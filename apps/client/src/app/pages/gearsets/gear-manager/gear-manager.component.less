@@ -1,3 +1,72 @@
+:host ::ng-deep {
+  .quality-slider {
+
+    &.quality-10 {
+      .ant-slider-track {
+        background-color: #d56a1e;
+      }
+
+      .ant-slider-handle {
+        border-color: #d56a1e;
+      }
+    }
+
+    &.quality-9, &.quality-8 {
+      .ant-slider-track {
+        background-color: #ad4af1;
+      }
+
+      .ant-slider-handle {
+        border-color: #ad4af1;
+      }
+    }
+
+    &.quality-8, &.quality-7 {
+      .ant-slider-track {
+        background-color: #4bb6e5;
+      }
+
+      .ant-slider-handle {
+        border-color: #4bb6e5;
+      }
+    }
+
+    &.quality-6, &.quality-5, &.quality-4 {
+      .ant-slider-track {
+        background-color: #7fe078;
+      }
+
+      .ant-slider-handle {
+        border-color: #7fe078;
+      }
+    }
+
+    &.quality-3, &.quality-2 {
+      .ant-slider-track {
+        background-color: #e5d04b;
+      }
+
+      .ant-slider-handle {
+        border-color: #e5d04b;
+      }
+    }
+
+    &.quality-1, &.quality-0 {
+      .ant-slider-track {
+        background-color: #e54b4b;
+      }
+
+      .ant-slider-handle {
+        border-color: #e54b4b;
+      }
+    }
+  }
+
+  .ant-input-group-wrapper {
+    width: auto;
+  }
+}
+
 .character-selector {
   min-width: 200px;
 }
@@ -12,7 +81,8 @@
 }
 
 .td-select-box {
-  min-width: 200px;
+  min-width: 120px;
+  max-width: 225px;
 }
 
 .cost-icon {

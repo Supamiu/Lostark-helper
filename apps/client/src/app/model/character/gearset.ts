@@ -2,6 +2,7 @@ import { CharacterReference } from "../../core/database/character-reference";
 import { DataModel } from "../../core/database/data-model";
 import { GearsetPiece } from "./gearset-piece";
 import { Accessory } from "./accessory";
+import { EngravingEntry } from "../engraving-entry";
 
 export interface Gearset extends DataModel {
   authorId: string;
@@ -18,7 +19,7 @@ export interface Gearset extends DataModel {
   gloves: GearsetPiece;
   weapon: GearsetPiece;
 
-  // TODO engravings
+  engravings: [EngravingEntry, EngravingEntry] | [];
 
   necklace: Accessory;
   earring1: Accessory;

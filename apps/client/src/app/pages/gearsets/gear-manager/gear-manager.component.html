@@ -18,7 +18,7 @@
 
   <div nz-row [nzGutter]="[10,10]">
     <div nz-col [nzMd]="24">
-      <nz-card nzSize="small" nzTitle="Equipment" [nzExtra]="optimizeHoningTpl">
+      <nz-card nzSize="small" nzTitle="Armor" [nzExtra]="optimizeHoningTpl">
         <ng-template #optimizeHoningTpl>
           <nz-input-group nzSearch nzAddOnBefore="Optimize for ilvl" [nzAddOnAfter]="startOptimizationTpl"
                           *ngIf="(readonly$ | async) !== true">
@@ -140,9 +140,114 @@
         </nz-table>
       </nz-card>
     </div>
-    <div nz-col [nzMd]="24">
-      <nz-card nzSize="small" nzTitle="Result stats/Engravings">
-        <nz-empty nzNotFoundContent="Work in progress"></nz-empty>
+    <div nz-col [nzMd]="16">
+      <nz-card nzSize="small" nzTitle="Accessories">
+        <nz-table *ngIf="engravingsDisplay$ | async as engravingsDisplay"
+                  nzSize="small"
+                  nzHideOnSinglePage
+                  [nzPageSize]="50"
+                  [nzData]="engravingsDisplay"
+                  #equipmentTable>
+          <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Rarity</th>
+            <th>Stat(s)</th>
+            <th nzWidth="200px">Quality</th>
+            <th>Engravings</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of equipmentTable.data; trackBy: trackBySlot">
+            <td>{{row.name}}</td>
+            <td>
+              <nz-select [nzDisabled]="readonly$ | async"
+                         *ngIf="row.piece?.rarity"
+                         class="rarity-{{ItemRarity[row.piece.rarity]?.toLowerCase()}} td-select-box" [(ngModel)]="row.piece.rarity"
+                         (ngModelChange)="saveEngravingsChange(gearset)">
+                <nz-option [nzValue]="ItemRarity.RARE" nzLabel="Rare" nzCustomContent>
+                  <span class="rarity-rare">Rare</span>
+                </nz-option>
+                <nz-option [nzValue]="ItemRarity.EPIC" nzLabel="Epic" nzCustomContent>
+                  <span class="rarity-epic">Epic</span>
+                </nz-option>
+                <nz-option [nzValue]="ItemRarity.LEGENDARY" nzLabel="Legendary" nzCustomContent>
+                  <span class="rarity-legendary">Legendary</span>
+                </nz-option>
+                <nz-option [nzValue]="ItemRarity.RELIC" nzLabel="Relic" nzCustomContent>
+                  <span class="rarity-relic">Relic</span>
+                </nz-option>
+              </nz-select>
+            </td>
+            <td>
+              <nz-input-group nzAddOnAfter="+{{row.pieceStatValue}}"
+                              *ngIf="row.piece?.quality > -1">
+                <nz-select [nzDisabled]="readonly$ | async"
+                           [nzMode]="row.slot === 'necklace' ? 'multiple' : 'default'"
+                           #selectRef
+                           [nzMaxMultipleCount]="2"
+                           class="td-select-box" [(ngModel)]="row.slot === 'necklace' ? row.piece.stats : row.piece.stats[0]"
+                           (ngModelChange)="saveEngravingsChange(gearset);row.slot !== 'necklace' || row.piece.stats.length === 2 ? selectRef.setOpenState(false):null"
+                           [ngModelOptions]="{updateOn: 'blur'}">
+                  <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Crit" nzLabel="Crit"></nz-option>
+                  <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Specialiazation" nzLabel="Specialization"></nz-option>
+                  <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Swiftness" nzLabel="Swiftness"></nz-option>
+                  <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Endurance" nzLabel="Endurance"></nz-option>
+                  <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Expertise" nzLabel="Expertise"></nz-option>
+                </nz-select>
+              </nz-input-group>
+            </td>
+            <td>
+              <nz-slider *ngIf="row.slot !== 'stone' && row.slot !== 'engravings'"
+                         [(ngModel)]="row.piece.quality"
+                         class="quality-slider quality-{{floor(row.piece.quality / 10) | number:'1.0-0'}}"
+                         (nzOnAfterChange)="saveEngravingsChange(gearset)"
+                         [nzMin]="0" [nzMax]="100" [nzDisabled]="readonly$ | async"></nz-slider>
+            </td>
+            <td>
+              <ng-container *ngIf="row.slot === 'engravings'; else pieceEngravingsEditor">
+                <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [possibleNodesValues]="[3,6,9,12]" [engraving]="row.piece[0]"></lostark-helper-engraving-selector>
+                <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [possibleNodesValues]="[3,6,9,12]" [engraving]="row.piece[1]"></lostark-helper-engraving-selector>
+              </ng-container>
+              <ng-template #pieceEngravingsEditor>
+                <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[0]"
+                                                   [(engraving)]="row.piece.engravings[0]"></lostark-helper-engraving-selector>
+                <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[1]"
+                                                   [(engraving)]="row.piece.engravings[1]"></lostark-helper-engraving-selector>
+              </ng-template>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+    <div nz-col [nzMd]="8">
+      <nz-card nzSize="small" nzTitle="Result stats/Engravings" *ngIf="statsDisplay$ | async as statsDisplay">
+        <nz-list [nzNoResult]="noEngravings" nzSize="small" nzHeader="Engravings">
+          <ng-template #noEngravings>
+            <nz-empty nzNotFoundContent="No engravings"></nz-empty>
+          </ng-template>
+          <nz-list-item *ngFor="let engraving of statsDisplay.engravings" nzContent="{{engraving.nodes}} node(s)">
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>{{engraving.name}} <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag></nz-list-item-meta-title>
+              <nz-list-item-meta-description>{{engraving.description}}</nz-list-item-meta-description>
+            </nz-list-item-meta>
+          </nz-list-item>
+        </nz-list>
+        <nz-table #statsTable [nzData]="statsDisplay.stats" nzHideOnSinglePage nzSize="small" nzTitle="Stats">
+          <thead>
+          <tr>
+            <th>Stat</th>
+            <th>Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of statsTable.data">
+            <td>{{LostArkStat[row.stat]}}</td>
+            <td>{{row.value | number:'1.0-0'}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
       </nz-card>
     </div>
   </div>

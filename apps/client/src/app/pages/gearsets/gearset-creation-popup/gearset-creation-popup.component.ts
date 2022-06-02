@@ -35,7 +35,9 @@ export class GearsetCreationPopupComponent {
     };
     const defaultAccessory: Accessory = {
       quality: 100,
-      rarity: ItemRarity.RARE
+      rarity: ItemRarity.RARE,
+      engravings: [],
+      stats: []
     };
     const gearset: Partial<Gearset> = {
       name: raw.name,
@@ -57,8 +59,11 @@ export class GearsetCreationPopupComponent {
       ring2: { ...defaultAccessory },
 
       stone: {
-        rarity: ItemRarity.RARE
-      }
+        rarity: ItemRarity.RARE,
+        engravings: []
+      },
+
+      engravings: []
     };
     if (raw.character) {
       gearset.character = raw.character;
