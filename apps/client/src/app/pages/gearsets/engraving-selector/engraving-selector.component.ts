@@ -33,7 +33,7 @@ export class EngravingSelectorComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.possibleNodesValues.length === 0 || changes['maxNodes'] || changes['minNodes']) {
+    if (this.possibleNodesValues.length === 0 || changes["maxNodes"] || changes["minNodes"]) {
       this.possibleNodesValues = new Array(1 + this.maxNodes - this.minNodes)
         .fill(null)
         .map((_, i) => i + this.minNodes);
