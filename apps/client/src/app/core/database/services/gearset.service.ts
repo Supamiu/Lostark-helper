@@ -32,7 +32,7 @@ export class GearsetService extends FirestoreStorage<Gearset> {
             "ring1",
             "ring2"
           ].forEach(key => {
-            if (!gearset[key] || !gearset[key].engravings) {
+            if (!gearset[key] || !gearset[key].engravings|| gearset[key].engravings.length === 0) {
               gearset[key] = {
                 quality: 100,
                 rarity: ItemRarity.LEGENDARY,
@@ -44,7 +44,7 @@ export class GearsetService extends FirestoreStorage<Gearset> {
               };
             }
           });
-          if (!gearset.stone || !gearset.stone.engravings) {
+          if (!gearset.stone || !gearset.stone.engravings || gearset.stone.engravings.length === 0) {
             gearset.stone = {
               rarity: ItemRarity.LEGENDARY,
               engravings: [
