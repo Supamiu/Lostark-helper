@@ -12,16 +12,16 @@ export const QualityEffect = {
     [ItemRarity.RELIC]: [225, 500]
   },
   earring: {
-    [ItemRarity.RARE]: [50, 140],
-    [ItemRarity.EPIC]: [90, 160],
-    [ItemRarity.LEGENDARY]: [130, 180],
-    [ItemRarity.RELIC]: [160, 200]
-  },
-  ring: {
     [ItemRarity.RARE]: [75, 210],
     [ItemRarity.EPIC]: [135, 240],
     [ItemRarity.LEGENDARY]: [195, 270],
     [ItemRarity.RELIC]: [240, 300]
+  },
+  ring: {
+    [ItemRarity.RARE]: [50, 140],
+    [ItemRarity.EPIC]: [90, 160],
+    [ItemRarity.LEGENDARY]: [130, 180],
+    [ItemRarity.RELIC]: [160, 200]
   }
 };
 
