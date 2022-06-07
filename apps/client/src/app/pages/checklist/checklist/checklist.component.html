@@ -146,7 +146,7 @@
                         [class.completed]="row.allDone"
                         [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                         [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
-                      <td [style.width.px]="375" class="task-name">
+                      <td [style.width.px]="250" class="task-name">
                         <img *ngIf="row.task.iconPath" src="./assets/icons/{{row.task.iconPath}}" alt="" class="task-icon">
                         {{row.task.label}}
                       </td>
