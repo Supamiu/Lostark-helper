@@ -226,6 +226,14 @@ export class GearManagerComponent {
     this.gearsetService.setOne(gearset.$key, gearset);
   }
 
+  saveStatsChange(gearset: Gearset, slot: string, stats: LostArkStat | LostArkStat[]): void {
+    if (Array.isArray(stats)) {
+      this.gearsetService.updateOne(gearset.$key, { [`${slot}.stats`]: stats });
+    } else {
+      this.gearsetService.updateOne(gearset.$key, { [`${slot}.stats`]: [stats] });
+    }
+  }
+
   floor(n: number): number {
     return Math.floor(n);
   }

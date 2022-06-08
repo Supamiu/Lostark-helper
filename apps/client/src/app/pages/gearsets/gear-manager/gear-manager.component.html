@@ -186,9 +186,8 @@
                            [nzMode]="row.slot === 'necklace' ? 'multiple' : 'default'"
                            #selectRef
                            [nzMaxMultipleCount]="2"
-                           class="td-select-box" [(ngModel)]="row.slot === 'necklace' ? row.piece.stats : row.piece.stats[0]"
-                           (ngModelChange)="saveEngravingsChange(gearset);row.slot !== 'necklace' || row.piece.stats.length === 2 ? selectRef.setOpenState(false):null"
-                           [ngModelOptions]="{updateOn: 'blur'}">
+                           class="td-select-box" [ngModel]="row.slot === 'necklace' ? row.piece.stats : row.piece.stats[0]"
+                           (ngModelChange)="saveStatsChange(gearset, row.slot, $event);row.slot !== 'necklace' || row.piece.stats.length === 2 ? selectRef.setOpenState(false):null">
                   <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Crit" nzLabel="Crit"></nz-option>
                   <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Specialiazation" nzLabel="Specialization"></nz-option>
                   <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Swiftness" nzLabel="Swiftness"></nz-option>
@@ -229,7 +228,9 @@
           </ng-template>
           <nz-list-item *ngFor="let engraving of statsDisplay.engravings" nzContent="{{engraving.nodes}} node(s)">
             <nz-list-item-meta>
-              <nz-list-item-meta-title>{{engraving.name}} <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag></nz-list-item-meta-title>
+              <nz-list-item-meta-title>{{engraving.name}}
+                <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag>
+              </nz-list-item-meta-title>
               <nz-list-item-meta-description>{{engraving.description}}</nz-list-item-meta-description>
             </nz-list-item-meta>
           </nz-list-item>
