@@ -230,6 +230,7 @@
             <nz-list-item-meta>
               <nz-list-item-meta-title>{{engraving.name}}
                 <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag>
+                <nz-tag *ngIf="engraving.level" nzColor="success">lvl {{engraving.level}}</nz-tag>
               </nz-list-item-meta-title>
               <nz-list-item-meta-description>{{engraving.description}}</nz-list-item-meta-description>
             </nz-list-item-meta>

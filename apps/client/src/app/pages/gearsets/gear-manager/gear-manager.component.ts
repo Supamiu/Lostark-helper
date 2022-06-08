@@ -169,9 +169,10 @@ export class GearManagerComponent {
             ...engraving,
             name: data?.name,
             description: data?.nodes[Math.min(Math.floor(engraving.nodes / 5), 2)],
-            overflow: Math.max(engraving.nodes - 15, 0)
+            overflow: Math.max(engraving.nodes - 15, 0),
+            level: Math.min(Math.floor(engraving.nodes / 5), 3)
           };
-        }),
+        }).sort((a, b) => b.nodes - a.nodes),
         stats: this.getStatsTotal(gearset)
       };
     })
