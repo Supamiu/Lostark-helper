@@ -66,6 +66,23 @@ export class TasksComponent {
     "t2_cube.png",
     "t3_bossrush.png",
     "t3_cube.png",
+    "adventure_quest.webp",
+    "amethyst_shard.webp",
+    "chain_quest.webp",
+    "co-op_quest.webp",
+    "crystal.webp",
+    "dungeon.webp",
+    "dungeon_quest.webp",
+    "event_quest.webp",
+    "main_quest.webp",
+    "normal_quest.webp",
+    "normal_quest_end.webp",
+    "normal_quest_start.webp",
+    "stronghold_quest.webp",
+    "sudden_quest.webp",
+    "trade_skill_tool.webp",
+    "world_quest.webp",
+    "world_tree_leaves.webp"
   ];
 
   public tableHeight!: number;
