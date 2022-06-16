@@ -88,7 +88,7 @@ export const tasks = [
   createTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1, 9999, "ghostship.png", {
     daysFilter: [2, 4, 6]
   }),
-  createTask(`South Vern Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, ""),
+  createTask(`South Vern Chaos Line Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "dungeon.webp"),
   createTask("Challenge Guardian", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 3, 9999, "guardian.png", {
     shared: true,
     partySize: 4
