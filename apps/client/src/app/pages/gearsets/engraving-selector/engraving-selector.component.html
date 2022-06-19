@@ -1,5 +1,5 @@
 <nz-input-group nzCompact>
-  <nz-select [(ngModel)]="engraving.engravingId" (ngModelChange)="engravingChange.emit(engraving)" [nzDisabled]="disabled" nzShowSearch class="select-box" nzPlaceHolder="Select an engraving">
+  <nz-select [(ngModel)]="engraving.engravingId" (ngModelChange)="changeEngravingId($event)" [nzDisabled]="disabled" nzAllowClear nzShowSearch class="select-box" nzPlaceHolder="Select an engraving">
     <nz-option *ngFor="let row of engravings$ | async" [nzValue]="row.id" [nzLabel]="row.name"></nz-option>
   </nz-select>
   <nz-select [(ngModel)]="engraving.nodes" (ngModelChange)="engravingChange.emit(engraving)" [nzDisabled]="disabled" nzShowSearch class="value-box" nzPlaceHolder="+??">

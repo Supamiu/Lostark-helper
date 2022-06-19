@@ -186,6 +186,7 @@
                            [nzMode]="row.slot === 'necklace' ? 'multiple' : 'default'"
                            #selectRef
                            [nzMaxMultipleCount]="2"
+                           nzAllowClear
                            class="td-select-box" [ngModel]="row.slot === 'necklace' ? row.piece.stats : row.piece.stats[0]"
                            (ngModelChange)="saveStatsChange(gearset, row.slot, $event);row.slot !== 'necklace' || row.piece.stats.length === 2 ? selectRef.setOpenState(false):null">
                   <nz-option (click)="selectRef.setOpenState(false)" [nzValue]="LostArkStat.Crit" nzLabel="Crit"></nz-option>
