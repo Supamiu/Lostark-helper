@@ -28,14 +28,23 @@
         <nz-list *ngIf="showMembers$ | async" nzGrid>
           <nz-divider [nzText]="membersTpl" nzOrientation="left"></nz-divider>
           <ng-template #membersTpl>Members ({{guild.users.length}} users, {{guild.members.length}} characters)
-            <nz-switch *ngIf="isOfficierOrLeader$ | async" nzCheckedChildren="private" nzUnCheckedChildren="public" [(ngModel)]="guild.privateMembers" (ngModelChange)="setPrivateMembers(guild, $event)"></nz-switch>
+            <nz-input-group nzAddOnBefore="Visibility">
+              <nz-select nzSize="small" *ngIf="isOfficierOrLeader$ | async" [(ngModel)]="guild.visibility" (ngModelChange)="setVisibility(guild, $event)">
+                <nz-option [nzValue]="GuildVisibility.PRIVATE" nzLabel="Private"></nz-option>
+                <nz-option [nzValue]="GuildVisibility.ANONYMOUS" nzLabel="Anonymous"></nz-option>
+                <nz-option [nzValue]="GuildVisibility.PUBLIC" nzLabel="Public"></nz-option>
+              </nz-select>
+            </nz-input-group>
           </ng-template>
-          <nz-alert nzType="info" *ngIf="guild.privateMembers" nzMessage="Only guild members are allowed to see this" nzShowIcon></nz-alert>
+          <div class="info-banner">
+            <nz-alert nzType="info" *ngIf="guild.visibility === GuildVisibility.PRIVATE" nzMessage="Only guild members are allowed to see this" nzShowIcon></nz-alert>
+            <nz-alert nzType="info" *ngIf="guild.visibility === GuildVisibility.ANONYMOUS" nzMessage="Only guild members can see member names" nzShowIcon></nz-alert>
+          </div>
           <div nz-row [nzGutter]="[10, 10]" class="members-list">
             <div nz-col [nzMd]="4" *ngFor="let member of guild.members">
               <nz-list-item>
                 <nz-card>
-                  <lostark-helper-character-reference [reference]="member" [showIlvl]="true"></lostark-helper-character-reference>
+                  <lostark-helper-character-reference [reference]="member" [showIlvl]="true" [hideCharacterName]="(isMember$ | async) ===  false && guild.visibility === GuildVisibility.ANONYMOUS"></lostark-helper-character-reference>
                   <div class="member-actions">
                     <nz-tag *ngIf="memberIsLeader(member, guild)" nzColor="cyan">Leader</nz-tag>
                     <nz-tag *ngIf="memberIsOfficier(member, guild)" nzColor="green">Officier</nz-tag>

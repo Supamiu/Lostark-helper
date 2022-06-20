@@ -23,6 +23,9 @@ export class CharacterReferenceComponent {
   showIlvl = false;
 
   @Input()
+  hideCharacterName = false;
+
+  @Input()
   disableTooltip = false;
 
   public data$ = this.reference$.pipe(

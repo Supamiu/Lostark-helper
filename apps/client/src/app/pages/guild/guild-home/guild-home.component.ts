@@ -2,14 +2,14 @@ import { Component } from "@angular/core";
 import { GuildService } from "../../../core/database/services/guild.service";
 import { combineLatest, map } from "rxjs";
 import { AuthService } from "../../../core/database/services/auth.service";
-import { CharacterReference, createReference, isSameUser } from "../../../core/database/character-reference";
+import { createReference, isSameUser } from "../../../core/database/character-reference";
 import { FormBuilder, Validators } from "@angular/forms";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { LostarkRegion } from "../../../model/lostark-region";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Guild } from "../../../model/guild/guild";
-import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
 import { ServersPerRegion } from "../../../data/servers-per-region";
+import { GuildVisibility } from "../../../model/guild/guild-visibility";
 
 @Component({
   selector: "lostark-helper-guild-home",
@@ -76,7 +76,7 @@ export class GuildHomeComponent {
       users: [uid],
       candidates: [],
       discordServer: raw.discord || "",
-      privateMembers: false
+      visibility: GuildVisibility.ANONYMOUS
     }).subscribe(() => {
       this.guildCreationForm.reset();
       this.message.success(`Created guild ${raw.name}`);

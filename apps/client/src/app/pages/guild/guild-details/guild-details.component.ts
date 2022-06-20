@@ -10,6 +10,7 @@ import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion, UpdateData } from "@angular/fire/firestore";
 import { CharacterReference, createReference, isSameCharacter, isSameUser, parseCharacterReference } from "../../../core/database/character-reference";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { GuildVisibility } from "../../../model/guild/guild-visibility";
 
 @Component({
   selector: "lostark-helper-guild-details",
@@ -17,6 +18,8 @@ import { NzMessageService } from "ng-zorro-antd/message";
   styleUrls: ["./guild-details.component.less"]
 })
 export class GuildDetailsComponent {
+
+  GuildVisibility = GuildVisibility;
 
   public guild$ = this.route.paramMap.pipe(
     map(params => params.get("guildId")),
@@ -54,7 +57,7 @@ export class GuildDetailsComponent {
 
   public showMembers$ = combineLatest([this.guild$, this.isMember$]).pipe(
     map(([guild, isMember]) => {
-      return !guild.privateMembers || isMember;
+      return guild.visibility < GuildVisibility.PRIVATE || isMember;
     })
   );
 
@@ -139,8 +142,8 @@ export class GuildDetailsComponent {
     });
   }
 
-  setPrivateMembers(guild: Guild, $event: boolean): void {
-    this.guildService.updateOne(guild.$key, { privateMembers: $event });
+  setVisibility(guild: Guild, visibility: GuildVisibility): void {
+    this.guildService.updateOne(guild.$key, { visibility });
   }
 
   accept(candidate: { message?: string, ref: CharacterReference }, guild: Guild): void {

@@ -2,7 +2,7 @@
   <ng-container *ngIf="data.userName; else userNotFound">
     <div class="name-container" *ngIf="data.character; else characterNotFound" nz-tooltip [nzTooltipTitle]="disableTooltip ? null : data.userName">
       <img src="./assets/icons/classes/class_{{data.character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
-      {{data.character.name}}
+      <span *ngIf="!hideCharacterName">{{data.character.name}}&nbsp;</span>
       <span *ngIf="showIlvl">[ilvl {{data.character.ilvl}}]</span>
     </div>
   </ng-container>
