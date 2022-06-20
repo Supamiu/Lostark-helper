@@ -16,6 +16,7 @@ export interface Guild extends DataModel {
     message?: string
   }[];
   region: LostarkRegion;
+  server: string;
   discordServer?: string;
   privateMembers?: boolean;
   // This is not a CharacterReference because it's used to query guilds per user ID

@@ -27,14 +27,14 @@ const routes: Routes = [
     path: "gearsets",
     loadChildren: () => import("./pages/gearsets/gear-manager.module").then(m => m.GearManagerModule)
   },
-  // {
-  //   path: "guild",
-  //   loadChildren: () => import("./pages/guild/guild.module").then(m => m.GuildModule)
-  // },
-  // {
-  //   path: "availability",
-  //   loadChildren: () => import("./pages/availability/availability.module").then(m => m.AvailabilityModule)
-  // },
+  {
+    path: "guild",
+    loadChildren: () => import("./pages/guild/guild.module").then(m => m.GuildModule)
+  },
+  {
+    path: "availability",
+    loadChildren: () => import("./pages/availability/availability.module").then(m => m.AvailabilityModule)
+  },
   { path: "settings", loadChildren: () => import("./pages/settings/settings.module").then(m => m.SettingsModule) },
   { path: "other-tools", loadChildren: () => import("./pages/other-tools/other-tools.module").then(m => m.OtherToolsModule) }
 ];

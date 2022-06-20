@@ -9,6 +9,7 @@ import { LostarkRegion } from "../../../model/lostark-region";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
+import { ServersPerRegion } from "../../../data/servers-per-region";
 
 @Component({
   selector: "lostark-helper-guild-home",
@@ -27,6 +28,8 @@ export class GuildHomeComponent {
           .join(" ")
       };
     });
+
+  public ServersPerRegion = ServersPerRegion;
 
   public userGuilds$ = combineLatest([this.guildService.userGuilds$, this.auth.uid$]).pipe(
     map(([guilds, uid]) => {
@@ -50,6 +53,7 @@ export class GuildHomeComponent {
   public guildCreationForm = this.fb.group({
     name: ["", Validators.required],
     region: [null, Validators.required],
+    server: [null, Validators.required],
     character: [null, Validators.required],
     discord: [null, Validators.pattern("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?")]
   });
@@ -64,6 +68,7 @@ export class GuildHomeComponent {
     this.guildService.addOne({
       name: raw.name,
       region: raw.region,
+      server: raw.server,
       members: [createReference(uid, raw.character)],
       guests: [],
       officiers: [],

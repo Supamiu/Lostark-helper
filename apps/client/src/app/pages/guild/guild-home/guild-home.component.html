@@ -34,7 +34,7 @@
                   <nz-tag *ngIf="!row.isOfficier && !row.isLeader">Member</nz-tag>
                 </ng-template>
                 <div nz-row [nzGutter]="[10, 10]">
-                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Region" [nzValue]="row.guild.region | regionName">
+                  <nz-statistic nz-col [nzSpan]="6" nzTitle="Server" nzValue="{{row.guild.server}} ({{row.guild.region | regionName}})">
                   </nz-statistic>
                   <nz-statistic nz-col [nzSpan]="6" nzTitle="Users" [nzValue]="row.guild.users.length">
                   </nz-statistic>
@@ -80,6 +80,17 @@
                 <nz-option *ngFor="let region of allRegions"
                            [nzValue]="region.value"
                            [nzLabel]="region.label"></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please set a server">
+            <nz-input-group nzAddOnBefore="Server">
+              <nz-select [nzDisabled]="!guildCreationForm.value?.region" formControlName="server" class="select-box" nzShowSearch>
+                <nz-option *ngFor="let server of (ServersPerRegion[guildCreationForm.value?.region] || [])"
+                           [nzValue]="server"
+                           [nzLabel]="server"></nz-option>
               </nz-select>
             </nz-input-group>
           </nz-form-control>
