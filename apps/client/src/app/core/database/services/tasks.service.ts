@@ -114,8 +114,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     shareReplay(1)
   );
 
-  constructor(firestore: Firestore, private auth: AuthService, private settings: SettingsService,
-              private completion: CompletionService) {
+  constructor(firestore: Firestore, private auth: AuthService, private settings: SettingsService) {
     super(firestore);
     this.baseData$.pipe(
       pluck("toCreate"),
@@ -163,6 +162,9 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
           .filter(task => {
             return !task.custom
               && tasks.filter(t => {
+                if (!t.custom && t.label === "South Vern Dungeon") {
+                  return true;
+                }
                 return t.label?.toLowerCase() === task.label?.toLowerCase()
                   && t.frequency === task.frequency
                   && !t.custom;
