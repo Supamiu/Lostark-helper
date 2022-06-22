@@ -8,7 +8,6 @@ import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
 import { subHours } from "date-fns";
-import { CompletionService } from "./completion.service";
 
 @Injectable({
   providedIn: "root"
@@ -154,7 +153,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
       })
     ).subscribe();
 
-    this.baseData$.pipe(
+    const duplicates$ = this.baseData$.pipe(
       pluck("result"),
       debounceTime(1000),
       map((tasks) => {
@@ -162,19 +161,36 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
           .filter(task => {
             return !task.custom
               && tasks.filter(t => {
-                if (!t.custom && t.label === "South Vern Dungeon") {
-                  return true;
-                }
                 return t.label?.toLowerCase() === task.label?.toLowerCase()
                   && t.frequency === task.frequency
                   && !t.custom;
               }).length > 1;
           });
       }),
-      filter(toDelete => toDelete.length > 0),
       map(duplicates => {
         return duplicates.reverse().filter((task, i) => duplicates.findIndex(t => t.label?.toLowerCase() === task.label?.toLowerCase()) !== i);
-      }),
+      })
+    );
+
+    const southVernDungeonCleanup$ = this.baseData$.pipe(
+      pluck("result"),
+      debounceTime(1000),
+      map((tasks) => {
+        return tasks
+          .filter(task => {
+            return task.label === "South Vern Dungeon";
+          });
+      })
+    );
+
+    combineLatest(
+      [
+        duplicates$,
+        southVernDungeonCleanup$
+      ]
+    ).pipe(
+      map(([duplicates, cleanup]) => [...duplicates, ...cleanup]),
+      filter(toDelete => toDelete.length > 0),
       switchMap(toDelete => {
         const batch = this.batch();
         toDelete.forEach((task) => {
