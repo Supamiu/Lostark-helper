@@ -28,6 +28,8 @@ import { NzAlertModule } from "ng-zorro-antd/alert";
 import { NzSwitchModule } from "ng-zorro-antd/switch";
 import { GuildPlanningComponent } from "./guild-planning/guild-planning.component";
 import { NzTableModule } from "ng-zorro-antd/table";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number";
+import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 
 const routes: Routes = [
   {
@@ -41,7 +43,6 @@ const routes: Routes = [
   {
     path: ":guildId/planning",
     component: GuildPlanningComponent
-    // TODO add leader/officier guard
   }
 ];
 
@@ -75,7 +76,9 @@ const routes: Routes = [
     NzAlertModule,
     NzSwitchModule,
     FormsModule,
-    NzTableModule
+    NzTableModule,
+    NzInputNumberModule,
+    NzCheckboxModule
   ]
 })
 export class GuildModule {

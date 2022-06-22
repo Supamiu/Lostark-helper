@@ -106,9 +106,17 @@
         "prerender": false,
         "ssr": false,
         "browserTarget": "client:build:production",
-        "firebaseProject": "lostark-helper-8dfb0",
-        "firebaseHostingSite": "lostark-helper-8dfb0"
-      }
+        "firebaseProject": "lostark-helper-8dfb0"
+      },
+      "configurations": {
+        "production": {
+          "firebaseHostingSite": "lostark-helper-8dfb0"
+        },
+        "beta": {
+          "firebaseHostingSite": "beta-lostark-helper"
+        }
+      },
+      "defaultConfiguration": "production"
     }
   },
   "tags": []

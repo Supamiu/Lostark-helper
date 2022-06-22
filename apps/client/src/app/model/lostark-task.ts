@@ -3,7 +3,7 @@ import { TaskScope } from "./task-scope";
 import { DataModel } from "../core/database/data-model";
 
 
-export const TASKS_VERSION = 29;
+export const TASKS_VERSION = 30;
 
 export interface LostarkTask extends DataModel {
   authorId?: string;
@@ -21,6 +21,7 @@ export interface LostarkTask extends DataModel {
   amount: number;
   maxIlvl?: number;
   iconPath?: string;
+  event?: string;
 }
 
 export function createTask(

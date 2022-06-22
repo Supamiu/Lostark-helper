@@ -1,4 +1,5 @@
 import { LostarkClass } from "./lostark-class";
+import { CharacterReference } from "../../core/database/character-reference";
 
 export interface Character {
   id?: number;
@@ -17,4 +18,5 @@ export interface Character {
     t3Cube: number;
     platinumFields: number;
   };
+  ref?: CharacterReference;
 }

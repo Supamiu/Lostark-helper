@@ -15,7 +15,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {},
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,12 +1,119 @@
 <nz-page-header nzTitle="Guild planning" nzSubtitle="Plan daily and weekly tasks with your guild">
 </nz-page-header>
 
-<nz-select nzShowSearch
-           [ngModel]="selectedTask$ | async"
-           (ngModelChange)="selectedTask$.next($event)"
-           nzPlaceHolder="Select a task"
-           class="task-select-box">
-  <nz-option *ngFor="let subTask of availableTasks" [nzLabel]="subTask.name" [nzValue]="subTask" nzCustomContent>
-    <img *ngIf="subTask.parent?.iconPath" src="./assets/icons/{{subTask.parent?.iconPath}}" alt="" class="task-icon"> {{subTask.name}}
-  </nz-option>
-</nz-select>
+<nz-card nzSize="small" nzTitle="Task">
+  <div class="params-container">
+    <div>
+      <nz-select nzShowSearch
+                 [ngModel]="selectedTask$ | async"
+                 (ngModelChange)="selectTask($event)"
+                 nzPlaceHolder="Select a task"
+                 class="task-select-box">
+        <nz-option *ngFor="let subTask of availableTasks" [nzLabel]="subTask.name" [nzValue]="subTask" nzCustomContent>
+          <img *ngIf="subTask.parent?.iconPath" src="./assets/icons/{{subTask.parent?.iconPath}}" alt="" class="task-icon"> {{subTask.name}}
+        </nz-option>
+      </nz-select>
+    </div>
+    <div>
+      <nz-input-group nzAddOnBefore="Ilvl min.">
+        <nz-input-number [nzMin]="0" [ngModel]="minIlvl$ | async" (ngModelChange)="minIlvl$.next($event)"></nz-input-number>
+      </nz-input-group>
+    </div>
+    <div>
+      <nz-input-group nzAddOnBefore="Ilvl max.">
+        <nz-input-number [nzMin]="0" [ngModel]="maxIlvl$ | async" (ngModelChange)="minIlvl$.next($event)"></nz-input-number>
+      </nz-input-group>
+    </div>
+    <div>
+      <nz-input-group nzAddOnBefore="Duration" nzAddOnAfter="h">
+        <nz-input-number [nzMin]="1" [nzMax]="24" [ngModel]="duration$ | async" (ngModelChange)="duration$.next($event)"></nz-input-number>
+      </nz-input-group>
+    </div>
+  </div>
+</nz-card>
+
+<nz-card nzSize="small" nzTitle="Team" *ngIf="team$ | async as team" class="main-card" [nzExtra]="includeAltsToggle">
+  <ng-template #includeAltsToggle>
+    <label nz-checkbox [ngModel]="includeAlts$ | async" (ngModelChange)="includeAlts$.next($event)"></label> Include alts
+  </ng-template>
+  <nz-empty *ngIf="team.length === 0" nzNotFoundContent="Please select a task first"></nz-empty>
+  <ng-template #selectedCharTpl let-selected>
+    <div class="character-row">
+      <img src="./assets/icons/classes/class_{{selected.nzValue.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon select-preview">
+      <div>{{selected.nzValue.name}} [{{selected.nzValue.ilvl}}]</div>
+    </div>
+  </ng-template>
+  <div *ngFor="let teamMember of team; index as i; trackBy: trackByRef">
+    <nz-select *ngIf="availableMembers$ | async as availableMembers"
+               [nzCustomTemplate]="selectedCharTpl"
+               nzNotFoundContent="No available characters"
+               nzPlaceHolder="Select a character"
+               nzShowSearch
+               [ngModel]="teamMember"
+               (ngModelChange)="setTeamMember(i, $event)" class="character-selector">
+      <nz-option-group nzLabel="Support">
+        <nz-option *ngFor="let char of availableMembers.support" nzLabel="[{{LostArkClass[char.class]}}] {{char.name}} ({{char.ilvl}})" [nzValue]="char" nzCustomContent>
+          <div class="character-row">
+            <img src="./assets/icons/classes/class_{{char.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+            <div>{{char.name}} [{{char.ilvl}}]</div>
+          </div>
+        </nz-option>
+      </nz-option-group>
+      <nz-option-group nzLabel="DPS">
+        <nz-option *ngFor="let char of availableMembers.dps" nzLabel="[{{LostArkClass[char.class]}}] {{char.name}} ({{char.ilvl}})" [nzValue]="char" nzCustomContent>
+          <div class="character-row">
+            <img src="./assets/icons/classes/class_{{char.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+            <div>{{char.name}} [{{char.ilvl}}]</div>
+          </div>
+        </nz-option>
+      </nz-option-group>
+    </nz-select>
+  </div>
+  <div *ngIf="team.length > 0">
+    Average ilvl: {{avgIlvl$ | async | number:'1.0-0'}}
+  </div>
+</nz-card>
+
+<nz-card nzSize="small" nzTitle="Availabilities" *ngIf="availabilities$ | async as availabilities" class="main-card">
+  <nz-empty *ngIf="availabilities.missingData" nzNotFoundContent="Please select a task and a team member first"></nz-empty>
+  <table class="availability-table" *ngIf="!availabilities.missingData">
+    <thead>
+    <tr>
+      <th></th>
+      <th>0:00</th>
+      <th>1:00</th>
+      <th>2:00</th>
+      <th>3:00</th>
+      <th>4:00</th>
+      <th>5:00</th>
+      <th>6:00</th>
+      <th>7:00</th>
+      <th>8:00</th>
+      <th>9:00</th>
+      <th>10:00</th>
+      <th>11:00</th>
+      <th>12:00</th>
+      <th>13:00</th>
+      <th>14:00</th>
+      <th>15:00</th>
+      <th>16:00</th>
+      <th>17:00</th>
+      <th>18:00</th>
+      <th>19:00</th>
+      <th>20:00</th>
+      <th>21:00</th>
+      <th>22:00</th>
+      <th>23:00</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let day of days; even as even">
+      <td class="day">{{day}}</td>
+      <td *ngFor="let status of availabilities.availability[day]" class="availability-cell">
+        <div class="availability-square" [ngClass]="{available: status === AvailabilityStatus.AVAILABLE, busy: status === AvailabilityStatus.BUSY, 'not-available': status === AvailabilityStatus.NOT_AVAILABLE}"></div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</nz-card>
+

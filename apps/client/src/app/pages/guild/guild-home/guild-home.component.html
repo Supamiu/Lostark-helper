@@ -10,7 +10,7 @@
         <div nz-row [nzGutter]="[10, 10]">
           <div nz-col [nzMd]="guilds.length > 1 ? 12 : 24" *ngFor="let row of guilds">
             <nz-list-item>
-              <nz-card [nzTitle]="row.guild.name" [nzExtra]="badges" nzSize="small" [nzActions]="row.isLeader ? [openTpl, getInviteLinkTpl, deleteGuildTpl] : [openTpl, getInviteLinkTpl]">
+              <nz-card [nzTitle]="row.guild.name" [nzExtra]="badges" nzSize="small" [nzActions]="row.isLeader ? [openTpl, openPlanningTpl, getInviteLinkTpl, deleteGuildTpl] : [openTpl, openPlanningTpl, getInviteLinkTpl]">
                 <ng-template #deleteGuildTpl>
                   <span nz-typography nzType="danger">
                     <i nz-icon nzType="delete" nzTheme="outline"
@@ -27,6 +27,10 @@
                 <ng-template #openTpl>
                   <i nz-icon nzType="folder-open" nzTheme="outline"
                      nz-tooltip nzTooltipTitle="Open details" [routerLink]="row.guild.$key"></i>
+                </ng-template>
+                <ng-template #openPlanningTpl>
+                  <i nz-icon nzType="calendar" nzTheme="outline"
+                     nz-tooltip nzTooltipTitle="Open planning" routerLink="{{row.guild.$key}}/planning"></i>
                 </ng-template>
                 <ng-template #badges>
                   <nz-tag *ngIf="row.isLeader" nzColor="cyan">Leader</nz-tag>

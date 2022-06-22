@@ -1,6 +1,12 @@
 export type CharacterReference = `${string}:${number}`;
 
-export function parseCharacterReference(ref: CharacterReference): { userId: string, characterId: number } {
+export function parseCharacterReference(ref: CharacterReference | undefined): { userId: string, characterId: number } {
+  if (!ref) {
+    return {
+      userId: "",
+      characterId: 0
+    };
+  }
   const [userId, characterId] = ref.split(":");
   return { userId, characterId: +characterId };
 }
