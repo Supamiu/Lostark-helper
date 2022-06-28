@@ -3,7 +3,7 @@ import { GuildService } from "../../../core/database/services/guild.service";
 import { combineLatest, map } from "rxjs";
 import { AuthService } from "../../../core/database/services/auth.service";
 import { createReference, isSameUser } from "../../../core/database/character-reference";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { LostarkRegion } from "../../../model/lostark-region";
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -59,7 +59,7 @@ export class GuildHomeComponent {
   });
 
   constructor(private guildService: GuildService, private auth: AuthService,
-              private fb: FormBuilder, private rosterService: RosterService,
+              private fb: UntypedFormBuilder, private rosterService: RosterService,
               private message: NzMessageService) {
   }
 

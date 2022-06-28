@@ -8,7 +8,6 @@ import { tasks } from "../../tasks";
 import { filter } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
 import { subHours } from "date-fns";
-import { CompletionService } from "./completion.service";
 
 @Injectable({
   providedIn: "root"

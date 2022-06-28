@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { filter, first, switchMap, withLatestFrom } from "rxjs/operators";
 import { Clipboard } from "@angular/cdk/clipboard";
@@ -48,7 +48,7 @@ export class RosterComponent {
 
   constructor(private rosterService: RosterService,
               private auth: AuthService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private clipboard: Clipboard,
               private message: NzMessageService,
               private completionService: CompletionService,

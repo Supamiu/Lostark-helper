@@ -1,14 +1,12 @@
 {
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "application",
-  "root": "apps/client",
   "sourceRoot": "apps/client/src",
   "prefix": "lostark-helper",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/client",
         "index": "apps/client/src/index.html",
@@ -25,9 +23,7 @@
             "output": "/assets/"
           }
         ],
-        "styles": [
-          "apps/client/src/styles.less"
-        ],
+        "styles": ["apps/client/src/styles.less"],
         "scripts": []
       },
       "configurations": {
@@ -84,17 +80,12 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "apps/client/**/*.ts",
-          "apps/client/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/client/**/*.ts", "apps/client/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/client"
-      ],
+      "outputs": ["coverage/apps/client"],
       "options": {
         "jestConfig": "apps/client/jest.config.ts",
         "passWithNoTests": true

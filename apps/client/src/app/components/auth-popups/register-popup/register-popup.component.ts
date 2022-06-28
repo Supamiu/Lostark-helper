@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AbstractControl, FormBuilder, ValidationErrors, Validators } from "@angular/forms";
+import { AbstractControl, UntypedFormBuilder, ValidationErrors, Validators } from "@angular/forms";
 import { AuthService } from "../../../core/database/services/auth.service";
 import { NzModalRef } from "ng-zorro-antd/modal";
 import { switchMap } from "rxjs";
@@ -21,7 +21,7 @@ export class RegisterPopupComponent {
     validators: [this.matchPasswords]
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService,
+  constructor(private fb: UntypedFormBuilder, private auth: AuthService,
               private modalRef: NzModalRef, private userService: UserService) {
   }
 

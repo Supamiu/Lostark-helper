@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../../core/database/services/auth.service";
 import { NzModalRef } from "ng-zorro-antd/modal";
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -15,7 +15,7 @@ export class LoginPopupComponent {
     password: ["", [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService,
+  constructor(private fb: UntypedFormBuilder, private auth: AuthService,
               private modalRef: NzModalRef, private message: NzMessageService) {
   }
 

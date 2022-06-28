@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "client": "apps/client",
-    "client-e2e": "apps/client-e2e"
+    "client-e2e": "apps/client-e2e",
+    "discord-bot": "apps/discord-bot"
   }
 }

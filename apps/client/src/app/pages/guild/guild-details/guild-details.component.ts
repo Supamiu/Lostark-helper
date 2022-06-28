@@ -5,7 +5,7 @@ import { RosterService } from "../../../core/database/services/roster.service";
 import { combineLatest, map, switchMap } from "rxjs";
 import { filter } from "rxjs/operators";
 import { UserService } from "../../../core/database/services/user.service";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion, UpdateData } from "@angular/fire/firestore";
 import { CharacterReference, createReference, isSameCharacter, isSameUser, parseCharacterReference } from "../../../core/database/character-reference";
@@ -80,7 +80,7 @@ export class GuildDetailsComponent {
 
   constructor(private guildService: GuildService, private route: ActivatedRoute,
               private userService: UserService, private rosterService: RosterService,
-              private fb: FormBuilder, private message: NzMessageService) {
+              private fb: UntypedFormBuilder, private message: NzMessageService) {
   }
 
   pushCandidate(uid: string, guild: Guild): void {

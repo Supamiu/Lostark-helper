@@ -2,7 +2,7 @@ import { Component, HostListener } from "@angular/core";
 import { createTask, LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { NzModalService } from "ng-zorro-antd/modal";
@@ -88,7 +88,7 @@ export class TasksComponent {
   public tableHeight!: number;
 
   constructor(private tasksService: TasksService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private message: NzMessageService,
               private clipboard: Clipboard,
               private modal: NzModalService,

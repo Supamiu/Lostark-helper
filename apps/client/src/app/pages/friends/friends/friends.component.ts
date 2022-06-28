@@ -4,7 +4,7 @@ import { AuthService } from "../../../core/database/services/auth.service";
 import { FriendInvitesService } from "../../../core/database/services/friend-invites.service";
 import { FriendInvite } from "../../../model/friend-invite";
 import { combineLatest, map, Observable, of, switchMap } from "rxjs";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { first, mapTo } from "rxjs/operators";
 import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
@@ -33,7 +33,7 @@ export class FriendsComponent {
   });
 
   constructor(private userService: UserService, private auth: AuthService,
-              private friendInvitesService: FriendInvitesService, private fb: FormBuilder,
+              private friendInvitesService: FriendInvitesService, private fb: UntypedFormBuilder,
               private message: NzMessageService) {
   }
 

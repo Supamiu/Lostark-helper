@@ -77,6 +77,7 @@ export class GuildPlanningComponent {
           map(roster => {
             if (includeAlts) {
               return roster.characters
+                .filter(c => !c.isPrivate)
                 .map(c => ({ ...c, ref: createReference(parsedRef.userId, c.id || 0) })) as Character[];
             }
             return {

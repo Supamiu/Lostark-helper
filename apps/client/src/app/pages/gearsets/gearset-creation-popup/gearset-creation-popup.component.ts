@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { NzModalRef } from "ng-zorro-antd/modal";
-import { FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { Gearset } from "../../../model/character/gearset";
 import { GearsetPiece } from "../../../model/character/gearset-piece";
 import { ItemRarity } from "../../../model/item-rarity";
@@ -22,7 +22,7 @@ export class GearsetCreationPopupComponent {
   });
 
   constructor(private rosterService: RosterService, private modalRef: NzModalRef<GearsetCreationPopupComponent, Partial<Gearset>>,
-              private fb: FormBuilder) {
+              private fb: UntypedFormBuilder) {
   }
 
   submit(): void {
