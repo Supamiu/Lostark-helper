@@ -10,6 +10,9 @@ export interface Gearset extends DataModel {
   currentIlvl: number;
   targetIlvl: number;
   character?: CharacterReference;
+  t30strongholdBuff?: boolean;
+  t31strongholdBuff?: boolean;
+
 
   // Left-hand side
   headgear: GearsetPiece;

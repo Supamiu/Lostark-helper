@@ -24,6 +24,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { EngravingSelectorComponent } from './engraving-selector/engraving-selector.component';
+import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
     NzTableModule,
     NzInputNumberModule,
     NzSliderModule,
-  ],
+    NzCheckboxModule
+  ]
 })
 export class GearManagerModule {}

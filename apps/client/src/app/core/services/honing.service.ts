@@ -3,12 +3,14 @@ import { HoningCost } from "../../pages/gearsets/gear-manager/honing-cost";
 import { ItemRarity } from "../../model/item-rarity";
 import { HoningChances, honingChances } from "../../pages/honing-cost-optimizer/honing-chances";
 import { Injectable } from "@angular/core";
+import { Gearset } from "../../model/character/gearset";
 
 @Injectable({
   providedIn: "root"
 })
 export class HoningService {
-  public getHoningCost(piece: GearsetPiece, slot: string): HoningCost | null {
+  public getHoningCost(gearset: Gearset, slot: string): HoningCost | null {
+    const piece = gearset[slot];
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
@@ -20,7 +22,9 @@ export class HoningService {
         && row.target <= piece.targetHoning;
     });
     return honingRows.reduce((acc, row) => {
-      const tentatives = this.getHoningChancesAvgTentatives(row);
+      const targetIlvl = this.getIlvl({ ...piece, honing: piece.honing + 1 });
+      const strongholdBuff = (gearset.t30strongholdBuff && targetIlvl <= 1370) || (gearset.t31strongholdBuff && targetIlvl <= 1415);
+      const tentatives = this.getHoningChancesAvgTentatives(row, strongholdBuff || false);
       acc.leapstones += tentatives * row.leapstones;
       acc.shards += tentatives * row.shards;
       acc.stones += tentatives * row.stones;
@@ -38,10 +42,10 @@ export class HoningService {
     });
   }
 
-  private getHoningChancesAvgTentatives(row: HoningChances): number {
+  private getHoningChancesAvgTentatives(row: HoningChances, hasBuff: boolean): number {
     let tries = 1;
     let total = row.chances;
-    let currentChances = row.chances;
+    let currentChances = row.chances + (hasBuff ? 10 : 0);
     while (total < 100) {
       tries++;
       total += currentChances;

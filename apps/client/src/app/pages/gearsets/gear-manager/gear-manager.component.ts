@@ -92,7 +92,7 @@ export class GearManagerComponent {
             .fill(null)
             .map((_, i) => i + 1)
             .filter(i => i > 5 || gearset[slot].rarity < ItemRarity.LEGENDARY),
-          honingCost: this.honingService.getHoningCost(gearset[slot], slot)
+          honingCost: this.honingService.getHoningCost(gearset, slot)
         };
       });
       return {

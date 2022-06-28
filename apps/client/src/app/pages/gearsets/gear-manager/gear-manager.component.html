@@ -20,10 +20,15 @@
     <div nz-col [nzMd]="24">
       <nz-card nzSize="small" nzTitle="Armor" [nzExtra]="optimizeHoningTpl">
         <ng-template #optimizeHoningTpl>
-          <nz-input-group nzSearch nzAddOnBefore="Optimize for ilvl" [nzAddOnAfter]="startOptimizationTpl"
-                          *ngIf="(readonly$ | async) !== true">
-            <nz-input-number [(ngModel)]="optimizerIlvl"></nz-input-number>
-          </nz-input-group>
+          <div class="honing-buffs">
+            Honing buffs:&nbsp;
+            <label nz-checkbox [(ngModel)]="gearset.t30strongholdBuff" (ngModelChange)="saveEngravingsChange(gearset)">1385</label>
+            <label nz-checkbox [(ngModel)]="gearset.t31strongholdBuff" (ngModelChange)="saveEngravingsChange(gearset)">1460</label>
+            <nz-input-group nzSearch nzAddOnBefore="Optimize for ilvl" [nzAddOnAfter]="startOptimizationTpl"
+                            *ngIf="(readonly$ | async) !== true">
+              <nz-input-number [(ngModel)]="optimizerIlvl"></nz-input-number>
+            </nz-input-group>
+          </div>
           <ng-template #startOptimizationTpl>
             <button nz-button nzType="primary" nzSearch (click)="optimizeHoning(gearset, optimizerIlvl)">optimize</button>
           </ng-template>
