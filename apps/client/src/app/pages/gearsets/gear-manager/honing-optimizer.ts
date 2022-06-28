@@ -62,7 +62,7 @@ export class HoningOptimizer {
     new Array(25).fill(null).forEach((_, i) => {
       const honing = i + 1;
       slots.forEach(slot => {
-        this.costCache[`${slot}:${honing}`] = this.honingService.getHoningCost({ ...gearset[slot], targetHoning: honing }, slot) || freeHoning;
+        this.costCache[`${slot}:${honing}`] = this.honingService.getHoningCost({ ...gearset[slot], targetHoning: honing }, slot, gearset) || freeHoning;
       });
     });
   }

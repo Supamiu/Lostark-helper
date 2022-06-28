@@ -9,8 +9,8 @@ import { Gearset } from "../../model/character/gearset";
   providedIn: "root"
 })
 export class HoningService {
-  public getHoningCost(gearset: Gearset, slot: string): HoningCost | null {
-    const piece = gearset[slot];
+
+  public getHoningCost(piece: GearsetPiece, slot: string, gearset: Gearset): HoningCost | null {
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
