@@ -171,5 +171,59 @@ export const goldTasks: GoldTask[] = [
     completionId: "T3.L1.2",
     chestId: "Valtan2",
     overrideMinIlvl: 1445
+  },
+  {
+    name: "Vykas Normal Gate 1",
+    goldReward: 500,
+    taskName: "Vykas",
+    chestPrice: 500,
+    completionId: "T3.L2.1",
+    chestId: "Vykas1",
+    overrideMaxIlvl: 1460
+  },
+  {
+    name: "Vykas Normal Gate 2",
+    goldReward: 600 ,
+    taskName: "Vykas",
+    chestPrice: 600,
+    completionId: "T3.L2.2",
+    chestId: "Vykas2",
+    overrideMaxIlvl: 1460
+  },
+  {
+    name: "Vykas Normal Gate 3",
+    goldReward: 1400,
+    taskName: "Vykas",
+    chestPrice: 600,
+    completionId: "T3.L2.3",
+    chestId: "Vykas3",
+    overrideMaxIlvl: 1460
+  },
+  {
+    name: "Vykas Hard Gate 1",
+    goldReward: 1000,
+    taskName: "Vykas",
+    chestPrice: 1000,
+    completionId: "T3.L2.1",
+    chestId: "Vykas1",
+    overrideMinIlvl: 1460
+  },
+  {
+    name: "Vykas Hard Gate 2",
+    goldReward: 1000,
+    taskName: "Vykas",
+    chestPrice: 1000,
+    completionId: "T3.L2.2",
+    chestId: "Vykas2",
+    overrideMinIlvl: 1460
+  },
+  {
+    name: "Vykas Hard Gate 3",
+    goldReward: 2500,
+    taskName: "Vykas",
+    chestPrice: 1000,
+    completionId: "T3.L2.3",
+    chestId: "Vykas3",
+    overrideMinIlvl: 1460
   }
 ];

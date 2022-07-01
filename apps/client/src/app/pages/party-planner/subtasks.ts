@@ -39,5 +39,9 @@ export const subtasks: Subtask[] = [
 
   // Valtan Difficulties
   { id: `valtan-normal`, name: `Valtan Normal`, parentName: "Valtan", minIlvl: 1415 },
-  { id: `valtan-hard`, name: `Valtan Hard`, parentName: "Valtan", minIlvl: 1445 }
+  { id: `valtan-hard`, name: `Valtan Hard`, parentName: "Valtan", minIlvl: 1445 },
+
+  // Vykas Difficulties
+  { id: `vykas-normal`, name: `Vykas Normal`, parentName: "Vykas", minIlvl: 1430 },
+  { id: `vykas-hard`, name: `Vykas Hard`, parentName: "Vykas", minIlvl: 1460 }
 ];
