@@ -14,6 +14,9 @@ export function getCompletionEntryKey(character: { id?: number, name: string }, 
 
 export function getCompletionEntry<T>(data: Record<string, T>, character: Character, task: LostarkTask, skipFallback = false): T {
   const baseKey = getCompletionEntryKey(character, task);
+  if(!data){
+    return {} as T;
+  }
   if (data[baseKey] !== undefined || skipFallback) {
     return data[baseKey];
   }
