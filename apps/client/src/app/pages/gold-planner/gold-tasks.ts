@@ -192,9 +192,9 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Vykas Normal Gate 3",
-    goldReward: 1400,
+    goldReward: 2200,
     taskName: "Vykas",
-    chestPrice: 600,
+    chestPrice: 800,
     completionId: "T3.L2.3",
     chestId: "Vykas3",
     overrideMaxIlvl: 1460
