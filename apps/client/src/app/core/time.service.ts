@@ -26,8 +26,8 @@ export class TimeService {
 
   public lastWeeklyReset$ = timer(0, 1000).pipe(
     map(() => {
-      // Target reset day Thursday
-      const weeklyReset = 4;
+      // Target reset day Wednesday
+      const weeklyReset = 3;
       // Only supports EU servers for now.
       let reset = new Date();
       reset.setUTCSeconds(0);
