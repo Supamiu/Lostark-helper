@@ -176,7 +176,7 @@ export const goldTasks: GoldTask[] = [
     name: "Vykas Normal Gate 1",
     goldReward: 500,
     taskName: "Vykas",
-    chestPrice: 500,
+    chestPrice: 400,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
     overrideMaxIlvl: 1460
@@ -203,7 +203,7 @@ export const goldTasks: GoldTask[] = [
     name: "Vykas Hard Gate 1",
     goldReward: 1000,
     taskName: "Vykas",
-    chestPrice: 1000,
+    chestPrice: 700,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
     overrideMinIlvl: 1460
@@ -212,7 +212,7 @@ export const goldTasks: GoldTask[] = [
     name: "Vykas Hard Gate 2",
     goldReward: 1000,
     taskName: "Vykas",
-    chestPrice: 1000,
+    chestPrice: 900,
     completionId: "T3.L2.2",
     chestId: "Vykas2",
     overrideMinIlvl: 1460
@@ -221,7 +221,7 @@ export const goldTasks: GoldTask[] = [
     name: "Vykas Hard Gate 3",
     goldReward: 2500,
     taskName: "Vykas",
-    chestPrice: 1000,
+    chestPrice: 1200,
     completionId: "T3.L2.3",
     chestId: "Vykas3",
     overrideMinIlvl: 1460
