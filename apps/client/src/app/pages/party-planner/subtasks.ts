@@ -25,6 +25,7 @@ export const subtasks: Subtask[] = [
   { id: `night-fox-yoho`, name: `Night Fox Yoho`, parentName: "Guardian", banner: "guardians/monster_info_18.png", minIlvl: 1370 },
   // { ie: `velganosd: , name: `Velganos`, parentName: "Guardian", banner: 'guardians/monster_info_.png', minIlvl: 1400 },
   { id: `deskaluda`, name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/monster_info_27.png', minIlvl: 1415 },
+  { id: `kungelanium`, name: `Kungelanium`, parentName: "Guardian", banner: 'guardians/monster_info_28.png', minIlvl: 1460 },
 
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },

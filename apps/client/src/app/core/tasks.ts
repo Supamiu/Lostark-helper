@@ -79,11 +79,11 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Valtan`, 1415, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
+  createTask(`Valtan`, 1415, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
-  createTask(`Vykas`, 1430, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
+  createTask(`Vykas`, 1430, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
