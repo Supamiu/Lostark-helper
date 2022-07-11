@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { combineLatest, map, Observable, pluck } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, pluck, ReplaySubject, startWith } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -74,7 +74,7 @@ export class ChecklistComponent {
     map(([roster, tasks]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.characters.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0) && getCompletionEntry(roster.trackedTasks, c, task, true) !== false))
+          (!task.maxIlvl || roster.characters.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0) && getCompletionEntry(roster.trackedTasks, c, task, true) !== false));
       });
     })
   );
@@ -154,7 +154,20 @@ export class ChecklistComponent {
     map(roster => roster.length === 0)
   );
 
-  public tableHeight!: number;
+  private windowResize$ = new BehaviorSubject<void>(void 0);
+
+  public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
+    map(([roster]) => {
+      const y = window.innerHeight - 64 - 48 - 210 - 20;
+      const scrolling: { x?: string | null, y: string | null } = { y: `${y}px` };
+      const widthPerCharacter = 120;
+      if (window.innerWidth < widthPerCharacter * roster.length + 200) {
+        scrolling.x = `${window.innerWidth - 64 - 48 - 210 - 20}px`;
+      }
+      return scrolling;
+    }),
+    startWith({ x: null, y: null })
+  );
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
               private settings: SettingsService, private energyService: EnergyService,
@@ -164,7 +177,7 @@ export class ChecklistComponent {
 
   @HostListener("window:resize")
   setTableHeight(): void {
-    this.tableHeight = window.innerHeight - 64 - 48 - 210;
+    this.windowResize$.next();
   }
 
   public ticketsTrackingOpenedChange(opened: boolean): void {
