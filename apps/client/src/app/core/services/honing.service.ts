@@ -26,10 +26,10 @@ export class HoningService {
       const strongholdBuff = (gearset.t30strongholdBuff && targetIlvl <= 1370) || (gearset.t31strongholdBuff && targetIlvl <= 1415);
       const tentatives = this.getHoningChancesAvgTentatives(row, strongholdBuff || false);
       acc.leapstones += tentatives * row.leapstones;
-      acc.shards += tentatives * row.shards;
+      acc.shards += tentatives * row.shards + row.exp;
       acc.stones += tentatives * row.stones;
       acc.gold += tentatives * (row.gold || 0);
-      acc.silver += tentatives * row.silver;
+      acc.silver += tentatives * row.silver + row.exp;
       acc.fusionMaterial += tentatives * (row.fusionMaterial || 0);
       return acc;
     }, {
