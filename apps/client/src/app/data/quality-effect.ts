@@ -9,7 +9,7 @@ export const QualityEffect = {
     [ItemRarity.RARE]: [130, 350],
     [ItemRarity.EPIC]: [225, 400],
     [ItemRarity.LEGENDARY]: [225, 450],
-    [ItemRarity.RELIC]: [225, 500]
+    [ItemRarity.RELIC]: [400, 500]
   },
   earring: {
     [ItemRarity.RARE]: [75, 210],
