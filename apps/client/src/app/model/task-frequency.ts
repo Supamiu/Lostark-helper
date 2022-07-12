@@ -1,4 +1,5 @@
 export enum TaskFrequency {
   DAILY,
-  WEEKLY
+  WEEKLY,
+  ONE_TIME
 }

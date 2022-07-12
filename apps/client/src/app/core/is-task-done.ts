@@ -18,9 +18,13 @@ export function isTaskDone(task: LostarkTask, character: Character, completion: 
     return -1;
   }
   const completionFlag = getCompletionEntry(completion.data, character, task);
+
   const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
   if (!completionFlag) {
     return 0;
+  }
+  if (task.frequency === TaskFrequency.ONE_TIME) {
+    return completionFlag.amount;
   }
   return completionFlag.updated < reset ? 0 : completionFlag.amount;
 }

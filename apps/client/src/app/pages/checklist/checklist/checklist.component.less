@@ -172,6 +172,10 @@ table {
     border-collapse: collapse;
     text-align: center;
     min-width: 115px;
+
+    @media screen and (max-width: 992px) {
+      min-width: 60px;
+    }
   }
 
   .counter {
@@ -202,6 +206,10 @@ table {
       &.daily {
         background-color: rgba(55, 105, 60, .5);
       }
+
+      &.one-time {
+        background-color: rgba(102, 105, 55, 0.5);
+      }
     }
 
     &.even {
@@ -214,6 +222,10 @@ table {
 
         &.daily {
           background-color: rgba(55, 105, 60, .7);
+        }
+
+        &.one-time {
+          background-color: rgba(102, 105, 55, 0.7);
         }
       }
     }
