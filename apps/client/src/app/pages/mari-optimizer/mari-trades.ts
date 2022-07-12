@@ -30,6 +30,15 @@ export const mariTrades: MariTrade[] = [
     mbQuantity: 1
   },
   {
+    name: "Solar Protection",
+    icon: "shop_11.png",
+    crystalPrice: 750,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 25,
+    mbQuantity: 1
+  },
+  {
     name: "Moon's Breath",
     icon: "shop_08.png",
     crystalPrice: 30,
@@ -45,6 +54,24 @@ export const mariTrades: MariTrade[] = [
     minIlvl: 302,
     maxIlvl: 600,
     quantity: 15,
+    mbQuantity: 1
+  },
+  {
+    name: "Tailoring: Applied Mending",
+    icon: "shop_27.png",
+    crystalPrice: 260,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 4,
+    mbQuantity: 1
+  },
+  {
+    name: "Metallurgy: Applied Welding",
+    icon: "shop_28.png",
+    crystalPrice: 280,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 2,
     mbQuantity: 1
   },
   // Honing materials
@@ -131,6 +158,15 @@ export const mariTrades: MariTrade[] = [
     minIlvl: 302,
     maxIlvl: 600,
     quantity: 15,
+    mbQuantity: 1
+  },
+  {
+    name: "Honor Shard Pouch (L)",
+    icon: "shop_06.png",
+    crystalPrice: 291,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 20,
     mbQuantity: 1
   },
 
