@@ -7,6 +7,10 @@ import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
 import { Character } from "../../../model/character/character";
+import { TimeService } from "../../../core/time.service";
+import { ManualWeeklyGoldEntry, Settings } from "../../../model/settings";
+import { UpdateData } from "@angular/fire/firestore";
+
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -14,6 +18,8 @@ interface GoldPlannerDisplay {
     gTask: GoldTask,
     flags: { value: boolean | null, force: boolean | null }[]
   }[];
+  chaos: Record<string, number>;
+  other: Record<string, number>;
   tracking: Record<string, boolean>;
   forceAbyss: Record<string, boolean>;
   total: number[];
@@ -28,7 +34,7 @@ interface GoldPlannerDisplay {
 })
 export class GoldPlannerComponent {
   public roster$ = this.rosterService.roster$.pipe(
-    map(roster => roster.characters.slice(0, 6))
+    map(roster => roster.characters)
   );
 
   public settings$ = this.settings.settings$;
@@ -36,6 +42,7 @@ export class GoldPlannerComponent {
   public tasks$ = this.tasksService.tasks$;
 
   public tracking$ = this.settings.settings$.pipe(pluck("chestConfiguration"));
+  public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
   public forceAbyss$ = this.settings.settings$.pipe(pluck("forceAbyss"));
 
   private goldChestRewardPerIlvl = {
@@ -48,9 +55,11 @@ export class GoldPlannerComponent {
     this.tasks$,
     this.tracking$,
     of(goldTasks),
-    this.forceAbyss$
+    this.forceAbyss$,
+    this.manualGoldEntries$,
+    this.timeService.lastWeeklyReset$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, forceAbyss]) => {
+    map(([roster, tasks, tracking, gTasks, forceAbyss, manualGoldEntries, weeklyReset]) => {
       const chestsData = gTasks
         .map(gTask => {
           if (gTask.taskName) {
@@ -69,8 +78,8 @@ export class GoldPlannerComponent {
             && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
         .map(({ gTask, task }, i, array) => {
-          const flagsData = roster.map(character => {
-            if (!task) {
+          const flagsData = roster.map((character, characterIndex) => {
+            if (!task || characterIndex >= 6) {
               return {
                 force: null,
                 value: null
@@ -125,6 +134,20 @@ export class GoldPlannerComponent {
 
       const chestIdsDone = {};
 
+      const chaos = roster.reduce((acc, c) => {
+        return {
+          ...acc,
+          [c.name]: this.getGoldEntry("chaos", c.name, weeklyReset, manualGoldEntries || {})
+        };
+      }, {});
+
+      const other = roster.reduce((acc, c) => {
+        return {
+          ...acc,
+          [c.name]: this.getGoldEntry("other", c.name, weeklyReset, manualGoldEntries || {})
+        };
+      }, {});
+
       const total = chestsData
         .filter(row => row.task)
         .reverse()
@@ -151,6 +174,11 @@ export class GoldPlannerComponent {
           return acc;
         }, new Array(roster.length).fill(0));
 
+      roster.forEach((char, i) => {
+        total[i] += chaos[char.name];
+        total[i] += other[char.name];
+      });
+
       const highestIlvl = roster.map(c => c.ilvl).sort((a, b) => b - a)[0];
 
       const chestGold = this.goldChestRewardPerIlvl[Object.keys(this.goldChestRewardPerIlvl)
@@ -162,14 +190,17 @@ export class GoldPlannerComponent {
         forceAbyss,
         tracking,
         grandTotal: total.reduce((acc, v) => acc + v, chestGold),
-        chestGold
+        chestGold,
+        chaos,
+        other
       };
     })
   );
 
   constructor(private rosterService: RosterService,
               private tasksService: TasksService,
-              private settings: SettingsService) {
+              private settings: SettingsService,
+              private timeService: TimeService) {
   }
 
   private getGoldChestFlag(characterName: string, gTask: GoldTask): string {
@@ -177,6 +208,20 @@ export class GoldPlannerComponent {
       return `${characterName}:gold:chest:${gTask.chestId}`;
     }
     return `${characterName}:gold:${gTask.name}`;
+  }
+
+  private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
+    const entry: ManualWeeklyGoldEntry = data[`${type}:${characterName}`] || { amount: 0, timestamp: Date.now() };
+    if (entry.timestamp < weeklyReset) {
+      return 0;
+    }
+    return entry.amount;
+  }
+
+  public setManualGold(settingsKey: string, type: string, characterName: string, newValue: number): void {
+    this.settings.updateOne(settingsKey, {
+      [`manualGoldEntries.${type}:${characterName}`]: { amount: newValue, timestamp: Date.now() }
+    } as unknown as UpdateData<Settings>);
   }
 
   setChestFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {

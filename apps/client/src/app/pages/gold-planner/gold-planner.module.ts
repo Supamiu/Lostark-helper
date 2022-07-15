@@ -10,6 +10,8 @@ import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
 import { IconsProviderModule } from "../../icons-provider.module";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number";
+import { NzInputModule } from "ng-zorro-antd/input";
 
 const routes: Routes = [{
   path: "",
@@ -28,7 +30,9 @@ const routes: Routes = [{
     NzPageHeaderModule,
     NzCheckboxModule,
     IconsProviderModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzInputModule,
+    NzInputNumberModule
   ]
 })
 export class GoldPlannerModule {

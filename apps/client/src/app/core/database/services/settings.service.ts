@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FirestoreStorage } from "../firestore-storage";
-import { Firestore } from "@angular/fire/firestore";
+import { Firestore, UpdateData } from "@angular/fire/firestore";
 import { Settings } from "../../../model/settings";
 import { mapTo, Observable, of, shareReplay, switchMap } from "rxjs";
 import { AuthService } from "./auth.service";
@@ -44,7 +44,7 @@ export class SettingsService extends FirestoreStorage<Settings> {
     this.setOne(settings.$key, settings);
   }
 
-  public patch(settings: Partial<Settings> & { $key: string }): void {
+  public patch(settings: UpdateData<Settings> & { $key: string }): void {
     this.updateOne(settings.$key, settings);
   }
 

@@ -1,6 +1,8 @@
 <nz-page-header nzTitle="Gold Planner"
                 nzSubtitle="Plan how much gold income you're generating with weeklies"></nz-page-header>
 
+<ng-template #goldIcon><img src="./assets/icons/gold.png" class="gold-icon" alt="gold"></ng-template>
+
 <ng-container *ngIf="settings$ | async as settings">
   <ng-container *ngIf="roster$ | async as roster">
     <div class="chest-matrix" *ngIf="display$ | async as display">
@@ -48,6 +50,22 @@
           <td colspan="99" class="roster-income">
             <img src="./assets/icons/gold.png"
                  class="gold-icon" alt="gold">{{display.chestGold | number}}
+          </td>
+        </tr>
+        <tr>
+          <td>Chaos Dungeons</td>
+          <td class="manual-row" *ngFor="let character of roster">
+            <nz-input-group [nzAddOnBefore]="goldIcon">
+              <nz-input-number [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+            </nz-input-group>
+          </td>
+        </tr>
+        <tr>
+          <td>Other sources</td>
+          <td class="manual-row" *ngFor="let character of roster">
+            <nz-input-group [nzAddOnBefore]="goldIcon">
+              <nz-input-number [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+            </nz-input-group>
           </td>
         </tr>
         </tbody>
