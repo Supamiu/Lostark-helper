@@ -82,7 +82,8 @@ export class TasksComponent {
     "sudden_quest.webp",
     "trade_skill_tool.webp",
     "world_quest.webp",
-    "world_tree_leaves.webp"
+    "world_tree_leaves.webp",
+    "guild.webp"
   ];
 
   public tableHeight!: number;
