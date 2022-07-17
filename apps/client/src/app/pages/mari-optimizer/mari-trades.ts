@@ -23,15 +23,6 @@ export const mariTrades: MariTrade[] = [
   {
     name: "Solar Protection",
     icon: "shop_11.png",
-    crystalPrice: 360,
-    minIlvl: 1302,
-    maxIlvl: 9999,
-    quantity: 8,
-    mbQuantity: 1
-  },
-  {
-    name: "Solar Protection",
-    icon: "shop_11.png",
     crystalPrice: 750,
     minIlvl: 1302,
     maxIlvl: 9999,

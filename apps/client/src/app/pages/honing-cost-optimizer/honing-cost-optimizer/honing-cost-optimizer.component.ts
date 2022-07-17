@@ -163,8 +163,8 @@ export class HoningCostOptimizerComponent {
           const buyoutsNeeded = Math.ceil(material.quantity / (material.item?.mbQuantity || 1));
           return acc + material.price * buyoutsNeeded;
         }, 0));
-      const preparedBaseChances = 1 - (1.1 * baseChances / 100);
-      const preparedChances = 1 - (chances / 100);
+      const preparedBaseChances = 1 - (chances / 100);
+      const preparedChances = 1 - (Math.min(chances * 1.1, 2 * baseChances) / 100);
       const chancesForTwoTries = (1 - (preparedChances * preparedBaseChances)) * 100;
       const pricePerPercentBoosted = (goldPricePerTentative + honingChanceItemsCost) / (chances + baseChances);
       const pricePerPercentTwoTries = (goldPricePerTentative * 2) / chancesForTwoTries;
