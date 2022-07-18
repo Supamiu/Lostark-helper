@@ -10,7 +10,7 @@ import { Gearset } from "../../model/character/gearset";
 })
 export class HoningService {
 
-  public getHoningCost(piece: GearsetPiece, slot: string, gearset: Gearset): HoningCost | null {
+  public getHoningCost(piece: GearsetPiece, slot: string, gearset: Gearset, pity = false): HoningCost | null {
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
@@ -24,7 +24,7 @@ export class HoningService {
     return honingRows.reduce((acc, row) => {
       const targetIlvl = this.getIlvl({ ...piece, honing: piece.honing + 1 });
       const strongholdBuff = (gearset.t30strongholdBuff && targetIlvl <= 1370) || (gearset.t31strongholdBuff && targetIlvl <= 1415);
-      const tentatives = this.getHoningChancesAvgTentatives(row, strongholdBuff || false);
+      const tentatives = pity ? this.getMaxArtisanEnergyTentatives(row) : this.getHoningChancesAvgTentatives(row, strongholdBuff || false);
       acc.leapstones += tentatives * row.leapstones;
       acc.shards += tentatives * row.shards + row.exp;
       acc.stones += tentatives * row.stones;
@@ -53,6 +53,20 @@ export class HoningService {
         currentChances += (row.chances * 0.1);
       }
     }
+    return tries;
+  }
+
+  private getMaxArtisanEnergyTentatives(row: HoningChances): number {
+    let tries = 0;
+    let energy = 0;
+    let currentChances = row.chances;
+    do {
+      tries++;
+      energy += currentChances * 0.465;
+      if (currentChances < row.chances * 2) {
+        currentChances += (row.chances * 0.1);
+      }
+    } while (energy < 100);
     return tries;
   }
 

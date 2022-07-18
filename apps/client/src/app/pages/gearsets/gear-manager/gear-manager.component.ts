@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { GearsetService } from "../../../core/database/services/gearset.service";
 import { ActivatedRoute } from "@angular/router";
-import { combineLatest, map, shareReplay, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, shareReplay, switchMap } from "rxjs";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { ItemRarity } from "../../../model/item-rarity";
 import { GearsetPiece } from "../../../model/character/gearset-piece";
@@ -65,6 +65,8 @@ export class GearManagerComponent {
 
   public roster$ = this.rosterService.roster$;
 
+  public pity$ = new BehaviorSubject<boolean>(false);
+
   public readonly$ = combineLatest([
     this.auth.uid$,
     this.gearset$
@@ -73,8 +75,8 @@ export class GearManagerComponent {
     shareReplay(1)
   );
 
-  public gearsetDisplay$ = this.gearset$.pipe(
-    map(gearset => {
+  public gearsetDisplay$ = combineLatest([this.gearset$, this.pity$]).pipe(
+    map(([gearset, pity]) => {
       const pieces = slots.map(slot => {
         let maxHoning = 15;
         switch (gearset[slot].rarity) {
@@ -92,7 +94,7 @@ export class GearManagerComponent {
             .fill(null)
             .map((_, i) => i + 1)
             .filter(i => i > 5 || gearset[slot].rarity < ItemRarity.LEGENDARY),
-          honingCost: this.honingService.getHoningCost(gearset[slot], slot, gearset)
+          honingCost: this.honingService.getHoningCost(gearset[slot], slot, gearset, pity)
         };
       });
       return {

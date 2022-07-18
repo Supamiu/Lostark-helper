@@ -20,6 +20,10 @@
     <div nz-col [nzMd]="24">
       <nz-card nzSize="small" nzTitle="Armor" [nzExtra]="optimizeHoningTpl">
         <ng-template #optimizeHoningTpl>
+          <div class="pity-switch">
+            Cost computing:&nbsp;
+            <nz-switch [ngModel]="pity$ | async" (ngModelChange)="pity$.next($event)" nzCheckedChildren="Pity" nzUnCheckedChildren="Avg"></nz-switch>
+          </div>
           <div class="honing-buffs">
             Honing buffs:&nbsp;
             <label nz-checkbox [(ngModel)]="gearset.t30strongholdBuff" (ngModelChange)="saveEngravingsChange(gearset)">1385</label>
@@ -45,7 +49,7 @@
             <th>Rarity</th>
             <th>Current honing</th>
             <th>Target honing</th>
-            <th nzRight nzWidth="600px">Average cost</th>
+            <th nzRight nzWidth="600px">Cost</th>
           </tr>
           </thead>
           <tbody>
