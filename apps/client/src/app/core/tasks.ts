@@ -96,6 +96,9 @@ export const tasks = [
   createTask("Challenge Guardian", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 3, 9999, "guardian.png", {
     shared: true,
     partySize: 4
+  }),  createTask("Challenge Abyssal Dungeon", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "abyssal-dungeon.webp", {
+    shared: true,
+    partySize: 4
   }),
   //createTask(`Trial of the Abyss`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2),
 
