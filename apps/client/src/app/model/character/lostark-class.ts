@@ -29,3 +29,7 @@ export enum LostarkClass {
   STRIKER,
   SORCERESS
 }
+
+export function isSupportClass(c: LostarkClass): boolean {
+  return [LostarkClass.BARD, LostarkClass.PALADIN].includes(+c);
+}

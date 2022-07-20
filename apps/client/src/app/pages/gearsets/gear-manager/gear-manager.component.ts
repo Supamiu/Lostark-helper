@@ -6,7 +6,7 @@ import { RosterService } from "../../../core/database/services/roster.service";
 import { ItemRarity } from "../../../model/item-rarity";
 import { GearsetPiece } from "../../../model/character/gearset-piece";
 import { Gearset } from "../../../model/character/gearset";
-import { filter } from "rxjs/operators";
+import { filter, first } from "rxjs/operators";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { HoningOptimizer } from "./honing-optimizer";
@@ -15,6 +15,8 @@ import { AuthService } from "../../../core/database/services/auth.service";
 import { LostArkStat } from "../../../data/lost-ark-stat";
 import { EngravingsService } from "../../../core/services/engravings.service";
 import { getPieceStatValue } from "../../../data/quality-effect";
+import { LostarkClass } from "../../../model/character/lostark-class";
+import { isSameCharacter } from "../../../core/database/character-reference";
 
 const slots = [
   "headgear",
@@ -218,11 +220,22 @@ export class GearManagerComponent {
   }
 
   optimizeHoning(gearset: Gearset, ilvl: number): void {
-    const optimized = new HoningOptimizer(gearset, ilvl, this.honingService).run();
-    slots.forEach((slot, i) => {
-      gearset[slot].targetHoning = optimized[i];
+    this.roster$.pipe(
+      first(),
+      map(roster => {
+        let cClass = LostarkClass.SORCERESS;
+        if (gearset.character) {
+          cClass = roster.characters.find(c => isSameCharacter(gearset.character || "a:0", roster.$key, c.id || 1))?.class || LostarkClass.SORCERESS;
+        }
+        const optimized = new HoningOptimizer(gearset, ilvl, this.honingService, cClass).run();
+        slots.forEach((slot, i) => {
+          gearset[slot].targetHoning = optimized[i];
+        });
+        return gearset;
+      })
+    ).subscribe(optimized => {
+      this.gearsetService.setOne(gearset.$key, optimized);
     });
-    this.gearsetService.setOne(gearset.$key, gearset);
   }
 
   saveEngravingsChange(gearset: Gearset): void {

@@ -1,6 +1,7 @@
 import { Gearset } from "../../../model/character/gearset";
 import { ItemRarity } from "../../../model/item-rarity";
 import { HoningService } from "../../../core/services/honing.service";
+import { isSupportClass, LostarkClass } from "../../../model/character/lostark-class";
 
 type Genome = [number, number, number, number, number, number];
 
@@ -34,7 +35,20 @@ export class HoningOptimizer {
   private costCache: Record<string, HoningCost> = {};
   private genomeFitnessCache: Record<string, number> = {};
 
-  constructor(private gearset: Gearset, private ilvl: number, private honingService: HoningService) {
+  private weights = {
+    dps: {
+      weapon: 0.5,
+      gloves: 0.8,
+      shoulders: 0.8
+    },
+    support: {
+      chestpiece: 0.7,
+      legwear: 0.7,
+      headgear: 0.7
+    }
+  };
+
+  constructor(private gearset: Gearset, private ilvl: number, private honingService: HoningService, private setClass: LostarkClass = LostarkClass.SORCERESS) {
     this.maxHoning = slots.map(slot => {
       const piece = gearset[slot];
       switch (piece.rarity) {
@@ -97,16 +111,9 @@ export class HoningOptimizer {
       const cost = slots.reduce((acc, slot, i) => {
         const piece = this.gearset[slot];
         let bonus = 1;
-        switch (slot) {
-          case "weapon":
-            bonus = 0.5;
-            break;
-          case "gloves":
-            bonus = 0.7;
-            break;
-          case "shoulders":
-            bonus = 0.8;
-            break;
+        const bonusKey = isSupportClass(this.setClass) ? "support" : "dps";
+        if (this.weights[bonusKey] && this.weights[bonusKey][slot]) {
+          bonus = this.weights[bonusKey][slot];
         }
         const honingCost = this.costCache[`${slot}:${genome[i]}`];
         if (piece.rarity > ItemRarity.EPIC) {
