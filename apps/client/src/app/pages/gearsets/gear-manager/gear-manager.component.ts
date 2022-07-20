@@ -17,6 +17,8 @@ import { EngravingsService } from "../../../core/services/engravings.service";
 import { getPieceStatValue } from "../../../data/quality-effect";
 import { LostarkClass } from "../../../model/character/lostark-class";
 import { isSameCharacter } from "../../../core/database/character-reference";
+import { Roster } from "../../../model/roster";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 const slots = [
   "headgear",
@@ -184,7 +186,7 @@ export class GearManagerComponent {
 
   constructor(private gearsetService: GearsetService, private honingService: HoningService, private rosterService: RosterService,
               private route: ActivatedRoute, private nzModal: NzModalService, private auth: AuthService,
-              private engravingsService: EngravingsService) {
+              private engravingsService: EngravingsService, private message: NzMessageService) {
   }
 
   public saveSet(gearset: Gearset, piece: GearsetPiece, slot: string): void {
@@ -217,6 +219,22 @@ export class GearManagerComponent {
         return this.gearsetService.updateOne(gearset.$key, { name });
       })
     ).subscribe();
+  }
+
+  updateIlvl(gearset: Gearset, roster: Roster): void {
+    const updated = {
+      ...roster, characters: roster.characters.map(c => {
+        if (isSameCharacter(gearset.character || "a:0", roster.$key, c.id || 1)) {
+          return {
+            ...c,
+            ilvl: Math.floor(gearset.currentIlvl * 100) / 100
+          };
+        }
+        return c;
+      })
+    };
+    this.rosterService.updateOne(roster.$key, updated);
+    this.message.success('Ilvl applied to your character in roster settings');
   }
 
   optimizeHoning(gearset: Gearset, ilvl: number): void {

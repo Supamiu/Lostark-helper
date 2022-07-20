@@ -6,7 +6,12 @@
     </nz-page-header-extra>
     <nz-page-header-content *ngIf="roster$ | async as roster">
       <nz-input-group nzAddOnBefore="Linked character"
+                      nzSearch
+                      [nzAddOnAfter]="applyIlvlTpl"
                       *ngIf="(readonly$ | async) !== true">
+        <ng-template #applyIlvlTpl>
+          <button nz-button nzSearch nzType="primary" [disabled]="!gearset.character" (click)="updateIlvl(gearset, roster)">Apply ilvl</button>
+        </ng-template>
         <nz-select [(ngModel)]="gearset.character"
                    class="character-selector"
                    nzPlaceHolder="You can link this gearset to a character">
