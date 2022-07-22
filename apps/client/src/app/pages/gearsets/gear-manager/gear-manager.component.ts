@@ -234,7 +234,7 @@ export class GearManagerComponent {
       })
     };
     this.rosterService.updateOne(roster.$key, updated);
-    this.message.success('Ilvl applied to your character in roster settings');
+    this.message.success("Ilvl applied to your character in roster settings");
   }
 
   optimizeHoning(gearset: Gearset, ilvl: number): void {
@@ -249,6 +249,7 @@ export class GearManagerComponent {
         slots.forEach((slot, i) => {
           gearset[slot].targetHoning = optimized[i];
         });
+        gearset.targetIlvl = ilvl;
         return gearset;
       })
     ).subscribe(optimized => {
