@@ -57,7 +57,7 @@ export class HoningService {
   }
 
   private getMaxArtisanEnergyTentatives(row: HoningChances): number {
-    let tries = 0;
+    let tries = 1;
     let energy = 0;
     let currentChances = row.chances;
     do {
