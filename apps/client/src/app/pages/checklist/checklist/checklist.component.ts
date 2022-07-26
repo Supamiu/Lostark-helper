@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, Observable, pluck, ReplaySubject, startWith } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -186,7 +186,15 @@ export class ChecklistComponent {
   }
 
   public markAsDone(completion: Completion, energy: Energy, character: Character, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
-    const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
+    let reset = Infinity;
+    switch (task.frequency) {
+      case TaskFrequency.DAILY:
+        reset = dailyReset;
+        break;
+      case TaskFrequency.WEEKLY:
+        reset = weeklyReset;
+        break;
+    }
     if (done) {
       const setAllDone = clickEvent?.ctrlKey;
       const existingEntry = getCompletionEntry(completion.data, character, task);
