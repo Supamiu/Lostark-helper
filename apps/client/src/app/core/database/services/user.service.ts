@@ -24,24 +24,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
       return this.getOne(uid).pipe(
         switchMap(user => {
           if (!anonymous && !user.name) {
-            return this.modal.create({
-              nzTitle: "Set a user name",
-              nzContent: TextQuestionPopupComponent,
-              nzComponentParams: {
-                placeholder: "Username",
-                type: "input"
-              },
-              nzFooter: null,
-              nzClosable: false,
-              nzMaskClosable: false
-            })
-              .afterClose
-              .pipe(
-                switchMap(name => {
-                  return this.setOne(user.$key, { ...user, name, region: LostarkRegion.EUROPE_CENTRAL });
-                }),
-                map(() => user)
-              );
+            this.updateUserName(user)
           }
           return of(user);
         })
@@ -67,6 +50,28 @@ export class UserService extends FirestoreStorage<LAHUser> {
     map(user => user?.friends || []),
     shareReplay(1)
   );
+
+  updateUserName(user: LAHUser) {
+    return this.modal.create({
+      nzTitle: "Set a user name",
+      nzContent: TextQuestionPopupComponent,
+      nzComponentParams: {
+        placeholder: "Username",
+        type: "input"
+      },
+      nzFooter: null,
+      nzClosable: false,
+      nzMaskClosable: false
+    })
+      .afterClose
+      .pipe(
+        switchMap((name: string) => {
+          console.log()
+          return this.setOne(user.$key, { ...user, name, region: LostarkRegion.EUROPE_CENTRAL });
+        }),
+        map(() => user)
+      );
+  }
 
   constructor(firestore: Firestore, private auth: AuthService,
               private modal: NzModalService) {

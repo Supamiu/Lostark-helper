@@ -97,4 +97,8 @@ export class AppComponent implements OnInit {
       });
     }
   }
+
+  updateUserName(user: LAHUser) {
+    this.userService.updateUserName(user)
+  }
 }
