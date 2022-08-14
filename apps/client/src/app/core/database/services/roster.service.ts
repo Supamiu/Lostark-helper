@@ -12,7 +12,7 @@ import { mapTo } from "rxjs/operators";
 export class RosterService extends FirestoreStorage<Roster> {
   public roster$: Observable<Roster> = this.auth.uid$.pipe(
     switchMap(uid => {
-      return this.getOne(uid).pipe(
+      return this.getOne(uid, true).pipe(
         map(roster => {
           if (roster.notFound) {
             return {
@@ -32,7 +32,7 @@ export class RosterService extends FirestoreStorage<Roster> {
     super(firestore);
   }
 
-  override getOne(key: string): Observable<Roster> {
+  override getOne(key: string, isCurrentUser = false): Observable<Roster> {
     return super.getOne(key).pipe(
       switchMap(roster => {
         let shouldSave = false;
@@ -61,7 +61,7 @@ export class RosterService extends FirestoreStorage<Roster> {
         if (!roster.trackedTasks) {
           roster.trackedTasks = {};
         }
-        if (shouldSave) {
+        if (shouldSave && isCurrentUser) {
           return this.setOne(key, roster).pipe(
             mapTo(roster)
           );
