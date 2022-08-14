@@ -3,10 +3,8 @@ import { FirestoreStorage } from "../firestore-storage";
 import { LAHUser } from "../../../model/lah-user";
 import { Firestore } from "@angular/fire/firestore";
 import { AuthService } from "./auth.service";
-import { combineLatest, map, of, shareReplay, switchMap } from "rxjs";
-import {
-  TextQuestionPopupComponent
-} from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
+import { combineLatest, map, Observable, of, shareReplay, switchMap } from "rxjs";
+import { TextQuestionPopupComponent } from "../../../components/text-question-popup/text-question-popup/text-question-popup.component";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { LostarkRegion } from "../../../model/lostark-region";
 import { emptyAvailability } from "../../../model/availability/availability";
@@ -24,7 +22,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
       return this.getOne(uid).pipe(
         switchMap(user => {
           if (!anonymous && !user.name) {
-            this.updateUserName(user)
+            this.updateUserName(user);
           }
           return of(user);
         })
@@ -51,9 +49,9 @@ export class UserService extends FirestoreStorage<LAHUser> {
     shareReplay(1)
   );
 
-  updateUserName(user: LAHUser) {
+  public updateUserName(user: LAHUser): Observable<void> {
     return this.modal.create({
-      nzTitle: "Set a user name",
+      nzTitle: "Change your user name",
       nzContent: TextQuestionPopupComponent,
       nzComponentParams: {
         placeholder: "Username",
@@ -66,11 +64,9 @@ export class UserService extends FirestoreStorage<LAHUser> {
       .afterClose
       .pipe(
         switchMap((name: string) => {
-          console.log()
-          return this.setOne(user.$key, { ...user, name, region: LostarkRegion.EUROPE_CENTRAL });
-        }),
-        map(() => user)
-      );
+          return this.updateOne(user.$key, { name });
+        })
+      )
   }
 
   constructor(firestore: Firestore, private auth: AuthService,

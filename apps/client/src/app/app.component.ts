@@ -98,7 +98,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  updateUserName(user: LAHUser) {
-    this.userService.updateUserName(user)
+  updateUserName(user: LAHUser): void {
+    this.userService.updateUserName(user).subscribe(() => {
+      this.message.success("Username updated");
+    });
   }
 }
