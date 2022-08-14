@@ -160,6 +160,10 @@
                 Register
               </li>
             </ng-container>
+            <li nz-menu-item *ngIf="user$ | async as user" (click)="updateUserName(user)" class="menu-item">
+              <i nz-icon nzType="user-switch" nzTheme="outline"></i>
+              Change user name
+            </li>
             <li nz-menu-item nzDanger *ngIf="(anonymous$ | async) === false" (click)="disconnect()" class="menu-item">
               <i nz-icon nzType="logout" nzTheme="outline"></i>
               Log out
