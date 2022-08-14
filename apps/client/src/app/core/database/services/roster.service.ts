@@ -36,7 +36,11 @@ export class RosterService extends FirestoreStorage<Roster> {
     return super.getOne(key).pipe(
       switchMap(roster => {
         let shouldSave = false;
-        roster.characters = (roster.characters || []).map(c => {
+        roster.characters = (roster.characters || []).map((c, i) => {
+          if (c.weeklyGold === undefined) {
+            shouldSave = true;
+            c.weeklyGold = i < 6;
+          }
           if (!c.id) {
             shouldSave = true;
             c.id = Math.floor(Math.random() * 1000000000);

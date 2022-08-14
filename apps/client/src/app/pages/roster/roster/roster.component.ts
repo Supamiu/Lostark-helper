@@ -64,6 +64,7 @@ export class RosterComponent {
       ilvl: form.ilvl,
       lazy: form.lazy,
       class: form.class,
+      weeklyGold: roster.characters.length < 6,
       tickets: {
         t1Cube: 0,
         t2BossRush: 0,

@@ -78,8 +78,8 @@ export class GoldPlannerComponent {
             && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
         .map(({ gTask, task }, i, array) => {
-          const flagsData = roster.map((character, characterIndex) => {
-            if (!task || characterIndex >= 6) {
+          const flagsData = roster.map((character) => {
+            if (!task || !character.weeklyGold) {
               return {
                 force: null,
                 value: null

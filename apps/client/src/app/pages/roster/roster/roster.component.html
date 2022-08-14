@@ -21,7 +21,7 @@
     <nz-list [nzDataSource]="roster.characters" cdkDropList [cdkDropListData]="roster.characters" (cdkDropListDropped)="drop(roster, $event)">
       <nz-list-item *ngFor="let character of roster.characters;trackBy: trackByCharacter"
                     [nzContent]="noteEditor"
-                    [nzActions]="[setPrivateAction, setLazyAction, setClassAction, deleteAction]"
+                    [nzActions]="[setPrivateAction, setLazyAction,setWeeklyGoldAction, setClassAction, deleteAction]"
                     cdkDrag [cdkDragData]="character">
         <ng-template #noteEditor>
           <textarea nz-input
@@ -43,6 +43,11 @@
           ilvl
           <nz-input-number [(ngModel)]="character.ilvl" [ngModelOptions]="{updateOn: 'blur'}"
                            (ngModelChange)="saveCharacter(character, roster)"></nz-input-number>
+        </ng-template>
+        <ng-template #setWeeklyGoldAction>
+          <label nz-checkbox [(ngModel)]="character.weeklyGold" (ngModelChange)="saveCharacter(character, roster)"></label>
+          Weekly Gold
+          <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Enable weekly gold for this character"></i>
         </ng-template>
         <ng-template #setPrivateAction>
           <label nz-checkbox [(ngModel)]="character.isPrivate" (ngModelChange)="saveCharacter(character, roster)"></label>
