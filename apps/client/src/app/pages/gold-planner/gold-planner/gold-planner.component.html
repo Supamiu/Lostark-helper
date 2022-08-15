@@ -30,9 +30,9 @@
             <td *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
               <div class="cell-container">
                 <ng-container *ngIf="flag.value !== null || flag.force">
-                  <nz-switch nzCheckedChildren="Skip chest"
-                             nzUnCheckedChildren="Take chest"
-                             [ngModel]="flag.value"
+                  <nz-switch nzCheckedChildren="Taking"
+                             nzUnCheckedChildren="Skipping"
+                             [ngModel]="!flag.value"
                              (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"></nz-switch>
                   (<img src="./assets/icons/gold.png" class="gold-icon" alt="gold">{{row.gTask.chestPrice}})
                 </ng-container>
@@ -61,10 +61,10 @@
           </td>
         </tr>
         <tr>
-          <td>Other sources</td>
+          <td>Other sources  <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)"  class="info-icon"></i></td>
           <td class="manual-row" *ngFor="let character of roster">
             <nz-input-group [nzAddOnBefore]="goldIcon">
-              <nz-input-number [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+              <nz-input-number [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" pattern="[1-9].*" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
             </nz-input-group>
           </td>
         </tr>
