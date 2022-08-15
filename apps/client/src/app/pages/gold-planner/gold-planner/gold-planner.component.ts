@@ -215,7 +215,7 @@ export class GoldPlannerComponent {
     if (entry.timestamp < weeklyReset) {
       return 0;
     }
-    return entry.amount;
+    return entry.amount || 0;
   }
 
   public setManualGold(settingsKey: string, type: string, characterName: string, newValue: number): void {
@@ -223,7 +223,7 @@ export class GoldPlannerComponent {
       return;
     }
     this.settings.updateOne(settingsKey, {
-      [`manualGoldEntries.${type}:${characterName}`]: { amount: newValue, timestamp: Date.now() }
+      [`manualGoldEntries.${type}:${characterName}`]: { amount: newValue || 0, timestamp: Date.now() }
     } as unknown as UpdateData<Settings>);
   }
 
