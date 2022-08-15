@@ -219,13 +219,16 @@ export class GoldPlannerComponent {
   }
 
   public setManualGold(settingsKey: string, type: string, characterName: string, newValue: number): void {
+    if (typeof newValue === 'string') {
+      return;
+    }
     this.settings.updateOne(settingsKey, {
       [`manualGoldEntries.${type}:${characterName}`]: { amount: newValue, timestamp: Date.now() }
     } as unknown as UpdateData<Settings>);
   }
 
   setChestFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[this.getGoldChestFlag(character.name, gTask)] = flag;
+    tracking[this.getGoldChestFlag(character.name, gTask)] = !flag;
     this.settings.patch({
       $key: settingsKey,
       chestConfiguration: tracking
