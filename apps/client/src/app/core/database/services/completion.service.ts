@@ -13,7 +13,7 @@ export class CompletionService extends FirestoreStorage<Completion> {
 
   public completion$: Observable<Completion> = this.auth.uid$.pipe(
     switchMap(uid => {
-      return this.getOne(uid).pipe(
+      return this.getOne(uid, true).pipe(
         map(completion => {
           if (completion.notFound) {
             return {

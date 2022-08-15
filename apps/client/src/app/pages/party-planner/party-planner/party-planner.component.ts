@@ -3,7 +3,7 @@ import { UserService } from "../../../core/database/services/user.service";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
-import { BehaviorSubject, combineLatest, map, of, pluck, switchMap } from "rxjs";
+import { BehaviorSubject, combineLatest, first, map, of, pluck, switchMap } from "rxjs";
 import { TimeService } from "../../../core/time.service";
 import { isTaskDone } from "../../../core/is-task-done";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -88,17 +88,14 @@ export class PartyPlannerComponent {
             return combineLatest([
               this.rosterService.getOne(friendId),
               this.completionService.getOne(friendId),
-              this.settings.getOne(friendId).pipe(
-                pluck("lazytracking")
-              ),
               this.tasksService.getUserTasks(friendId)
             ]).pipe(
-              map(([friendRoster, friendCompletion, friendLazyTracking, friendTasks]) => {
+              first(),
+              map(([friendRoster, friendCompletion, friendTasks]) => {
                 return {
                   friendId,
                   friendRoster,
                   friendCompletion,
-                  friendLazyTracking,
                   friendTasks
                 };
               })
@@ -159,7 +156,7 @@ export class PartyPlannerComponent {
                       };
                     } else {
                       const friendsDisplay = friendsData
-                        .map(({ friendId, friendRoster, friendCompletion, friendLazyTracking, friendTasks }) => {
+                        .map(({ friendId, friendRoster, friendCompletion, friendTasks }) => {
                           const friendTask = friendTasks.find(ft => {
                             return ft.label === task.label
                               && ft.frequency === task.frequency
@@ -173,7 +170,7 @@ export class PartyPlannerComponent {
                               characters: (friendRoster.characters || [])
                                 .filter(c => !c.isPrivate)
                                 .filter(fChar => {
-                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, friendLazyTracking);
+                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, {});
                                   return fDone >= 0
                                     && fDone < task.amount
                                     && fChar.ilvl >= (task.minIlvl || 0)
@@ -182,7 +179,7 @@ export class PartyPlannerComponent {
                                 .map(c => {
                                   return {
                                     doable: Math.min(
-                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, friendLazyTracking),
+                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, {}),
                                       task.amount - done
                                     ),
                                     c

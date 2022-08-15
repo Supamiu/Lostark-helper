@@ -1,5 +1,5 @@
 import { DataModel } from "./data-model";
-import { distinctUntilChanged, from, map, Observable, shareReplay, tap } from "rxjs";
+import { distinctUntilChanged, finalize, first, from, map, merge, Observable, shareReplay, Subject, tap } from "rxjs";
 import {
   addDoc,
   collection,
@@ -24,6 +24,7 @@ import {
 } from "@angular/fire/firestore";
 import { QueryConstraint } from "@firebase/firestore";
 import { environment } from "../../../environments/environment";
+import { startWith, switchMap } from "rxjs/operators";
 
 export abstract class FirestoreStorage<T extends DataModel> {
 
@@ -54,6 +55,9 @@ export abstract class FirestoreStorage<T extends DataModel> {
 
   protected cache: Record<string, Observable<T>> = {};
 
+  protected updateSources: Record<string, Subject<UpdateData<T>>> = {};
+  protected setSources: Record<string, Subject<T>> = {};
+
   protected readonly collection = collection(this.firestore, this.getCollectionName()).withConverter(this.converter);
 
   protected constructor(protected firestore: Firestore) {
@@ -81,7 +85,7 @@ export abstract class FirestoreStorage<T extends DataModel> {
     }
   }
 
-  public recordOperation(operation: "read" | "write" | "delete", debugData?: T): void {
+  public recordOperation(operation: "read" | "write" | "delete", debugData?: unknown): void {
     if (window["verboseOperations"] || environment.verboseOperations) {
       console.log("OPERATION", operation, this.getCollectionName(), debugData);
     }
@@ -101,11 +105,18 @@ export abstract class FirestoreStorage<T extends DataModel> {
     return collectionData(query(this.collection, ...filterQuery).withConverter(this.converter));
   }
 
-  public getOne(key: string): Observable<T> {
+  private updateObjProp<T>(obj: T, value: unknown, propPath: string): void {
+    const [head, ...rest] = propPath.split(".");
+    !rest.length
+      ? obj[head] = value
+      : this.updateObjProp(obj[head], value, rest.join("."));
+  }
+
+  public getOne(key: string, isForCurrentUser = false): Observable<T> {
     if (!this.cache[key]) {
-      this.cache[key] = docData(this.docRef(key)).pipe(
+      const source$ = docData(this.docRef(key)).pipe(
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        tap(() => this.recordOperation("read")),
+        tap(() => this.recordOperation("read", "wtf")),
         map(res => {
           if (!res) {
             return {
@@ -114,9 +125,37 @@ export abstract class FirestoreStorage<T extends DataModel> {
             } as T;
           }
           return res;
-        }),
-        shareReplay(1)
+        })
       );
+      if (isForCurrentUser) {
+        this.updateSources[key] = new Subject<UpdateData<T>>();
+        this.setSources[key] = new Subject<T>();
+        this.cache[key] = merge(
+          this.setSources[key],
+          source$.pipe(first())
+        ).pipe(
+          switchMap((obj) => {
+            return this.updateSources[key].pipe(
+              map(update => {
+                Object.keys(update).forEach(k => {
+                  // Skipping array manipulations
+                  if (typeof update[k] === "function") {
+                    return;
+                  }
+                  this.updateObjProp(obj, update[k], k);
+                });
+                return obj;
+              }),
+              startWith(obj)
+            );
+          })
+        );
+      } else {
+        this.cache[key] = source$.pipe(
+          shareReplay({ refCount: true, bufferSize: 1 }),
+          finalize(() => delete this.cache[key])
+        );
+      }
     }
     return this.cache[key];
   }
@@ -129,17 +168,23 @@ export abstract class FirestoreStorage<T extends DataModel> {
   }
 
   public deleteOne(key: string): Observable<void> {
-    this.recordOperation("delete");
+    this.recordOperation("delete", key);
     return from(deleteDoc(this.docRef(key)));
   }
 
   public setOne(key: string, row: Omit<T, "$key" | "notFound">): Observable<void> {
-    this.recordOperation("write");
+    this.recordOperation("write", key);
+    if (this.setSources[key]) {
+      this.setSources[key].next({ ...row, $key: key } as T);
+    }
     return from(setDoc(this.docRef(key), row));
   }
 
   public updateOne(key: string, row: UpdateData<T>): Observable<void> {
-    this.recordOperation("write");
+    this.recordOperation("write", key);
+    if (this.updateSources[key]) {
+      this.updateSources[key].next(row);
+    }
     return from(updateDoc(this.docRef(key), row));
   }
 
