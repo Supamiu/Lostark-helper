@@ -93,7 +93,7 @@ export class HoningCostOptimizerComponent {
         const leapstones = mariTrades.find(t => t.name === (targetEntry?.rarity === "epic" ? "Honor Leapstone" : "Great Honor Leapstone"));
         const fusionMaterial = mariTrades.find(t => t.name === (targetEntry?.rarity === "epic" ? "Simple Oreha Fusion Material" : "Basic Oreha Fusion Material"));
         const shards = includeShards ? mariTrades.find(t => t.name === "Honor Shard Pouch (S)") : null;
-        const stones = mariTrades.find(t => t.name === (targetEntry?.type === "armor" ? "Guardian Stone Crystal" : "Destruction Stone Crystal"));
+        const stones = mariTrades.find(t => t.name === (targetEntry?.type === "armor" ? "Crystallized Guardian Stone" : "Crystallized Destruction Stone"));
         return [
           {
             item: stones,

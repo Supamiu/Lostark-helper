@@ -69,7 +69,7 @@ export const mariTrades: MariTrade[] = [
 
   // Stones
   {
-    name: "Destruction Stone Crystal",
+    name: "Crystallized Destruction Stone",
     icon: "shop_13.png",
     crystalPrice: 300,
     minIlvl: 1302,
@@ -78,7 +78,7 @@ export const mariTrades: MariTrade[] = [
     mbQuantity: 10
   },
   {
-    name: "Guardian Stone Crystal",
+    name: "Crystallized Guardian Stone",
     icon: "shop_15.png",
     crystalPrice: 270,
     minIlvl: 1302,
