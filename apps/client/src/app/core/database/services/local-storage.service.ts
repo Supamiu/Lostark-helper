@@ -9,6 +9,10 @@ import { first } from "rxjs/operators";
 import { combineLatest, switchMap } from "rxjs";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { AuthService } from "./auth.service";
+import { GameCode } from "../../../data/game-code";
+import { mariTrades } from "../../../pages/mari-optimizer/mari-trades";
+import { MariTrade } from "../../../pages/mari-optimizer/mari-trade";
+import { PricesService } from "../../services/prices.service";
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +25,8 @@ export class LocalStorageService {
               private energyService: EnergyService,
               private tasksService: TasksService,
               private message: NzMessageService,
-              private auth: AuthService) {
+              private auth: AuthService,
+              private pricesService: PricesService) {
   }
 
   public canMigrateEverything(): boolean {
@@ -106,5 +111,52 @@ export class LocalStorageService {
       localStorage.setItem("imported", "true");
       this.message.success("Imported everything from your Local Storage to the database");
     });
+  }
+
+  upgrade(previousVersion: number): void {
+    if (previousVersion < 2) {
+      const honingChancesEntry = localStorage.getItem("honing:chance-items-quantities");
+      if (honingChancesEntry) {
+        const juiceObj = JSON.parse(honingChancesEntry);
+        const newEntry = {
+          [GameCode.JUICE_1302_S]: juiceObj.grace != null ? juiceObj.grace : 24,
+          [GameCode.JUICE_1302_M]: juiceObj.blessing != null ? juiceObj.blessing : 12,
+          [GameCode.JUICE_1302_L]: juiceObj.protection != null ? juiceObj.protection : 4
+        };
+
+        localStorage.setItem("honing:chance-items-quantities", JSON.stringify(newEntry));
+      }
+
+      const mariItemsEntry = localStorage.getItem("mari:items");
+      if (mariItemsEntry) {
+        const mariItems = JSON.parse(mariItemsEntry);
+        const newEntry = Object.entries(mariItems).reduce((obj, [key, price]) => {
+          const name = key.split(":")[0];
+          let trade = null as MariTrade | null | undefined;
+
+          switch (name) {
+            case "Destruction Stone Crystal":
+              trade = mariTrades.find(t => t.gameCode === GameCode.DESTRUCTION_1302);
+              break;
+            case "Guardian Stone Crystal":
+              trade = mariTrades.find(t => t.gameCode === GameCode.GUARDIAN_1302);
+              break;
+            default:
+              trade = mariTrades.find(t => t.name === name);
+              break;
+          }
+
+          if (trade != null) {
+            obj[this.pricesService.getKey(trade)] = price;
+          }
+          
+          return obj;
+        }, {});
+
+        localStorage.setItem("mari:items", JSON.stringify(newEntry));
+      }
+    }
+
+    localStorage.setItem("version", "2");
   }
 }

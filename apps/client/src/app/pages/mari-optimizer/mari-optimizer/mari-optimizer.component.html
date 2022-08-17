@@ -15,7 +15,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let row of table.data; trackBy: trackByDisplayRow">
+  <tr *ngFor="let row of table.data; trackBy: trackByDisplayRow.bind(this)">
     <td><img src="./assets/icons/shop/{{row.trade.icon}}" alt="" *ngIf="row.trade.icon" class="item-icon">{{row.trade.name}}
       [{{row.trade.quantity}}]
     </td>

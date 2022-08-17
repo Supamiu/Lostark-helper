@@ -3,6 +3,7 @@ import { first } from "rxjs";
 import { mariTrades } from "../../../pages/mari-optimizer/mari-trades";
 import { LostArkMarketService } from "../../../core/services/lost-ark-market.service";
 import { PricesService } from "../../../core/services/prices.service";
+import { GameCode } from "../../../data/game-code";
 
 @Component({
   selector: "lostark-helper-market-header",
@@ -31,14 +32,14 @@ export class MarketHeaderComponent {
       first()
     ).subscribe(entries => {
       mariTrades.forEach(trade => {
-        const marketEntry = entries.find(e => e.name === trade.name);
+        const marketEntry = entries.find(e => +e.gameCode === trade.gameCode);
         if (!marketEntry) {
           console.warn("Missing market entry for", trade.name);
         } else {
           this.pricesService.setItemPrice(trade, marketEntry.cheapestRemaining > 1000 ? marketEntry.lowPrice : marketEntry.recentPrice);
         }
       });
-      const crystalEntry = entries.find(e => e.name === "Blue Crystal");
+      const crystalEntry = entries.find(e => +e.gameCode === GameCode.BLUE_CRYSTAL);
       if (crystalEntry) {
         this.pricesService.setExchangeRate(Math.floor(crystalEntry.recentPrice * 95));
       }

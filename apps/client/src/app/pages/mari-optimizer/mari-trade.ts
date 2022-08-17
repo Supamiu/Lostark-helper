@@ -1,4 +1,7 @@
+import { GameCode } from "../../data/game-code";
+
 export interface MariTrade {
+  gameCode: GameCode;
   icon: string;
   name: string;
   quantity: number;

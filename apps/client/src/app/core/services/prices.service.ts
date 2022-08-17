@@ -13,10 +13,14 @@ export class PricesService {
     this.exchangeRateGoldPrice$.next(price);
   }
 
+  getKey(trade: MariTrade | null | undefined): string {
+    return (trade?.gameCode ?? "") + "";
+  }
+
   setItemPrice(trade: MariTrade, price: number): void {
     this.itemPrices$.next({
       ...this.itemPrices$.value,
-      [`${trade.name}:${trade.quantity}`]: price
+      [this.getKey(trade)]: price
     });
   }
 }

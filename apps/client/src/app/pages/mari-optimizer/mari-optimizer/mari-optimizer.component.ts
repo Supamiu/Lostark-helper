@@ -30,7 +30,7 @@ export class MariOptimizerComponent {
     map(([trades, goldPrice, itemPrices]) => {
       const goldPerCrystal = goldPrice / 95;
       return trades.map(trade => {
-        const itemPriceEntry = itemPrices[`${trade.name}:${trade.quantity}`] || 0;
+        const itemPriceEntry = itemPrices[this.pricesService.getKey(trade)] || 0;
         const tradeCrystalGoldPrice = trade.crystalPrice * goldPerCrystal / trade.quantity;
         const tradeMbGoldPrice = itemPriceEntry / trade.mbQuantity;
         const diffPercent = 100 - Math.floor(100 * tradeCrystalGoldPrice / tradeMbGoldPrice);
@@ -49,7 +49,7 @@ export class MariOptimizerComponent {
   }
 
   trackByDisplayRow(index: number, row: { trade: MariTrade }): string {
-    return `${row.trade.name}:${row.trade.quantity}`;
+    return this.pricesService.getKey(row.trade);
   }
 
   setItemPrice(trade: MariTrade, price: number): void {
