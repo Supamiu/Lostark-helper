@@ -4,6 +4,7 @@ import { UserService } from "../database/services/user.service";
 import { BehaviorSubject, combineLatest, shareReplay, switchMap, throttleTime } from "rxjs";
 import { LostarkRegion } from "../../model/lostark-region";
 import { LostArkMarketEntry } from "./lost-ark-market-entry";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root"
@@ -19,7 +20,7 @@ export class LostArkMarketService {
     this.reloader$.pipe(throttleTime(5 * 60000)) // No more than one request every 5 minutes !
   ]).pipe(
     switchMap(([region]) => {
-      return this.http.get<LostArkMarketEntry[]>(`https://www.lostarkmarket.online/api/export-market-live/${this.toRegionFilter(region)}?categories=Enhancement Material,Currency Exchange`);
+      return this.http.get<LostArkMarketEntry[]>(`${environment.marketApi}/export-market-live/${this.toRegionFilter(region)}?categories=Enhancement Material,Currency Exchange`);
     }),
     shareReplay(1)
   );

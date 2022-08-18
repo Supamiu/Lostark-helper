@@ -64,9 +64,9 @@ export class UserService extends FirestoreStorage<LAHUser> {
       .afterClose
       .pipe(
         switchMap((name: string) => {
-          return this.updateOne(user.$key, { name });
+          return this.setOne(user.$key, { ...user, name });
         })
-      )
+      );
   }
 
   constructor(firestore: Firestore, private auth: AuthService,
