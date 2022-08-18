@@ -5,6 +5,7 @@ import { mariTrades } from "../../mari-optimizer/mari-trades";
 import { honingChances } from "../honing-chances";
 import { MariTrade } from "../../mari-optimizer/mari-trade";
 import { PricesService } from "../../../core/services/prices.service";
+import { GameCode } from "../../../data/game-code";
 
 @Component({
   selector: "lostark-helper-honing-cost-optimizer",
@@ -14,9 +15,7 @@ import { PricesService } from "../../../core/services/prices.service";
 export class HoningCostOptimizerComponent {
   public exchangeRateGoldPrice$ = this.pricesService.exchangeRateGoldPrice$;
 
-  private honingChancesMaterials = mariTrades.filter(t => {
-    return t.name.startsWith("Solar ");
-  });
+  private honingChancesMaterials = mariTrades.filter(t => [GameCode.JUICE_1302_S, GameCode.JUICE_1302_M, GameCode.JUICE_1302_L].some(gc => gc === t.gameCode));
 
   public itemPrices$ = this.pricesService.itemPrices$;
 
@@ -30,20 +29,17 @@ export class HoningCostOptimizerComponent {
 
   public buyFromMari$ = new LocalStorageBehaviorSubject<boolean>("honing:get-hm-from-mari", false);
 
-  public chanceItemsQuantities$ = new LocalStorageBehaviorSubject<{ grace: number, blessing: number, protection: number }>(
-    "honing:chance-items-quantities", { grace: 24, blessing: 12, protection: 4 });
+  public chanceItemsQuantities$ = new LocalStorageBehaviorSubject<{ [GameCode.JUICE_1302_S]: number, [GameCode.JUICE_1302_M]: number, [GameCode.JUICE_1302_L]: number }>(
+    "honing:chance-items-quantities", { [GameCode.JUICE_1302_S]: 24, [GameCode.JUICE_1302_M]: 12, [GameCode.JUICE_1302_L]: 4 });
 
   public chanceItemsQuantitiesDisplay$ = this.chanceItemsQuantities$.pipe(
     map(quantities => {
-      return this.honingChancesMaterials.map(item => {
-        const quantityKey = item.name.replace("Solar ", "").toLowerCase();
-        return {
+      return this.honingChancesMaterials.map(item => ({
+          gameCode: item.gameCode,
           icon: item.icon,
           name: item.name,
-          quantity: quantities[quantityKey],
-          quantityKey
-        };
-      });
+          quantity: quantities[item.gameCode]
+      }));
     })
   );
 
@@ -90,10 +86,10 @@ export class HoningCostOptimizerComponent {
   ]).pipe(
     map(([targetEntry, includeShards, prices, honingItemsQuantities, buyFromMari, goldPer95Crystal]) => {
       if (targetEntry) {
-        const leapstones = mariTrades.find(t => t.name === (targetEntry?.rarity === "epic" ? "Honor Leapstone" : "Great Honor Leapstone"));
-        const fusionMaterial = mariTrades.find(t => t.name === (targetEntry?.rarity === "epic" ? "Simple Oreha Fusion Material" : "Basic Oreha Fusion Material"));
-        const shards = includeShards ? mariTrades.find(t => t.name === "Honor Shard Pouch (S)") : null;
-        const stones = mariTrades.find(t => t.name === (targetEntry?.type === "armor" ? "Guardian Stone Crystal" : "Destruction Stone Crystal"));
+        const leapstones = mariTrades.find(t => t.gameCode === (targetEntry?.rarity === "epic" ? GameCode.LEAPSTONE_1302 : GameCode.LEAPSTONE_1340));
+        const fusionMaterial = mariTrades.find(t => t.gameCode === (targetEntry?.rarity === "epic" ? GameCode.FUSION_1302 : GameCode.FUSION_1340));
+        const shards = includeShards ? mariTrades.find(t => t.gameCode === GameCode.SHARDS_1302_S) : null;
+        const stones = mariTrades.find(t => t.gameCode === (targetEntry?.type === "armor" ? GameCode.GUARDIAN_1302 : GameCode.DESTRUCTION_1302));
         return [
           {
             item: stones,
@@ -118,17 +114,18 @@ export class HoningCostOptimizerComponent {
           ...this.honingChancesMaterials.map(item => {
             const entry = {
               item,
-              quantity: honingItemsQuantities[item.name.toLowerCase().replace("solar ", "")],
+              quantity: honingItemsQuantities[item.gameCode],
               isHoningItem: true,
-              price: prices[`${item.name}:${item.quantity}`] || 0
+              price: prices[this.pricesService.getKey(item)] || 0
             };
             if (buyFromMari) {
               entry.price = Math.ceil(item.crystalPrice * (goldPer95Crystal / 95) / item.quantity);
             }
             return entry;
           })
-        ].map(row => {
-          const priceKey = `${row.item?.name}:${row.item?.quantity}`;
+        ]
+        .map(row => {
+          const priceKey = this.pricesService.getKey(row.item);
           return {
             price: (row as { price: number }).price || prices[priceKey] || 0,
             ...row,
@@ -148,17 +145,17 @@ export class HoningCostOptimizerComponent {
   ]).pipe(
     map(([honing, materials, baseChances, chances]) => {
       const goldPricePerTentative = Math.floor(materials
-        .filter(m => !m.item?.name?.startsWith("Solar"))
+        .filter(m => [GameCode.JUICE_1302_S, GameCode.JUICE_1302_M, GameCode.JUICE_1302_L].every(gc => gc !== m.item?.gameCode))
         .reduce((acc, material) => {
           let buyoutsNeeded = Math.ceil(material.quantity / (material.item?.mbQuantity || 1));
-          if (material.item?.name?.includes("Shard")) {
+          if (material.item?.gameCode === GameCode.SHARDS_1302_S) {
             buyoutsNeeded = buyoutsNeeded / 500;
           }
           return acc + material.price * buyoutsNeeded;
         }, honing?.gold || 0));
 
       const honingChanceItemsCost = Math.floor(materials
-        .filter(m => m.item?.name?.startsWith("Solar"))
+        .filter(m => [GameCode.JUICE_1302_S, GameCode.JUICE_1302_M, GameCode.JUICE_1302_L].some(gc => gc === m.item?.gameCode))
         .reduce((acc, material) => {
           const buyoutsNeeded = Math.ceil(material.quantity / (material.item?.mbQuantity || 1));
           return acc + material.price * buyoutsNeeded;
@@ -198,10 +195,10 @@ export class HoningCostOptimizerComponent {
     }
   }
 
-  setHoningItemQuantity(quantityKey: string, quantity: number): void {
+  setHoningItemQuantity(gameCode: GameCode, quantity: number): void {
     this.chanceItemsQuantities$.next({
       ...this.chanceItemsQuantities$.value,
-      [quantityKey]: quantity
+      [gameCode]: quantity
     });
   }
 

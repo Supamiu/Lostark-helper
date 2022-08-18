@@ -55,7 +55,7 @@
             </div>
           </ng-template>
           <nz-input-number [ngModel]="material.quantity"
-                           (ngModelChange)="setHoningItemQuantity(material.quantityKey, $event)"
+                           (ngModelChange)="setHoningItemQuantity(material.gameCode, $event)"
                            name="{{material.name}}-price"></nz-input-number>
         </nz-input-group>
       </nz-form-control>

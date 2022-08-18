@@ -9,4 +9,5 @@ export const environment = {
     messagingSenderId: '149724175977',
   },
   production: true,
+  marketApi: 'https://www.lostarkmarket.online/api'
 };

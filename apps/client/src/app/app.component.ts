@@ -82,6 +82,7 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem("tasks:default") !== null && localStorage.getItem("imported") !== "true") {
       this.localStorageService.migrate();
     }
+    this.localStorageService.upgrade(+(localStorage.getItem("version") || "1"));
   }
 
   setUserRegion(user: LAHUser, region: LostarkRegion, anonymous?: boolean): void {

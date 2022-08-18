@@ -13,6 +13,7 @@ export const environment = {
     messagingSenderId: '149724175977',
   },
   production: false,
+  marketApi: '/api'
 };
 
 /*
