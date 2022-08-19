@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { combineLatest, map, Observable, of, pluck } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, of, pluck, startWith } from "rxjs";
 import { goldTasks } from "../gold-tasks";
 import { GoldTask } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
@@ -195,6 +195,22 @@ export class GoldPlannerComponent {
         other
       };
     })
+  );
+
+  private windowResize$ = new BehaviorSubject<void>(void 0);
+
+  public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
+    map(([roster]) => {
+      const y = window.innerHeight - 64 - 48 - 190 - 20;
+
+      const scrolling: { x?: string | null, y: string | null } = { y: `${y}px`, x: "1200px" };
+      const widthPerCharacter = window.innerWidth < 992 ? 80 : 120;
+      if (window.innerWidth < widthPerCharacter * roster.length + 200) {
+        scrolling.x = `${window.innerWidth - 64 - 48 - 190 - 20}px`;
+      }
+      return scrolling;
+    }),
+    startWith({ x: null, y: null })
   );
 
   constructor(private rosterService: RosterService,
