@@ -7,7 +7,7 @@
   <ng-container *ngIf="roster$ | async as roster">
     <ng-container *ngIf="scrolling$ | async as scrolling">
       <div class="chest-matrix" *ngIf="display$ | async as display">
-        <nz-table #tasksTable 
+        <nz-table #tasksTable
                   [nzData]="display.chestsData"
                   [nzPageSize]="999"
                   [nzScroll]="scrolling"
@@ -50,8 +50,7 @@
           </ng-container>
           <tr>
             <td>Large Gold Chest(s)</td>
-            <!-- display.total instead of 6 -->
-            <td colspan="6" class="roster-income">
+            <td [attr.colspan]="display.total.length" class="roster-income">
               <img src="./assets/icons/gold.png"
                   class="gold-icon" alt="gold">{{display.chestGold | number}}
             </td>
