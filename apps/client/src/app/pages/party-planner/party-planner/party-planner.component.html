@@ -64,7 +64,7 @@
           <tr *ngFor="let entry of display.ticketsData; trackBy: trackByIndex; even as even"
               [class.even]="even">
             <td class="task-name">
-              <img src="./assets/icons/{{entry.ticket.icon}}" alt="" class="task-icon">
+              <img src="./assets/icons/{{entry.ticket.icon}}" alt="" class="task-icon icon-rarity icon-rarity-{{entry.ticket.rarity}}">
               <span>{{entry.ticket.name}}</span>
             </td>
             <td *ngFor="let ticket of entry.data" class="with-inner-table">

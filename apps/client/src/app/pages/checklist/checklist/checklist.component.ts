@@ -16,6 +16,7 @@ import { isTaskDone } from "../../../core/is-task-done";
 import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { Character } from "../../../model/character/character";
+import { tickets } from "../../../data/tickets";
 
 @Component({
   selector: "lostark-helper-checklist",
@@ -48,6 +49,10 @@ export class ChecklistComponent {
         t3: characters.some(c => c.ilvl >= 1302)
       };
     })
+  );
+
+  public tickets$ = this.tiersAvailability$.pipe(
+    map(tiersAvailability => tickets.filter(t => !t.tier || tiersAvailability[`t${t.tier}`]))
   );
 
   public ticketsTrackingOpened = localStorage.getItem("checklist:tickets-opened") === "true";
