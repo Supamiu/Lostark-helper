@@ -221,6 +221,10 @@ export class GearManagerComponent {
     ).subscribe();
   }
 
+  updateLink(gearset: Gearset): void {
+    this.gearsetService.updateOne(gearset.$key, {character: gearset.character})
+  }
+
   updateIlvl(gearset: Gearset, roster: Roster): void {
     const updated = {
       ...roster, characters: roster.characters.map(c => {
