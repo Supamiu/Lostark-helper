@@ -28,41 +28,11 @@
         </th>
       </tr>
       </thead>
-      <tbody *ngIf="tiersAvailability$ | async as tiersAvailability">
-      <tr *ngIf="tiersAvailability.t1">
-        <td><img src="./assets/icons/t1_cube.png" class="ticket-icon" alt="">T1 Cube</td>
-        <td *ngFor="let character of roster.characters" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.t1Cube" (ngModelChange)="saveRoster(roster)"></nz-input-number>
-        </td>
-      </tr>
-      <tr *ngIf="tiersAvailability.t2">
-        <td><img src="./assets/icons/t2_cube.png" class="ticket-icon" alt="">T2 Cube</td>
+      <tbody *ngIf="tickets$ | async as tickets">
+      <tr *ngFor="let ticket of tickets">
+        <td><img src="./assets/icons/{{ticket.icon}}" class="ticket-icon icon-rarity icon-rarity-{{ticket.rarity}}" alt="">{{ticket.name}}</td>
         <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.t2Cube" (ngModelChange)="saveRoster(roster)"></nz-input-number>
-        </td>
-      </tr>
-      <tr *ngIf="tiersAvailability.t3">
-        <td><img src="./assets/icons/t3_cube.png" class="ticket-icon" alt="">T3 Cube</td>
-        <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.t3Cube" (ngModelChange)="saveRoster(roster)"></nz-input-number>
-        </td>
-      </tr>
-      <tr *ngIf="tiersAvailability.t2">
-        <td><img src="./assets/icons/t2_bossrush.png" class="ticket-icon" alt="">T2 Boss Rush</td>
-        <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.t2BossRush" (ngModelChange)="saveRoster(roster)"></nz-input-number>
-        </td>
-      </tr>
-      <tr *ngIf="tiersAvailability.t3">
-        <td><img src="./assets/icons/t3_bossrush.png" class="ticket-icon" alt="">T3 Boss Rush</td>
-        <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.t3BossRush" (ngModelChange)="saveRoster(roster)"></nz-input-number>
-        </td>
-      </tr>
-      <tr>
-        <td><img src="./assets/icons/platinum_fields.png" class="ticket-icon" alt="">Platinum Fields</td>
-        <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
-          <nz-input-number [(ngModel)]="character.tickets.platinumFields" (ngModelChange)="saveRoster(roster)"></nz-input-number>
+          <nz-input-number [(ngModel)]="character.tickets[ticket.key]" (ngModelChange)="saveRoster(roster)"></nz-input-number>
         </td>
       </tr>
       </tbody>

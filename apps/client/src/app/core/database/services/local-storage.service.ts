@@ -131,7 +131,7 @@ export class LocalStorageService {
       if (mariItemsEntry) {
         const mariItems = JSON.parse(mariItemsEntry);
         const newEntry = Object.entries(mariItems).reduce((obj, [key, price]) => {
-          const name = key.split(":")[0];
+          const name = key.substring(0, key.lastIndexOf(":"));
           let trade = null as MariTrade | null | undefined;
 
           switch (name) {
