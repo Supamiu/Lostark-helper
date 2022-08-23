@@ -49,7 +49,7 @@ export class PartyPlannerComponent {
               ...task,
               subTask: child,
               minIlvl: child.minIlvl,
-              maxIlvl: taskChildren[i + 1]?.minIlvl - 1 || 9999
+              maxIlvl: child.maxIlvl || taskChildren[i + 1]?.minIlvl - 1 || 9999
             } as LostarkTaskWithSubtask;
           });
         })
