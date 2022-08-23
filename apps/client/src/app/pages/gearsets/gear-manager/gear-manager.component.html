@@ -14,7 +14,8 @@
         </ng-template>
         <nz-select [(ngModel)]="gearset.character"
                    class="character-selector"
-                   nzPlaceHolder="You can link this gearset to a character">
+                   nzPlaceHolder="You can link this gearset to a character"
+                   (ngModelChange)="updateLink(gearset)">
           <nz-option *ngFor="let character of roster.characters" [nzLabel]="character.name" nzValue="{{roster.$key}}:{{character.id}}"></nz-option>
         </nz-select>
       </nz-input-group>
