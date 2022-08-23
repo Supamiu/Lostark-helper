@@ -24,17 +24,18 @@
                     [nzActions]="[setPrivateAction, setLazyAction,setWeeklyGoldAction, setClassAction, deleteAction]"
                     cdkDrag [cdkDragData]="character">
         <ng-template #noteEditor>
+          <div class="note-editor">
           <textarea nz-input
                     placeholder="Custom note, you also can use it to set your BiFrost information or song of return location"
                     cols="50"
                     rows="3"
                     [(ngModel)]="character.note"
                     [ngModelOptions]="{updateOn: 'blur'}"
-                    (ngModelChange)="saveCharacter(character, roster)"
-                    class="note-editor"></textarea>
+                    (ngModelChange)="saveCharacter(character, roster)"></textarea>
+          </div>
         </ng-template>
 
-        <nz-list-item-meta [nzTitle]="title" [nzDescription]="description"
+        <nz-list-item-meta [nzTitle]="title" [nzDescription]="description" class="character-meta"
                            nzAvatar="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png"></nz-list-item-meta>
         <ng-template #title>
           <input type="text" nz-input [ngModel]="character.name" [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="saveCharacterName(character, roster, $event)" class="character-name-input">
