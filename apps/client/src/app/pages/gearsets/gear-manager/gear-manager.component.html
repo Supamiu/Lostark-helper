@@ -14,7 +14,8 @@
         </ng-template>
         <nz-select [(ngModel)]="gearset.character"
                    class="character-selector"
-                   nzPlaceHolder="You can link this gearset to a character">
+                   nzPlaceHolder="You can link this gearset to a character"
+                   (ngModelChange)="updateLink(gearset)">
           <nz-option *ngFor="let character of roster.characters" [nzLabel]="character.name" nzValue="{{roster.$key}}:{{character.id}}"></nz-option>
         </nz-select>
       </nz-input-group>
@@ -154,7 +155,7 @@
         </nz-table>
       </nz-card>
     </div>
-    <div nz-col [nzMd]="16">
+    <div nz-col [nzMd]="24" [nzXXl]="16">
       <nz-card nzSize="small" nzTitle="Accessories">
         <nz-table *ngIf="engravingsDisplay$ | async as engravingsDisplay"
                   nzSize="small"
@@ -235,7 +236,7 @@
         </nz-table>
       </nz-card>
     </div>
-    <div nz-col [nzMd]="8">
+    <div nz-col [nzMd]="24" [nzXXl]="8">
       <nz-card nzSize="small" nzTitle="Result stats/Engravings" *ngIf="statsDisplay$ | async as statsDisplay">
         <nz-list [nzNoResult]="noEngravings" nzSize="small" nzHeader="Engravings">
           <ng-template #noEngravings>

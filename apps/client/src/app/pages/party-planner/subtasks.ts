@@ -29,9 +29,9 @@ export const subtasks: Subtask[] = [
 
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
-  { id: `aira's-oculus-hard`, name: `Aira's Oculus (Hard)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1370 },
+  { id: `aira's-oculus-hard`, name: `Aira's Oculus (Hard)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1370, maxIlvl: 1415 },
   { id: `oreha-preveza-normal`, name: `Oreha Preveza (Normal)`, parentName: "Oreha Preveza", banner: "abyss_dungeons/abyss_dg_10.png", minIlvl: 1340 },
-  { id: `oreha-preveza-hard`, name: `Oreha Preveza (Hard)`, parentName: "Oreha Preveza", banner: "abyss_dungeons/abyss_dg_10.png", minIlvl: 1370 },
+  { id: `oreha-preveza-hard`, name: `Oreha Preveza (Hard)`, parentName: "Oreha Preveza", banner: "abyss_dungeons/abyss_dg_10.png", minIlvl: 1370, maxIlvl: 1415 },
 
   // Argos Phases
   { id: `argos-p1`, name: `Argos P1`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1370 },

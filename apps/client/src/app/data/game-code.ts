@@ -40,7 +40,7 @@ export enum GameCode {
 
     /** Metallurgy: Basic Casting */
     BOOK_WEAPON_302 = 66112501,
-    /** Tailoring: Basic Design" */
+    /** Tailoring: Basic Design */
     BOOK_ARMOR_302 = 66112504,
 
     /** Metallurgy: Basic Folding */
@@ -55,7 +55,7 @@ export enum GameCode {
 
     /** Metallurgy: Applied Welding */
     BOOK_WEAPON_1340 = 66112522,
-    /** Tailoring: Applied Mendingg */
+    /** Tailoring: Applied Mending */
     BOOK_ARMOR_1340 = 66112525,
 
     /** Harmony Shard Pouch (S) */

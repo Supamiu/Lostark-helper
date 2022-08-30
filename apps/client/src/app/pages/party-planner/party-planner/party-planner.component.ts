@@ -12,7 +12,7 @@ import { TaskScope } from "../../../model/task-scope";
 import { LostarkTask } from "../../../model/lostark-task";
 import { subtasks } from "../subtasks";
 import { LostarkTaskWithSubtask } from "../../../model/lostark-task-with-subtask";
-import { tickets } from "../tickets";
+import { tickets } from "../../../data/tickets";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 
 @Component({
@@ -49,7 +49,7 @@ export class PartyPlannerComponent {
               ...task,
               subTask: child,
               minIlvl: child.minIlvl,
-              maxIlvl: taskChildren[i + 1]?.minIlvl - 1 || 9999
+              maxIlvl: child.maxIlvl || taskChildren[i + 1]?.minIlvl - 1 || 9999
             } as LostarkTaskWithSubtask;
           });
         })
