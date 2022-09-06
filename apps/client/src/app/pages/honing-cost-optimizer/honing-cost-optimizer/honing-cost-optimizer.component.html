@@ -1,9 +1,9 @@
 <lostark-helper-market-header title="Honing Cost Optimizer" subTitle="Check if it's cheaper to buy additional honing materials or use honing chances upgrade materials"></lostark-helper-market-header>
 
-<div nz-row [nzGutter]="[20,20]">
-  <form nz-form nz-col [nzLg]="8" [nzMd]="14" [nzSm]="24">
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Gear piece type</nz-form-label>
+<div nz-row [nzGutter]="[20,20]" nzJustify="space-between">
+  <form nz-form nz-col [nzLg]="10" [nzMd]="14" [nzSm]="24">
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Gear piece type</nz-form-label>
       <nz-form-control>
         <nz-select [ngModel]="type$ | async" (ngModelChange)="type$.next($event)" name="type">
           <nz-option nzValue="armor" nzLabel="Armor"></nz-option>
@@ -11,8 +11,8 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Rarity</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label nzJustify="space-between">Rarity</nz-form-label>
       <nz-form-control>
         <nz-select [ngModel]="rarity$ | async" (ngModelChange)="rarity$.next($event)" name="target">
           <nz-option nzValue="epic" nzLabel="Epic"></nz-option>
@@ -20,30 +20,30 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Target</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Target</nz-form-label>
       <nz-form-control *ngIf="targets$ | async as targets">
         <nz-select [ngModel]="target$ | async" (ngModelChange)="target$.next($event)" name="rarity">
           <nz-option *ngFor="let target of targets; trackBy:trackByIndex" [nzValue]="target.target" nzLabel="+{{target.target}}"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Current chances</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Current chances</nz-form-label>
       <nz-form-control>
         <nz-input-group nzAddOnAfter="%">
           <nz-input-number [ngModel]="appliedChances$ | async" (ngModelChange)="chancesInput$.next($event)" name="chances" class="number-input"></nz-input-number>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Include shards price</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Include shards price</nz-form-label>
       <nz-form-control>
         <label nz-checkbox [ngModel]="includeShards$ | async" (ngModelChange)="includeShards$.next($event)" name="includeShards"></label>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Honing Items</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Honing Items</nz-form-label>
       <nz-form-control *ngIf="chanceItemsQuantitiesDisplay$ | async as chanceItemsQuantities">
         <nz-switch nzCheckedChildren="Buy from Mari" nzUnCheckedChildren="Buy from MB" [ngModel]="buyFromMari$ | async"
                    (ngModelChange)="buyFromMari$.next($event)" name="buy-from-mari"></nz-switch>
@@ -60,8 +60,8 @@
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="7">Materials Costs</nz-form-label>
+    <nz-form-item nzJustify="space-between">
+      <nz-form-label>Materials Costs</nz-form-label>
       <nz-form-control>
         <nz-input-group *ngFor="let material of materialsNeeded$ | async; trackBy:trackByIndex" [nzAddOnBefore]="itemTpl" [nzAddOnAfter]="priceSuffix" class="price-input">
           <ng-template #itemTpl>
@@ -84,7 +84,7 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <nz-card [nzLg]="16" [nzMd]="10" [nzSm]="24" nz-col nzTitle="Metrics and optimizations" *ngIf="result$ | async as result">
+  <nz-card [nzLg]="12" [nzMd]="9" [nzSm]="24" nz-col nzTitle="Metrics and optimizations" *ngIf="result$ | async as result">
     <ng-template #goldIconTpl>
       <img src="./assets/icons/gold.png" alt="Gold" class="item-icon">
     </ng-template>
