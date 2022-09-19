@@ -152,7 +152,7 @@ export class RosterComponent {
         withLatestFrom(this.auth.uid$),
         switchMap(([rosterJson, uid]) => {
           const parsed = JSON.parse(rosterJson);
-          return this.rosterService.updateOne(uid, { characters: parsed.characters, trackedTasks: {} });
+          return this.rosterService.updateOne(uid, { characters: parsed.characters });
         })
       )
       .subscribe({
