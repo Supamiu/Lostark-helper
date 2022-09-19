@@ -145,11 +145,14 @@ export class RosterComponent {
     }).afterClose
       .pipe(
         filter(json => {
-          return json && Array.isArray(JSON.parse(json));
+          const parsed = JSON.parse(json);
+          const hasCharacters = Array.isArray( parsed.characters ) && parsed.characters.length > 0;
+          return json && hasCharacters;
         }),
         withLatestFrom(this.auth.uid$),
         switchMap(([rosterJson, uid]) => {
-          return this.rosterService.updateOne(uid, { characters: JSON.parse(rosterJson) });
+          const parsed = JSON.parse(rosterJson);
+          return this.rosterService.updateOne(uid, { characters: parsed.characters, trackedTasks: {} });
         })
       )
       .subscribe({

@@ -156,11 +156,12 @@ export class TasksComponent {
   }
 
   exportTasks(tasks: LostarkTask[]): void {
-    this.clipboard.copy(JSON.stringify(tasks.map(t => t.custom)));
+    console.log(tasks);
+    this.clipboard.copy(JSON.stringify(tasks.filter(t => t.custom)));
     this.message.success("Custom tasks copied to your clipboard");
   }
 
-  importTasks(): void {
+  importTasks(uid: string): void {
     this.modal.create({
       nzTitle: "Import tasks",
       nzContent: TextQuestionPopupComponent,
@@ -174,7 +175,9 @@ export class TasksComponent {
       )
       .subscribe((tasksJson) => {
         try {
-          this.tasksService.importTasks(JSON.parse(tasksJson || "[]"));
+          const parsed=  JSON.parse(tasksJson || "[]");
+          const tasks = parsed.map((task: LostarkTask) => ({ ...task, authorId: uid, custom: true }));
+          this.tasksService.importTasks(tasks);
           this.message.success("Custom tasks imported");
         } catch (e: unknown) {
           this.message.error((e as Error).message);
