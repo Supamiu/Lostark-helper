@@ -6,9 +6,11 @@
       <button nz-button (click)="exportTasks(tasks)" nz-tooltip nzTooltipTitle="Export custom tasks">
         <i nz-icon nzType="upload" nzTheme="outline"></i>
       </button>
-      <button nz-button (click)="importTasks()" nz-tooltip nzTooltipTitle="Import custom tasks">
-        <i nz-icon nzType="download" nzTheme="outline"></i>
-      </button>
+      <ng-container *ngIf="uid$ | async as uid">
+        <button nz-button (click)="importTasks(uid)" nz-tooltip nzTooltipTitle="Import custom tasks">
+          <i nz-icon nzType="download" nzTheme="outline"></i>
+        </button>
+      </ng-container>
     </nz-page-header-extra>
   </nz-page-header>
   <nz-card nzTitle="Tasks">
