@@ -156,7 +156,6 @@ export class TasksComponent {
   }
 
   exportTasks(tasks: LostarkTask[]): void {
-    console.log(tasks);
     this.clipboard.copy(JSON.stringify(tasks.filter(t => t.custom)));
     this.message.success("Custom tasks copied to your clipboard");
   }
