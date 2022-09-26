@@ -83,7 +83,8 @@ export class TasksComponent {
     "trade_skill_tool.webp",
     "world_quest.webp",
     "world_tree_leaves.webp",
-    "guild.webp"
+    "guild.webp",
+    "cardpack.png"
   ];
 
   public tableHeight!: number;
