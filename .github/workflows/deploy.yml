@@ -16,6 +16,6 @@ jobs:
       - name: Install Dependencies
         run: yarn install
       - name: Build & Deploy
-        run: ng deploy
+        run: npx nx deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
