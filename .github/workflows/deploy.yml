@@ -9,9 +9,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Install Dependencies
+        run: npm install -g firebase-tools
       - name: Checkout Repo
         uses: actions/checkout@master
       - name: Install Dependencies
         run: npm install
       - name: Build & Deploy
-        run: npm run deploy
+        run: npx nx deploy
