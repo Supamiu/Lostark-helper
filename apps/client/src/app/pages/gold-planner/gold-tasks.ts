@@ -112,6 +112,7 @@ export const goldTasks: GoldTask[] = [
     taskName: "Argos",
     chestPrice: 300,
     completionId: "T3.1",
+    overrideMaxIlvl: 1475,
     chestId: "Argos"
   },
   {
@@ -122,6 +123,7 @@ export const goldTasks: GoldTask[] = [
     completionId: "T3.1",
     chestId: "Argos",
     overrideMinIlvl: 1385,
+    overrideMaxIlvl: 1475,
     canForce: true
   },
   {
@@ -132,6 +134,7 @@ export const goldTasks: GoldTask[] = [
     completionId: "T3.1",
     chestId: "Argos",
     overrideMinIlvl: 1400,
+    overrideMaxIlvl: 1475,
     canForce: true
   },
 

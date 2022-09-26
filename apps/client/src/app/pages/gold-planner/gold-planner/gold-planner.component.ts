@@ -105,7 +105,7 @@ export class GoldPlannerComponent {
             if (cantDoTask || ilvlTooLow || ilvlTooHigh) {
               if (!forceFlag) {
                 return {
-                  force: gTask.canForce ? false : null,
+                  force: gTask.canForce && !ilvlTooHigh ? false : null,
                   value: null
                 };
               }
