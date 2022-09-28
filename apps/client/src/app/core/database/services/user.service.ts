@@ -14,6 +14,8 @@ import { emptyAvailability } from "../../../model/availability/availability";
 })
 export class UserService extends FirestoreStorage<LAHUser> {
 
+  updatingUserName = false;
+
   public user$ = combineLatest([
     this.auth.uid$,
     this.auth.isAnonymous$
@@ -50,6 +52,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
   );
 
   public updateUserName(user: LAHUser): Observable<void> {
+    this.updatingUserName = true;
     return this.modal.create({
       nzTitle: "Change your user name",
       nzContent: TextQuestionPopupComponent,
@@ -64,6 +67,7 @@ export class UserService extends FirestoreStorage<LAHUser> {
       .afterClose
       .pipe(
         switchMap((name: string) => {
+          this.updatingUserName = false;
           return this.setOne(user.$key, { ...user, name });
         })
       );
