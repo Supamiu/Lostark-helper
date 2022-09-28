@@ -19,6 +19,8 @@ import { LostarkClass } from "../../../model/character/lostark-class";
 import { isSameCharacter } from "../../../core/database/character-reference";
 import { Roster } from "../../../model/roster";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { EngravingEntry } from "../../../model/engraving-entry";
+import { LostArkEngraving } from "../../../data/lost-ark-engraving";
 
 const slots = [
   "headgear",
@@ -193,19 +195,18 @@ export class GearManagerComponent {
 
   public engravings$ = this.engravingsService.engravings$;
 
-  public statsDisplay$ = combineLatest([this.gearset$, this.engravings$]).pipe(
+  public allEngravings$ = this.engravingsService.allEngravings$;
+
+  public statsDisplay$ = combineLatest([this.gearset$, this.allEngravings$]).pipe(
     map(([gearset, engravings]) => {
+      const allEngravings = this.engravingsService.getTotalEngravings(gearset)
+        .map(engraving => this.mapEngravingToDisplay(engraving, engravings))
+        .sort((a, b) => b.nodes - a.nodes)
+        .filter(e => e.nodes > 0)
+
       return {
-        engravings: this.engravingsService.getTotalEngravings(gearset).map(engraving => {
-          const data = engravings.find(e => e.id === engraving.engravingId);
-          return {
-            ...engraving,
-            name: data?.name,
-            description: data?.nodes[Math.min(Math.floor(engraving.nodes / 5), 2)],
-            overflow: Math.max(engraving.nodes - 15, 0),
-            level: Math.min(Math.floor(engraving.nodes / 5), 3)
-          };
-        }).sort((a, b) => b.nodes - a.nodes),
+        engravings: allEngravings.filter(e => e.type !== 'negative'),
+        negativeEngravings: allEngravings.filter(e => e.type === 'negative'),
         stats: this.getStatsTotal(gearset)
       };
     })
@@ -215,6 +216,22 @@ export class GearManagerComponent {
               private route: ActivatedRoute, private nzModal: NzModalService, private auth: AuthService,
               private engravingsService: EngravingsService, private message: NzMessageService) {
   }
+
+  private mapEngravingToDisplay(engraving: EngravingEntry, engravings: LostArkEngraving[]) {
+    const data = engravings.find(e => e.id === engraving.engravingId);
+    const level = Math.min(Math.floor(engraving.nodes / 5), 3);
+    const description = data?.nodes?.[ level-1 ] ?? 'No effect';
+
+    return {
+      ...engraving,
+      type: data?.type,
+      name: data?.name,
+      description,
+      overflow: Math.max(engraving.nodes - 15, 0),
+      level
+    };
+  }
+
 
   public saveSet(gearset: Gearset, piece: GearsetPiece, slot: string): void {
     if (piece.targetHoning < piece.honing) {
