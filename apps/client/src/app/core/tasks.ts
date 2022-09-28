@@ -75,7 +75,7 @@ export const tasks = [
     shared: true,
     partySize: 4
   }),
-  createTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
+  createTask(`Argos`, 1370, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 1475, "abyssal-raid.webp", {
     shared: true,
     partySize: 8
   }),
