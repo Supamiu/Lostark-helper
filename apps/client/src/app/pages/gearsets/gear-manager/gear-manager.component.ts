@@ -144,9 +144,21 @@ export class GearManagerComponent {
   public engravingsDisplay$ = this.gearset$.pipe(
     map(gearset => {
       return engravingsSlots.map(slot => {
-        let maxNodes = new Array(2).fill(gearset[slot]?.rarity + (slot === "stone" ? 5 : -1));
+        const piece = gearset[slot];
+        const isStone = slot === "stone";
+        const isRare = piece.rarity === ItemRarity.RARE;
+        const showNegative = ( !isRare || isStone ) && slot !== "engravings";
 
-        if (gearset[slot]?.rarity === ItemRarity.RELIC && slot !== "stone") {
+        // For Stone: Rare = 6, Epic = 8, Legendary = 9, Relic = 10
+        // For other: Rare = 1, Epic = 2, Legendary = 4
+        const maxNodesBaseCountForStone = isRare ? 1 : piece?.rarity;
+        const maxNodesInitial = isStone ? maxNodesBaseCountForStone + 5 : piece?.rarity + -1;
+
+        const minNodes = isStone ? 0 : 1;
+        let maxNodes = new Array(2).fill(maxNodesInitial);
+
+        // Relic = 5 to one, 3 to another
+        if (piece?.rarity === ItemRarity.RELIC && !isStone) {
           maxNodes = [5, 5];
           const maxBonusIndex = gearset[slot]?.engravings.findIndex(e => e.nodes > 3);
           if (maxBonusIndex > -1) {
@@ -154,20 +166,26 @@ export class GearManagerComponent {
           }
         }
 
-        const piece = gearset[slot];
+        // Negative engraving (only applied for +RARE)
+        if (showNegative) {
+          // For Stone: Same than positive engravings
+          // For other: 3
+          maxNodes.push(isStone ? maxNodesInitial : 3);
 
-        if ( piece?.engravings?.length == 2 && slot !== "engravings") {
-          // Supporting old data
-          piece.engravings.push({ engravingId: 0, nodes: 0 });
+          // Migrating old data to negative engraving
+          if (piece?.engravings?.length === 2) {
+            piece.engravings.push({ engravingId: 0, nodes: 0 });
+          }
         }
 
         return {
           slot,
           name: `${slot.slice(0, 1).toUpperCase()}${slot.slice(1).replace(/\d+/, "")}`,
           piece,
-          minNodes: slot === "stone" ? 0 : 1,
+          minNodes,
           maxNodes,
-          pieceStatValue: gearset[slot]?.quality > -1 ? getPieceStatValue(slot, gearset[slot].rarity, gearset[slot].quality) : 0
+          pieceStatValue: gearset[slot]?.quality > -1 ? getPieceStatValue(slot, gearset[slot].rarity, gearset[slot].quality) : 0,
+          showNegative
         };
       });
     })

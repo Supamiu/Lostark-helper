@@ -229,8 +229,10 @@
                                                    [(engraving)]="row.piece.engravings[0]"></lostark-helper-engraving-selector>
                 <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[1]"
                                                    [(engraving)]="row.piece.engravings[1]"></lostark-helper-engraving-selector>
-                <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[1]"
-                                                   [(engraving)]="row.piece.engravings[2]" [negative]="true"></lostark-helper-engraving-selector>
+                <ng-container *ngIf="row.showNegative === true">
+                  <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[2]"
+                                                    [(engraving)]="row.piece.engravings[2]" [negative]="true"></lostark-helper-engraving-selector>
+                </ng-container>
               </ng-template>
             </td>
           </tr>
