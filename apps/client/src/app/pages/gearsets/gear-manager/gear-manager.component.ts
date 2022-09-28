@@ -145,6 +145,7 @@ export class GearManagerComponent {
     map(gearset => {
       return engravingsSlots.map(slot => {
         let maxNodes = new Array(2).fill(gearset[slot]?.rarity + (slot === "stone" ? 5 : -1));
+
         if (gearset[slot]?.rarity === ItemRarity.RELIC && slot !== "stone") {
           maxNodes = [5, 5];
           const maxBonusIndex = gearset[slot]?.engravings.findIndex(e => e.nodes > 3);
@@ -152,10 +153,18 @@ export class GearManagerComponent {
             maxNodes[(maxBonusIndex + 1) % 2] = 3;
           }
         }
+
+        const piece = gearset[slot];
+
+        if ( piece?.engravings?.length == 2 && slot !== "engravings") {
+          // Supporting old data
+          piece.engravings.push({ engravingId: 0, nodes: 0 });
+        }
+
         return {
           slot,
           name: `${slot.slice(0, 1).toUpperCase()}${slot.slice(1).replace(/\d+/, "")}`,
-          piece: gearset[slot],
+          piece,
           minNodes: slot === "stone" ? 0 : 1,
           maxNodes,
           pieceStatValue: gearset[slot]?.quality > -1 ? getPieceStatValue(slot, gearset[slot].rarity, gearset[slot].quality) : 0

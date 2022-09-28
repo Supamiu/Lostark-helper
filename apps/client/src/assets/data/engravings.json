@@ -763,5 +763,46 @@
       "Crit Rate +10%. Crit Damage -12%.",
       "Crit Rate +20%. Crit Damage -12%."
     ]
+  },
+  {
+    "id": 500,
+    "name": "Atk. Power Reduction",
+    "type": "negative",
+    "nodes": [
+      "Atk. Power -2%",
+      "Atk. Power -4%",
+      "Atk. Power -6%"
+    ]
+
+  },
+  {
+    "id": 501,
+    "name": "Atk. Speed Reduction",
+    "type": "negative",
+    "nodes": [
+      "Atk. Speed -2%",
+      "Atk. Speed -4%",
+      "Atk. Speed -6%"
+    ]
+  },
+  {
+    "id": 502,
+    "name": "Defense Reduction",
+    "type": "negative",
+    "nodes": [
+      "Defense -5%",
+      "Defense -10%",
+      "Defense -15%"
+    ]
+  },
+  {
+    "id": 503,
+    "name": "Move Speed Reduction",
+    "type": "negative",
+    "nodes": [
+      "Move Speed -2%",
+      "Move Speed -4%",
+      "Move Speed -6%"
+    ]
   }
 ]
