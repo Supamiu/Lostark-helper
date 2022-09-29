@@ -10,6 +10,9 @@ import { EngravingsService } from "../../../core/services/engravings.service";
 export class EngravingSelectorComponent implements OnChanges {
 
   @Input()
+  negative: boolean | null = false;
+
+  @Input()
   disabled: boolean | null = false;
 
   @Input()
@@ -25,6 +28,8 @@ export class EngravingSelectorComponent implements OnChanges {
   minNodes = 0;
 
   public engravings$ = this.engravingsService.engravings$;
+
+  public negativeEngravings$ = this.engravingsService.negativeEngravings$;
 
   @Input()
   public possibleNodesValues: number[] = [];

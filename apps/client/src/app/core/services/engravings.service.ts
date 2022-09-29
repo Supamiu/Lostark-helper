@@ -10,8 +10,17 @@ import { EngravingEntry } from "../../model/engraving-entry";
 })
 export class EngravingsService {
 
-  public engravings$ = this.http.get<LostArkEngraving[]>("./assets/data/engravings.json").pipe(
+  public allEngravings$ = this.http.get<LostArkEngraving[]>("./assets/data/engravings.json").pipe(
     map(engravings => engravings.sort((a,b) => a.name.localeCompare(b.name))),
+  );
+
+  public engravings$ = this.allEngravings$.pipe(
+    map(engravings => engravings.filter(e => e.type !== 'negative')),
+    shareReplay(1)
+  );
+
+  public negativeEngravings$ = this.allEngravings$.pipe(
+    map(engravings => engravings.filter(e => e.type === 'negative')),
     shareReplay(1)
   );
 

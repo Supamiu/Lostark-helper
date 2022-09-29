@@ -229,6 +229,10 @@
                                                    [(engraving)]="row.piece.engravings[0]"></lostark-helper-engraving-selector>
                 <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[1]"
                                                    [(engraving)]="row.piece.engravings[1]"></lostark-helper-engraving-selector>
+                <ng-container *ngIf="row.showNegative === true">
+                  <lostark-helper-engraving-selector (engravingChange)="saveEngravingsChange(gearset)" [disabled]="readonly$ | async" [minNodes]="row.minNodes" [maxNodes]="row.maxNodes[2]"
+                                                    [(engraving)]="row.piece.engravings[2]" [negative]="true"></lostark-helper-engraving-selector>
+                </ng-container>
               </ng-template>
             </td>
           </tr>
@@ -238,19 +242,29 @@
     </div>
     <div nz-col [nzMd]="24" [nzXXl]="8">
       <nz-card nzSize="small" nzTitle="Result stats/Engravings" *ngIf="statsDisplay$ | async as statsDisplay">
-        <nz-list [nzNoResult]="noEngravings" nzSize="small" nzHeader="Engravings">
-          <ng-template #noEngravings>
-            <nz-empty nzNotFoundContent="No engravings"></nz-empty>
-          </ng-template>
+        <nz-list nzSize="small" nzHeader="Engravings">
           <nz-list-item *ngFor="let engraving of statsDisplay.engravings" nzContent="{{engraving.nodes}} node(s)">
             <nz-list-item-meta>
               <nz-list-item-meta-title>{{engraving.name}}
                 <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag>
-                <nz-tag *ngIf="engraving.level" nzColor="success">lvl {{engraving.level}}</nz-tag>
+                <nz-tag *ngIf="engraving.level" nzColor="{{ engraving.level >= 3 ? 'success' : 'orange' }}">lvl {{engraving.level}}</nz-tag>
               </nz-list-item-meta-title>
               <nz-list-item-meta-description>{{engraving.description}}</nz-list-item-meta-description>
             </nz-list-item-meta>
           </nz-list-item>
+          <nz-empty *ngIf="statsDisplay.engravings.length === 0" nzNotFoundContent="No engravings"></nz-empty>
+        </nz-list>
+        <nz-list nzSize="small" nzHeader="Negative Engravings">
+          <nz-list-item *ngFor="let engraving of statsDisplay.negativeEngravings" nzContent="{{engraving.nodes}} node(s)">
+            <nz-list-item-meta>
+              <nz-list-item-meta-title>{{engraving.name}}
+                <nz-tag *ngIf="engraving.overflow" nzColor="#f33">+{{engraving.overflow}}</nz-tag>
+                <nz-tag *ngIf="engraving.level" nzColor="error">lvl {{engraving.level}}</nz-tag>
+              </nz-list-item-meta-title>
+              <nz-list-item-meta-description>{{engraving.description}}</nz-list-item-meta-description>
+            </nz-list-item-meta>
+          </nz-list-item>
+          <nz-empty *ngIf="statsDisplay.negativeEngravings.length === 0" nzNotFoundContent="No negative engravings"></nz-empty>
         </nz-list>
         <nz-table #statsTable [nzData]="statsDisplay.stats" nzHideOnSinglePage nzSize="small" nzTitle="Stats">
           <thead>

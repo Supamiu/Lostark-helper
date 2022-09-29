@@ -39,6 +39,7 @@ export class GearsetService extends FirestoreStorage<Gearset> {
                 stats: [],
                 engravings: [
                   { engravingId: 0, nodes: 0 },
+                  { engravingId: 0, nodes: 0 },
                   { engravingId: 0, nodes: 0 }
                 ]
               };
@@ -48,6 +49,7 @@ export class GearsetService extends FirestoreStorage<Gearset> {
             gearset.stone = {
               rarity: ItemRarity.LEGENDARY,
               engravings: [
+                { engravingId: 0, nodes: 0 },
                 { engravingId: 0, nodes: 0 },
                 { engravingId: 0, nodes: 0 }
               ]
