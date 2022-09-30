@@ -476,7 +476,57 @@ export class BuildService {
                 this.getEngravingIdByName("Grudge"),
                 this.getEngravingIdByName("Cursed Doll")
             ]
-        }
+        },
+        // Arcanist
+        {
+            name: "Empress's Grace Arcanist",
+            stats: [LostArkStat.Specialiazation, LostArkStat.Crit],
+            engravings: [
+                this.getEngravingIdByName("Empress's Grace"),
+                this.getEngravingIdByName("Grudge"),
+                this.getEngravingIdByName("Barricade"),
+                this.getEngravingIdByName("Hit Master"),
+                this.getEngravingIdByName("Cursed Doll"),
+                this.getEngravingIdByName("Adrenaline"),
+            ]
+        },
+        {
+            name: "Order of the Emperor Arcanist",
+            stats: [LostArkStat.Swiftness, LostArkStat.Crit],
+            engravings: [
+                this.getEngravingIdByName("Order of the Emperor"),
+                this.getEngravingIdByName("Grudge"),
+                this.getEngravingIdByName("Raid Captain"),
+                this.getEngravingIdByName("Cursed Doll"),
+                this.getEngravingIdByName("Adrenaline"),
+                this.getEngravingIdByName("Awakening"),
+            ]
+        },
+        // Machinist|Scouter
+        {
+            name: "Evolutionary Legacy Machinist",
+            stats: [LostArkStat.Specialiazation, LostArkStat.Crit],
+            engravings: [
+                this.getEngravingIdByName("Evolutionary Legacy"),
+                this.getEngravingIdByName("Adrenaline"),
+                this.getEngravingIdByName("Grudge"),
+                this.getEngravingIdByName("Keen Blunt Weapon"),
+                this.getEngravingIdByName("Barricade"),
+                this.getEngravingIdByName("Raid Captain"),
+            ]
+        },
+        {
+            name: "Arthetinean Skill Machinist",
+            stats: [LostArkStat.Crit, LostArkStat.Swiftness],
+            engravings: [
+                this.getEngravingIdByName("Arthetinean Skill"),
+                this.getEngravingIdByName("Adrenaline"),
+                this.getEngravingIdByName("Grudge"),
+                this.getEngravingIdByName("Keen Blunt Weapon"),
+                this.getEngravingIdByName("Raid Captain"),
+                this.getEngravingIdByName("Mass Increase"),
+            ]
+        },
     ];
 
     constructor(private engravingService: EngravingsService){}
