@@ -24,6 +24,7 @@ import { NzModalModule } from "ng-zorro-antd/modal";
 import { NzMessageModule } from "ng-zorro-antd/message";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzSelectModule } from "ng-zorro-antd/select";
+import { EngravingsService } from "./core/services/engravings.service";
 
 registerLocaleData(en);
 
@@ -53,7 +54,8 @@ registerLocaleData(en);
     { provide: NZ_I18N, useValue: en_US },
     ScreenTrackingService,
     UserTrackingService,
-    { provide: USE_DEVICE_LANGUAGE, useValue: true }
+    { provide: USE_DEVICE_LANGUAGE, useValue: true },
+    EngravingsService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { LostArkEngraving } from "../../data/lost-ark-engraving";
-import { map, shareReplay } from "rxjs";
+import { map, of, shareReplay } from "rxjs";
 import { Gearset } from "../../model/character/gearset";
 import { EngravingEntry } from "../../model/engraving-entry";
+import engravingsList from '../../data/engravings.json';
+
+const engravings = engravingsList as LostArkEngraving[]
 
 @Injectable({
   providedIn: "root"
 })
 export class EngravingsService {
 
-  public allEngravings$ = this.http.get<LostArkEngraving[]>("./assets/data/engravings.json").pipe(
+  public allEngravings$ = of(engravings).pipe(
     map(engravings => engravings.sort((a,b) => a.name.localeCompare(b.name))),
   );
 
@@ -47,5 +50,9 @@ export class EngravingsService {
       }
       return acc;
     }, [] as EngravingEntry[]);
+  }
+
+  getEngravingIdByName(name: string): LostArkEngraving | undefined {
+    return engravings.find(e => e.name === name);
   }
 }
