@@ -1,0 +1,57 @@
+<div class="search">
+    <div nz-row [nzGutter]="[0, 20]">
+        <div nz-col nzOffset="7" nzSpan="10" class="center">
+            <h2 nz-typography>Select engravings</h2>
+        </div>
+        <div nz-col nzOffset="7" nzSpan="10" class="center">
+            <nz-select nzPlaceHolder="Select engraving" nzShowSearch nzAllowClear class="select" nzSize="large" (ngModelChange)="onChangeFirst($event)" [(ngModel)]="first">
+                <nz-option *ngFor="let row of engravings$ | async" [nzValue]="row.id" [nzLabel]="row.name"></nz-option>
+            </nz-select>
+        </div>
+        <div nz-col nzOffset="7" nzSpan="10" class="center">
+            <nz-select nzPlaceHolder="Select engraving" nzShowSearch nzAllowClear class="select" nzSize="large" (ngModelChange)="onChangeSecond($event)" [(ngModel)]="second">
+                <nz-option *ngFor="let row of engravings$ | async" [nzValue]="row.id" [nzLabel]="row.name"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="matches$ | async as matches;">
+    <nz-divider *ngIf="matches.perfect.length > 0" nzText="Perfect Matches"></nz-divider>
+
+    <div nz-row [nzGutter]="[10, 30]">
+        <div nz-col *ngFor="let item of matches.perfect" nzXl="6" nzMd="12" class="center">
+            <nz-card class="card" nzBorderless="true" nzType="secondary" nzExtra="{{item.description}}">
+                <nz-card-meta nzTitle="{{item.name}}"></nz-card-meta>
+                <div class="content">
+                    <div *ngFor="let engraving of item.engravings" class="engraving">
+                        {{engraving.name}}
+                        <nz-tag nzColor="{{ engraving.index === 1 ? 'red' : engraving.index < 4 ? 'gold' : engraving.index < 6 ? 'lime' : 'purple' }}">
+                            {{engraving.index === 1 ? 'Core' : engraving.index}}
+                        </nz-tag>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+
+    <nz-divider *ngIf="matches.partial.length > 0" nzText="Partial Matches"></nz-divider>
+
+    <div nz-row [nzGutter]="[10, 30]">
+        <div nz-col *ngFor="let item of matches.partial" nzXl="6" nzMd="12" class="center">
+            <nz-card class="card" nzBorderless="true" nzType="secondary" nzExtra="{{item.description}}">
+                <nz-card-meta nzTitle="{{item.name}}"></nz-card-meta>
+                <div class="content">
+                    <div *ngFor="let engraving of item.engravings" class="engraving">
+                        {{engraving.name}}
+                        <nz-tag nzColor="{{ engraving.index === 1 ? 'red' : engraving.index < 4 ? 'gold' : engraving.index < 6 ? 'lime' : 'purple' }}">
+                            {{engraving.index === 1 ? 'Core' : engraving.index}}
+                        </nz-tag>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+</ng-container>
+
+

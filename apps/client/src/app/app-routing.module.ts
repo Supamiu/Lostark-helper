@@ -27,6 +27,10 @@ const routes: Routes = [
     path: "gearsets",
     loadChildren: () => import("./pages/gearsets/gear-manager.module").then(m => m.GearManagerModule)
   },
+  {
+    path: "engraving-search",
+    loadChildren: () => import("./pages/engraving-search/engraving-search.module").then(m => m.EngravingSearchModule)
+  },
   // {
   //   path: "guild",
   //   loadChildren: () => import("./pages/guild/guild.module").then(m => m.GuildModule)
