@@ -15,6 +15,10 @@ export const tasks = [
   createTask(`Una's Task`, 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 3, 9999, "daily.webp"),
   createTask(`Kalthertz Slaves`, 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "pirate_coin.png"),
   createTask(`Guild Support`, 0, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "sylmael.png"),
+  createTask(`Event Guardian`, 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "guardian.png", {
+    shared: true,
+    partySize: 4
+  }),
 
 
   // Daily roster
