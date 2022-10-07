@@ -8,6 +8,7 @@ export interface Character {
   class: LostarkClass;
   index?: number;
   isPrivate?: boolean;
+  isHide?: boolean;
   weeklyGold: boolean;
   note?: string;
   tickets: {

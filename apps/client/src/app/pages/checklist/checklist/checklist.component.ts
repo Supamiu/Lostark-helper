@@ -18,6 +18,10 @@ import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavio
 import { Character } from "../../../model/character/character";
 import { tickets } from "../../../data/tickets";
 
+export interface TaskCharacter extends Character{
+  done?: boolean
+}
+
 @Component({
   selector: "lostark-helper-checklist",
   templateUrl: "./checklist.component.html",
@@ -29,6 +33,7 @@ export class ChecklistComponent {
   public TaskScope = TaskScope;
 
   public rawRoster$ = this.rosterService.roster$;
+  public forceShowHiddenCharacter: boolean = false;
 
   public categoriesDisplay$ = new LocalStorageBehaviorSubject<{
     dailyCharacter: boolean,
@@ -83,6 +88,15 @@ export class ChecklistComponent {
       });
     })
   );
+
+  public getCharactersList(characters: TaskCharacter[]): TaskCharacter[] {
+    if(this.forceShowHiddenCharacter){
+      return characters;
+    }
+    return characters.filter((character) => {
+      return !character.isHide && true
+    });
+  }
 
   public tableDisplay$ = combineLatest([
     this.rawRoster$,
