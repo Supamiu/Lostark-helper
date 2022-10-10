@@ -167,7 +167,7 @@ export class RosterComponent {
 
   importFromLocalStorage(uid: string): void {
     const characters = JSON.parse(localStorage.getItem("roster") || "[]") as Character[];
-    this.rosterService.setOne(uid, { characters, trackedTasks: {} });
+    this.rosterService.setOne(uid, { characters, trackedTasks: {}, showAllTasks: false });
     localStorage.removeItem("roster");
     this.hasLocalstorageRoster = false;
   }

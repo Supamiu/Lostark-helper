@@ -12,7 +12,7 @@ import { EnergyService } from "../../../core/database/services/energy.service";
 import { TimeService } from "../../../core/time.service";
 import { CompletionService } from "../../../core/database/services/completion.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
-import { isTaskDone } from "../../../core/is-task-done";
+import { isTaskAvailable, isTaskDone } from "../../../core/is-task-done";
 import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { Character } from "../../../model/character/character";
@@ -96,6 +96,7 @@ export class ChecklistComponent {
     map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking, energy]) => {
       const data = tasks
         .map(task => {
+          const available = isTaskAvailable(task)
           const completionData = roster.characters.map(character => {
             return {
               done: Math.min(isTaskDone(
@@ -111,6 +112,7 @@ export class ChecklistComponent {
               energy: getCompletionEntry(energy.data, character, task) || 0
             };
           });
+
           return {
             task,
             hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)),
@@ -118,10 +120,13 @@ export class ChecklistComponent {
             energy: completionData.map(row => row.energy),
             completionData,
             allDone: completionData.every(({ doable, done, tracked }) => !tracked || !doable || done >= task.amount || done === -1),
-            visible: completionData.some(({ done }) => done !== -1 || task.canEditDaysFilter === false )
+            visible: available || task.canEditDaysFilter === false,
+            available,
           };
         })
-        .filter(({ visible }) => visible)
+        .filter(({ visible }) => {
+          return visible || roster.showAllTasks
+        })
         .reduce((acc, row) => {
           const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";

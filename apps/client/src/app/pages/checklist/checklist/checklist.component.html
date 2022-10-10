@@ -40,6 +40,12 @@
   </nz-collapse-panel>
 </nz-collapse>
 
+<ng-container *ngIf="rawRoster$ | async as roster">
+  <label nz-checkbox [(ngModel)]="roster.showAllTasks" class="all-tasks" (ngModelChange)="saveRoster(roster)">
+    Show all tasks <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Force to show tasks hidden because of days filter."></i>
+  </label>
+</ng-container>
+
 <ng-container *ngIf="roster$ | async as roster">
   <div class="fullpage-message" *ngIf="roster.length === 0">
     No characters in your roster, please add some in the roster page
@@ -113,7 +119,7 @@
                     <ng-container *ngIf="categoriesDisplay[key]">
                       <tr *ngFor="let row of entry.data; trackBy: trackByEntry; even as even"
                           [class.even]="even"
-                          [class.completed]="row.allDone"
+                          [class.completed]="row.allDone || ( !row.available && row.task.scope === TaskScope.ROSTER )"
                           [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                           [class.one-time]="row.task.frequency === TaskFrequency.ONE_TIME"
                           [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
@@ -123,7 +129,7 @@
                         </td>
                         <ng-container *ngIf="row.task.scope === TaskScope.ROSTER">
                           <td colspan="99">
-                            <div class="counter roster" *ngIf="row.completion[0] > -1">
+                            <div class="counter roster" *ngIf="row.available">
                               <div>
                                 <button nz-button
                                         nzSize="small"
@@ -141,14 +147,16 @@
                                 </button>
                               </div>
                             </div>
-                            <div class="roster" *ngIf="row.completion[0] === -1">
+                            <div class="roster" *ngIf="!row.available">
                               Not available today
                             </div>
                           </td>
-
                         </ng-container>
                         <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
-                          <td *ngFor="let col of row.completion; index as i; trackBy: trackByIndex">
+                          <td *ngFor="let col of row.completion; index as i; trackBy: trackByIndex"
+                              [class.completed]="col === row.task.amount && !row.allDone"
+                              [class.daily]="row.task.frequency === TaskFrequency.DAILY"
+                              [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
                             <ng-container *ngIf="row.completionData[i].tracked && roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl < row.task.maxIlvl">
                               <div class="counter">
                                 <div>
