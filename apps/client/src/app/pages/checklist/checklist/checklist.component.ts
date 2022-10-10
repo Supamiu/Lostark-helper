@@ -117,9 +117,11 @@ export class ChecklistComponent {
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
-            allDone: completionData.every(({ doable, done, tracked }) => !tracked || !doable || done >= task.amount || done === -1)
+            allDone: completionData.every(({ doable, done, tracked }) => !tracked || !doable || done >= task.amount || done === -1),
+            visible: completionData.some(({ done }) => done !== -1 || task.canEditDaysFilter === false )
           };
         })
+        .filter(({ visible }) => visible)
         .reduce((acc, row) => {
           const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";

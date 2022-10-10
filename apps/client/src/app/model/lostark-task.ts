@@ -2,14 +2,14 @@ import { TaskFrequency } from "./task-frequency";
 import { TaskScope } from "./task-scope";
 import { DataModel } from "../core/database/data-model";
 
-
-export const TASKS_VERSION = 33;
+export const TASKS_VERSION = 34;
 
 export interface LostarkTask extends DataModel {
   authorId?: string;
   version: number;
   index: number;
   daysFilter: number[];
+  canEditDaysFilter: boolean;
   enabled: boolean;
   custom: boolean;
   shared: boolean;
@@ -48,6 +48,7 @@ export function createTask(
     custom: false,
     shared: false,
     partySize: 0,
+    canEditDaysFilter: true,
     ...additionalParams
   } as LostarkTask;
 }
