@@ -90,12 +90,18 @@ export class ChecklistComponent {
     this.completion$,
     this.lastDailyReset$,
     this.lastWeeklyReset$,
-    this.settings.settings$.pipe(pluck("lazytracking")),
+    this.settings.settings$.pipe(
+      map( settings => ({
+        lazytracking: settings.lazytracking,
+        hiddenOnCompletion: settings.hiddenOnCompletion
+      }))
+    ),
     this.energy$
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, lazyTracking, energy]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, settings, energy]) => {
       const data = tasks
         .map(task => {
+          const lazyTracking = settings.lazytracking;
           const available = isTaskAvailable(task)
           const completionData = roster.characters.map(character => {
             return {
@@ -124,7 +130,8 @@ export class ChecklistComponent {
             available,
           };
         })
-        .filter(({ visible }) => {
+        .filter(({ visible, allDone }) => {
+          if ( allDone && settings.hiddenOnCompletion ) return false; // If task is done and we hide done tasks, we don't display it
           return visible || roster.showAllTasks
         })
         .reduce((acc, row) => {

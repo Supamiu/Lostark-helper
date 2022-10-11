@@ -6,6 +6,7 @@ export interface ManualWeeklyGoldEntry {
 }
 
 export interface Settings extends DataModel {
+  hiddenOnCompletion: boolean;
   crystallineAura: boolean;
   lazytracking: Record<string, boolean>;
   manualGoldEntries: Record<string, ManualWeeklyGoldEntry>;
