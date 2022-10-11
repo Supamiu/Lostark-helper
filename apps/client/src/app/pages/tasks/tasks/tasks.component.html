@@ -28,6 +28,7 @@
         <th>Max ilvl</th>
         <th>Tracked</th>
         <th>Shared <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Shared tasks are the ones listed in Party Planner"></i></th>
+        <th>Days <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Select the days for task appear on checklist. Leave blank for all days."></i></th>
         <th>Manage</th>
       </tr>
       </thead>
@@ -77,6 +78,23 @@
         </td>
         <td><label nz-checkbox [(ngModel)]="task.enabled" (ngModelChange)="updateTask(task)"></label></td>
         <td><label nz-checkbox [(ngModel)]="task.shared" (ngModelChange)="updateTask(task)"></label></td>
+        <td>
+                <nz-select [nzDisabled]="task.canEditDaysFilter === false"
+                           [nzMode]="'multiple'"
+                           [nzMaxMultipleCount]="6"
+                           nzAllowClear
+                           class="td-select-box"
+                           [(ngModel)]="task.daysFilter"
+                           (ngModelChange)="updateTask(task)">
+                  <nz-option [nzValue]="0" nzLabel="Sunday"></nz-option>
+                  <nz-option [nzValue]="1" nzLabel="Monday"></nz-option>
+                  <nz-option [nzValue]="2" nzLabel="Tuesday"></nz-option>
+                  <nz-option [nzValue]="3" nzLabel="Wednesday"></nz-option>
+                  <nz-option [nzValue]="4" nzLabel="Thursday"></nz-option>
+                  <nz-option [nzValue]="5" nzLabel="Friday"></nz-option>
+                  <nz-option [nzValue]="6" nzLabel="Saturday"></nz-option>
+                </nz-select>
+        </td>
         <td>
           <button nz-button nzDanger [disabled]="!task.custom" nz-popconfirm nzPopconfirmTitle="Are you sure?"
                   (nzOnConfirm)="removeTask(task)">

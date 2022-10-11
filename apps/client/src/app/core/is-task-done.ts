@@ -13,18 +13,34 @@ export function isTaskDone(task: LostarkTask, character: Character, completion: 
       dailyReset = subDays(new Date(dailyReset), 2).getTime();
     }
   }
-  const currentLADay = subHours(new Date(), 10);
-  if (task.daysFilter?.length > 0 && !task.daysFilter?.includes(currentLADay.getUTCDay())) {
-    return -1;
-  }
-  const completionFlag = getCompletionEntry(completion.data, character, task);
 
+  const completionFlag = getCompletionEntry(completion.data, character, task);
   const reset = task.frequency === TaskFrequency.DAILY ? dailyReset : weeklyReset;
+
   if (!completionFlag) {
     return 0;
   }
+
   if (task.frequency === TaskFrequency.ONE_TIME) {
     return completionFlag.amount;
   }
+
   return completionFlag.updated < reset ? 0 : completionFlag.amount;
+}
+
+export function isTaskAvailable(task: LostarkTask): boolean {
+  const currentLADay = subHours(new Date(), 10);
+  const currentUTCDay = currentLADay.getUTCDay();
+  const hasDayFilter = task?.daysFilter?.length > 0;
+  const isCurrentDay = task.daysFilter?.includes?.(currentUTCDay);
+
+  if (!hasDayFilter) {
+    return true;
+  }
+
+  if (hasDayFilter && isCurrentDay) {
+    return true;
+  }
+
+  return false;
 }
