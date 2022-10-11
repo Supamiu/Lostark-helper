@@ -13,9 +13,10 @@ export class SettingsService extends FirestoreStorage<Settings> {
     switchMap(uid => {
       return this.getOne(uid).pipe(
         switchMap(settings => {
-          if (settings.notFound || Object.keys(settings).length < 5) {
+          if (settings.notFound || Object.keys(settings).length < 6) {
             const result = {
               ...settings,
+              hiddenOnCompletion: false,
               crystallineAura: true,
               lazytracking: {},
               chestConfiguration: {},

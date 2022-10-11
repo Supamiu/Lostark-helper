@@ -9,6 +9,11 @@
       <label nz-checkbox [(ngModel)]="settings.crystallineAura"
              (ngModelChange)="saveSettings(settings)"></label> Crystalline Aura
     </div>
+    <div nz-col nzMd="24">
+      <label nz-checkbox [(ngModel)]="settings.hiddenOnCompletion" (ngModelChange)="saveSettings(settings)">
+        Hide on completion <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Hide task when it has been completed, instead of mark it only visually completed"></i>
+      </label>
+    </div>
     <div nz-col *ngIf="hasLocalstorageData">
       <button nz-button nzType="primary" (click)="migrate()">Import everything from LocalStorage</button>
     </div>
