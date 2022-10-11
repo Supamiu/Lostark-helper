@@ -28,7 +28,7 @@
         <th>Max ilvl</th>
         <th>Tracked</th>
         <th>Shared <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Shared tasks are the ones listed in Party Planner"></i></th>
-        <th>Days <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Select the days for task appear on checklist. Empty for all days."></i></th>
+        <th>Days <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Select the days for task appear on checklist. Leave blank for all days."></i></th>
         <th>Manage</th>
       </tr>
       </thead>
@@ -81,7 +81,7 @@
         <td>
                 <nz-select [nzDisabled]="task.canEditDaysFilter === false"
                            [nzMode]="'multiple'"
-                           [nzMaxMultipleCount]="7"
+                           [nzMaxMultipleCount]="6"
                            nzAllowClear
                            class="td-select-box"
                            [(ngModel)]="task.daysFilter"

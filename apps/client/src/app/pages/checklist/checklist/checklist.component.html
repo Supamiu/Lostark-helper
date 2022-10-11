@@ -42,7 +42,7 @@
 
 <ng-container *ngIf="rawRoster$ | async as roster">
   <label nz-checkbox [(ngModel)]="roster.showAllTasks" class="all-tasks" (ngModelChange)="saveRoster(roster)" *ngIf="roster.characters.length > 0">
-    Show all tasks <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Force to show tasks hidden because of days filter."></i>
+    Show all tasks <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Force to show hidden tasks by days filter."></i>
   </label>
 </ng-container>
 
