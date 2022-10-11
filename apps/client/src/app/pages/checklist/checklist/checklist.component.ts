@@ -97,6 +97,10 @@ export class ChecklistComponent {
       const data = tasks
         .map(task => {
           const available = isTaskAvailable(task)
+          const editDisabled = task.canEditDaysFilter === false;
+          const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
+          const forceDone = ( !available && visible ); // If task is not available but is visible, we marked it as done
+
           const completionData = roster.characters.map(character => {
             return {
               done: Math.min(isTaskDone(
@@ -113,14 +117,18 @@ export class ChecklistComponent {
             };
           });
 
+          const allDone = forceDone || completionData.every(
+            ({ doable, done, tracked }) => !tracked || !doable || done >= task.amount
+          );
+
           return {
             task,
             hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)),
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
-            allDone: completionData.every(({ doable, done, tracked }) => !tracked || !doable || done >= task.amount || done === -1),
-            visible: available || task.canEditDaysFilter === false,
+            allDone,
+            visible,
             available,
           };
         })
