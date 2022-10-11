@@ -146,7 +146,7 @@ export class TasksComponent {
 
   updateTask(task: LostarkTask): void {
     this.tasksService.updateTask(task);
-  };
+  }
 
   removeTask(task: LostarkTask): void {
     this.tasksService.removeTask(task);
