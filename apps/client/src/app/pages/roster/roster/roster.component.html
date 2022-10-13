@@ -21,7 +21,7 @@
     <nz-list [nzDataSource]="roster.characters" cdkDropList [cdkDropListData]="roster.characters" (cdkDropListDropped)="drop(roster, $event)">
       <nz-list-item *ngFor="let character of roster.characters;trackBy: trackByCharacter"
                     [nzContent]="noteEditor"
-                    [nzActions]="[setPrivateAction, setLazyAction,setWeeklyGoldAction, setClassAction, deleteAction]"
+                    [nzActions]="[setPrivateAction, setLazyAction, setHideAction,setWeeklyGoldAction, setClassAction, deleteAction]"
                     cdkDrag [cdkDragData]="character">
         <ng-template #noteEditor>
           <div class="note-editor">
@@ -54,6 +54,11 @@
           <label nz-checkbox [(ngModel)]="character.isPrivate" (ngModelChange)="saveCharacter(character, roster)"></label>
           Private
           <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Do not share this character with your friends"></i>
+        </ng-template>
+        <ng-template #setHideAction>
+          <label nz-checkbox [(ngModel)]="character.isHide" (ngModelChange)="saveCharacter(character, roster)"></label>
+          Hide
+          <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Hide character from the checklist"></i>
         </ng-template>
         <ng-template #setLazyAction>
           <label nz-checkbox [(ngModel)]="character.lazy" (ngModelChange)="saveCharacter(character, roster)"></label>
