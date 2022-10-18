@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { catchError, filter, first } from "rxjs/operators";
 import { EMPTY, from, map, mapTo, Observable, shareReplay, switchMap } from "rxjs";
-import { Auth, EmailAuthProvider, GoogleAuthProvider, linkWithCredential, linkWithPopup, sendPasswordResetEmail, signInAnonymously, signInWithEmailAndPassword, signInWithPopup, signOut, user, UserCredential } from "@angular/fire/auth";
+import { Auth, authState, EmailAuthProvider, GoogleAuthProvider, linkWithCredential, linkWithPopup, sendPasswordResetEmail, signInAnonymously, signInWithEmailAndPassword, signInWithPopup, signOut, UserCredential } from "@angular/fire/auth";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable({
@@ -9,7 +9,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
 })
 export class AuthService {
 
-  private authState$ = user(this.auth);
+  private authState$ = authState(this.auth);
 
   public uid$ = this.authState$.pipe(
     filter(Boolean),
