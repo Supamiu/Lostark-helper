@@ -66,7 +66,7 @@ export class RosterService extends FirestoreStorage<Roster> {
           shouldSave = true;
           roster.showAllTasks = false;
         }
-        if (shouldSave && isCurrentUser) {
+        if (shouldSave && isCurrentUser && roster.characters.length > 0) {
           return this.setOne(key, roster).pipe(
             mapTo(roster)
           );
