@@ -102,7 +102,9 @@ export abstract class FirestoreStorage<T extends DataModel> {
   }
 
   public query(...filterQuery: QueryConstraint[]): Observable<T[]> {
-    return collectionData(query(this.collection, ...filterQuery).withConverter(this.converter));
+    return collectionData(query(this.collection, ...filterQuery).withConverter(this.converter)).pipe(
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+    );
   }
 
   private updateObjProp<T>(obj: T, value: unknown, propPath: string): void {
