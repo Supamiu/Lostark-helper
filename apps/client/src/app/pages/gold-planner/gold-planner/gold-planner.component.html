@@ -61,7 +61,7 @@
             <td nzLeft nzWidth="300px">Chaos Dungeons</td>
             <td class="manual-row" *ngFor="let character of roster">
               <nz-input-group [nzAddOnBefore]="goldIcon">
-                <nz-input-number [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+                <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
               </nz-input-group>
             </td>
           </tr>
@@ -69,7 +69,7 @@
             <td nzLeft nzWidth="300px">Other sources  <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)"  class="info-icon"></i></td>
             <td class="manual-row" *ngFor="let character of roster">
               <nz-input-group [nzAddOnBefore]="goldIcon">
-                <nz-input-number [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" pattern="[1-9].*" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
+                <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
               </nz-input-group>
             </td>
           </tr>

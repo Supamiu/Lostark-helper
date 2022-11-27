@@ -235,11 +235,8 @@ export class GoldPlannerComponent {
   }
 
   public setManualGold(settingsKey: string, type: string, characterName: string, newValue: number): void {
-    if (typeof newValue === 'string') {
-      return;
-    }
     this.settings.updateOne(settingsKey, {
-      [`manualGoldEntries.${type}:${characterName}`]: { amount: newValue || 0, timestamp: Date.now() }
+      [`manualGoldEntries.${type}:${characterName}`]: { amount: this.manualGoldFormatter(newValue) || 0, timestamp: Date.now() }
     } as unknown as UpdateData<Settings>);
   }
 
@@ -262,4 +259,12 @@ export class GoldPlannerComponent {
   trackByIndex(index: number): number {
     return index;
   }
+
+  manualGoldFormatter(value: number | string): number {
+    if(!value || typeof value === 'string' ) {
+      return 0;
+    }
+    
+    return Math.floor(value);
+  };
 }

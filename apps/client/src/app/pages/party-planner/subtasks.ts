@@ -35,8 +35,8 @@ export const subtasks: Subtask[] = [
 
   // Argos Phases
   { id: `argos-p1`, name: `Argos P1`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1370 },
-  { id: `argos-p2`, name: `Argos P2`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1385 },
-  { id: `argos-p3`, name: `Argos P3`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1400 },
+  { id: `argos-p2`, name: `Argos P2`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1370 },
+  { id: `argos-p3`, name: `Argos P3`, parentName: "Argos", banner: "abyss_raids/abyss_02.png", minIlvl: 1370 },
 
   // Valtan Difficulties
   { id: `valtan-normal`, name: `Valtan Normal`, parentName: "Valtan", minIlvl: 1415 },
