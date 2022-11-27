@@ -113,7 +113,7 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 300,
     completionId: "T3.1",
     overrideMaxIlvl: 1475,
-    chestId: "Argos"
+    chestId: "Argos1"
   },
   {
     name: "Argos P2",
@@ -121,10 +121,8 @@ export const goldTasks: GoldTask[] = [
     taskName: "Argos",
     chestPrice: 300,
     completionId: "T3.1",
-    chestId: "Argos",
-    overrideMinIlvl: 1385,
+    chestId: "Argos2",
     overrideMaxIlvl: 1475,
-    canForce: true
   },
   {
     name: "Argos P3",
@@ -132,10 +130,8 @@ export const goldTasks: GoldTask[] = [
     taskName: "Argos",
     chestPrice: 500,
     completionId: "T3.1",
-    chestId: "Argos",
-    overrideMinIlvl: 1400,
+    chestId: "Argos3",
     overrideMaxIlvl: 1475,
-    canForce: true
   },
 
   // T3 Legion Raid
