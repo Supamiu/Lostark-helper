@@ -1,5 +1,7 @@
 # Lost Ark Helper
 
+* [Korean (한국어)](README_ko.md)
+
 A set of tools to help you organizing your Lost Ark adventure
 
 [https://lostark-helper.com](https://lostark-helper.com)
