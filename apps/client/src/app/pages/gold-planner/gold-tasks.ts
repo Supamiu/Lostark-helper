@@ -107,7 +107,7 @@ export const goldTasks: GoldTask[] = [
 
   // T3 Abyss Raid
   {
-    name: "Argos P1",
+    name: "Argos Gate 1",
     goldReward: 800,
     taskName: "Argos",
     chestPrice: 300,
@@ -116,20 +116,20 @@ export const goldTasks: GoldTask[] = [
     chestId: "Argos1"
   },
   {
-    name: "Argos P2",
+    name: "Argos Gate 2",
     goldReward: 900,
     taskName: "Argos",
     chestPrice: 300,
-    completionId: "T3.1",
+    completionId: "T3.2",
     chestId: "Argos2",
     overrideMaxIlvl: 1475,
   },
   {
-    name: "Argos P3",
+    name: "Argos Gate 3",
     goldReward: 1000,
     taskName: "Argos",
     chestPrice: 500,
-    completionId: "T3.1",
+    completionId: "T3.3",
     chestId: "Argos3",
     overrideMaxIlvl: 1475,
   },
