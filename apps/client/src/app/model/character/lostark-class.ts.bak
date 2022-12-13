@@ -10,7 +10,7 @@ export enum LostarkClass {
   GUNNER,
   SCRAPPER,
   MAGE,
-  SUMMONER,
+  UNRELEASED1,
   WARRIOR,
   SOULFIST,
   SHARPSHOOTER,
