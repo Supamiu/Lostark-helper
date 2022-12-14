@@ -29,14 +29,28 @@ export const tickets: {tier?: number, icon: string, rarity: ItemRarity, key: key
     icon: 't3_cube.png',
     rarity: ItemRarity.RARE,
     key: "t3Cube",
-    name: "T3 Cube"
+    name: "T3 Cube Normal"
   },
   {
     tier: 3,
     icon: 't3_bossrush.png',
     rarity: ItemRarity.LEGENDARY,
     key: "t3BossRush",
-    name: "T3 Boss Rush"
+    name: "T3 Boss Rush Normal"
+  },
+    {
+    tier: 3,
+    icon: 't3_cube_hard.png',
+    rarity: ItemRarity.EPIC,
+    key: "t3CubeHard",
+    name: "T3 Cube Hard"
+  },
+  {
+    tier: 3,
+    icon: 't3_bossrush_hard.png',
+    rarity: ItemRarity.LEGENDARY,
+    key: "t3BossRushHard",
+    name: "T3 Boss Rush Hard"
   },
   {
     icon: 'platinum_fields.png',
