@@ -92,6 +92,18 @@ export const tasks = [
     shared: true,
     partySize: 4
   }),
+    createTask(`Brelshaza Gate 1-2`, 1490, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
+      createTask(`Brelshaza Gate 3-4`, 1500, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
+        createTask(`Brelshaza Gate 5-6`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
 
   // Weekly Roster
   createTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1, 9999, "ghostship.png", {
