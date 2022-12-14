@@ -122,7 +122,7 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 300,
     completionId: "T3.L1.2",
     chestId: "Argos2",
-    overrideMaxIlvl: 1475,
+    overrideMaxIlvl: 1475
   },
   {
     name: "Argos Gate 3",
@@ -131,7 +131,7 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 500,
     completionId: "T3.L1.3",
     chestId: "Argos3",
-    overrideMaxIlvl: 1475,
+    overrideMaxIlvl: 1475
   },
 
   // T3 Legion Raid
@@ -182,7 +182,7 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Vykas Normal Gate 2",
-    goldReward: 600 ,
+    goldReward: 600,
     taskName: "Vykas",
     chestPrice: 600,
     completionId: "T3.L2.2",
@@ -248,44 +248,49 @@ export const goldTasks: GoldTask[] = [
     chestPrice: 1300,
     completionId: "T3.L3.3",
     chestId: "Kakul3"
-  }
-      name: "Brelshaza Gate 1",
+  },
+  {
+    name: "Brelshaza Gate 1",
     goldReward: 2000,
     taskName: "Brelshaza",
     chestPrice: 400,
     completionId: "T3.L4.1",
     chestId: "Brelshaza1"
-  }
-        name: "Brelshaza Gate 2",
+  },
+  {
+    name: "Brelshaza Gate 2",
     goldReward: 2000,
     taskName: "Brelshaza",
     chestPrice: 400,
     completionId: "T3.L4.2",
     chestId: "Brelshaza2"
-  }
-  }
-        name: "Brelshaza Gate 3",
+  },
+  {
+    name: "Brelshaza Gate 3",
     goldReward: 700,
     taskName: "Brelshaza",
     chestPrice: 700,
     completionId: "T3.L4.3",
     chestId: "Brelshaza3"
-  }
-        name: "Brelshaza Gate 4",
+  },
+  {
+    name: "Brelshaza Gate 4",
     goldReward: 800,
     taskName: "Brelshaza",
     chestPrice: 800,
     completionId: "T3.L4.4",
     chestId: "Brelshaza4"
-  }
-        name: "Brelshaza Gate 5",
+  },
+  {
+    name: "Brelshaza Gate 5",
     goldReward: 1000,
     taskName: "Brelshaza",
     chestPrice: 900,
     completionId: "T3.L4.5",
     chestId: "Brelshaza5"
-  }
-        name: "Brelshaza Gate 6",
+  },
+  {
+    name: "Brelshaza Gate 6",
     goldReward: 1500,
     taskName: "Brelshaza",
     chestPrice: 1100,

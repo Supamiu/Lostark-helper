@@ -17,8 +17,8 @@ export interface Character {
     t2Cube: number;
     t3BossRush: number;
     t3Cube: number;
-	t3BossRushHard: number;
-	t3CubeHard: number;
+    t3BossRushHard: number;
+    t3CubeHard: number;
     platinumFields: number;
   };
 }
