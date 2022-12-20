@@ -255,7 +255,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 1",
     goldReward: 2000,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 400,
     completionId: "T3.L4.1",
     chestId: "Brelshaza1",
@@ -264,7 +264,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 2",
     goldReward: 2000,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 400,
     completionId: "T3.L4.2",
     chestId: "Brelshaza2",
@@ -273,7 +273,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 3",
     goldReward: 700,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 700,
     completionId: "T3.L4.3",
     chestId: "Brelshaza3",
@@ -282,7 +282,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 4",
     goldReward: 800,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 800,
     completionId: "T3.L4.4",
     chestId: "Brelshaza4",
@@ -291,7 +291,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 5",
     goldReward: 1000,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 900,
     completionId: "T3.L4.5",
     chestId: "Brelshaza5",
@@ -300,7 +300,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 6",
     goldReward: 1500,
-    taskName: "Brelshaza",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 1100,
     completionId: "T3.L4.6",
     chestId: "Brelshaza6",
