@@ -47,7 +47,8 @@ export class GoldPlannerComponent {
 
   private goldChestRewardPerIlvl = {
     1302: 2 * 1250,
-    1415: 3 * 1250
+    1415: 3 * 1250,
+	1490: 4 * 1250
   };
 
   public display$: Observable<GoldPlannerDisplay> = combineLatest([
