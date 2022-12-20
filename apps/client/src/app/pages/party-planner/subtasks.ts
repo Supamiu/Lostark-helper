@@ -44,5 +44,14 @@ export const subtasks: Subtask[] = [
 
   // Vykas Difficulties
   { id: `vykas-normal`, name: `Vykas Normal`, parentName: "Vykas", minIlvl: 1430 },
-  { id: `vykas-hard`, name: `Vykas Hard`, parentName: "Vykas", minIlvl: 1460 }
+  { id: `vykas-hard`, name: `Vykas Hard`, parentName: "Vykas", minIlvl: 1460 },
+  
+  // Kakul Difficulties
+  { id: `kakul-normal`, name: `Kakul-Saydon Normal`, parentName: "Kakul", minIlvl: 1475 },
+  
+  // Brelshaza Difficulties
+  { id: `brelshaza-g12-normal`, name: `Brelshaza G1-G2 Normal`, parentName: "Brelshaza", minIlvl: 1490 },
+  { id: `brelshaza-g34-normal`, name: `Brelshaza G3-G4 Normal`, parentName: "Brelshaza", minIlvl: 1500 },
+  { id: `brelshaza-g56-normal`, name: `Brelshaza G5-G6 Normal`, parentName: "Brelshaza", minIlvl: 1520 }
+  
 ];
