@@ -63,18 +63,21 @@
             <td>{{row.slot}}</td>
             <td>
               <nz-select [nzDisabled]="readonly$ | async"
-                         class="rarity-{{ItemRarity[row.piece.rarity]?.toLowerCase()}} td-select-box" [(ngModel)]="row.piece.rarity" (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
-                <nz-option [nzValue]="ItemRarity.RARE" nzLabel="Rare" nzCustomContent>
+                         class="rarity-{{GearsetRarity[row.piece.rarity]?.toLowerCase()}} td-select-box" [(ngModel)]="row.piece.rarity" (ngModelChange)="saveSet(gearset, row.piece, row.slot)">
+                <nz-option [nzValue]="GearsetRarity.RARE" nzLabel="Rare" nzCustomContent>
                   <span class="rarity-rare">Rare</span>
                 </nz-option>
-                <nz-option [nzValue]="ItemRarity.EPIC" nzLabel="Epic" nzCustomContent>
+                <nz-option [nzValue]="GearsetRarity.EPIC" nzLabel="Epic" nzCustomContent>
                   <span class="rarity-epic">Epic</span>
                 </nz-option>
-                <nz-option [nzValue]="ItemRarity.LEGENDARY" nzLabel="Legendary" nzCustomContent>
+                <nz-option [nzValue]="GearsetRarity.LEGENDARY" nzLabel="Legendary" nzCustomContent>
                   <span class="rarity-legendary">Legendary</span>
                 </nz-option>
-                <nz-option [nzValue]="ItemRarity.RELIC" nzLabel="Relic" nzCustomContent>
+                <nz-option [nzValue]="GearsetRarity.RELIC" nzLabel="Relic" nzCustomContent>
                   <span class="rarity-relic">Relic</span>
+                </nz-option>
+                <nz-option [nzValue]="GearsetRarity.POST_RELIC" nzLabel="Relic 2.0" nzCustomContent>
+                  <span class="rarity-postrelic">Relic 2.0</span>
                 </nz-option>
               </nz-select>
             </td>
@@ -95,11 +98,11 @@
             <td nzRight>
               <span *ngIf="!row.honingCost">-</span>
               <div class="cost-display" *ngIf="row.honingCost">
-                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= ItemRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
+                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= GearsetRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
                 x{{row.honingCost?.leapstones | number:'1.0-0'}}
                 <img src="./assets/icons/shop/shop_{{row.slot === 'Weapon' ? '13' : '15'}}.png" alt="stones" class="cost-icon">
                 x{{row.honingCost?.stones | number:'1.0-0'}}
-                <img src="./assets/icons/shop/{{row.piece.rarity >= ItemRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
+                <img src="./assets/icons/shop/{{row.piece.rarity >= GearsetRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
                 x{{row.honingCost?.fusionMaterial | number:'1.0-0'}}
                 <img src="./assets/icons/t3_shards.png" alt="shards" class="cost-icon">
                 x{{row.honingCost?.shards | number:'1.0-0'}}
@@ -118,6 +121,10 @@
             <td nzRight>
               <span *ngIf="!gearsetDisplay.honingCost">-</span>
               <div class="cost-display" *ngIf="gearsetDisplay.honingCost">
+                <ng-container *ngIf="gearsetDisplay.honingCost.MVleapstones">
+                  <img src="./assets/icons/shop/shop_23.png" alt="leapstones" class="cost-icon">
+                  x{{gearsetDisplay.honingCost?.MVleapstones | number:'1.0-0'}}
+                </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.GHleapstones">
                   <img src="./assets/icons/shop/shop_23.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.GHleapstones | number:'1.0-0'}}
@@ -133,6 +140,10 @@
                 <ng-container *ngIf="gearsetDisplay.honingCost.stones">
                   <img src="./assets/icons/shop/shop_15.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.stones | number:'1.0-0'}}
+                </ng-container>
+                <ng-container *ngIf="gearsetDisplay.honingCost.superiorFusionMaterial">
+                  <img src="./assets/icons/shop/simple_oreha.png" alt="fusion material" class="cost-icon">
+                  x{{gearsetDisplay.honingCost?.superiorFusionMaterial | number:'1.0-0'}}
                 </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.fusionMaterial">
                   <img src="./assets/icons/shop/basic_oreha.png" alt="fusion material" class="cost-icon">

@@ -1,8 +1,8 @@
-import { ItemRarity } from "../item-rarity";
+import { GearsetRarity } from "../gearset-rarity";
 
 export interface GearsetPiece {
   //TODO item ID?
-  rarity: ItemRarity;
+  rarity: GearsetRarity;
   quality: number;
   honing: number;
   targetHoning: number;

@@ -1,9 +1,9 @@
 import { GearsetPiece } from "../../model/character/gearset-piece";
 import { HoningCost } from "../../pages/gearsets/gear-manager/honing-cost";
-import { ItemRarity } from "../../model/item-rarity";
 import { HoningChances, honingChances } from "../../pages/honing-cost-optimizer/honing-chances";
 import { Injectable } from "@angular/core";
 import { Gearset } from "../../model/character/gearset";
+import { GearsetRarity } from "../../model/gearset-rarity";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +14,8 @@ export class HoningService {
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
-    const chancesRarity = piece.rarity > ItemRarity.EPIC ? "legendary/relic" : "epic";
+    const chancesRarity = piece.rarity === GearsetRarity.POST_RELIC ? "relic2.0" 
+      : piece.rarity > GearsetRarity.EPIC ? "legendary/relic" : "epic";
     const honingRows = honingChances.filter(row => {
       return row.rarity === chancesRarity
         && (slot === "weapon" ? row.type === "weapon" : row.type === "armor")
@@ -73,16 +74,23 @@ export class HoningService {
   public getIlvl(gearPiece: GearsetPiece): number {
     let baseIlvl = 1302;
     switch (gearPiece.rarity) {
-      case ItemRarity.LEGENDARY:
-      case ItemRarity.RELIC:
+      case GearsetRarity.LEGENDARY:
+      case GearsetRarity.RELIC:
         baseIlvl = 1340;
+        break;
+      case GearsetRarity.POST_RELIC:
+        baseIlvl = 1390;
         break;
     }
     let honingIlvlBonus: number;
-    if (gearPiece.rarity <= ItemRarity.EPIC) {
+    if (gearPiece.rarity <= GearsetRarity.EPIC) {
       honingIlvlBonus = Math.max(Math.min(gearPiece.honing, 1), 0) * 2
         + Math.max(Math.min(gearPiece.honing - 1, 2), 0) * 3
         + Math.max(Math.min(gearPiece.honing - 3, 12), 0) * 5
+        + Math.max(gearPiece.honing - 15, 0) * 15;
+    } else if (gearPiece.rarity == GearsetRarity.POST_RELIC) {
+      console.warn(gearPiece.honing)
+      honingIlvlBonus = Math.min(gearPiece.honing, 15) * 10
         + Math.max(gearPiece.honing - 15, 0) * 15;
     } else {
       honingIlvlBonus = Math.min(gearPiece.honing, 15) * 5

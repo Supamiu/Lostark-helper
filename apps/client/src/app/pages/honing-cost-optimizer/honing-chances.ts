@@ -1,6 +1,6 @@
 export interface HoningChances {
   type: "weapon" | "armor";
-  rarity: "epic" | "legendary/relic";
+  rarity: "epic" | "legendary/relic" | "relic2.0";
   target: number;
   chances: number;
   stones: number;
@@ -84,5 +84,25 @@ export const honingChances: HoningChances[] = [
   { type: "weapon", rarity: "legendary/relic", target: 22, chances: 1, stones: 1458, shards: 1944, leapstones: 38, fusionMaterial: 26, silver: 45160, gold: 780, exp: 82372 },
   { type: "weapon", rarity: "legendary/relic", target: 23, chances: 1, stones: 1458, shards: 2640, leapstones: 42, fusionMaterial: 28, silver: 46140, gold: 810, exp: 111862 },
   { type: "weapon", rarity: "legendary/relic", target: 24, chances: 0.5, stones: 1458, shards: 3586, leapstones: 44, fusionMaterial: 32, silver: 47160, gold: 840, exp: 151946 },
-  { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870, exp: 206688 }
+  { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870, exp: 206688 },
+
+  { type: "armor", rarity: "relic2.0", target: 12, chances: 10, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 25240, gold: 170, exp: 5700 },
+  { type: "armor", rarity: "relic2.0", target: 13, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 25860, gold: 170, exp: 6778 },
+  { type: "armor", rarity: "relic2.0", target: 14, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 26500, gold: 170, exp: 6778 },
+  { type: "armor", rarity: "relic2.0", target: 15, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 27160, gold: 180, exp: 6778 },
+  { type: "armor", rarity: "relic2.0", target: 16, chances: 3, stones: 540, shards: 1440, leapstones: 13, fusionMaterial: 7, silver: 86400, gold: 670, exp: 72000 },
+  { type: "armor", rarity: "relic2.0", target: 17, chances: 5, stones: 686, shards: 292, leapstones: 16, fusionMaterial: 10, silver: 28420, gold: 250, exp: 12406 },
+  { type: "armor", rarity: "relic2.0", target: 18, chances: 5, stones: 686, shards: 396, leapstones: 16, fusionMaterial: 12, silver: 29040, gold: 280, exp: 16824 },
+  { type: "armor", rarity: "relic2.0", target: 19, chances: 5, stones: 780, shards: 536, leapstones: 18, fusionMaterial: 14, silver: 29660, gold: 320, exp: 23166 },
+  { type: "armor", rarity: "relic2.0", target: 20, chances: 3, stones: 780, shards: 728, leapstones: 20, fusionMaterial: 14, silver: 30320, gold: 350, exp: 31464 },
+
+  { type: "weapon", rarity: "relic2.0", target: 12, chances: 15, stones: 830, shards: 192, leapstones: 18, fusionMaterial: 8, silver: 36040, gold: 330, exp: 8152 },
+  { type: "weapon", rarity: "relic2.0", target: 13, chances: 15, stones: 968, shards: 228, leapstones: 18, fusionMaterial: 10, silver: 36940, gold: 330, exp: 9696 },
+  { type: "weapon", rarity: "relic2.0", target: 14, chances: 15, stones: 968, shards: 228, leapstones: 20, fusionMaterial: 10, silver: 37840, gold: 330, exp: 9696 },
+  { type: "weapon", rarity: "relic2.0", target: 15, chances: 10, stones: 968, shards: 228, leapstones: 20, fusionMaterial: 10, silver: 38760, gold: 330, exp: 9696 },
+  { type: "weapon", rarity: "relic2.0", target: 16, chances: 10, stones: 1144, shards: 310, leapstones: 22, fusionMaterial: 12, silver: 39720, gold: 410, exp: 13014 },
+  { type: "weapon", rarity: "relic2.0", target: 17, chances: 10, stones: 1144, shards: 422, leapstones: 24, fusionMaterial: 14, silver: 40580, gold: 480, exp: 17714 },
+  { type: "weapon", rarity: "relic2.0", target: 18, chances: 5, stones: 1144, shards: 572, leapstones: 28, fusionMaterial: 16, silver: 41460, gold: 540, exp: 24012 },
+  { type: "weapon", rarity: "relic2.0", target: 19, chances: 5, stones: 1300, shards: 776, leapstones: 30, fusionMaterial: 18, silver: 42360, gold: 640, exp: 32774 },
+  { type: "weapon", rarity: "relic2.0", target: 20, chances: 3, stones: 1300, shards: 1054, leapstones: 32, fusionMaterial: 20, silver: 43260, gold: 730, exp: 44514 },
 ];

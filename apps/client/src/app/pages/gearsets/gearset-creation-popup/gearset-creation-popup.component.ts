@@ -6,6 +6,7 @@ import { Gearset } from "../../../model/character/gearset";
 import { GearsetPiece } from "../../../model/character/gearset-piece";
 import { ItemRarity } from "../../../model/item-rarity";
 import { Accessory } from "../../../model/character/accessory";
+import { GearsetRarity } from "../../../model/gearset-rarity";
 
 @Component({
   selector: "lostark-helper-gearset-creation-popup",
@@ -30,7 +31,7 @@ export class GearsetCreationPopupComponent {
     const defaultGearsetPiece: GearsetPiece = {
       honing: 1,
       quality: 100,
-      rarity: ItemRarity.RARE,
+      rarity: GearsetRarity.RARE,
       targetHoning: 1
     };
     const defaultAccessory: Accessory = {
