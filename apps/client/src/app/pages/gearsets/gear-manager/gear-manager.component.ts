@@ -19,12 +19,9 @@ import { LostarkClass } from "../../../model/character/lostark-class";
 import { isSameCharacter } from "../../../core/database/character-reference";
 import { Roster } from "../../../model/roster";
 import { NzMessageService } from "ng-zorro-antd/message";
-<<<<<<< Updated upstream
 import { EngravingEntry } from "../../../model/engraving-entry";
 import { LostArkEngraving } from "../../../data/lost-ark-engraving";
-=======
 import { GearsetRarity } from "../../../model/gearset-rarity";
->>>>>>> Stashed changes
 
 const slots = [
   "headgear",
@@ -97,7 +94,7 @@ export class GearManagerComponent {
           case GearsetRarity.RELIC:
             maxHoning = 25;
             break;
-          case GearsetRarity.POST_RELIC:
+          case GearsetRarity.BREL_RELIC:
             maxHoning = 20;
             break;
         }
@@ -120,7 +117,7 @@ export class GearManagerComponent {
           return acc + this.honingService.getIlvl({ ...piece.piece, honing: piece.piece.targetHoning });
         }, 0) / 6,
         honingCost: pieces.reduce((acc, piece) => {
-          if (piece.piece.rarity >= GearsetRarity.POST_RELIC) {
+          if (piece.piece.rarity >= GearsetRarity.BREL_RELIC) {
             acc.MVleapstones += piece.honingCost?.leapstones || 0;
             acc.superiorFusionMaterial += piece.honingCost?.fusionMaterial || 0;
           }

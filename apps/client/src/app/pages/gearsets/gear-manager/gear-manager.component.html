@@ -76,8 +76,8 @@
                 <nz-option [nzValue]="GearsetRarity.RELIC" nzLabel="Relic" nzCustomContent>
                   <span class="rarity-relic">Relic</span>
                 </nz-option>
-                <nz-option [nzValue]="GearsetRarity.POST_RELIC" nzLabel="Relic 2.0" nzCustomContent>
-                  <span class="rarity-postrelic">Relic 2.0</span>
+                <nz-option [nzValue]="GearsetRarity.BREL_RELIC" nzLabel="Relic (Brel)" nzCustomContent>
+                  <span class="rarity-brel-relic">Brel Relic</span>
                 </nz-option>
               </nz-select>
             </td>
@@ -98,11 +98,11 @@
             <td nzRight>
               <span *ngIf="!row.honingCost">-</span>
               <div class="cost-display" *ngIf="row.honingCost">
-                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= GearsetRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
+                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= GearsetRarity.BREL_RELIC ? 29 : row.piece.rarity >= GearsetRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
                 x{{row.honingCost?.leapstones | number:'1.0-0'}}
-                <img src="./assets/icons/shop/shop_{{row.slot === 'Weapon' ? '13' : '15'}}.png" alt="stones" class="cost-icon">
+                <img src="./assets/icons/shop/shop_{{row.slot === 'Weapon' ? row.piece.rarity >= GearsetRarity.BREL_RELIC ? '30' : '13' : row.piece.rarity >= GearsetRarity.BREL_RELIC ? '31' : '15'}}.png" alt="stones" class="cost-icon">
                 x{{row.honingCost?.stones | number:'1.0-0'}}
-                <img src="./assets/icons/shop/{{row.piece.rarity >= GearsetRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
+                <img src="./assets/icons/shop/{{row.piece.rarity >= GearsetRarity.BREL_RELIC ? 'superior-oreha' : row.piece.rarity >= GearsetRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
                 x{{row.honingCost?.fusionMaterial | number:'1.0-0'}}
                 <img src="./assets/icons/t3_shards.png" alt="shards" class="cost-icon">
                 x{{row.honingCost?.shards | number:'1.0-0'}}
@@ -122,7 +122,7 @@
               <span *ngIf="!gearsetDisplay.honingCost">-</span>
               <div class="cost-display" *ngIf="gearsetDisplay.honingCost">
                 <ng-container *ngIf="gearsetDisplay.honingCost.MVleapstones">
-                  <img src="./assets/icons/shop/shop_23.png" alt="leapstones" class="cost-icon">
+                  <img src="./assets/icons/shop/shop_29.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.MVleapstones | number:'1.0-0'}}
                 </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.GHleapstones">
@@ -134,11 +134,11 @@
                   x{{gearsetDisplay.honingCost?.leapstones | number:'1.0-0'}}
                 </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.Wstones">
-                  <img src="./assets/icons/shop/shop_13.png" alt="leapstones" class="cost-icon">
+                  <img src="./assets/icons/shop/shop_30.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.Wstones | number:'1.0-0'}}
                 </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.stones">
-                  <img src="./assets/icons/shop/shop_15.png" alt="leapstones" class="cost-icon">
+                  <img src="./assets/icons/shop/shop_31.png" alt="leapstones" class="cost-icon">
                   x{{gearsetDisplay.honingCost?.stones | number:'1.0-0'}}
                 </ng-container>
                 <ng-container *ngIf="gearsetDisplay.honingCost.superiorFusionMaterial">
