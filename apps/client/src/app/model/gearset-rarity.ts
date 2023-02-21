@@ -1,7 +1,7 @@
 import { ItemRarity } from "./item-rarity";
 
 // enum GearRarity {
-//   BREL_RELIC
+//   UPPER_RELIC
 // }
 
 // export type GearsetRarity = ItemRarity | GearRarity; 
@@ -13,5 +13,5 @@ export enum GearsetRarity {
   EPIC,
   LEGENDARY,
   RELIC,
-  BREL_RELIC
+  UPPER_RELIC
 }

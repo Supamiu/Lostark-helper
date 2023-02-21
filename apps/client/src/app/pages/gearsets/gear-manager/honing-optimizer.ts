@@ -55,7 +55,7 @@ export class HoningOptimizer {
         case GearsetRarity.RARE:
         case GearsetRarity.EPIC:
           return 15;
-        case GearsetRarity.BREL_RELIC:
+        case GearsetRarity.UPPER_RELIC:
         case GearsetRarity.LEGENDARY:
           return 20;
         case GearsetRarity.RELIC:
@@ -117,7 +117,7 @@ export class HoningOptimizer {
           bonus = this.weights[bonusKey][slot];
         }
         const honingCost = this.costCache[`${slot}:${genome[i]}`];
-        if (piece.rarity >= GearsetRarity.BREL_RELIC) {
+        if (piece.rarity >= GearsetRarity.UPPER_RELIC) {
           acc.MVleapstones += (honingCost?.leapstones || 0) * bonus;
           acc.superiorFusionMaterial += (honingCost?.fusionMaterial || 0) * bonus;
         }

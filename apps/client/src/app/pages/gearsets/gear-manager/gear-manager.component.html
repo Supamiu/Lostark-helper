@@ -76,8 +76,8 @@
                 <nz-option [nzValue]="GearsetRarity.RELIC" nzLabel="Relic" nzCustomContent>
                   <span class="rarity-relic">Relic</span>
                 </nz-option>
-                <nz-option [nzValue]="GearsetRarity.BREL_RELIC" nzLabel="Relic (Brel)" nzCustomContent>
-                  <span class="rarity-brel-relic">Brel Relic</span>
+                <nz-option [nzValue]="GearsetRarity.UPPER_RELIC" nzLabel="Relic (Brel)" nzCustomContent>
+                  <span class="rarity-upper-relic">Upper relic</span>
                 </nz-option>
               </nz-select>
             </td>
@@ -98,11 +98,11 @@
             <td nzRight>
               <span *ngIf="!row.honingCost">-</span>
               <div class="cost-display" *ngIf="row.honingCost">
-                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= GearsetRarity.BREL_RELIC ? 29 : row.piece.rarity >= GearsetRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
+                <img src="./assets/icons/shop/shop_{{row.piece.rarity >= GearsetRarity.UPPER_RELIC ? 29 : row.piece.rarity >= GearsetRarity.LEGENDARY ? '23' : '22'}}.png" alt="leapstones" class="cost-icon">
                 x{{row.honingCost?.leapstones | number:'1.0-0'}}
-                <img src="./assets/icons/shop/shop_{{row.slot === 'Weapon' ? row.piece.rarity >= GearsetRarity.BREL_RELIC ? '30' : '13' : row.piece.rarity >= GearsetRarity.BREL_RELIC ? '31' : '15'}}.png" alt="stones" class="cost-icon">
+                <img src="./assets/icons/shop/shop_{{row.slot === 'Weapon' ? row.piece.rarity >= GearsetRarity.UPPER_RELIC ? '30' : '13' : row.piece.rarity >= GearsetRarity.UPPER_RELIC ? '31' : '15'}}.png" alt="stones" class="cost-icon">
                 x{{row.honingCost?.stones | number:'1.0-0'}}
-                <img src="./assets/icons/shop/{{row.piece.rarity >= GearsetRarity.BREL_RELIC ? 'superior-oreha' : row.piece.rarity >= GearsetRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
+                <img src="./assets/icons/shop/{{row.piece.rarity >= GearsetRarity.UPPER_RELIC ? 'superior-oreha' : row.piece.rarity >= GearsetRarity.LEGENDARY ? 'basic_oreha' : 'simple_oreha'}}.png" alt="fusion material" class="cost-icon">
                 x{{row.honingCost?.fusionMaterial | number:'1.0-0'}}
                 <img src="./assets/icons/t3_shards.png" alt="shards" class="cost-icon">
                 x{{row.honingCost?.shards | number:'1.0-0'}}

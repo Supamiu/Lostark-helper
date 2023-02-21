@@ -1,6 +1,6 @@
 export interface HoningChances {
   type: "weapon" | "armor";
-  rarity: "epic" | "legendary/relic" | "relic2.0";
+  rarity: "epic" | "legendary/relic" | "upper_relic";
   target: number;
   chances: number;
   stones: number;
@@ -86,23 +86,28 @@ export const honingChances: HoningChances[] = [
   { type: "weapon", rarity: "legendary/relic", target: 24, chances: 0.5, stones: 1458, shards: 3586, leapstones: 44, fusionMaterial: 32, silver: 47160, gold: 840, exp: 151946 },
   { type: "weapon", rarity: "legendary/relic", target: 25, chances: 0.5, stones: 1614, shards: 4868, leapstones: 48, fusionMaterial: 36, silver: 48180, gold: 870, exp: 206688 },
 
-  { type: "armor", rarity: "relic2.0", target: 12, chances: 10, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 25240, gold: 170, exp: 5700 },
-  { type: "armor", rarity: "relic2.0", target: 13, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 25860, gold: 170, exp: 6778 },
-  { type: "armor", rarity: "relic2.0", target: 14, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 26500, gold: 170, exp: 6778 },
-  { type: "armor", rarity: "relic2.0", target: 15, chances: 5, stones: 666, shards: 666, leapstones: 666, fusionMaterial: 8, silver: 27160, gold: 180, exp: 6778 },
-  { type: "armor", rarity: "relic2.0", target: 16, chances: 3, stones: 540, shards: 1440, leapstones: 13, fusionMaterial: 7, silver: 86400, gold: 670, exp: 72000 },
-  { type: "armor", rarity: "relic2.0", target: 17, chances: 5, stones: 686, shards: 292, leapstones: 16, fusionMaterial: 10, silver: 28420, gold: 250, exp: 12406 },
-  { type: "armor", rarity: "relic2.0", target: 18, chances: 5, stones: 686, shards: 396, leapstones: 16, fusionMaterial: 12, silver: 29040, gold: 280, exp: 16824 },
-  { type: "armor", rarity: "relic2.0", target: 19, chances: 5, stones: 780, shards: 536, leapstones: 18, fusionMaterial: 14, silver: 29660, gold: 320, exp: 23166 },
-  { type: "armor", rarity: "relic2.0", target: 20, chances: 3, stones: 780, shards: 728, leapstones: 20, fusionMaterial: 14, silver: 30320, gold: 350, exp: 31464 },
-
-  { type: "weapon", rarity: "relic2.0", target: 12, chances: 15, stones: 830, shards: 192, leapstones: 18, fusionMaterial: 8, silver: 36040, gold: 330, exp: 8152 },
-  { type: "weapon", rarity: "relic2.0", target: 13, chances: 15, stones: 968, shards: 228, leapstones: 18, fusionMaterial: 10, silver: 36940, gold: 330, exp: 9696 },
-  { type: "weapon", rarity: "relic2.0", target: 14, chances: 15, stones: 968, shards: 228, leapstones: 20, fusionMaterial: 10, silver: 37840, gold: 330, exp: 9696 },
-  { type: "weapon", rarity: "relic2.0", target: 15, chances: 10, stones: 968, shards: 228, leapstones: 20, fusionMaterial: 10, silver: 38760, gold: 330, exp: 9696 },
-  { type: "weapon", rarity: "relic2.0", target: 16, chances: 10, stones: 1144, shards: 310, leapstones: 22, fusionMaterial: 12, silver: 39720, gold: 410, exp: 13014 },
-  { type: "weapon", rarity: "relic2.0", target: 17, chances: 10, stones: 1144, shards: 422, leapstones: 24, fusionMaterial: 14, silver: 40580, gold: 480, exp: 17714 },
-  { type: "weapon", rarity: "relic2.0", target: 18, chances: 5, stones: 1144, shards: 572, leapstones: 28, fusionMaterial: 16, silver: 41460, gold: 540, exp: 24012 },
-  { type: "weapon", rarity: "relic2.0", target: 19, chances: 5, stones: 1300, shards: 776, leapstones: 30, fusionMaterial: 18, silver: 42360, gold: 640, exp: 32774 },
-  { type: "weapon", rarity: "relic2.0", target: 20, chances: 3, stones: 1300, shards: 1054, leapstones: 32, fusionMaterial: 20, silver: 43260, gold: 730, exp: 44514 },
+  { type: "armor", rarity: "upper_relic", target: 10, chances: 15, stones: 330, shards: 480, leapstones: 10, fusionMaterial: 4, silver: 31500, gold: 470, exp: 24000 },
+  { type: "armor", rarity: "upper_relic", target: 11, chances: 15, stones: 330, shards: 480, leapstones: 10, fusionMaterial: 4, silver: 31500, gold: 470, exp: 24000 },
+  { type: "armor", rarity: "upper_relic", target: 12, chances: 10, stones: 390, shards: 600, leapstones: 11, fusionMaterial: 5, silver: 31500, gold: 480, exp: 30000 },
+  { type: "armor", rarity: "upper_relic", target: 13, chances: 10, stones: 390, shards: 600, leapstones: 11, fusionMaterial: 5, silver: 31500, gold: 480, exp: 30000 },
+  { type: "armor", rarity: "upper_relic", target: 14, chances: 5, stones: 420, shards: 840, leapstones: 12, fusionMaterial: 7, silver: 31500, gold: 520, exp: 42000 },
+  { type: "armor", rarity: "upper_relic", target: 15, chances: 5, stones: 450, shards: 840, leapstones: 12, fusionMaterial: 7, silver: 31500, gold: 560, exp: 42000 },
+  { type: "armor", rarity: "upper_relic", target: 16, chances: 4, stones: 540, shards: 1440, leapstones: 13, fusionMaterial: 7, silver: 35000, gold: 670, exp: 72000 },
+  { type: "armor", rarity: "upper_relic", target: 17, chances: 4, stones: 570, shards: 1440, leapstones: 14, fusionMaterial: 10, silver: 28420, gold: 250, exp: 12406 },
+  { type: "armor", rarity: "upper_relic", target: 18, chances: 3, stones: 660, shards: 2160, leapstones: 17, fusionMaterial: 12, silver: 35000, gold: 810, exp: 108000 },
+  { type: "armor", rarity: "upper_relic", target: 19, chances: 3, stones: 690, shards: 2160, leapstones: 18, fusionMaterial: 12, silver: 35000, gold: 860, exp: 108000 },
+  { type: "armor", rarity: "upper_relic", target: 20, chances: 1.5, stones: 780, shards: 3000, leapstones: 19, fusionMaterial: 18, silver: 38500, gold: 960, exp: 150000 },
+  
+  { type: "weapon", rarity: "upper_relic", target: 9, chances: 30, stones: 450, shards: 600, leapstones: 14, fusionMaterial: 6, silver: 45000, gold: 770, exp: 30000 },
+  { type: "weapon", rarity: "upper_relic", target: 10, chances: 15, stones: 550, shards: 800, leapstones: 16, fusionMaterial: 7, silver: 45000, gold: 790, exp: 40000 },
+  { type: "weapon", rarity: "upper_relic", target: 11, chances: 15, stones: 550, shards: 800, leapstones: 16, fusionMaterial: 7, silver: 45000, gold: 790, exp: 40000 },
+  { type: "weapon", rarity: "upper_relic", target: 12, chances: 10, stones: 650, shards: 1000, leapstones: 18, fusionMaterial: 8, silver: 45000, gold: 800, exp: 50000 },
+  { type: "weapon", rarity: "upper_relic", target: 13, chances: 10, stones: 650, shards: 1000, leapstones: 18, fusionMaterial: 8, silver: 45000, gold: 800, exp: 50000 },
+  { type: "weapon", rarity: "upper_relic", target: 14, chances: 5, stones: 700, shards: 1400, leapstones: 20, fusionMaterial: 12, silver: 45000, gold: 870, exp: 70000 },
+  { type: "weapon", rarity: "upper_relic", target: 15, chances: 4, stones: 750, shards: 1400, leapstones: 20, fusionMaterial: 12, silver: 45000, gold: 940, exp: 70000 },
+  { type: "weapon", rarity: "upper_relic", target: 16, chances: 4, stones: 900, shards: 2400, leapstones: 22, fusionMaterial: 12, silver: 50000, gold: 1120, exp: 120000 },
+  { type: "weapon", rarity: "upper_relic", target: 17, chances: 4, stones: 950, shards: 2400, leapstones: 24, fusionMaterial: 12, silver: 50000, gold: 1200, exp: 120000 },
+  { type: "weapon", rarity: "upper_relic", target: 18, chances: 3, stones: 1100, shards: 3600, leapstones: 28, fusionMaterial: 20, silver: 50000, gold: 1350, exp: 180000 },
+  { type: "weapon", rarity: "upper_relic", target: 19, chances: 3, stones: 1150, shards: 3600, leapstones: 30, fusionMaterial: 20, silver: 50000, gold: 1440, exp: 180000 },
+  { type: "weapon", rarity: "upper_relic", target: 20, chances: 1.5, stones: 1300, shards: 5000, leapstones: 32, fusionMaterial: 30, silver: 55000, gold: 1600, exp: 250000 },
 ];

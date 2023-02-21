@@ -14,7 +14,7 @@ export class HoningService {
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
-    const chancesRarity = piece.rarity === GearsetRarity.BREL_RELIC ? "relic2.0" 
+    const chancesRarity = piece.rarity === GearsetRarity.UPPER_RELIC ? "upper_relic" 
       : piece.rarity > GearsetRarity.EPIC ? "legendary/relic" : "epic";
     const honingRows = honingChances.filter(row => {
       return row.rarity === chancesRarity
@@ -79,7 +79,7 @@ export class HoningService {
       case GearsetRarity.RELIC:
         baseIlvl = 1340;
         break;
-      case GearsetRarity.BREL_RELIC:
+      case GearsetRarity.UPPER_RELIC:
         baseIlvl = 1390;
         break;
     }
@@ -89,7 +89,7 @@ export class HoningService {
         + Math.max(Math.min(gearPiece.honing - 1, 2), 0) * 3
         + Math.max(Math.min(gearPiece.honing - 3, 12), 0) * 5
         + Math.max(gearPiece.honing - 15, 0) * 15;
-    } else if (gearPiece.rarity == GearsetRarity.BREL_RELIC) {
+    } else if (gearPiece.rarity == GearsetRarity.UPPER_RELIC) {
       honingIlvlBonus = Math.min(gearPiece.honing, 10) * 10
         + Math.max(gearPiece.honing - 10, 0) * 10;
     } else {

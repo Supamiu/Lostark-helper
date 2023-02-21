@@ -94,7 +94,7 @@ export class GearManagerComponent {
           case GearsetRarity.RELIC:
             maxHoning = 25;
             break;
-          case GearsetRarity.BREL_RELIC:
+          case GearsetRarity.UPPER_RELIC:
             maxHoning = 20;
             break;
         }
@@ -117,7 +117,7 @@ export class GearManagerComponent {
           return acc + this.honingService.getIlvl({ ...piece.piece, honing: piece.piece.targetHoning });
         }, 0) / 6,
         honingCost: pieces.reduce((acc, piece) => {
-          if (piece.piece.rarity >= GearsetRarity.BREL_RELIC) {
+          if (piece.piece.rarity >= GearsetRarity.UPPER_RELIC) {
             acc.MVleapstones += piece.honingCost?.leapstones || 0;
             acc.superiorFusionMaterial += piece.honingCost?.fusionMaterial || 0;
           }
