@@ -21,6 +21,7 @@ import { Roster } from "../../../model/roster";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { EngravingEntry } from "../../../model/engraving-entry";
 import { LostArkEngraving } from "../../../data/lost-ark-engraving";
+import { GearsetRarity } from "../../../model/gearset-rarity";
 
 const slots = [
   "headgear",
@@ -56,6 +57,7 @@ const statsSlots = [
 })
 export class GearManagerComponent {
 
+  public GearsetRarity = GearsetRarity;
   public ItemRarity = ItemRarity;
   public LostArkStat = LostArkStat;
 
@@ -86,11 +88,14 @@ export class GearManagerComponent {
       const pieces = slots.map(slot => {
         let maxHoning = 15;
         switch (gearset[slot].rarity) {
-          case ItemRarity.LEGENDARY:
+          case GearsetRarity.LEGENDARY:
             maxHoning = 20;
             break;
-          case ItemRarity.RELIC:
+          case GearsetRarity.RELIC:
             maxHoning = 25;
+            break;
+          case GearsetRarity.UPPER_RELIC:
+            maxHoning = 20;
             break;
         }
         return {
@@ -99,7 +104,7 @@ export class GearManagerComponent {
           possibleHonings: new Array(maxHoning)
             .fill(null)
             .map((_, i) => i + 1)
-            .filter(i => i > 5 || gearset[slot].rarity < ItemRarity.LEGENDARY),
+            .filter(i => i > 5 || gearset[slot].rarity < GearsetRarity.LEGENDARY),
           honingCost: this.honingService.getHoningCost(gearset[slot], slot, gearset, pity)
         };
       });
@@ -112,7 +117,11 @@ export class GearManagerComponent {
           return acc + this.honingService.getIlvl({ ...piece.piece, honing: piece.piece.targetHoning });
         }, 0) / 6,
         honingCost: pieces.reduce((acc, piece) => {
-          if (piece.piece.rarity > ItemRarity.EPIC) {
+          if (piece.piece.rarity >= GearsetRarity.UPPER_RELIC) {
+            acc.MVleapstones += piece.honingCost?.leapstones || 0;
+            acc.superiorFusionMaterial += piece.honingCost?.fusionMaterial || 0;
+          }
+          else if (piece.piece.rarity > GearsetRarity.EPIC) {
             acc.GHleapstones += piece.honingCost?.leapstones || 0;
             acc.fusionMaterial += piece.honingCost?.fusionMaterial || 0;
           } else {
@@ -129,6 +138,7 @@ export class GearManagerComponent {
           acc.silver += piece.honingCost?.silver || 0;
           return acc;
         }, {
+          MVleapstones: 0,
           GHleapstones: 0,
           leapstones: 0,
           shards: 0,
@@ -136,6 +146,7 @@ export class GearManagerComponent {
           Wstones: 0,
           gold: 0,
           silver: 0,
+          superiorFusionMaterial: 0,
           fusionMaterial: 0,
           lowFusionMaterial: 0
         })

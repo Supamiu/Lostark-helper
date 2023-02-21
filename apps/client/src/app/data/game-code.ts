@@ -10,6 +10,8 @@ export enum GameCode {
     DESTRUCTION_802 = 66102002,
     /** Crystallized Destruction Stone */
     DESTRUCTION_1302 = 66102003,
+    /** Obliteration Stone */
+    DESTRUCTION_1490 = 66102004,
 
     /** Guardian Stone Fragment */
     GUARDIAN_302 = 66102101,
@@ -17,6 +19,8 @@ export enum GameCode {
     GUARDIAN_802 = 66102102,
     /** Crystallized Guardian Stone */
     GUARDIAN_1302 = 66102103,
+    /** Protection Stone */
+    GUARDIAN_1490 = 66102104,
 
     /** Harmony Leapstone */
     LEAPSTONE_302 = 66110204,
@@ -26,6 +30,8 @@ export enum GameCode {
     LEAPSTONE_1302 = 66110221,
     /** Great Honor Leapstone */
     LEAPSTONE_1340 = 66110222,
+    /** Great Honor Leapstone */
+    LEAPSTONE_1490 = 66110223,
 
     /** Star's Breath */
     JUICE_302 = 66111104,
@@ -87,5 +93,7 @@ export enum GameCode {
     /** Basic Oreha Fusion Material */
     FUSION_1340 = 6861008,
     /** Caldarr Fusion Material */
-    FUSION_802 = 6861010
+    FUSION_802 = 6861010,
+    /** Superior Oreha Fusion Material */
+    FUSION_1490 = 6861009
 }

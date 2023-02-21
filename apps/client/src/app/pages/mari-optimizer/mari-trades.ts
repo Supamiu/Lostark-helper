@@ -77,6 +77,26 @@ export const mariTrades: MariTrade[] = [
 
   // Stones
   {
+    gameCode: GameCode.DESTRUCTION_1490,
+    name: "Obliteration Stone",
+    icon: "shop_13.png",
+    crystalPrice: 300,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 500,
+    mbQuantity: 10
+  },
+  {
+    gameCode: GameCode.GUARDIAN_1490,
+    name: "Protection Stone",
+    icon: "shop_15.png",
+    crystalPrice: 270,
+    minIlvl: 1302,
+    maxIlvl: 9999,
+    quantity: 1000,
+    mbQuantity: 10
+  },
+  {
     gameCode: GameCode.DESTRUCTION_1302,
     name: "Crystallized Destruction Stone",
     icon: "shop_13.png",
@@ -181,6 +201,16 @@ export const mariTrades: MariTrade[] = [
 
   // Leapstones
   {
+    gameCode: GameCode.LEAPSTONE_1490,
+    name: "Marvelous Honor Leapstone",
+    icon: "shop_23.png",
+    crystalPrice: 100,
+    minIlvl: 1490,
+    maxIlvl: 9999,
+    quantity: 10,
+    mbQuantity: 1
+  },
+  {
     gameCode: GameCode.LEAPSTONE_1340,
     name: "Great Honor Leapstone",
     icon: "shop_23.png",
@@ -222,6 +252,16 @@ export const mariTrades: MariTrade[] = [
   },
 
   // Fusion Materials
+  {
+    gameCode: GameCode.FUSION_1340,
+    name: "Superior Oreha Fusion Material",
+    icon: "basic_oreha.png",
+    crystalPrice: 30,
+    minIlvl: 1490,
+    maxIlvl: 9999,
+    quantity: 10,
+    mbQuantity: 1
+  },
   {
     gameCode: GameCode.FUSION_1340,
     name: "Basic Oreha Fusion Material",

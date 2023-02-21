@@ -1,7 +1,7 @@
 import { Gearset } from "../../../model/character/gearset";
-import { ItemRarity } from "../../../model/item-rarity";
 import { HoningService } from "../../../core/services/honing.service";
 import { isSupportClass, LostarkClass } from "../../../model/character/lostark-class";
+import { GearsetRarity } from "../../../model/gearset-rarity";
 
 type Genome = [number, number, number, number, number, number];
 
@@ -52,12 +52,13 @@ export class HoningOptimizer {
     this.maxHoning = slots.map(slot => {
       const piece = gearset[slot];
       switch (piece.rarity) {
-        case ItemRarity.RARE:
-        case ItemRarity.EPIC:
+        case GearsetRarity.RARE:
+        case GearsetRarity.EPIC:
           return 15;
-        case ItemRarity.LEGENDARY:
+        case GearsetRarity.UPPER_RELIC:
+        case GearsetRarity.LEGENDARY:
           return 20;
-        case ItemRarity.RELIC:
+        case GearsetRarity.RELIC:
           return 25;
         default:
           return 0;
@@ -116,7 +117,11 @@ export class HoningOptimizer {
           bonus = this.weights[bonusKey][slot];
         }
         const honingCost = this.costCache[`${slot}:${genome[i]}`];
-        if (piece.rarity > ItemRarity.EPIC) {
+        if (piece.rarity >= GearsetRarity.UPPER_RELIC) {
+          acc.MVleapstones += (honingCost?.leapstones || 0) * bonus;
+          acc.superiorFusionMaterial += (honingCost?.fusionMaterial || 0) * bonus;
+        }
+        else if (piece.rarity > GearsetRarity.EPIC) {
           acc.GHleapstones += (honingCost?.leapstones || 0) * bonus;
           acc.fusionMaterial += (honingCost?.fusionMaterial || 0) * bonus;
         } else {
@@ -133,6 +138,7 @@ export class HoningOptimizer {
         acc.silver += (honingCost?.silver || 0) * bonus;
         return acc;
       }, {
+        MVleapstones: 0,
         GHleapstones: 0,
         leapstones: 0,
         shards: 0,
@@ -140,19 +146,22 @@ export class HoningOptimizer {
         Wstones: 0,
         gold: 0,
         silver: 0,
+        superiorFusionMaterial: 0,
         fusionMaterial: 0,
         lowFusionMaterial: 0
       });
       if (cost.stones === 0 || cost.Wstones === 0) {
         penalty += 1;
       }
-      this.genomeFitnessCache[JSON.stringify(genome)] = (cost.GHleapstones * 100
+      this.genomeFitnessCache[JSON.stringify(genome)] = ( cost.MVleapstones * 500
+        + cost.GHleapstones * 100
         + cost.leapstones * 20
         + cost.shards / 20
         + cost.stones * 0.8
         + cost.Wstones * 0.8
         + cost.gold
         + cost.silver / 10000
+        + cost.superiorFusionMaterial * 8
         + cost.fusionMaterial * 8
         + cost.lowFusionMaterial * 8) * penalty;
     }
