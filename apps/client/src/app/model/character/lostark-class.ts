@@ -27,9 +27,10 @@ export enum LostarkClass {
   GUNSLINGER,
   UNRELEASED5,
   STRIKER,
-  SORCERESS
+  SORCERESS,
+  ARTIST
 }
 
 export function isSupportClass(c: LostarkClass): boolean {
-  return [LostarkClass.BARD, LostarkClass.PALADIN].includes(+c);
+  return [LostarkClass.BARD, LostarkClass.PALADIN, LostarkClass.ARTIST].includes(+c);
 }
