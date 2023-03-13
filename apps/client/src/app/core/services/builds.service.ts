@@ -458,6 +458,7 @@ export class BuildService {
             engravings: [
                 this.getEngravingIdByName("Rage Hammer"),
                 this.getEngravingIdByName("Super Charge"),
+                this.getEngravingIdByName("Barricade"),
                 this.getEngravingIdByName("Master Brawler"),
                 this.getEngravingIdByName("Keen Blunt Weapon"),
                 this.getEngravingIdByName("Spirit Absorption"),
