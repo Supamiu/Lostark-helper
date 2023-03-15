@@ -72,34 +72,34 @@ export const goldTasks: GoldTask[] = [
   // T3 Abyss
   {
     name: "Aira's Oculus (Normal)",
-    goldReward: 600,
+    goldReward: 200,
     taskName: "Aira's Oculus",
-    chestPrice: 200,
+    chestPrice: 100,
     completionId: "T3.1",
     entryId: "T3.1.0"
   },
   {
     name: "Oreha Preveza (Normal)",
-    goldReward: 900,
+    goldReward: 300,
     taskName: "Oreha Preveza",
-    chestPrice: 400,
+    chestPrice: 150,
     completionId: "T3.1",
     entryId: "T3.1.1"
   },
   {
     name: "Aira's Oculus (Hard)",
-    goldReward: 900,
+    goldReward: 300,
     taskName: "Aira's Oculus",
-    chestPrice: 300,
+    chestPrice: 100,
     completionId: "T3.1",
     entryId: "T3.1.0",
     overrideMinIlvl: 1370
   },
   {
     name: "Oreha Preveza (Hard)",
-    goldReward: 1200,
+    goldReward: 400,
     taskName: "Oreha Preveza",
-    chestPrice: 500,
+    chestPrice: 150,
     completionId: "T3.1",
     entryId: "T3.1.1",
     overrideMinIlvl: 1370
@@ -108,27 +108,27 @@ export const goldTasks: GoldTask[] = [
   // T3 Abyss Raid
   {
     name: "Argos Gate 1",
-    goldReward: 800,
+    goldReward: 300,
     taskName: "Argos",
-    chestPrice: 300,
+    chestPrice: 100,
     completionId: "T3.L1.1",
     overrideMaxIlvl: 1475,
     chestId: "Argos1"
   },
   {
     name: "Argos Gate 2",
-    goldReward: 900,
+    goldReward: 300,
     taskName: "Argos",
-    chestPrice: 300,
+    chestPrice: 150,
     completionId: "T3.L1.2",
     chestId: "Argos2",
     overrideMaxIlvl: 1475,
   },
   {
     name: "Argos Gate 3",
-    goldReward: 1000,
+    goldReward: 400,
     taskName: "Argos",
-    chestPrice: 500,
+    chestPrice: 150,
     completionId: "T3.L1.3",
     chestId: "Argos3",
     overrideMaxIlvl: 1475,
@@ -137,63 +137,63 @@ export const goldTasks: GoldTask[] = [
   // T3 Legion Raid
   {
     name: "Valtan Normal Gate 1",
-    goldReward: 800,
+    goldReward: 500,
     taskName: "Valtan",
-    chestPrice: 500,
+    chestPrice: 300,
     completionId: "T3.L1.1",
     chestId: "Valtan1",
     overrideMaxIlvl: 1445
   },
   {
     name: "Valtan Normal Gate 2",
-    goldReward: 2500,
+    goldReward: 700,
     taskName: "Valtan",
-    chestPrice: 800,
+    chestPrice: 400,
     completionId: "T3.L1.2",
     chestId: "Valtan2",
     overrideMaxIlvl: 1445
   },
   {
     name: "Valtan Hard Gate 1",
-    goldReward: 1000,
+    goldReward: 700,
     taskName: "Valtan",
-    chestPrice: 900,
+    chestPrice: 600,
     completionId: "T3.L1.1",
     chestId: "Valtan1",
     overrideMinIlvl: 1445
   },
   {
     name: "Valtan Hard Gate 2",
-    goldReward: 3500,
+    goldReward: 2300,
     taskName: "Valtan",
-    chestPrice: 1200,
+    chestPrice: 900,
     completionId: "T3.L1.2",
     chestId: "Valtan2",
     overrideMinIlvl: 1445
   },
   {
     name: "Vykas Normal Gate 1",
-    goldReward: 500,
+    goldReward: 400,
     taskName: "Vykas",
-    chestPrice: 400,
+    chestPrice: 200,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
     overrideMaxIlvl: 1460
   },
   {
     name: "Vykas Normal Gate 2",
-    goldReward: 600 ,
+    goldReward: 500 ,
     taskName: "Vykas",
-    chestPrice: 600,
+    chestPrice: 250,
     completionId: "T3.L2.2",
     chestId: "Vykas2",
     overrideMaxIlvl: 1460
   },
   {
     name: "Vykas Normal Gate 3",
-    goldReward: 2200,
+    goldReward: 700,
     taskName: "Vykas",
-    chestPrice: 800,
+    chestPrice: 400,
     completionId: "T3.L2.3",
     chestId: "Vykas3",
     overrideMaxIlvl: 1460
