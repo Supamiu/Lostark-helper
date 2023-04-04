@@ -253,57 +253,112 @@ export const goldTasks: GoldTask[] = [
     overrideMinIlvl: 1475
   },
   {
-    name: "Brelshaza Gate 1",
+    name: "Brelshaza Normal Gate 1",
     goldReward: 2000,
     taskName: "Brelshaza Gate 1-2",
     chestPrice: 400,
     completionId: "T3.L4.1",
-    chestId: "Brelshaza1",
+    chestId: "BrelshazaN1",
     overrideMinIlvl: 1490
   },
   {
-    name: "Brelshaza Gate 2",
-    goldReward: 2000,
-    taskName: "Brelshaza Gate 1-2",
-    chestPrice: 400,
+    name: "Brelshaza Normal Gate 2",
+    goldReward: 2500,
+    taskName: "Brelshaza Normal Gate 1-2",
+    chestPrice: 600,
     completionId: "T3.L4.2",
-    chestId: "Brelshaza2",
+    chestId: "BrelshazaN2",
     overrideMinIlvl: 1490
   },
   {
-    name: "Brelshaza Gate 3",
+    name: "Brelshaza Normal Gate 3",
     goldReward: 700,
-    taskName: "Brelshaza Gate 3-4",
+    taskName: "Brelshaza Normal Gate 3-4",
     chestPrice: 700,
     completionId: "T3.L4.3",
-    chestId: "Brelshaza3",
+    chestId: "BrelshazaN3",
     overrideMinIlvl: 1500
   },
   {
-    name: "Brelshaza Gate 4",
+    name: "Brelshaza Normal Gate 4",
     goldReward: 800,
-    taskName: "Brelshaza Gate 3-4",
+    taskName: "Brelshaza Normal Gate 3-4",
     chestPrice: 800,
     completionId: "T3.L4.4",
-    chestId: "Brelshaza4",
+    chestId: "BrelshazaN4",
     overrideMinIlvl: 1500
   },
   {
-    name: "Brelshaza Gate 5",
+    name: "Brelshaza Normal Gate 5",
     goldReward: 1000,
-    taskName: "Brelshaza Gate 5-6",
+    taskName: "Brelshaza Normal Gate 5-6",
     chestPrice: 900,
     completionId: "T3.L4.5",
-    chestId: "Brelshaza5",
+    chestId: "BrelshazaN5",
     overrideMinIlvl: 1520
   },
   {
-    name: "Brelshaza Gate 6",
+    name: "Brelshaza Normal Gate 6",
     goldReward: 1500,
-    taskName: "Brelshaza Gate 5-6",
+    taskName: "Brelshaza Normal Gate 5-6",
     chestPrice: 1100,
     completionId: "T3.L4.6",
-    chestId: "Brelshaza6",
+    chestId: "BrelshazaN6",
     overrideMinIlvl: 1520
+  },
+  {
+    name: "Brelshaza Hard Gate 1",
+    goldReward: 2500,
+    taskName: "Brelshaza Hard Gate 1-2",
+    chestPrice: 700,
+    completionId: "T3.L5.1",
+    chestId: "BrelshazaH1",
+    overrideMinIlvl: 1540
+    },
+  {
+    name: "Brelshaza Hard Gate 2",
+    goldReward: 3000,
+    taskName: "Brelshaza Hard Gate 1-2",
+    chestPrice: 800,
+    completionId: "T3.L5.2",
+    chestId: "BrelshazaH2",
+    overrideMinIlvl: 1540
+  },
+  {
+    name: "Brelshaza Hard Gate 3",
+    goldReward: 900,
+    taskName: "Brelshaza Hard Gate 3-4",
+    chestPrice: 900,
+    completionId: "T3.L5.3",
+    chestId: "BrelshazaH3",
+    overrideMinIlvl: 1550
+  },
+  {
+    name: "Brelshaza Hard Gate 4",
+    goldReward: 1100,
+    taskName: "Brelshaza Hard Gate 3-4",
+    chestPrice: 1100,
+    completionId: "T3.L5.4",
+    chestId: "BrelshazaH4",
+    overrideMinIlvl: 1550
+  },
+  {
+    name: "Brelshaza Hard Gate 5",
+    goldReward: 1200,
+    taskName: "Brelshaza Hard Gate 5-6",
+    chestPrice: 1100,
+    completionId: "T3.L5.5",
+    chestId: "BrelshazaH5",
+    overrideMinIlvl: 1560
+  },
+  {
+    name: "Brelshaza Hard Gate 6",
+    goldReward: 1800,
+    taskName: "Brelshaza Hard Gate 5-6",
+    chestPrice: 1400,
+    completionId: "T3.L5.6",
+    chestId: "BrelshazaH6",
+    overrideMinIlvl: 1560
   }
+    
 ];

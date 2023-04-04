@@ -92,15 +92,27 @@ export const tasks = [
     shared: true,
     partySize: 4
   }),
-  createTask(`Brelshaza Gate 1-2`, 1490, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Normal Gate 1-2`, 1490, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
-  createTask(`Brelshaza Gate 3-4`, 1500, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Normal Gate 3-4`, 1500, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
-  createTask(`Brelshaza Gate 5-6`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Normal Gate 5-6`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
+  createTask(`Brelshaza Hard Gate 1-2`, 1540, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
+  createTask(`Brelshaza Hard Gate 3-4`, 1550, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
+  }),
+  createTask(`Brelshaza Hard Gate 5-6`, 1560, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
