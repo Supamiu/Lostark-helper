@@ -255,7 +255,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Normal Gate 1",
     goldReward: 2000,
-    taskName: "Brelshaza Gate 1-2",
+    taskName: "Brelshaza Normal Gate 1-2",
     chestPrice: 400,
     completionId: "T3.L4.1",
     chestId: "BrelshazaN1",
