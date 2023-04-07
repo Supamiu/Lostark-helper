@@ -53,6 +53,20 @@ export const tickets: {tier?: number, icon: string, rarity: ItemRarity, key: key
     name: "T3 Boss Rush Hard"
   },
   {
+    tier: 3,
+    icon: 't3_bossrush_cube_inferno.png',
+    rarity: ItemRarity.EPIC,
+    key: "t3CubeInferno",
+    name: "T3 Cube Inferno"
+  },
+  {
+    tier: 3,
+    icon: 't3_bossrush_cube_inferno.png',
+    rarity: ItemRarity.LEGENDARY,
+    key: "t3BossRushInferno",
+    name: "T3 Boss Rush Inferno"
+  },
+  {
     icon: 'platinum_fields.png',
     rarity: ItemRarity.LEGENDARY,
     key: "platinumFields",

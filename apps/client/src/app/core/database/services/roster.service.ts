@@ -56,6 +56,8 @@ export class RosterService extends FirestoreStorage<Roster> {
               t3BossRushHard: 0,
               t3Cube: 0,
               t3CubeHard: 0,
+              t3CubeInferno: 0,
+              t3BossRushInferno: 0,
               platinumFields: 0
             };
           }
