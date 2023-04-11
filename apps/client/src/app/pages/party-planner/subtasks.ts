@@ -27,6 +27,7 @@ export const subtasks: Subtask[] = [
   { id: `deskaluda`, name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/monster_info_27.png', minIlvl: 1415 },
   { id: `kungelanium`, name: `Kungelanium`, parentName: "Guardian", banner: 'guardians/monster_info_28.png', minIlvl: 1460 },
   { id: `caliligos`, name: `Caliligos`, parentName: "Guardian", banner: 'guardians/monster_info_16.png', minIlvl: 1490 },
+  { id: `hanumatan`, name: `Hanumatan`, parentName: "Guardian", banner: 'guardians/monster_info_29.png', minIlvl: 1540 },
 
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
@@ -53,6 +54,9 @@ export const subtasks: Subtask[] = [
   // Brelshaza Difficulties
   { id: `brelshaza-g12-normal`, name: `Brelshaza G1-G2 Normal`, parentName: "Brelshaza", minIlvl: 1490 },
   { id: `brelshaza-g34-normal`, name: `Brelshaza G3-G4 Normal`, parentName: "Brelshaza", minIlvl: 1500 },
-  { id: `brelshaza-g56-normal`, name: `Brelshaza G5-G6 Normal`, parentName: "Brelshaza", minIlvl: 1520 }
-  
+  { id: `brelshaza-g56-normal`, name: `Brelshaza G5-G6 Normal`, parentName: "Brelshaza", minIlvl: 1520 },
+  { id: `brelshaza-g12-hard`, name: `Brelshaza G1-G2 Hard`, parentName: "Brelshaza", minIlvl: 1540 },
+  { id: `brelshaza-g34-hard`, name: `Brelshaza G3-G4 Hard`, parentName: "Brelshaza", minIlvl: 1550 },
+  { id: `brelshaza-g56-hard`, name: `Brelshaza G5-G6 Hard`, parentName: "Brelshaza", minIlvl: 1560 }
+
 ];
