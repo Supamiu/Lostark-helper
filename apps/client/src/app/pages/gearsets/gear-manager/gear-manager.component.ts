@@ -178,6 +178,15 @@ export class GearManagerComponent {
           }
         }
 
+        // Ancient = 6 to one, 3 to another
+        if (piece?.rarity === ItemRarity.ANCIENT && !isStone) {
+          maxNodes = [6, 6];
+          const maxBonusIndex = gearset[slot]?.engravings.findIndex(e => e.nodes > 3);
+          if (maxBonusIndex > -1) {
+            maxNodes[(maxBonusIndex + 1) % 2] = 3;
+          }
+        }
+
         // Negative engraving (only applied for +RARE)
         if (showNegative) {
           // For Stone: Same than positive engravings

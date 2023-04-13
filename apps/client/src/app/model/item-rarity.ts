@@ -4,5 +4,6 @@ export enum ItemRarity {
   RARE,
   EPIC,
   LEGENDARY,
-  RELIC
+  RELIC,
+  ANCIENT,
 }

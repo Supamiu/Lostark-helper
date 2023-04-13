@@ -9,19 +9,22 @@ export const QualityEffect = {
     [ItemRarity.RARE]: [130, 350],
     [ItemRarity.EPIC]: [225, 400],
     [ItemRarity.LEGENDARY]: [225, 450],
-    [ItemRarity.RELIC]: [400, 500]
+    [ItemRarity.RELIC]: [400, 500],
+    [ItemRarity.ANCIENT]: [400, 500],
   },
   earring: {
     [ItemRarity.RARE]: [75, 210],
     [ItemRarity.EPIC]: [135, 240],
     [ItemRarity.LEGENDARY]: [195, 270],
-    [ItemRarity.RELIC]: [240, 300]
+    [ItemRarity.RELIC]: [240, 300],
+    [ItemRarity.ANCIENT]: [240, 300],
   },
   ring: {
     [ItemRarity.RARE]: [50, 140],
     [ItemRarity.EPIC]: [90, 160],
     [ItemRarity.LEGENDARY]: [130, 180],
-    [ItemRarity.RELIC]: [160, 200]
+    [ItemRarity.RELIC]: [160, 200],
+    [ItemRarity.ANCIENT]: [160, 200],
   }
 };
 
