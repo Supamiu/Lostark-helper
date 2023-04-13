@@ -89,13 +89,12 @@ export class GearManagerComponent {
         let maxHoning = 15;
         switch (gearset[slot].rarity) {
           case GearsetRarity.LEGENDARY:
-            maxHoning = 20;
-            break;
-          case GearsetRarity.RELIC:
-            maxHoning = 25;
-            break;
           case GearsetRarity.UPPER_RELIC:
             maxHoning = 20;
+            break;
+          case GearsetRarity.ANCIENT:
+          case GearsetRarity.RELIC:
+            maxHoning = 25;
             break;
         }
         return {

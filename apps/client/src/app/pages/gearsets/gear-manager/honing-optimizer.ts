@@ -58,6 +58,7 @@ export class HoningOptimizer {
         case GearsetRarity.UPPER_RELIC:
         case GearsetRarity.LEGENDARY:
           return 20;
+        case GearsetRarity.ANCIENT:
         case GearsetRarity.RELIC:
           return 25;
         default:
