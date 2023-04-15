@@ -93,7 +93,7 @@ export const honingChances: HoningChances[] = [
   { type: "armor", rarity: "upper_relic", target: 14, chances: 5, stones: 420, shards: 840, leapstones: 12, fusionMaterial: 7, silver: 31500, gold: 520, exp: 42000 },
   { type: "armor", rarity: "upper_relic", target: 15, chances: 5, stones: 450, shards: 840, leapstones: 12, fusionMaterial: 7, silver: 31500, gold: 560, exp: 42000 },
   { type: "armor", rarity: "upper_relic", target: 16, chances: 4, stones: 540, shards: 1440, leapstones: 13, fusionMaterial: 7, silver: 35000, gold: 670, exp: 72000 },
-  { type: "armor", rarity: "upper_relic", target: 17, chances: 4, stones: 570, shards: 1440, leapstones: 14, fusionMaterial: 10, silver: 28420, gold: 250, exp: 12406 },
+  { type: "armor", rarity: "upper_relic", target: 17, chances: 4, stones: 570, shards: 1440, leapstones: 14, fusionMaterial: 7, silver: 35000, gold: 720, exp: 72000 },
   { type: "armor", rarity: "upper_relic", target: 18, chances: 3, stones: 660, shards: 2160, leapstones: 17, fusionMaterial: 12, silver: 35000, gold: 810, exp: 108000 },
   { type: "armor", rarity: "upper_relic", target: 19, chances: 3, stones: 690, shards: 2160, leapstones: 18, fusionMaterial: 12, silver: 35000, gold: 860, exp: 108000 },
   { type: "armor", rarity: "upper_relic", target: 20, chances: 1.5, stones: 780, shards: 3000, leapstones: 19, fusionMaterial: 18, silver: 38500, gold: 960, exp: 150000 },

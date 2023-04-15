@@ -99,12 +99,12 @@ export class HoningService {
         + Math.max(Math.min(gearPiece.honing - 1, 2), 0) * 3
         + Math.max(Math.min(gearPiece.honing - 3, 12), 0) * 5
         + Math.max(gearPiece.honing - 15, 0) * 15;
-    } else if (gearPiece.rarity == GearsetRarity.UPPER_RELIC) {
-      honingIlvlBonus = Math.min(gearPiece.honing, 10) * 10
-        + Math.max(gearPiece.honing - 10, 0) * 10;
-    } else {
+    } else if (gearPiece.rarity <= GearsetRarity.RELIC) {
       honingIlvlBonus = Math.min(gearPiece.honing, 15) * 5
         + Math.max(gearPiece.honing - 15, 0) * 15;
+    } else {
+      honingIlvlBonus = Math.min(gearPiece.honing, 10) * 10
+        + Math.max(gearPiece.honing - 10, 0) * 10;
     }
     return baseIlvl + honingIlvlBonus;
   }
