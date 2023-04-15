@@ -89,13 +89,12 @@ export class GearManagerComponent {
         let maxHoning = 15;
         switch (gearset[slot].rarity) {
           case GearsetRarity.LEGENDARY:
-            maxHoning = 20;
-            break;
-          case GearsetRarity.RELIC:
-            maxHoning = 25;
-            break;
           case GearsetRarity.UPPER_RELIC:
             maxHoning = 20;
+            break;
+          case GearsetRarity.ANCIENT:
+          case GearsetRarity.RELIC:
+            maxHoning = 25;
             break;
         }
         return {
@@ -173,6 +172,15 @@ export class GearManagerComponent {
         // Relic = 5 to one, 3 to another
         if (piece?.rarity === ItemRarity.RELIC && !isStone) {
           maxNodes = [5, 5];
+          const maxBonusIndex = gearset[slot]?.engravings.findIndex(e => e.nodes > 3);
+          if (maxBonusIndex > -1) {
+            maxNodes[(maxBonusIndex + 1) % 2] = 3;
+          }
+        }
+
+        // Ancient = 6 to one, 3 to another
+        if (piece?.rarity === ItemRarity.ANCIENT && !isStone) {
+          maxNodes = [6, 6];
           const maxBonusIndex = gearset[slot]?.engravings.findIndex(e => e.nodes > 3);
           if (maxBonusIndex > -1) {
             maxNodes[(maxBonusIndex + 1) % 2] = 3;

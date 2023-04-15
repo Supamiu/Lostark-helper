@@ -14,8 +14,17 @@ export class HoningService {
     if (piece.honing >= piece.targetHoning) {
       return null;
     }
-    const chancesRarity = piece.rarity === GearsetRarity.UPPER_RELIC ? "upper_relic" 
-      : piece.rarity > GearsetRarity.EPIC ? "legendary/relic" : "epic";
+
+    let chancesRarity = "epic";
+
+    if (piece.rarity === GearsetRarity.ANCIENT) {
+      chancesRarity = "ancient";
+    } else if (piece.rarity === GearsetRarity.UPPER_RELIC) {
+      chancesRarity = "upper_relic";
+    } else if (piece.rarity > GearsetRarity.EPIC) {
+      chancesRarity = "legendary/relic";
+    }
+
     const honingRows = honingChances.filter(row => {
       return row.rarity === chancesRarity
         && (slot === "weapon" ? row.type === "weapon" : row.type === "armor")
@@ -79,6 +88,7 @@ export class HoningService {
       case GearsetRarity.RELIC:
         baseIlvl = 1340;
         break;
+      case GearsetRarity.ANCIENT:
       case GearsetRarity.UPPER_RELIC:
         baseIlvl = 1390;
         break;
