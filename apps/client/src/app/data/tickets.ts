@@ -4,60 +4,25 @@ import { ItemRarity } from "../model/item-rarity";
 
 export const tickets: {tier?: number, icon: string, rarity: ItemRarity, key: keyof Character['tickets'], name: string}[] = [
   {
-    tier: 1,
-    icon: 't1_cube.png',
-    rarity: ItemRarity.RARE,
-    key: "t1Cube",
-    name: "T1 Cube"
-  },
-  {
-    tier: 2,
-    icon: 't2_cube.png',
-    rarity: ItemRarity.RARE,
-    key: "t2Cube",
-    name: "T2 Cube"
-  },
-  {
-    tier: 2,
-    icon: 't2_bossrush.png',
+    tier: 3,
+    icon: 'ebony1302.png',
     rarity: ItemRarity.LEGENDARY,
-    key: "t2BossRush",
-    name: "T2 Boss Rush"
+    key: "EbonyCubeLevel1",
+    name: "Ebony Cube Level 1"
   },
   {
     tier: 3,
-    icon: 't3_cube.png',
-    rarity: ItemRarity.RARE,
-    key: "t3Cube",
-    name: "T3 Cube Normal"
-  },
-  {
-    tier: 3,
-    icon: 't3_bossrush.png',
+    icon: 'ebony1490.png',
     rarity: ItemRarity.LEGENDARY,
-    key: "t3BossRush",
-    name: "T3 Boss Rush Normal"
-  },
-    {
-    tier: 3,
-    icon: 't3_cube_hard.png',
-    rarity: ItemRarity.EPIC,
-    key: "t3CubeHard",
-    name: "T3 Cube Hard"
+    key: "EbonyCubeLevel2",
+    name: "Ebony Cube Level 2"
   },
   {
     tier: 3,
-    icon: 't3_bossrush_hard.png',
+    icon: 'ebony1540.png',
     rarity: ItemRarity.LEGENDARY,
-    key: "t3BossRushHard",
-    name: "T3 Boss Rush Hard"
-  },
-  {
-    tier: 3,
-    icon: 't3_bossrush_cube_inferno.png',
-    rarity: ItemRarity.LEGENDARY,
-    key: "t3BossRushInferno",
-    name: "T3 Boss Rush Inferno"
+    key: "EbonyCubeLevel3",
+    name: "Ebony Cube Level 3"
   },
   {
     icon: 'platinum_fields.png',

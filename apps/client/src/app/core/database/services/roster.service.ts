@@ -49,14 +49,9 @@ export class RosterService extends FirestoreStorage<Roster> {
           if (!c.tickets) {
             shouldSave = true;
             c.tickets = {
-              t1Cube: 0,
-              t2BossRush: 0,
-              t2Cube: 0,
-              t3BossRush: 0,
-              t3BossRushHard: 0,
-              t3Cube: 0,
-              t3CubeHard: 0,
-              t3BossRushInferno: 0,
+              EbonyCubeLevel1: 0,
+              EbonyCubeLevel2: 0,
+              EbonyCubeLevel3: 0,
               platinumFields: 0
             };
           }
