@@ -365,6 +365,82 @@ export const goldTasks: GoldTask[] = [
     completionId: "T3.L5.6",
     chestId: "BrelshazaH6",
     overrideMinIlvl: 1560
+  },
+  {
+    name: "Kayangel Normal Gate 1",
+    goldReward: 800,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L6.1",
+    chestId: "KayangelN1",
+    overrideMinIlvl: 1540,
+    overrideMaxIlvl: 1580
+  },
+  {
+    name: "Kayangel Normal Gate 2",
+    goldReward: 800,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L6.2",
+    chestId: "KayangelN2",
+    overrideMinIlvl: 1540,
+    overrideMaxIlvl: 1580
+  },
+  {
+    name: "Kayangel Normal Gate 3",
+    goldReward: 1200,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L6.3",
+    chestId: "KayangelN3",
+    overrideMinIlvl: 1540,
+    overrideMaxIlvl: 1580
+  },
+  {
+    name: "Kayangel Normal Gate 4",
+    goldReward: 1700,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L6.4",
+    chestId: "KayangelN4",
+    overrideMinIlvl: 1540,
+    overrideMaxIlvl: 1580
+  },
+  {
+    name: "Kayangel Hard Gate 1",
+    goldReward: 1000,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L7.1",
+    chestId: "KayangelH1",
+    overrideMinIlvl: 1580
+  },
+  {
+    name: "Kayangel Hard Gate 2",
+    goldReward: 1000,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L7.2",
+    chestId: "KayangelH2",
+    overrideMinIlvl: 1580
+  },
+  {
+    name: "Kayangel Hard Gate 3",
+    goldReward: 1500,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L7.3",
+    chestId: "KayangelH3",
+    overrideMinIlvl: 1580
+  },
+  {
+    name: "Kayangel Hard Gate 4",
+    goldReward: 2000,
+    taskName: "Kayangel",
+    chestPrice: 0,
+    completionId: "T3.L7.4",
+    chestId: "KayangelH4",
+    overrideMinIlvl: 1580
   }
-    
+
 ];
