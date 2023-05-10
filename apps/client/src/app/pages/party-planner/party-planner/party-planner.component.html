@@ -34,7 +34,7 @@
         <th>Task</th>
         <th *ngFor="let character of roster.characters">
           <div class="character-title">
-            <img src="./assets/icons/classes/{{getIcon(character)}}.svg" alt=""
+            <img src="./assets/icons/classes/{{character.className}}.svg" alt=""
                  class="class-icon" *ngIf="character.class !== null">
             {{character.name}} [{{character.ilvl}}]
             <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note"
@@ -73,7 +73,7 @@
                   <div class="friend-name">{{friend.friendId | userName | async}}</div>
                   <div class="friend-characters">
                     <div *ngFor="let fc of friend.characters" class="friend-character">
-                      <img src="./assets/icons/classes/{{getIcon(fc.c)}}.svg" alt=""
+                      <img src="./assets/icons/classes/{{fc.c.className}}.svg" alt=""
                            class="class-icon" *ngIf="fc.c.class !== null">
                       <div nz-tooltip nzTooltipTitle="ilvl {{fc.c.ilvl}}">{{fc.c.name}}</div>&nbsp;
                       <div nz-tooltip nzTooltipTitle="You can do {{fc.doable}} runs together">
@@ -112,7 +112,7 @@
                   <div class="friend-name">{{friend.friendId | userName | async}}</div>
                   <div class="friend-characters">
                     <div *ngFor="let fc of friend.characters" class="friend-character">
-                      <img src="./assets/icons/classes/{{getIcon(fc.c)}}.svg" alt=""
+                      <img src="./assets/icons/classes/{{fc.c.className}}.svg" alt=""
                            class="class-icon" *ngIf="fc.c.class !== null">
                       <div nz-tooltip nzTooltipTitle="ilvl {{fc.c.ilvl}}">{{fc.c.name}}</div>&nbsp;
                       <div nz-tooltip nzTooltipTitle="You can do {{fc.doable}} runs together">

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { GuildService } from "../../../core/database/services/guild.service";
-import { combineLatest, map } from "rxjs";
+import { combineLatest, map, pluck } from "rxjs";
 import { AuthService } from "../../../core/database/services/auth.service";
 import { createReference, isSameUser } from "../../../core/database/character-reference";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -40,7 +40,9 @@ export class GuildHomeComponent {
     })
   );
 
-  public characters$ = this.rosterService.roster$;
+  public characters$ = this.rosterService.roster$.pipe(
+    pluck("characters")
+  );
 
   public uid$ = this.auth.uid$;
 
