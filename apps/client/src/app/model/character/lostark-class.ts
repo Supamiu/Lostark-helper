@@ -1,6 +1,5 @@
 export enum LostarkClass {
   DESTROYER = 0,
-  SLAYER = 1,
   ARCANA = 2,
   BERSERKER = 3,
   WARDANCER = 4,
