@@ -92,7 +92,7 @@
                            [nzValue]="character.id" [nzLabel]="character.name"
                            nzCustomContent class="character-row">
                   <div class="character-row">
-                    <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt="" class="class-icon">
+                    <img src="./assets/icons/classes/{{character.className}}.svg" alt="" class="class-icon">
                     <div>{{character.name}}</div>
                   </div>
                 </nz-option>

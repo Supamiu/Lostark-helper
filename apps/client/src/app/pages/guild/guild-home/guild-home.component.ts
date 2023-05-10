@@ -9,6 +9,7 @@ import { LostarkRegion } from "../../../model/lostark-region";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
+import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Component({
   selector: "lostark-helper-guild-home",
@@ -42,7 +43,12 @@ export class GuildHomeComponent {
   );
 
   public characters$ = this.rosterService.roster$.pipe(
-    map(roster => roster.characters)
+    map(roster => {
+      return roster.characters.map(c => ({
+        ...c,
+        className: LostarkClass[c.class].toLowerCase(),
+      }))
+    })
   );
 
   public uid$ = this.auth.uid$;

@@ -17,9 +17,11 @@ import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { Character } from "../../../model/character/character";
 import { tickets } from "../../../data/tickets";
+import { LostarkClass } from "../../../model/character/lostark-class";
 
 export interface TaskCharacter extends Character{
-  done?: boolean
+  done?: boolean;
+  className?: string;
 }
 
 @Component({
@@ -28,12 +30,13 @@ export interface TaskCharacter extends Character{
   styleUrls: ["./checklist.component.less"]
 })
 export class ChecklistComponent {
-
   public TaskFrequency = TaskFrequency;
+
   public TaskScope = TaskScope;
 
+  public forceShowHiddenCharacter$ = false;
+
   public rawRoster$ = this.rosterService.roster$;
-  public forceShowHiddenCharacter: boolean = false;
 
   public categoriesDisplay$ = new LocalStorageBehaviorSubject<{
     dailyCharacter: boolean,
@@ -42,8 +45,20 @@ export class ChecklistComponent {
     weeklyRoster: boolean
   }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
 
-  public roster$: Observable<Character[]> = this.rawRoster$.pipe(
-    pluck("characters")
+  public roster$: Observable<TaskCharacter[]> = this.rawRoster$.pipe(
+    pluck("characters"),
+    map(roster => {
+      return roster.map( ( char: Character ): TaskCharacter => ({
+        ...char,
+        className: LostarkClass[char?.class].toLowerCase(),
+      })).filter(char => {
+        if ( this.forceShowHiddenCharacter$ ) {
+          return true;
+        } else {
+          return ! char.isHide && true;
+        }
+      })
+    })
   );
 
   public tiersAvailability$ = this.roster$.pipe(
@@ -67,6 +82,7 @@ export class ChecklistComponent {
   public energy$ = this.energyService.energy$;
 
   public lastDailyReset$ = this.timeService.lastDailyReset$;
+
   public lastWeeklyReset$ = this.timeService.lastWeeklyReset$;
 
   public nextDailyReset$ = this.lastDailyReset$.pipe(
@@ -88,15 +104,6 @@ export class ChecklistComponent {
       });
     })
   );
-
-  public getCharactersList(characters: TaskCharacter[]): TaskCharacter[] {
-    if(this.forceShowHiddenCharacter){
-      return characters;
-    }
-    return characters.filter((character) => {
-      return !character.isHide && true
-    });
-  }
 
   public tableDisplay$ = combineLatest([
     this.rawRoster$,

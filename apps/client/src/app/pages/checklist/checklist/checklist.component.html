@@ -3,7 +3,7 @@
   <ng-template #subtitle>
     Track your daily and weekly tasks with automated resets and rest bonus support <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Ctrl + Click a task to mark it as entirely done in a single click"></i>
     <br>
-    <label nz-checkbox [(ngModel)]="forceShowHiddenCharacter"></label>
+    <label nz-checkbox [(ngModel)]="forceShowHiddenCharacter$"></label>
     Show your hidden's characters
     <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
   </ng-template>
@@ -18,15 +18,14 @@
 
 <nz-collapse *ngIf="rawRoster$ | async as roster">
   <nz-collapse-panel nzHeader="Tickets tracking" class="tickets-tracker" [(nzActive)]="ticketsTrackingOpened"
-                     (nzActiveChange)="ticketsTrackingOpenedChange($event)" *ngIf="getCharactersList(roster.characters).length > 0">
+                     (nzActiveChange)="ticketsTrackingOpenedChange($event)" *ngIf="roster.characters.length > 0">
     <nz-table [nzPageSize]="99" nzHideOnSinglePage nzBordered nzOuterBordered nzSize="middle" [nzData]="[{}]">
-      <thead>
+      <thead *ngIf="roster$ | async as characters">
       <tr>
         <th>Ticket</th>
-        <th *ngFor="let character of getCharactersList(roster.characters); trackBy: trackByCharacter">
+        <th *ngFor="let character of characters; trackBy: trackByCharacter">
           <div class="character-title">
-            <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt=""
-                class="class-icon" *ngIf="character.class !== null">
+            <img src="./assets/icons/classes/{{character.className}}.svg" alt="" class="class-icon" *ngIf="character.class !== null">
             {{character.name}} [{{character.ilvl}}]
           </div>
         </th>
@@ -35,7 +34,7 @@
       <tbody *ngIf="tickets$ | async as tickets">
       <tr *ngFor="let ticket of tickets">
         <td><img src="./assets/icons/{{ticket.icon}}" class="ticket-icon icon-rarity icon-rarity-{{ticket.rarity}}" alt="">{{ticket.name}}</td>
-        <td *ngFor="let character of getCharactersList(roster.characters); trackBy: trackByCharacter" class="ticket-cell">
+        <td *ngFor="let character of roster.characters; trackBy: trackByCharacter" class="ticket-cell">
           <nz-input-number [(ngModel)]="character.tickets[ticket.key]" (ngModelChange)="saveRoster(roster)"></nz-input-number>
         </td>
       </tr>
@@ -74,9 +73,9 @@
               <thead>
               <tr>
                 <th>Task</th>
-                <th *ngFor="let character of getCharactersList(display.roster)">
+                <th *ngFor="let character of roster">
                   <div class="character-title">
-                    <img src="./assets/icons/classes/class_{{character.class?.toString()?.padStart(2,'0')}}.png" alt=""
+                    <img src="./assets/icons/classes/{{character.className}}.svg" alt=""
                          class="class-icon" *ngIf="character.class !== null">
                     {{character.name}} [{{character.ilvl}}]
                     <i nz-icon nzType="check" nzTheme="outline" *ngIf="character.done"></i>

@@ -10,6 +10,7 @@ import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion, UpdateData } from "@angular/fire/firestore";
 import { CharacterReference, createReference, isSameCharacter, isSameUser, parseCharacterReference } from "../../../core/database/character-reference";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Component({
   selector: "lostark-helper-guild-details",
@@ -66,7 +67,10 @@ export class GuildDetailsComponent {
     map(([guild, roster, user]) => {
       return roster.characters.filter(c => {
         return !guild.members.some(m => isSameCharacter(m, user.$key, c.id || 0));
-      });
+      }).map(c => ({
+        ...c,
+        className: LostarkClass[c.class].toLowerCase(),
+      }));
     })
   );
 

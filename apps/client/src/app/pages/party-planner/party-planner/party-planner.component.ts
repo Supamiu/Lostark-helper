@@ -14,6 +14,8 @@ import { subtasks } from "../subtasks";
 import { LostarkTaskWithSubtask } from "../../../model/lostark-task-with-subtask";
 import { tickets } from "../../../data/tickets";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
+import { Character } from "../../../model/character/character";
+import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Component({
   selector: "lostark-helper-party-planner",
@@ -252,5 +254,9 @@ export class PartyPlannerComponent {
 
   trackByIndex(index: number): number {
     return index;
+  }
+
+  getIcon(character: Character) {
+    return LostarkClass[character.class].toLowerCase();
   }
 }

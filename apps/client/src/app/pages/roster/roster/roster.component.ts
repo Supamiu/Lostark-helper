@@ -31,7 +31,7 @@ export class RosterComponent {
       return {
         id: key,
         name: `${LostarkClass[key][0]}${LostarkClass[key].slice(1).toLowerCase()}`,
-        icon: `class_${key.padStart(2, "0")}.png`
+        icon: `${LostarkClass[key].toLowerCase()}.svg`
       };
     });
 
@@ -183,5 +183,9 @@ export class RosterComponent {
       };
     });
     this.rosterService.updateOne(roster.$key, { characters: roster.characters });
+  }
+
+  getIcon(character: Character): string {
+    return this.classes.find(c => c.id === character.class.toString())?.icon || '';
   }
 }
