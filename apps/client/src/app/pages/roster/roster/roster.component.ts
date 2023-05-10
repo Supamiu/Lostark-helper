@@ -184,8 +184,4 @@ export class RosterComponent {
     });
     this.rosterService.updateOne(roster.$key, { characters: roster.characters });
   }
-
-  getIcon(character: Character): string {
-    return this.classes.find(c => c.id === character.class.toString())?.icon || '';
-  }
 }

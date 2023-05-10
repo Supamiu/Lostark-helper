@@ -36,7 +36,7 @@
         </ng-template>
 
         <nz-list-item-meta [nzTitle]="title" [nzDescription]="description" class="character-meta"
-                           nzAvatar="./assets/icons/classes/{{getIcon(character)}}"></nz-list-item-meta>
+                           nzAvatar="./assets/icons/classes/{{character.className}}.svg"></nz-list-item-meta>
         <ng-template #title>
           <input type="text" nz-input [ngModel]="character.name" [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="saveCharacterName(character, roster, $event)" class="character-name-input">
         </ng-template>
