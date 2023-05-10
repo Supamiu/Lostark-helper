@@ -255,61 +255,67 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Normal Gate 1",
     goldReward: 2000,
-    taskName: "Brelshaza Normal Gate 1-2",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 400,
     completionId: "T3.L4.1",
     chestId: "BrelshazaN1",
-    overrideMinIlvl: 1490
+    overrideMinIlvl: 1490,
+    overrideMaxIlvl: 1540
   },
   {
     name: "Brelshaza Normal Gate 2",
     goldReward: 2500,
-    taskName: "Brelshaza Normal Gate 1-2",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 600,
     completionId: "T3.L4.2",
     chestId: "BrelshazaN2",
-    overrideMinIlvl: 1490
+    overrideMinIlvl: 1490,
+    overrideMaxIlvl: 1540
   },
   {
     name: "Brelshaza Normal Gate 3",
     goldReward: 700,
-    taskName: "Brelshaza Normal Gate 3-4",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 700,
     completionId: "T3.L4.3",
     chestId: "BrelshazaN3",
-    overrideMinIlvl: 1500
+    overrideMinIlvl: 1500,
+    overrideMaxIlvl: 1550
   },
   {
     name: "Brelshaza Normal Gate 4",
     goldReward: 800,
-    taskName: "Brelshaza Normal Gate 3-4",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 800,
     completionId: "T3.L4.4",
     chestId: "BrelshazaN4",
-    overrideMinIlvl: 1500
+    overrideMinIlvl: 1500,
+    overrideMaxIlvl: 1550
   },
   {
     name: "Brelshaza Normal Gate 5",
     goldReward: 1000,
-    taskName: "Brelshaza Normal Gate 5-6",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 900,
     completionId: "T3.L4.5",
     chestId: "BrelshazaN5",
-    overrideMinIlvl: 1520
+    overrideMinIlvl: 1520,
+    overrideMaxIlvl: 1560
   },
   {
     name: "Brelshaza Normal Gate 6",
     goldReward: 1500,
-    taskName: "Brelshaza Normal Gate 5-6",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 1100,
     completionId: "T3.L4.6",
     chestId: "BrelshazaN6",
-    overrideMinIlvl: 1520
+    overrideMinIlvl: 1520,
+    overrideMaxIlvl: 1560
   },
   {
     name: "Brelshaza Hard Gate 1",
     goldReward: 2500,
-    taskName: "Brelshaza Hard Gate 1-2",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 700,
     completionId: "T3.L5.1",
     chestId: "BrelshazaH1",
@@ -318,7 +324,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Hard Gate 2",
     goldReward: 3000,
-    taskName: "Brelshaza Hard Gate 1-2",
+    taskName: "Brelshaza Gate 1-2",
     chestPrice: 800,
     completionId: "T3.L5.2",
     chestId: "BrelshazaH2",
@@ -327,7 +333,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Hard Gate 3",
     goldReward: 900,
-    taskName: "Brelshaza Hard Gate 3-4",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 900,
     completionId: "T3.L5.3",
     chestId: "BrelshazaH3",
@@ -336,7 +342,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Hard Gate 4",
     goldReward: 1100,
-    taskName: "Brelshaza Hard Gate 3-4",
+    taskName: "Brelshaza Gate 3-4",
     chestPrice: 1100,
     completionId: "T3.L5.4",
     chestId: "BrelshazaH4",
@@ -345,7 +351,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Hard Gate 5",
     goldReward: 1200,
-    taskName: "Brelshaza Hard Gate 5-6",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 1100,
     completionId: "T3.L5.5",
     chestId: "BrelshazaH5",
@@ -354,7 +360,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Hard Gate 6",
     goldReward: 1800,
-    taskName: "Brelshaza Hard Gate 5-6",
+    taskName: "Brelshaza Gate 5-6",
     chestPrice: 1400,
     completionId: "T3.L5.6",
     chestId: "BrelshazaH6",

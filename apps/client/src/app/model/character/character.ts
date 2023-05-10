@@ -12,14 +12,9 @@ export interface Character {
   weeklyGold: boolean;
   note?: string;
   tickets: {
-    t1Cube: number;
-    t2BossRush: number;
-    t2Cube: number;
-    t3BossRush: number;
-    t3Cube: number;
-    t3BossRushHard: number;
-    t3CubeHard: number;
-    t3BossRushInferno: number;
+    EbonyCubeLevel1: number;
+    EbonyCubeLevel2: number;
+    EbonyCubeLevel3: number;
     platinumFields: number;
   };
 }

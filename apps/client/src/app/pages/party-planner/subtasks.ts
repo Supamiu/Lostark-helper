@@ -52,11 +52,8 @@ export const subtasks: Subtask[] = [
   { id: `kakul-normal`, name: `Kakul-Saydon Normal`, parentName: "Kakul", minIlvl: 1475 },
   
   // Brelshaza Difficulties
-  { id: `brelshaza-g12-normal`, name: `Brelshaza G1-G2 Normal`, parentName: "Brelshaza", minIlvl: 1490 },
-  { id: `brelshaza-g34-normal`, name: `Brelshaza G3-G4 Normal`, parentName: "Brelshaza", minIlvl: 1500 },
-  { id: `brelshaza-g56-normal`, name: `Brelshaza G5-G6 Normal`, parentName: "Brelshaza", minIlvl: 1520 },
-  { id: `brelshaza-g12-hard`, name: `Brelshaza G1-G2 Hard`, parentName: "Brelshaza", minIlvl: 1540 },
-  { id: `brelshaza-g34-hard`, name: `Brelshaza G3-G4 Hard`, parentName: "Brelshaza", minIlvl: 1550 },
-  { id: `brelshaza-g56-hard`, name: `Brelshaza G5-G6 Hard`, parentName: "Brelshaza", minIlvl: 1560 }
+  { id: `brelshaza-g12`, name: `Brelshaza G1-G2`, parentName: "Brelshaza", minIlvl: 1490 },
+  { id: `brelshaza-g34`, name: `Brelshaza G3-G4`, parentName: "Brelshaza", minIlvl: 1500 },
+  { id: `brelshaza-g56`, name: `Brelshaza G5-G6`, parentName: "Brelshaza", minIlvl: 1520 },
 
 ];
