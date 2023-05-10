@@ -48,10 +48,7 @@ export class ChecklistComponent {
   public roster$: Observable<TaskCharacter[]> = this.rawRoster$.pipe(
     pluck("characters"),
     map(roster => {
-      return roster.map( ( char: Character ): TaskCharacter => ({
-        ...char,
-        className: LostarkClass[char?.class].toLowerCase(),
-      })).filter(char => {
+      return roster.filter(char => {
         if ( this.forceShowHiddenCharacter$ ) {
           return true;
         } else {
