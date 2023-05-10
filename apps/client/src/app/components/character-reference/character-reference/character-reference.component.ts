@@ -4,8 +4,6 @@ import { CharacterReference, parseCharacterReference } from "../../../core/datab
 import { combineLatest, map, ReplaySubject, switchMap } from "rxjs";
 import { filter } from "rxjs/operators";
 import { UserService } from "../../../core/database/services/user.service";
-import { LostarkClass } from "../../../model/character/lostark-class";
-import { Character } from "../../../model/character/character";
 
 @Component({
   selector: "lostark-helper-character-reference",
@@ -52,9 +50,5 @@ export class CharacterReferenceComponent {
   );
 
   constructor(private rosterService: RosterService, private userService: UserService) {
-  }
-
-  getIcon(character: Character) {
-    return LostarkClass[character?.class].toLowerCase();
   }
 }

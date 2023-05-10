@@ -1,7 +1,7 @@
 <ng-container *ngIf="data$ | async as data">
   <ng-container *ngIf="data.userName; else userNotFound">
     <div class="name-container" *ngIf="data.character; else characterNotFound" nz-tooltip [nzTooltipTitle]="disableTooltip ? null : data.userName">
-      <img src="./assets/icons/classes/{{getIcon(data.character)}}.svg" alt="" class="class-icon">
+      <img src="./assets/icons/classes/{{data.character.className}}.svg" alt="" class="class-icon">
       {{data.character.name}}
       <span *ngIf="showIlvl">[ilvl {{data.character.ilvl}}]</span>
     </div>
