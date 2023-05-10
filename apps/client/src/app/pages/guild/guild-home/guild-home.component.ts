@@ -2,14 +2,12 @@ import { Component } from "@angular/core";
 import { GuildService } from "../../../core/database/services/guild.service";
 import { combineLatest, map } from "rxjs";
 import { AuthService } from "../../../core/database/services/auth.service";
-import { CharacterReference, createReference, isSameUser } from "../../../core/database/character-reference";
+import { createReference, isSameUser } from "../../../core/database/character-reference";
 import { FormBuilder, Validators } from "@angular/forms";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { LostarkRegion } from "../../../model/lostark-region";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Guild } from "../../../model/guild/guild";
-import { arrayRemove, arrayUnion } from "@angular/fire/firestore";
-import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Component({
   selector: "lostark-helper-guild-home",
@@ -42,14 +40,7 @@ export class GuildHomeComponent {
     })
   );
 
-  public characters$ = this.rosterService.roster$.pipe(
-    map(roster => {
-      return roster.characters.map(c => ({
-        ...c,
-        className: LostarkClass[c.class].toLowerCase(),
-      }))
-    })
-  );
+  public characters$ = this.rosterService.roster$;
 
   public uid$ = this.auth.uid$;
 
