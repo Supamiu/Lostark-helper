@@ -5,6 +5,7 @@ import { Roster } from "../../../model/roster";
 import { AuthService } from "./auth.service";
 import { Firestore } from "@angular/fire/firestore";
 import { mapTo } from "rxjs/operators";
+import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Injectable({
   providedIn: "root"
@@ -54,6 +55,9 @@ export class RosterService extends FirestoreStorage<Roster> {
               EbonyCubeLevel3: 0,
               platinumFields: 0
             };
+          }
+          if (c.class) {
+            c.className = LostarkClass[c.class].toLowerCase();
           }
           return c;
         });
