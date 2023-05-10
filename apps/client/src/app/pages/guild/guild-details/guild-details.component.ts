@@ -10,7 +10,6 @@ import { Guild } from "../../../model/guild/guild";
 import { arrayRemove, arrayUnion, UpdateData } from "@angular/fire/firestore";
 import { CharacterReference, createReference, isSameCharacter, isSameUser, parseCharacterReference } from "../../../core/database/character-reference";
 import { NzMessageService } from "ng-zorro-antd/message";
-import { LostarkClass } from "../../../model/character/lostark-class";
 
 @Component({
   selector: "lostark-helper-guild-details",
