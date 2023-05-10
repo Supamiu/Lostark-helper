@@ -3,8 +3,9 @@
   <ng-template #subtitle>
     Track your daily and weekly tasks with automated resets and rest bonus support <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Ctrl + Click a task to mark it as entirely done in a single click"></i>
     <br>
-    <label nz-checkbox [(ngModel)]="forceShowHiddenCharacter$"></label>
-    Show your hidden's characters
+    <label nz-checkbox [ngModel]="forceShowHiddenCharacter$ | async" (ngModelChange)="forceShowHiddenCharacter$.next($event)">
+      Show your hidden's characters
+    </label>
     <i nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="Only resets after 3 days"></i>
   </ng-template>
 

@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, startWith } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -17,7 +17,6 @@ import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { Character } from "../../../model/character/character";
 import { tickets } from "../../../data/tickets";
-import { LostarkClass } from "../../../model/character/lostark-class";
 
 export interface TaskCharacter extends Character{
   done?: boolean;
@@ -34,7 +33,7 @@ export class ChecklistComponent {
 
   public TaskScope = TaskScope;
 
-  public forceShowHiddenCharacter$ = false;
+  public forceShowHiddenCharacter$ = new LocalStorageBehaviorSubject("checklist:forceShowHidden", false);
 
   public rawRoster$ = this.rosterService.roster$;
 
@@ -45,15 +44,14 @@ export class ChecklistComponent {
     weeklyRoster: boolean
   }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
 
-  public roster$: Observable<TaskCharacter[]> = this.rawRoster$.pipe(
-    pluck("characters"),
-    map(roster => {
-      return roster.filter(char => {
-        if ( this.forceShowHiddenCharacter$ ) {
-          return true;
-        } else {
-          return ! char.isHide && true;
-        }
+  public roster$: Observable<TaskCharacter[]> = combineLatest([
+    this.rawRoster$,
+    this.forceShowHiddenCharacter$
+  ]).pipe(
+    map(( [ roster, forceShowHiddenCharacter ] ) => {
+      return roster.characters.filter(char => {
+        const isHide = char.isHide !== undefined && char.isHide && ! forceShowHiddenCharacter;
+        return ! isHide;
       })
     })
   );
@@ -92,12 +90,13 @@ export class ChecklistComponent {
 
   public tasks$: Observable<LostarkTask[]> = combineLatest([
     this.rawRoster$,
-    this.tasksService.tasks$
+    this.tasksService.tasks$,
+    this.roster$,
   ]).pipe(
-    map(([roster, tasks]) => {
+    map(([roster, tasks, characters]) => {
       return tasks.filter(task => {
         return task.enabled &&
-          (!task.maxIlvl || roster.characters.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0) && getCompletionEntry(roster.trackedTasks, c, task, true) !== false));
+          (!task.maxIlvl || characters.some(c => c.ilvl < (task.maxIlvl || Infinity) && c.ilvl >= (task.minIlvl || 0) && getCompletionEntry(roster.trackedTasks, c, task, true) !== false));
       });
     })
   );
@@ -114,9 +113,10 @@ export class ChecklistComponent {
         hiddenOnCompletion: settings.hiddenOnCompletion
       }))
     ),
-    this.energy$
+    this.energy$,
+    this.roster$,
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, settings, energy]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, settings, energy, characters]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
@@ -125,7 +125,7 @@ export class ChecklistComponent {
           const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
           const forceDone = ( !available && visible ); // If task is not available but is visible, we marked it as done
 
-          const completionData = roster.characters.map(character => {
+          const completionData = characters.map(character => {
             return {
               done: Math.min(isTaskDone(
                 task,
@@ -177,7 +177,7 @@ export class ChecklistComponent {
         }, { dailyCharacter: { data: [], done: false }, weeklyCharacter: { data: [], done: false }, dailyRoster: { data: [], done: false }, weeklyRoster: { data: [], done: false } });
 
       return {
-        roster: roster.characters.map((c, i) => {
+        roster: characters.map((c, i) => {
           const done = [...data.dailyCharacter.data, ...data.weeklyCharacter.data].every(
             (row: { completionData: { doable: boolean, done: number, tracked: boolean }[], task: LostarkTask }) => {
               const completion = row.completionData[i];
