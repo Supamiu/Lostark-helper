@@ -104,6 +104,10 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
+  createTask(`Kayangel`, 1540, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 4, 9999, "abyssal-dungeon.webp", {
+    shared: true,
+    partySize: 4
+  }),
 
   // Weekly Roster
   createTask(`Ghostship`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 1, 9999, "ghostship.png", {
