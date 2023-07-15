@@ -103,20 +103,18 @@
             <td *ngFor="let task of row.data" class="with-inner-table"
                 [class.completed]="task.done === -1 || task.done >= task.task.amount"
                 [class.even]="even"
-                [class.daily]="task.task.frequency == TaskFrequency.DAILY"
-                [class.weekly]="task.task.frequency == TaskFrequency.WEEKLY">
+                [class.daily]="task.task.frequency === TaskFrequency.DAILY"
+                [class.weekly]="task.task.frequency === TaskFrequency.WEEKLY">
               <div class="task-friends" *ngIf="task.friends?.length > 0">
                 <div *ngFor="let friend of task.friends" class="task-friend-container">
                   <div class="friend-name">{{friend.friendId | userName | async}}</div>
                   <div class="friend-characters">
                     <div nz-col nzOffset="7" nzSpan="10" class="center">
-                      <nz-select nzPlaceHolder="Characters" nzShowSearch nzAllowClear class="select" nzSize="large" (ngModelChange)="onChangeSecond($event)" [(ngModel)]="second">
+                      <nz-select nzPlaceHolder="Characters" nzShowSearch nzAllowClear>
                           <nz-option *ngFor="let fc of friend.characters" class="friend-character" [nzValue]="row.id" [nzLabel]="row.name">
                             <div nz-tooltip nzTooltipTitle="You can do {{fc.doable}} runs together">
                               ({{fc.doable}})
                             </div>
-                            <img src="./assets/icons/classes/class_{{fc.c.class?.toString()?.padStart(2,'0')}}.png" alt=""
-                               class="class-icon" *ngIf="fc.c.class !== null">
                           </nz-option>
                       </nz-select>
                     </div>
