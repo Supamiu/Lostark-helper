@@ -253,4 +253,8 @@ export class PartyPlannerComponent {
   trackByIndex(index: number): number {
     return index;
   }
+
+  toggleAccordion(friend: any): void {
+    friend.showCharacters = !friend.showCharacters;
+  }
 }
