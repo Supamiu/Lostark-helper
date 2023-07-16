@@ -441,6 +441,63 @@ export const goldTasks: GoldTask[] = [
     completionId: "T3.L7.4",
     chestId: "KayangelH4",
     overrideMinIlvl: 1580
-  }
+  },
+  {
+    name: "Akkan Normal Gate 1",
+    goldReward: 1500,
+    taskName: "Akkan",
+    chestPrice: 900,
+    completionId: "T3.L8.1",
+    chestId: "AkkanN1",
+    overrideMinIlvl: 1580,
+    overrideMaxIlvl: 1600
+  },
+  {
+    name: "Akkan Normal Gate 2",
+    goldReward: 2000,
+    taskName: "Akkan",
+    chestPrice: 1100,
+    completionId: "T3.L8.2",
+    chestId: "AkkanN2",
+    overrideMinIlvl: 1580,
+    overrideMaxIlvl: 1600
+  },
+  {
+    name: "Akkan Normal Gate 3",
+    goldReward: 3000,
+    taskName: "Akkan",
+    chestPrice: 1500,
+    completionId: "T3.L8.3",
+    chestId: "AkkanN3",
+    overrideMinIlvl: 1580,
+    overrideMaxIlvl: 1600
+  },
+  {
+  name: "Akkan Hard Gate 1",
+  goldReward: 1750,
+  taskName: "Akkan",
+  chestPrice: 1200,
+  completionId: "T3.L9.1",
+  chestId: "AkkanH1",
+  overrideMinIlvl: 1600
+},
+{
+  name: "Akkan Hard Gate 2",
+  goldReward: 2500,
+  taskName: "Akkan",
+  chestPrice: 1400,
+  completionId: "T3.L9.2",
+  chestId: "AkkanH2",
+  overrideMinIlvl: 1600
+},
+{
+  name: "Akkan Hard Gate 3",
+  goldReward: 5750,
+  taskName: "Akkan",
+  chestPrice: 1900,
+  completionId: "T3.L9.3",
+  chestId: "AkkanH3",
+  overrideMinIlvl: 1600
+}
     
 ];

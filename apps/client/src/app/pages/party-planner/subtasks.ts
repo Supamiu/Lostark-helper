@@ -59,4 +59,8 @@ export const subtasks: Subtask[] = [
   //Kayangel Difficulties
   { id: `kayangel`, name: `Kayangel`, parentName: "Kayangel", minIlvl: 1540 },
 
+  //Akkan Difficulties
+  { id: `akkan-normal`, name: `Akkan Normal`, parentName: "Akkan", minIlvl: 1580 },  
+  { id: `akkan-hard`, name: `Akkan Hard`, parentName: "Akkan", minIlvl: 1600 },  
+
 ];
