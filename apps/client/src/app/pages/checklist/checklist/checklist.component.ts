@@ -221,6 +221,10 @@ export class ChecklistComponent {
     this.windowResize$.next();
   }
 
+  public toggleAccordion(friend: any): void {
+    friend.showCharacters = !friend.showCharacters;
+  }
+
   public ticketsTrackingOpenedChange(opened: boolean): void {
     localStorage.setItem("checklist:tickets-opened", opened.toString());
     this.ticketsTrackingOpened = opened;
@@ -283,3 +287,6 @@ export class ChecklistComponent {
     this.rosterService.setOne(roster.$key, roster);
   }
 }
+
+
+
