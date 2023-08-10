@@ -7,7 +7,7 @@ export const tasks = [
   createTask("Chaos Dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp", {
     partySize: 4
   }),
-  createTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "guardian.png", {
+  createTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "guardian.png", {
     shared: true,
     partySize: 4
   }),
