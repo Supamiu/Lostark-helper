@@ -157,16 +157,16 @@ export const goldTasks: GoldTask[] = [
     name: "Valtan Hard Gate 1",
     goldReward: 700,
     taskName: "Valtan",
-    chestPrice: 600,
+    chestPrice: 450,
     completionId: "T3.L1.1",
     chestId: "Valtan1",
     overrideMinIlvl: 1445
   },
   {
     name: "Valtan Hard Gate 2",
-    goldReward: 2300,
+    goldReward: 1100,
     taskName: "Valtan",
-    chestPrice: 900,
+    chestPrice: 600,
     completionId: "T3.L1.2",
     chestId: "Valtan2",
     overrideMinIlvl: 1445
@@ -200,30 +200,33 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Vykas Hard Gate 1",
-    goldReward: 1000,
+    goldReward: 600,
     taskName: "Vykas",
-    chestPrice: 700,
+    chestPrice: 300,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
-    overrideMinIlvl: 1460
+    overrideMinIlvl: 1460,
+    overrideMaxIlvl: 1540
   },
   {
     name: "Vykas Hard Gate 2",
-    goldReward: 1000,
+    goldReward: 700,
     taskName: "Vykas",
-    chestPrice: 900,
+    chestPrice: 300,
     completionId: "T3.L2.2",
     chestId: "Vykas2",
-    overrideMinIlvl: 1460
+    overrideMinIlvl: 1460,
+    overrideMaxIlvl: 1540
   },
   {
     name: "Vykas Hard Gate 3",
-    goldReward: 2500,
+    goldReward: 1100,
     taskName: "Vykas",
-    chestPrice: 1200,
+    chestPrice: 600,
     completionId: "T3.L2.3",
     chestId: "Vykas3",
-    overrideMinIlvl: 1460
+    overrideMinIlvl: 1460,
+    overrideMaxIlvl: 1540
   },
   {
     name: "Kakul-Saydon Gate 1",
