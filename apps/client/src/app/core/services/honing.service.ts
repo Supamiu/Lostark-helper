@@ -1,9 +1,9 @@
-import { GearsetPiece } from "../../model/character/gearset-piece";
-import { HoningCost } from "../../pages/gearsets/gear-manager/honing-cost";
-import { HoningChances, honingChances } from "../../pages/honing-cost-optimizer/honing-chances";
-import { Injectable } from "@angular/core";
-import { Gearset } from "../../model/character/gearset";
-import { GearsetRarity } from "../../model/gearset-rarity";
+import {GearsetPiece} from "../../model/character/gearset-piece";
+import {HoningCost} from "../../pages/gearsets/gear-manager/honing-cost";
+import {HoningChances, honingChances} from "../../pages/honing-cost-optimizer/honing-chances";
+import {Injectable} from "@angular/core";
+import {Gearset} from "../../model/character/gearset";
+import {GearsetRarity} from "../../model/gearset-rarity";
 
 @Injectable({
   providedIn: "root"
@@ -32,7 +32,7 @@ export class HoningService {
         && row.target <= piece.targetHoning;
     });
     return honingRows.reduce((acc, row) => {
-      const targetIlvl = this.getIlvl({ ...piece, honing: piece.honing + 1 });
+      const targetIlvl = this.getIlvl({...piece, honing: piece.honing + 1});
       const strongholdBuff = (gearset.t30strongholdBuff && targetIlvl <= 1370) || (gearset.t31strongholdBuff && targetIlvl <= 1415);
       const tentatives = pity ? this.getMaxArtisanEnergyTentatives(row) : this.getHoningChancesAvgTentatives(row, strongholdBuff || false);
       acc.leapstones += tentatives * row.leapstones;
@@ -93,31 +93,32 @@ export class HoningService {
         baseIlvl = 1390;
         break;
     }
-    let honingIlvlBonus: number;
-    if (gearPiece.rarity <= GearsetRarity.EPIC) {
-      honingIlvlBonus = Math.max(Math.min(gearPiece.honing, 1), 0) * 2
-        + Math.max(Math.min(gearPiece.honing - 1, 2), 0) * 3
-        + Math.max(Math.min(gearPiece.honing - 3, 12), 0) * 5
-        + Math.max(gearPiece.honing - 15, 0) * 15;
-    } else if (gearPiece.rarity <= GearsetRarity.RELIC) {
-      honingIlvlBonus = Math.min(gearPiece.honing, 15) * 5
-        + Math.max(gearPiece.honing - 15, 0) * 15;
-    } else if (gearPiece.rarity <= GearsetRarity.UPPER_RELIC) {
-      honingIlvlBonus = Math.min(gearPiece.honing, 10) * 10
-        + Math.max(gearPiece.honing - 10, 0) * 10;
-    } else {
-      let higherThanTwentyIlvlBonus = 0;
-      let lowerThanTwentyIlvlBonus = 0;
-      if (gearPiece.honing <= 20) {
-        lowerThanTwentyIlvlBonus = Math.max(gearPiece.honing - 10, 0) * 10;
-      }
-      if (gearPiece.honing > 20) {
-        higherThanTwentyIlvlBonus = 100 + (Math.max(gearPiece.honing - 20, 0) * 5);
-      }
-      honingIlvlBonus = Math.min(gearPiece.honing, 10) * 10
-        + lowerThanTwentyIlvlBonus
-        + higherThanTwentyIlvlBonus;
+
+    switch (gearPiece.rarity as GearsetRarity) {
+      case GearsetRarity.NORMAL:
+      case GearsetRarity.UNCOMMON:
+      case GearsetRarity.RARE:
+      case GearsetRarity.EPIC:
+        return baseIlvl +
+          this.bonusItemLevel(gearPiece.honing, 0, 1, 2) +
+          this.bonusItemLevel(gearPiece.honing, 1, 3, 3) +
+          this.bonusItemLevel(gearPiece.honing, 3, 15, 5)
+      case GearsetRarity.LEGENDARY:
+      case GearsetRarity.RELIC:
+        return baseIlvl +
+          this.bonusItemLevel(gearPiece.honing, 0, 15, 5) +
+          this.bonusItemLevel(gearPiece.honing, 15, 25, 15)
+      case GearsetRarity.UPPER_RELIC:
+      case GearsetRarity.ANCIENT:
+        return baseIlvl +
+          this.bonusItemLevel(gearPiece.honing, 0, 20, 10) +
+          this.bonusItemLevel(gearPiece.honing, 20, 25, 5)
     }
-    return baseIlvl + honingIlvlBonus;
+  }
+
+  public bonusItemLevel(honeLevel: number, bracketStart: number, bracketEnd: number, ilvlPerHone: number): number {
+
+    let levels = honeLevel < bracketEnd ? Math.max(honeLevel - bracketStart, 0) : bracketEnd - bracketStart
+    return levels * ilvlPerHone
   }
 }
