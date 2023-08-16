@@ -69,6 +69,7 @@ export class RosterComponent {
         EbonyCubeLevel1: 0,
         EbonyCubeLevel2: 0,
         EbonyCubeLevel3: 0,
+        EbonyCubeLevel4: 0,
         platinumFields: 0
       }
     });

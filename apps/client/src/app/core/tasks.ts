@@ -7,7 +7,7 @@ export const tasks = [
   createTask("Chaos Dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp", {
     partySize: 4
   }),
-  createTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "guardian.png", {
+  createTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "guardian.png", {
     shared: true,
     partySize: 4
   }),
@@ -107,6 +107,10 @@ export const tasks = [
   createTask(`Kayangel`, 1540, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 4, 9999, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
+  }),
+  createTask(`Akkan`, 1580, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "legion_raid.png", {
+    shared: true,
+    partySize: 8
   }),
 
   // Weekly Roster
