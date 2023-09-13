@@ -173,56 +173,38 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Vykas Normal Gate 1",
-    goldReward: 400,
+    goldReward: 600,
     taskName: "Vykas",
-    chestPrice: 200,
+    chestPrice: 300,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
     overrideMaxIlvl: 1460
   },
   {
     name: "Vykas Normal Gate 2",
-    goldReward: 500 ,
+    goldReward: 1000,
     taskName: "Vykas",
-    chestPrice: 250,
+    chestPrice: 450,
     completionId: "T3.L2.2",
     chestId: "Vykas2",
     overrideMaxIlvl: 1460
   },
   {
-    name: "Vykas Normal Gate 3",
-    goldReward: 700,
-    taskName: "Vykas",
-    chestPrice: 400,
-    completionId: "T3.L2.3",
-    chestId: "Vykas3",
-    overrideMaxIlvl: 1460
-  },
-  {
     name: "Vykas Hard Gate 1",
-    goldReward: 600,
+    goldReward: 900,
     taskName: "Vykas",
-    chestPrice: 300,
+    chestPrice: 500,
     completionId: "T3.L2.1",
     chestId: "Vykas1",
     overrideMinIlvl: 1460
   },
   {
     name: "Vykas Hard Gate 2",
-    goldReward: 700,
+    goldReward: 1500,
     taskName: "Vykas",
-    chestPrice: 300,
+    chestPrice: 650,
     completionId: "T3.L2.2",
     chestId: "Vykas2",
-    overrideMinIlvl: 1460
-  },
-  {
-    name: "Vykas Hard Gate 3",
-    goldReward: 1100,
-    taskName: "Vykas",
-    chestPrice: 600,
-    completionId: "T3.L2.3",
-    chestId: "Vykas3",
     overrideMinIlvl: 1460
   },
   {
@@ -274,9 +256,9 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Brelshaza Normal Gate 3",
-    goldReward: 700,
-    taskName: "Brelshaza Gate 3-4",
-    chestPrice: 700,
+    goldReward: 1500,
+    taskName: "Brelshaza Gate 3",
+    chestPrice: 800,
     completionId: "T3.L4.3",
     chestId: "BrelshazaN3",
     overrideMinIlvl: 1500,
@@ -284,31 +266,11 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Brelshaza Normal Gate 4",
-    goldReward: 800,
-    taskName: "Brelshaza Gate 3-4",
-    chestPrice: 800,
+    goldReward: 2500,
+    taskName: "Brelshaza Gate 4",
+    chestPrice: 1500,
     completionId: "T3.L4.4",
     chestId: "BrelshazaN4",
-    overrideMinIlvl: 1500,
-    overrideMaxIlvl: 1550
-  },
-  {
-    name: "Brelshaza Normal Gate 5",
-    goldReward: 1000,
-    taskName: "Brelshaza Gate 5-6",
-    chestPrice: 900,
-    completionId: "T3.L4.5",
-    chestId: "BrelshazaN5",
-    overrideMinIlvl: 1520,
-    overrideMaxIlvl: 1560
-  },
-  {
-    name: "Brelshaza Normal Gate 6",
-    goldReward: 1500,
-    taskName: "Brelshaza Gate 5-6",
-    chestPrice: 1100,
-    completionId: "T3.L4.6",
-    chestId: "BrelshazaN6",
     overrideMinIlvl: 1520,
     overrideMaxIlvl: 1560
   },
@@ -325,50 +287,32 @@ export const goldTasks: GoldTask[] = [
     name: "Brelshaza Hard Gate 2",
     goldReward: 3000,
     taskName: "Brelshaza Gate 1-2",
-    chestPrice: 800,
+    chestPrice: 900,
     completionId: "T3.L5.2",
     chestId: "BrelshazaH2",
     overrideMinIlvl: 1540
   },
   {
     name: "Brelshaza Hard Gate 3",
-    goldReward: 900,
-    taskName: "Brelshaza Gate 3-4",
-    chestPrice: 900,
+    goldReward: 2000,
+    taskName: "Brelshaza Gate 3",
+    chestPrice: 1100,
     completionId: "T3.L5.3",
     chestId: "BrelshazaH3",
     overrideMinIlvl: 1550
   },
   {
     name: "Brelshaza Hard Gate 4",
-    goldReward: 1100,
-    taskName: "Brelshaza Gate 3-4",
-    chestPrice: 1100,
+    goldReward: 3000,
+    taskName: "Brelshaza Gate 4",
+    chestPrice: 1800,
     completionId: "T3.L5.4",
     chestId: "BrelshazaH4",
-    overrideMinIlvl: 1550
-  },
-  {
-    name: "Brelshaza Hard Gate 5",
-    goldReward: 1200,
-    taskName: "Brelshaza Gate 5-6",
-    chestPrice: 1100,
-    completionId: "T3.L5.5",
-    chestId: "BrelshazaH5",
-    overrideMinIlvl: 1560
-  },
-  {
-    name: "Brelshaza Hard Gate 6",
-    goldReward: 1800,
-    taskName: "Brelshaza Gate 5-6",
-    chestPrice: 1400,
-    completionId: "T3.L5.6",
-    chestId: "BrelshazaH6",
     overrideMinIlvl: 1560
   },
   {
     name: "Kayangel Normal Gate 1",
-    goldReward: 800,
+    goldReward: 1000,
     taskName: "Kayangel",
     chestPrice: 600,
     completionId: "T3.L6.1",
@@ -378,9 +322,9 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Kayangel Normal Gate 2",
-    goldReward: 800,
+    goldReward: 1500,
     taskName: "Kayangel",
-    chestPrice: 600,
+    chestPrice: 800,
     completionId: "T3.L6.2",
     chestId: "KayangelN2",
     overrideMinIlvl: 1540,
@@ -388,27 +332,17 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Kayangel Normal Gate 3",
-    goldReward: 1200,
+    goldReward: 2000,
     taskName: "Kayangel",
-    chestPrice: 800,
+    chestPrice: 1000,
     completionId: "T3.L6.3",
     chestId: "KayangelN3",
     overrideMinIlvl: 1540,
     overrideMaxIlvl: 1580
   },
   {
-    name: "Kayangel Normal Gate 4",
-    goldReward: 1700,
-    taskName: "Kayangel",
-    chestPrice: 1000,
-    completionId: "T3.L6.4",
-    chestId: "KayangelN4",
-    overrideMinIlvl: 1540,
-    overrideMaxIlvl: 1580
-  },
-  {
     name: "Kayangel Hard Gate 1",
-    goldReward: 1000,
+    goldReward: 1500,
     taskName: "Kayangel",
     chestPrice: 700,
     completionId: "T3.L7.1",
@@ -417,29 +351,20 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Kayangel Hard Gate 2",
-    goldReward: 1000,
+    goldReward: 2000,
     taskName: "Kayangel",
-    chestPrice: 700,
+    chestPrice: 900,
     completionId: "T3.L7.2",
     chestId: "KayangelH2",
     overrideMinIlvl: 1580
   },
   {
     name: "Kayangel Hard Gate 3",
-    goldReward: 1500,
-    taskName: "Kayangel",
-    chestPrice: 900,
-    completionId: "T3.L7.3",
-    chestId: "KayangelH3",
-    overrideMinIlvl: 1580
-  },
-  {
-    name: "Kayangel Hard Gate 4",
-    goldReward: 2000,
+    goldReward: 3000,
     taskName: "Kayangel",
     chestPrice: 1100,
-    completionId: "T3.L7.4",
-    chestId: "KayangelH4",
+    completionId: "T3.L7.3",
+    chestId: "KayangelH3",
     overrideMinIlvl: 1580
   },
   {
@@ -464,7 +389,7 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Akkan Normal Gate 3",
-    goldReward: 3000,
+    goldReward: 4000,
     taskName: "Akkan",
     chestPrice: 1500,
     completionId: "T3.L8.3",

@@ -84,7 +84,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Vykas`, 1430, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "legion_raid.png", {
+  createTask(`Vykas`, 1430, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
@@ -96,15 +96,15 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Brelshaza Gate 3-4`, 1500, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Gate 3`, 1500, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
-  createTask(`Brelshaza Gate 5-6`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Gate 4`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),
-  createTask(`Kayangel`, 1540, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 4, 9999, "abyssal-dungeon.webp", {
+  createTask(`Kayangel`, 1540, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
   }),
