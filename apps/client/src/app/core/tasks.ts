@@ -127,6 +127,10 @@ export const tasks = [
     shared: true,
     partySize: 4
   }),
+  createTask("Primal Island Battle Royale", 1490, TaskFrequency.DAILY, TaskScope.ROSTER, 9, 9999, "event_quest.webp", {
+    daysFilter: [2, 4, 6],
+    canEditDaysFilter: false,
+  }),
   //createTask(`Trial of the Abyss`, 460, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2),
 
   // Trades
