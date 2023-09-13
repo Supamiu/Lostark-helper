@@ -2,7 +2,7 @@ import { TaskFrequency } from "./task-frequency";
 import { TaskScope } from "./task-scope";
 import { DataModel } from "../core/database/data-model";
 
-export const TASKS_VERSION = 42;
+export const TASKS_VERSION = 43;
 
 export interface LostarkTask extends DataModel {
   authorId?: string;
