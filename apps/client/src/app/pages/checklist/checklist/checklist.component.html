@@ -173,13 +173,13 @@
                                           nzSize="small"
                                           nzType="primary"
                                           [disabled]="col >= row.task.amount"
-                                          (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)">
+                                          (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)">
                                     {{col}}/{{row.task.amount}}
                                   </button>
                                 </div>
                                 <div *ngIf="col > 0" class="reset-button">
                                   <button nz-button nzSize="small" *ngIf="col > 0"
-                                          (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
+                                          (click)="markAsDone(completion, energy, roster[i], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
                                     <i nz-icon nzType="reload" nzTheme="outline"></i>
                                   </button>
                                 </div>
