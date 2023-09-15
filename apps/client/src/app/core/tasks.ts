@@ -100,7 +100,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Brelshaza Gate 4`, 1520, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
+  createTask(`Brelshaza Gate 4`, 1520, TaskFrequency.BIWEEKLY, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),

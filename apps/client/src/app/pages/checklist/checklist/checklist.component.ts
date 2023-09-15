@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith, tap } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -17,9 +17,10 @@ import { Roster } from "../../../model/roster";
 import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
 import { Character } from "../../../model/character/character";
 import { tickets } from "../../../data/tickets";
+import { addWeeks, getWeek } from "date-fns";
 
-export interface TaskCharacter extends Character{
-  done?: boolean
+export interface TaskCharacter extends Character {
+  done?: boolean;
 }
 
 @Component({
@@ -33,14 +34,16 @@ export class ChecklistComponent {
   public TaskScope = TaskScope;
 
   public rawRoster$ = this.rosterService.roster$;
-  public forceShowHiddenCharacter: boolean = false;
+  public forceShowHiddenCharacter = false;
 
   public categoriesDisplay$ = new LocalStorageBehaviorSubject<{
     dailyCharacter: boolean,
     weeklyCharacter: boolean,
+    biWeeklyCharacter: boolean,
     dailyRoster: boolean,
-    weeklyRoster: boolean
-  }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, dailyRoster: true, weeklyRoster: true });
+    weeklyRoster: boolean,
+    biWeeklyRoster: boolean,
+  }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, biWeeklyCharacter: true, dailyRoster: true, weeklyRoster: true, biWeeklyRoster: true });
 
   public roster$: Observable<Character[]> = this.rawRoster$.pipe(
     pluck("characters")
@@ -68,6 +71,7 @@ export class ChecklistComponent {
 
   public lastDailyReset$ = this.timeService.lastDailyReset$;
   public lastWeeklyReset$ = this.timeService.lastWeeklyReset$;
+  public lastBiWeeklyReset$ = this.timeService.lastBiWeeklyReset$;
 
   public nextDailyReset$ = this.lastDailyReset$.pipe(
     map(reset => reset + 86400000)
@@ -75,6 +79,14 @@ export class ChecklistComponent {
 
   public nextWeeklyReset$ = this.lastWeeklyReset$.pipe(
     map(reset => reset + 86400000 * 7)
+  );
+
+  public nextBiWeeklyReset$ = this.lastBiWeeklyReset$.pipe(
+    map(reset => {
+      const date = new Date(reset);
+      // If we're on an odd week, it means that reset is in two weeks, else it's next week
+      return addWeeks(reset, getWeek(date) % 2 === 1 ? 2 : 1).getTime();
+    })
   );
 
   public tasks$: Observable<LostarkTask[]> = combineLatest([
@@ -89,37 +101,29 @@ export class ChecklistComponent {
     })
   );
 
-  public getCharactersList(characters: TaskCharacter[]): TaskCharacter[] {
-    if(this.forceShowHiddenCharacter){
-      return characters;
-    }
-    return characters.filter((character) => {
-      return !character.isHide && true
-    });
-  }
-
   public tableDisplay$ = combineLatest([
     this.rawRoster$,
     this.tasks$,
     this.completion$,
     this.lastDailyReset$,
     this.lastWeeklyReset$,
+    this.lastBiWeeklyReset$,
     this.settings.settings$.pipe(
-      map( settings => ({
+      map(settings => ({
         lazytracking: settings.lazytracking,
         hiddenOnCompletion: settings.hiddenOnCompletion
       }))
     ),
     this.energy$
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, settings, energy]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, settings, energy]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
-          const available = isTaskAvailable(task)
+          const available = isTaskAvailable(task);
           const editDisabled = task.canEditDaysFilter === false;
           const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
-          const forceDone = ( !available && visible ); // If task is not available but is visible, we marked it as done
+          const forceDone = (!available && visible); // If task is not available but is visible, we marked it as done
 
           const completionData = roster.characters.map(character => {
             return {
@@ -149,15 +153,19 @@ export class ChecklistComponent {
             completionData,
             allDone,
             visible,
-            available,
+            available
           };
         })
         .filter(({ visible, allDone }) => {
-          if ( allDone && settings.hiddenOnCompletion ) return false; // If task is done and we hide done tasks, we don't display it
-          return visible || roster.showAllTasks
+          if (allDone && settings.hiddenOnCompletion) return false; // If task is done and we hide done tasks, we don't display it
+          return visible || roster.showAllTasks;
         })
         .reduce((acc, row) => {
-          const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
+          const frequencyKey = {
+            [TaskFrequency.DAILY]: "daily",
+            [TaskFrequency.WEEKLY]: "weekly",
+            [TaskFrequency.BIWEEKLY]: "biWeekly"
+          }[row.task.frequency];
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
           const data = [
             ...acc[`${frequencyKey}${scopeKey}`].data,
@@ -170,7 +178,14 @@ export class ChecklistComponent {
               done: data.every(t => t.allDone)
             }
           };
-        }, { dailyCharacter: { data: [], done: false }, weeklyCharacter: { data: [], done: false }, dailyRoster: { data: [], done: false }, weeklyRoster: { data: [], done: false } });
+        }, {
+          dailyCharacter: { data: [], done: false },
+          weeklyCharacter: { data: [], done: false },
+          biWeeklyCharacter: { data: [], done: false },
+          dailyRoster: { data: [], done: false },
+          weeklyRoster: { data: [], done: false },
+          biWeeklyRoster: { data: [], done: false }
+        });
 
       return {
         roster: roster.characters.map((c, i) => {
@@ -186,13 +201,10 @@ export class ChecklistComponent {
         }),
         dailyReset,
         weeklyReset,
+        biWeeklyReset,
         data
       };
     })
-  );
-
-  public isEmpty$ = this.roster$.pipe(
-    map(roster => roster.length === 0)
   );
 
   private windowResize$ = new BehaviorSubject<void>(void 0);
@@ -216,6 +228,15 @@ export class ChecklistComponent {
     this.setTableHeight();
   }
 
+  public getCharactersList(characters: TaskCharacter[]): TaskCharacter[] {
+    if (this.forceShowHiddenCharacter) {
+      return characters;
+    }
+    return characters.filter((character) => {
+      return !character.isHide && true;
+    });
+  }
+
   @HostListener("window:resize")
   setTableHeight(): void {
     this.windowResize$.next();
@@ -230,7 +251,7 @@ export class ChecklistComponent {
     this.ticketsTrackingOpened = opened;
   }
 
-  public markAsDone(completion: Completion, energy: Energy, character: Character, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, clickEvent?: MouseEvent): void {
+  public markAsDone(completion: Completion, energy: Energy, character: Character, task: LostarkTask, roster: Character[], done: boolean, dailyReset: number, weeklyReset: number, biWeeklyReset: number, clickEvent?: MouseEvent): void {
     let reset = Infinity;
     switch (task.frequency) {
       case TaskFrequency.DAILY:
@@ -238,6 +259,9 @@ export class ChecklistComponent {
         break;
       case TaskFrequency.WEEKLY:
         reset = weeklyReset;
+        break;
+      case TaskFrequency.BIWEEKLY:
+        reset = biWeeklyReset;
         break;
     }
     if (done) {

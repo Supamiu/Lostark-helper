@@ -202,7 +202,11 @@ export class PartyPlannerComponent {
               };
             })
             .reduce((acc, row) => {
-              const frequencyKey = row.task.frequency === TaskFrequency.DAILY ? "daily" : "weekly";
+              const frequencyKey = {
+                [TaskFrequency.DAILY]: "daily",
+                [TaskFrequency.WEEKLY]: "weekly",
+                [TaskFrequency.BIWEEKLY]: "biWeekly"
+              }[row.task.frequency];
               const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
               return {
                 ...acc,
@@ -211,7 +215,7 @@ export class PartyPlannerComponent {
                   row
                 ]
               };
-            }, { dailyCharacter: [], weeklyCharacter: [], dailyRoster: [], weeklyRoster: [], ticketsData });
+            }, { dailyCharacter: [], weeklyCharacter: [], biWeeklyCharacter: [], dailyRoster: [], weeklyRoster: [], biWeeklyRoster: [], ticketsData });
         })
       );
     })

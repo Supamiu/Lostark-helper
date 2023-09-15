@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { distinctUntilChanged, map, timer } from "rxjs";
-import { subDays } from "date-fns";
+import { addWeeks, getWeek, subDays } from "date-fns";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TimeService {
 
@@ -49,6 +49,20 @@ export class TimeService {
       }
       reset.setUTCHours(10);
       return reset.getTime();
+    }),
+    distinctUntilChanged()
+  );
+
+  public lastBiWeeklyReset$ = this.lastWeeklyReset$.pipe(
+    map((timestamp) => {
+      const reset = new Date(timestamp);
+      // BiWeekly reset happens every odd week #
+      const week = getWeek(reset);
+      if (week % 2 === 1) {
+        return timestamp;
+      } else {
+        return addWeeks(reset, -1).getTime();
+      }
     }),
     distinctUntilChanged()
   );

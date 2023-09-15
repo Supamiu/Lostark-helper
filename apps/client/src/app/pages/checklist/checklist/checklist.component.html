@@ -12,6 +12,7 @@
     <div class="countdowns-container">
       <nz-countdown *ngIf="nextDailyReset$ | async as reset" [nzValue]="reset" nzTitle="Next daily reset: "></nz-countdown>
       <nz-countdown *ngIf="nextWeeklyReset$ | async as reset" [nzValue]="reset" nzTitle="Next weekly reset: "></nz-countdown>
+      <nz-countdown *ngIf="nextBiWeeklyReset$ | async as reset" [nzValue]="reset" nzTitle="Next bi-weekly reset: "></nz-countdown>
     </div>
   </nz-page-header-extra>
 </nz-page-header>
@@ -97,7 +98,11 @@
               <ng-container
                 *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyCharacter, title: 'Weekly Character', key:'weeklyCharacter' }"></ng-container>
               <ng-container
+                *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.biWeeklyCharacter, title: 'Biweekly Character', key:'biWeeklyCharacter' }"></ng-container>
+              <ng-container
                 *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster', key:'weeklyRoster' }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.biWeeklyRoster, title: 'Biweekly Roster', key:'biWeeklyRoster' }"></ng-container>
 
               <ng-template #rowsDisplay let-entry let-title="title" let-key="key">
                 <ng-container *ngIf="entry.data.length > 0">
@@ -106,7 +111,7 @@
                       <td [attr.colspan]="display.roster.length+1" class="section-span"
                           [class.completed]="entry.done"
                           [class.daily]="entry.data[0].task.frequency === TaskFrequency.DAILY"
-                          [class.weekly]="entry.data[0].task.frequency === TaskFrequency.WEEKLY">
+                          [class.weekly]="entry.data[0].task.frequency === TaskFrequency.WEEKLY || entry.data[0].task.frequency === TaskFrequency.BIWEEKLY">
                         <div class="section-span-toggle">
                           <nz-switch [nzCheckedChildren]="checked"
                                      [nzUnCheckedChildren]="unchecked"
@@ -123,7 +128,7 @@
                     <ng-container *ngIf="categoriesDisplay[key]">
                       <tr *ngFor="let row of entry.data; trackBy: trackByEntry; even as even"
                           [class.even]="even"
-                          [class.completed]="row.allDone || ( !row.available && row.task.scope === TaskScope.ROSTER )"
+                          [class.completed]="row.allDone || (!row.available && row.task.scope === TaskScope.ROSTER )"
                           [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                           [class.one-time]="row.task.frequency === TaskFrequency.ONE_TIME"
                           [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
@@ -140,13 +145,13 @@
                                         nzBlock
                                         nzType="primary"
                                         [disabled]="row.completion[0] >= row.task.amount"
-                                        (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                        (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)">
                                   {{row.completion[0]}}/{{row.task.amount}}
                                 </button>
                               </div>
                               <div *ngIf="row.completion[0] > 0" class="reset-button">
                                 <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount"
-                                        (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                                        (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
                                   <i nz-icon nzType="reload" nzTheme="outline"></i>
                                 </button>
                               </div>
@@ -168,13 +173,13 @@
                                           nzSize="small"
                                           nzType="primary"
                                           [disabled]="col >= row.task.amount"
-                                          (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, $event)">
+                                          (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)">
                                     {{col}}/{{row.task.amount}}
                                   </button>
                                 </div>
                                 <div *ngIf="col > 0" class="reset-button">
                                   <button nz-button nzSize="small" *ngIf="col > 0"
-                                          (click)="markAsDone(completion, energy, roster[i], row.task, roster, false, display.dailyReset, display.weeklyReset)">
+                                          (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
                                     <i nz-icon nzType="reload" nzTheme="outline"></i>
                                   </button>
                                 </div>
