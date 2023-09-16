@@ -164,7 +164,8 @@ export class ChecklistComponent {
           const frequencyKey = {
             [TaskFrequency.DAILY]: "daily",
             [TaskFrequency.WEEKLY]: "weekly",
-            [TaskFrequency.BIWEEKLY]: "biWeekly"
+            [TaskFrequency.BIWEEKLY]: "biWeekly",
+            [TaskFrequency.ONE_TIME]: "oneTime"
           }[row.task.frequency];
           const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
           const data = [
@@ -182,9 +183,11 @@ export class ChecklistComponent {
           dailyCharacter: { data: [], done: false },
           weeklyCharacter: { data: [], done: false },
           biWeeklyCharacter: { data: [], done: false },
+          oneTimeCharacter: { data: [], done: false },
           dailyRoster: { data: [], done: false },
           weeklyRoster: { data: [], done: false },
-          biWeeklyRoster: { data: [], done: false }
+          biWeeklyRoster: { data: [], done: false },
+          oneTimeRoster: { data: [], done: false }
         });
 
       return {
