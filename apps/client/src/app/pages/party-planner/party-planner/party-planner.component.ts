@@ -76,9 +76,10 @@ export class PartyPlannerComponent {
     this.completionService.completion$,
     this.timeService.lastDailyReset$,
     this.timeService.lastWeeklyReset$,
+    this.timeService.lastBiWeeklyReset$,
     this.settings.settings$.pipe(pluck("lazytracking"))
   ]).pipe(
-    switchMap(([tasks, roster, completion, dailyReset, weeklyReset, lazyTracking]) => {
+    switchMap(([tasks, roster, completion, dailyReset, weeklyReset, biWeeklyReset, lazyTracking]) => {
       return this.friendIdsToConsider$.pipe(
         switchMap(friendIds => {
           if (friendIds.length === 0) {
@@ -145,7 +146,7 @@ export class PartyPlannerComponent {
                 task,
                 data: roster.characters
                   .map(character => {
-                    const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, lazyTracking);
+                    const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, biWeeklyReset, lazyTracking);
                     const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity);
                     if (done === -1 || done >= task.amount || !canDo) {
                       return {
@@ -170,7 +171,7 @@ export class PartyPlannerComponent {
                               characters: (friendRoster.characters || [])
                                 .filter(c => !c.isPrivate)
                                 .filter(fChar => {
-                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, {});
+                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, {});
                                   return fDone >= 0
                                     && fDone < task.amount
                                     && fChar.ilvl >= (task.minIlvl || 0)
@@ -179,7 +180,7 @@ export class PartyPlannerComponent {
                                 .map(c => {
                                   return {
                                     doable: Math.min(
-                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, {}),
+                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, {}),
                                       task.amount - done
                                     ),
                                     c

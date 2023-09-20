@@ -133,6 +133,7 @@ export class ChecklistComponent {
                 completion,
                 dailyReset,
                 weeklyReset,
+                biWeeklyReset,
                 lazyTracking
               ), task.amount),
               tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
