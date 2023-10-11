@@ -30,7 +30,8 @@ export enum LostarkClass {
   SORCERESS,
   ARTIST,
   SLAYER,
-  AEROMANCER
+  AEROMANCER,
+  SOULEATER
 }
 
 export function isSupportClass(c: LostarkClass): boolean {
