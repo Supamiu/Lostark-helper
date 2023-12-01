@@ -106,7 +106,7 @@
                 [class.completed]="task.done === -1 || task.done >= task.task.amount"
                 [class.even]="even"
                 [class.daily]="task.task.frequency === TaskFrequency.DAILY"
-                [class.weekly]="task.task.frequency === TaskFrequency.WEEKLY || task.task.frequency === TaskFrequency.BIWEEKLY"
+                [class.weekly]="task.task.frequency === TaskFrequency.WEEKLY || task.task.frequency === TaskFrequency.BIWEEKLY">
                 <div class="task-friends" *ngIf="task.friends?.length > 0">
                   <div *ngFor="let friend of task.friends" class="task-friend-container">
                     <div class="friend-name" (click)="toggleAccordion(friend)">{{friend.friendId | userName | async}}</div>
