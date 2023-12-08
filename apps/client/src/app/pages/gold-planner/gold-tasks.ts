@@ -423,6 +423,82 @@ export const goldTasks: GoldTask[] = [
   completionId: "T3.L9.3",
   chestId: "AkkanH3",
   overrideMinIlvl: 1600
+},
+{
+  name: "Ivory Tower Normal Gate 1",
+  goldReward: 1500,
+  taskName: "Ivory Tower",
+  chestPrice: 700,
+  completionId: "T3.L10.1",
+  chestId: "IvoryTowerN1",
+  overrideMinIlvl: 1600,
+  overrideMaxIlvl: 1620
+},
+{
+  name: "Ivory Tower Normal Gate 2",
+  goldReward: 1750,
+  taskName: "Ivory Tower",
+  chestPrice: 800,
+  completionId: "T3.L10.2",
+  chestId: "IvoryTowerN2",
+  overrideMinIlvl: 1600,
+  overrideMaxIlvl: 1620
+},
+{
+  name: "Ivory Tower Normal Gate 3",
+  goldReward: 2500,
+  taskName: "Ivory Tower",
+  chestPrice: 900,
+  completionId: "T3.L10.3",
+  chestId: "IvoryTowerN3",
+  overrideMinIlvl: 1600,
+  overrideMaxIlvl: 1620
+},
+{
+  name: "Ivory Tower Normal Gate 4",
+  goldReward: 3250,
+  taskName: "Ivory Tower",
+  chestPrice: 1100,
+  completionId: "T3.L10.4",
+  chestId: "IvoryTowerN4",
+  overrideMinIlvl: 1600,
+  overrideMaxIlvl: 1620
+},
+{
+  name: "Ivory Tower Hard Gate 1",
+  goldReward: 2000,
+  taskName: "Ivory Tower",
+  chestPrice: 1000,
+  completionId: "T3.L11.1",
+  chestId: "IvoryTowerH1",
+  overrideMinIlvl: 1620
+},
+{
+  name: "Ivory Tower Hard Gate 2",
+  goldReward: 2500,
+  taskName: "Ivory Tower",
+  chestPrice: 1000,
+  completionId: "T3.L11.2",
+  chestId: "IvoryTowerH2",
+  overrideMinIlvl: 1620
+},
+{
+  name: "Ivory Tower Hard Gate 3",
+  goldReward: 4000,
+  taskName: "Ivory Tower",
+  chestPrice: 1500,
+  completionId: "T3.L11.3",
+  chestId: "IvoryTowerH3",
+  overrideMinIlvl: 1620
+},
+{
+  name: "Ivory Tower Hard Gate 4",
+  goldReward: 6000,
+  taskName: "Ivory Tower",
+  chestPrice: 2000,
+  completionId: "T3.L11.4",
+  chestId: "IvoryTowerH4",
+  overrideMinIlvl: 1620
 }
     
 ];
