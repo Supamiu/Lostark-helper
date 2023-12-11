@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith, tap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from "rxjs";
 import { LostarkTask } from "../../../model/lostark-task";
 import { TaskFrequency } from "../../../model/task-frequency";
 import { TaskScope } from "../../../model/task-scope";
@@ -34,7 +34,7 @@ export class ChecklistComponent {
   public TaskScope = TaskScope;
 
   public rawRoster$ = this.rosterService.roster$;
-  public forceShowHiddenCharacter = false;
+  public forceShowHiddenCharacter$ = new BehaviorSubject(false);
 
   public categoriesDisplay$ = new LocalStorageBehaviorSubject<{
     dailyCharacter: boolean,
@@ -114,9 +114,10 @@ export class ChecklistComponent {
         hiddenOnCompletion: settings.hiddenOnCompletion
       }))
     ),
-    this.energy$
+    this.energy$,
+    this.forceShowHiddenCharacter$
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, settings, energy]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, settings, energy, showHidden]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
@@ -125,7 +126,9 @@ export class ChecklistComponent {
           const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
           const forceDone = (!available && visible); // If task is not available but is visible, we marked it as done
 
-          const completionData = roster.characters.map(character => {
+          const completionData = roster.characters
+            .filter(c => showHidden || !c.isHide)
+            .map(character => {
             return {
               done: Math.min(isTaskDone(
                 task,
@@ -192,17 +195,19 @@ export class ChecklistComponent {
         });
 
       return {
-        roster: roster.characters.map((c, i) => {
-          const done = [...data.dailyCharacter.data, ...data.weeklyCharacter.data].every(
-            (row: { completionData: { doable: boolean, done: number, tracked: boolean }[], task: LostarkTask }) => {
-              const completion = row.completionData[i];
-              return !completion.tracked || !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
-            });
-          return {
-            ...c,
-            done
-          };
-        }),
+        roster: roster.characters
+          .filter(c => showHidden || !c.isHide)
+          .map((c, i) => {
+            const done = [...data.dailyCharacter.data, ...data.weeklyCharacter.data].every(
+              (row: { completionData: { doable: boolean, done: number, tracked: boolean }[], task: LostarkTask }) => {
+                const completion = row.completionData[i];
+                return !completion.tracked || !completion.doable || !row.task.enabled || completion.done >= row.task.amount;
+              });
+            return {
+              ...c,
+              done
+            };
+          }),
         dailyReset,
         weeklyReset,
         biWeeklyReset,
@@ -226,19 +231,32 @@ export class ChecklistComponent {
     startWith({ x: null, y: null })
   );
 
+  public characters$ = combineLatest([this.roster$, this.forceShowHiddenCharacter$]).pipe(
+    map(([roster, forceShowHiddenCharacter]) => {
+      if (forceShowHiddenCharacter) {
+        return roster;
+      }
+      return roster.filter((character) => {
+        return !character.isHide;
+      });
+    })
+  );
+
+  public charactersDisplay$ = combineLatest([this.tableDisplay$, this.forceShowHiddenCharacter$]).pipe(
+    map(([display, forceShowHiddenCharacter]) => {
+      if (forceShowHiddenCharacter) {
+        return display.roster;
+      }
+      return display.roster.filter((character) => {
+        return !character.isHide;
+      });
+    })
+  );
+
   constructor(private rosterService: RosterService, private tasksService: TasksService,
               private settings: SettingsService, private energyService: EnergyService,
               private timeService: TimeService, private completionService: CompletionService) {
     this.setTableHeight();
-  }
-
-  public getCharactersList(characters: TaskCharacter[]): TaskCharacter[] {
-    if (this.forceShowHiddenCharacter) {
-      return characters;
-    }
-    return characters.filter((character) => {
-      return !character.isHide && true;
-    });
   }
 
   @HostListener("window:resize")
