@@ -28,7 +28,8 @@ export const subtasks: Subtask[] = [
   { id: `kungelanium`, name: `Kungelanium`, parentName: "Guardian", banner: 'guardians/monster_info_28.png', minIlvl: 1460 },
   { id: `caliligos`, name: `Caliligos`, parentName: "Guardian", banner: 'guardians/monster_info_16.png', minIlvl: 1490 },
   { id: `hanumatan`, name: `Hanumatan`, parentName: "Guardian", banner: 'guardians/monster_info_29.png', minIlvl: 1540 },
-  { id: `sonavel`, name: `Sonavel`, parentName: "Guardian", banner: 'guardians/monster_info_09.png', minIlvl: 1580 },
+  { id: `sonavel`, name: `Sonavel`, parentName: "Guardian", banner: 'guardians/monster_info_30.png', minIlvl: 1580 },
+  { id: `gargadeth`, name: `Gargadeth`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1610 },
 
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
@@ -64,4 +65,7 @@ export const subtasks: Subtask[] = [
   { id: `akkan-normal`, name: `Akkan Normal`, parentName: "Akkan", minIlvl: 1580 },  
   { id: `akkan-hard`, name: `Akkan Hard`, parentName: "Akkan", minIlvl: 1600 },  
 
+    //Ivory Tower Difficulties
+    { id: `ivory-tower-normal`, name: `Ivory Tower Normal`, parentName: "Ivory Tower", minIlvl: 1600 },  
+    { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1620 }, 
 ];
