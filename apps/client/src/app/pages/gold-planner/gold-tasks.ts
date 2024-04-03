@@ -499,6 +499,72 @@ export const goldTasks: GoldTask[] = [
   completionId: "T3.L11.4",
   chestId: "IvoryTowerH4",
   overrideMinIlvl: 1620
+},
+{
+  name: "Theamine Normal Gate 1",
+  goldReward: 3500,
+  taskName: "Theamine",
+  chestPrice: 1500,
+  completionId: "T3.L12.1",
+  chestId: "TheamineN1",
+  overrideMinIlvl: 1610,
+  overrideMaxIlvl: 1630
+},
+{
+  name: "Theamine Normal Gate 2",
+  goldReward: 4000,
+  taskName: "Theamine",
+  chestPrice: 1800,
+  completionId: "T3.L12.2",
+  chestId: "TheamineN2",
+  overrideMinIlvl: 1610,
+  overrideMaxIlvl: 1630
+},
+{
+  name: "Theamine Normal Gate 3",
+  goldReward: 5500,
+  taskName: "Theamine",
+  chestPrice: 2500,
+  completionId: "T3.L12.3",
+  chestId: "TheamineN3",
+  overrideMinIlvl: 1610,
+  overrideMaxIlvl: 1630
+},
+{
+  name: "Theamine Hard Gate 1",
+  goldReward: 5000,
+  taskName: "Theamine",
+  chestPrice: 2000,
+  completionId: "T3.L13.1",
+  chestId: "TheamineH1",
+  overrideMinIlvl: 1630
+},
+{
+  name: "Theamine Hard Gate 2",
+  goldReward: 6000,
+  taskName: "Theamine",
+  chestPrice: 2400,
+  completionId: "T3.L13.2",
+  chestId: "TheamineH2",
+  overrideMinIlvl: 1630
+},
+{
+  name: "Theamine Hard Gate 3",
+  goldReward: 9000,
+  taskName: "Theamine",
+  chestPrice: 2800,
+  completionId: "T3.L13.3",
+  chestId: "TheamineH3",
+  overrideMinIlvl: 1630
+},
+{
+  name: "Theamine Hard Gate 4",
+  goldReward: 21000,
+  taskName: "Theamine G4",
+  chestPrice: 3600,
+  completionId: "T3.L13.4",
+  chestId: "TheamineH4",
+  overrideMinIlvl: 1630
 }
     
 ];
