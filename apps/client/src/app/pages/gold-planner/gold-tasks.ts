@@ -209,27 +209,27 @@ export const goldTasks: GoldTask[] = [
   },
   {
     name: "Kakul-Saydon Gate 1",
-    goldReward: 1000,
+    goldReward: 600,
     taskName: "Kakul-Saydon",
-    chestPrice: 800,
+    chestPrice: 300,
     completionId: "T3.L3.1",
     chestId: "Kakul1",
     overrideMinIlvl: 1475
   },
   {
     name: "Kakul-Saydon Gate 2",
-    goldReward: 1000,
+    goldReward: 900,
     taskName: "Kakul-Saydon",
-    chestPrice: 1000,
+    chestPrice: 500,
     completionId: "T3.L3.2",
     chestId: "Kakul2",
     overrideMinIlvl: 1475
   },
   {
     name: "Kakul-Saydon Gate 3",
-    goldReward: 2500,
+    goldReward: 1500,
     taskName: "Kakul-Saydon",
-    chestPrice: 1300,
+    chestPrice: 700,
     completionId: "T3.L3.3",
     chestId: "Kakul3",
     overrideMinIlvl: 1475
