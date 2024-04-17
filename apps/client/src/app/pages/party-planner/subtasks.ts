@@ -65,7 +65,12 @@ export const subtasks: Subtask[] = [
   { id: `akkan-normal`, name: `Akkan Normal`, parentName: "Akkan", minIlvl: 1580 },  
   { id: `akkan-hard`, name: `Akkan Hard`, parentName: "Akkan", minIlvl: 1600 },  
 
-    //Ivory Tower Difficulties
-    { id: `ivory-tower-normal`, name: `Ivory Tower Normal`, parentName: "Ivory Tower", minIlvl: 1600 },  
-    { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1620 }, 
+  //Ivory Tower Difficulties
+  { id: `ivory-tower-normal`, name: `Ivory Tower Normal`, parentName: "Ivory Tower", minIlvl: 1600 },  
+  { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1620 }, 
+  
+  //Theamine Difficulties
+  { id: `theamine-normal`, name: `Theamine Normal`, parentName: "Theamine", minIlvl: 1610 },  
+  { id: `theamine-hard`, name: `Theamine Hard`, parentName: "Theamine G4", minIlvl: 1630 }, 
+
 ];

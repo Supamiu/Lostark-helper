@@ -1,32 +1,32 @@
-import { Component, HostListener } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from "rxjs";
-import { LostarkTask } from "../../../model/lostark-task";
-import { TaskFrequency } from "../../../model/task-frequency";
-import { TaskScope } from "../../../model/task-scope";
-import { Completion } from "../../../model/completion";
-import { Energy } from "../../../model/energy";
-import { getCompletionEntry, getCompletionEntryKey, setCompletionEntry } from "../../../core/get-completion-entry-key";
-import { RosterService } from "../../../core/database/services/roster.service";
-import { SettingsService } from "../../../core/database/services/settings.service";
-import { EnergyService } from "../../../core/database/services/energy.service";
-import { TimeService } from "../../../core/time.service";
-import { CompletionService } from "../../../core/database/services/completion.service";
-import { TasksService } from "../../../core/database/services/tasks.service";
-import { isTaskAvailable, isTaskDone } from "../../../core/is-task-done";
-import { Roster } from "../../../model/roster";
-import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
-import { Character } from "../../../model/character/character";
-import { tickets } from "../../../data/tickets";
-import { addWeeks, getWeek } from "date-fns";
+import { Component, HostListener } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, Observable, pluck, startWith } from 'rxjs';
+import { LostarkTask } from '../../../model/lostark-task';
+import { TaskFrequency } from '../../../model/task-frequency';
+import { TaskScope } from '../../../model/task-scope';
+import { Completion } from '../../../model/completion';
+import { Energy } from '../../../model/energy';
+import { getCompletionEntry, getCompletionEntryKey, setCompletionEntry } from '../../../core/get-completion-entry-key';
+import { RosterService } from '../../../core/database/services/roster.service';
+import { SettingsService } from '../../../core/database/services/settings.service';
+import { EnergyService } from '../../../core/database/services/energy.service';
+import { TimeService } from '../../../core/time.service';
+import { CompletionService } from '../../../core/database/services/completion.service';
+import { TasksService } from '../../../core/database/services/tasks.service';
+import { isTaskAvailable, isTaskDone } from '../../../core/is-task-done';
+import { Roster } from '../../../model/roster';
+import { LocalStorageBehaviorSubject } from '../../../core/local-storage-behavior-subject';
+import { Character } from '../../../model/character/character';
+import { tickets } from '../../../data/tickets';
+import { addWeeks, getWeek } from 'date-fns';
 
 export interface TaskCharacter extends Character {
   done?: boolean;
 }
 
 @Component({
-  selector: "lostark-helper-checklist",
-  templateUrl: "./checklist.component.html",
-  styleUrls: ["./checklist.component.less"]
+  selector: 'lostark-helper-checklist',
+  templateUrl: './checklist.component.html',
+  styleUrls: ['./checklist.component.less']
 })
 export class ChecklistComponent {
 
@@ -43,10 +43,10 @@ export class ChecklistComponent {
     dailyRoster: boolean,
     weeklyRoster: boolean,
     biWeeklyRoster: boolean,
-  }>("checklist:displayed", { dailyCharacter: true, weeklyCharacter: true, biWeeklyCharacter: true, dailyRoster: true, weeklyRoster: true, biWeeklyRoster: true });
+  }>('checklist:displayed', { dailyCharacter: true, weeklyCharacter: true, biWeeklyCharacter: true, dailyRoster: true, weeklyRoster: true, biWeeklyRoster: true });
 
   public roster$: Observable<Character[]> = this.rawRoster$.pipe(
-    pluck("characters")
+    pluck('characters')
   );
 
   public tiersAvailability$ = this.roster$.pipe(
@@ -63,7 +63,7 @@ export class ChecklistComponent {
     map(tiersAvailability => tickets.filter(t => !t.tier || tiersAvailability[`t${t.tier}`]))
   );
 
-  public ticketsTrackingOpened = localStorage.getItem("checklist:tickets-opened") === "true";
+  public ticketsTrackingOpened = localStorage.getItem('checklist:tickets-opened') === 'true';
 
   public completion$: Observable<Completion> = this.completionService.completion$;
 
@@ -72,6 +72,7 @@ export class ChecklistComponent {
   public lastDailyReset$ = this.timeService.lastDailyReset$;
   public lastWeeklyReset$ = this.timeService.lastWeeklyReset$;
   public lastBiWeeklyReset$ = this.timeService.lastBiWeeklyReset$;
+  public lastBiWeeklyOffsetReset$ = this.timeService.lastBiWeeklyOffsetReset$;
 
   public nextDailyReset$ = this.lastDailyReset$.pipe(
     map(reset => reset + 86400000)
@@ -86,6 +87,14 @@ export class ChecklistComponent {
       const date = new Date(reset);
       // If we're on an odd week, it means that reset is in two weeks, else it's next week
       return addWeeks(reset, getWeek(date) % 2 === 1 ? 2 : 1).getTime();
+    })
+  );
+
+  public nextBiWeeklyOffsetReset$ = this.lastBiWeeklyOffsetReset$.pipe(
+    map(reset => {
+      const date = new Date(reset);
+      // If we're on an odd week, it means that reset is in one week, else it's in two
+      return addWeeks(reset, getWeek(date) % 2 === 0 ? 2 : 1).getTime();
     })
   );
 
@@ -108,6 +117,7 @@ export class ChecklistComponent {
     this.lastDailyReset$,
     this.lastWeeklyReset$,
     this.lastBiWeeklyReset$,
+    this.lastBiWeeklyOffsetReset$,
     this.settings.settings$.pipe(
       map(settings => ({
         lazytracking: settings.lazytracking,
@@ -117,33 +127,34 @@ export class ChecklistComponent {
     this.energy$,
     this.forceShowHiddenCharacter$
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, settings, energy, showHidden]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, settings, energy, showHidden]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
           const available = isTaskAvailable(task);
-          const editDisabled = task.canEditDaysFilter === false;
+          const editDisabled = !task.canEditDaysFilter;
           const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
           const forceDone = (!available && visible); // If task is not available but is visible, we marked it as done
 
           const completionData = roster.characters
             .filter(c => showHidden || !c.isHide)
             .map(character => {
-            return {
-              done: Math.min(isTaskDone(
-                task,
-                character,
-                completion,
-                dailyReset,
-                weeklyReset,
-                biWeeklyReset,
-                lazyTracking
-              ), task.amount),
-              tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
-              doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
-              energy: getCompletionEntry(energy.data, character, task) || 0
-            };
-          });
+              return {
+                done: Math.min(isTaskDone(
+                  task,
+                  character,
+                  completion,
+                  dailyReset,
+                  weeklyReset,
+                  biWeeklyReset,
+                  biWeeklyOffsetReset,
+                  lazyTracking
+                ), task.amount),
+                tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
+                doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
+                energy: getCompletionEntry(energy.data, character, task) || 0
+              };
+            });
 
           const allDone = forceDone || completionData.every(
             ({ doable, done, tracked }) => !tracked || !doable || done >= task.amount
@@ -151,7 +162,7 @@ export class ChecklistComponent {
 
           return {
             task,
-            hasEnergy: ["Una", "Guardian", "Chaos"].some(n => task.label?.startsWith(n)),
+            hasEnergy: ['Una', 'Guardian', 'Chaos'].some(n => task.label?.startsWith(n)),
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
@@ -166,12 +177,13 @@ export class ChecklistComponent {
         })
         .reduce((acc, row) => {
           const frequencyKey = {
-            [TaskFrequency.DAILY]: "daily",
-            [TaskFrequency.WEEKLY]: "weekly",
-            [TaskFrequency.BIWEEKLY]: "biWeekly",
-            [TaskFrequency.ONE_TIME]: "oneTime"
+            [TaskFrequency.DAILY]: 'daily',
+            [TaskFrequency.WEEKLY]: 'weekly',
+            [TaskFrequency.BIWEEKLY]: 'biWeekly',
+            [TaskFrequency.BIWEEKLY_OFFSET]: 'biWeekly',
+            [TaskFrequency.ONE_TIME]: 'oneTime'
           }[row.task.frequency];
-          const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
+          const scopeKey = row.task.scope === TaskScope.CHARACTER ? 'Character' : 'Roster';
           const data = [
             ...acc[`${frequencyKey}${scopeKey}`].data,
             row
@@ -259,7 +271,7 @@ export class ChecklistComponent {
     this.setTableHeight();
   }
 
-  @HostListener("window:resize")
+  @HostListener('window:resize')
   setTableHeight(): void {
     this.windowResize$.next();
   }
@@ -269,7 +281,7 @@ export class ChecklistComponent {
   }
 
   public ticketsTrackingOpenedChange(opened: boolean): void {
-    localStorage.setItem("checklist:tickets-opened", opened.toString());
+    localStorage.setItem('checklist:tickets-opened', opened.toString());
     this.ticketsTrackingOpened = opened;
   }
 
@@ -299,7 +311,7 @@ export class ChecklistComponent {
       });
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
-        && ["Chaos", "Guardian", "Una"].some(n => task.label?.startsWith(n))) {
+        && ['Chaos', 'Guardian', 'Una'].some(n => task.label?.startsWith(n))) {
         const energyEntry = getCompletionEntry(energy.data, character, task) || { amount: 0 };
         if (energyEntry.amount >= 20) {
           energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 1)), 0);

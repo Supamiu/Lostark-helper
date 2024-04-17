@@ -66,4 +66,21 @@ export class TimeService {
     }),
     distinctUntilChanged()
   );
+
+  /**
+   * Used for Theamine reset
+   */
+  public lastBiWeeklyOffsetReset$ = this.lastWeeklyReset$.pipe(
+    map((timestamp) => {
+      const reset = new Date(timestamp);
+      // BiWeekly reset happens every odd week #
+      const week = getWeek(reset);
+      if (week % 2 === 0) {
+        return timestamp;
+      } else {
+        return addWeeks(reset, -1).getTime();
+      }
+    }),
+    distinctUntilChanged()
+  );
 }

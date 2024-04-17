@@ -1,24 +1,24 @@
-import { Component, HostListener } from "@angular/core";
-import { UserService } from "../../../core/database/services/user.service";
-import { RosterService } from "../../../core/database/services/roster.service";
-import { CompletionService } from "../../../core/database/services/completion.service";
-import { TasksService } from "../../../core/database/services/tasks.service";
-import { BehaviorSubject, combineLatest, first, map, of, pluck, switchMap } from "rxjs";
-import { TimeService } from "../../../core/time.service";
-import { isTaskDone } from "../../../core/is-task-done";
-import { SettingsService } from "../../../core/database/services/settings.service";
-import { TaskFrequency } from "../../../model/task-frequency";
-import { TaskScope } from "../../../model/task-scope";
-import { LostarkTask } from "../../../model/lostark-task";
-import { subtasks } from "../subtasks";
-import { LostarkTaskWithSubtask } from "../../../model/lostark-task-with-subtask";
-import { tickets } from "../../../data/tickets";
-import { LocalStorageBehaviorSubject } from "../../../core/local-storage-behavior-subject";
+import { Component, HostListener } from '@angular/core';
+import { UserService } from '../../../core/database/services/user.service';
+import { RosterService } from '../../../core/database/services/roster.service';
+import { CompletionService } from '../../../core/database/services/completion.service';
+import { TasksService } from '../../../core/database/services/tasks.service';
+import { BehaviorSubject, combineLatest, first, map, of, pluck, switchMap } from 'rxjs';
+import { TimeService } from '../../../core/time.service';
+import { isTaskDone } from '../../../core/is-task-done';
+import { SettingsService } from '../../../core/database/services/settings.service';
+import { TaskFrequency } from '../../../model/task-frequency';
+import { TaskScope } from '../../../model/task-scope';
+import { LostarkTask } from '../../../model/lostark-task';
+import { subtasks } from '../subtasks';
+import { LostarkTaskWithSubtask } from '../../../model/lostark-task-with-subtask';
+import { tickets } from '../../../data/tickets';
+import { LocalStorageBehaviorSubject } from '../../../core/local-storage-behavior-subject';
 
 @Component({
-  selector: "lostark-helper-party-planner",
-  templateUrl: "./party-planner.component.html",
-  styleUrls: ["./party-planner.component.less"]
+  selector: 'lostark-helper-party-planner',
+  templateUrl: './party-planner.component.html',
+  styleUrls: ['./party-planner.component.less']
 })
 export class PartyPlannerComponent {
   public TaskFrequency = TaskFrequency;
@@ -28,8 +28,8 @@ export class PartyPlannerComponent {
 
   public friendIds$ = this.userService.friendIds$;
 
-  public ignoredFriends$ = new LocalStorageBehaviorSubject<string[]>("party-planner:ignored-friends", []);
-  public includeTickets$ = new LocalStorageBehaviorSubject<boolean>("party-planner:include-tickets", true);
+  public ignoredFriends$ = new LocalStorageBehaviorSubject<string[]>('party-planner:ignored-friends', []);
+  public includeTickets$ = new LocalStorageBehaviorSubject<boolean>('party-planner:include-tickets', true);
 
   public tasks$ = combineLatest([
     this.tasksService.tasks$,
@@ -77,9 +77,10 @@ export class PartyPlannerComponent {
     this.timeService.lastDailyReset$,
     this.timeService.lastWeeklyReset$,
     this.timeService.lastBiWeeklyReset$,
-    this.settings.settings$.pipe(pluck("lazytracking"))
+    this.timeService.lastBiWeeklyOffsetReset$,
+    this.settings.settings$.pipe(pluck('lazytracking'))
   ]).pipe(
-    switchMap(([tasks, roster, completion, dailyReset, weeklyReset, biWeeklyReset, lazyTracking]) => {
+    switchMap(([tasks, roster, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, lazyTracking]) => {
       return this.friendIdsToConsider$.pipe(
         switchMap(friendIds => {
           if (friendIds.length === 0) {
@@ -146,7 +147,7 @@ export class PartyPlannerComponent {
                 task,
                 data: roster.characters
                   .map(character => {
-                    const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, biWeeklyReset, lazyTracking);
+                    const done = isTaskDone(task, character, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, lazyTracking);
                     const canDo = character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity);
                     if (done === -1 || done >= task.amount || !canDo) {
                       return {
@@ -171,7 +172,7 @@ export class PartyPlannerComponent {
                               characters: (friendRoster.characters || [])
                                 .filter(c => !c.isPrivate)
                                 .filter(fChar => {
-                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, {});
+                                  const fDone = isTaskDone(friendTask, fChar, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, {});
                                   return fDone >= 0
                                     && fDone < task.amount
                                     && fChar.ilvl >= (task.minIlvl || 0)
@@ -180,7 +181,7 @@ export class PartyPlannerComponent {
                                 .map(c => {
                                   return {
                                     doable: Math.min(
-                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, {}),
+                                      task.amount - isTaskDone(friendTask, c, friendCompletion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, {}),
                                       task.amount - done
                                     ),
                                     c
@@ -204,11 +205,12 @@ export class PartyPlannerComponent {
             })
             .reduce((acc, row) => {
               const frequencyKey = {
-                [TaskFrequency.DAILY]: "daily",
-                [TaskFrequency.WEEKLY]: "weekly",
-                [TaskFrequency.BIWEEKLY]: "biWeekly"
+                [TaskFrequency.DAILY]: 'daily',
+                [TaskFrequency.WEEKLY]: 'weekly',
+                [TaskFrequency.BIWEEKLY]: 'biWeekly',
+                [TaskFrequency.BIWEEKLY_OFFSET]: 'biWeekly'
               }[row.task.frequency];
-              const scopeKey = row.task.scope === TaskScope.CHARACTER ? "Character" : "Roster";
+              const scopeKey = row.task.scope === TaskScope.CHARACTER ? 'Character' : 'Roster';
               return {
                 ...acc,
                 [`${frequencyKey}${scopeKey}`]: [
@@ -246,7 +248,7 @@ export class PartyPlannerComponent {
     this.setTableHeight();
   }
 
-  @HostListener("window:resize")
+  @HostListener('window:resize')
   setTableHeight(): void {
     this.windowResized$.next();
   }
