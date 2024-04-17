@@ -70,7 +70,7 @@ export const subtasks: Subtask[] = [
   { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1620 }, 
   
   //Theamine Difficulties
-  { id: `theamine-normal`, name: `Theamine Normal`, parentName: "Theamine", minIlvl: 1610 },  
-  { id: `theamine-hard`, name: `Theamine Hard`, parentName: "Theamine G4", minIlvl: 1630 }, 
+  { id: `thaemine-normal`, name: `Thaemine Normal`, parentName: "Thaemine", minIlvl: 1610 },  
+  { id: `thaemine-hard`, name: `Thaemine Hard`, parentName: "Thaemine G4", minIlvl: 1630 }, 
 
 ];

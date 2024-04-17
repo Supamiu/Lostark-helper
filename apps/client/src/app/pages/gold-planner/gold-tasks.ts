@@ -501,69 +501,69 @@ export const goldTasks: GoldTask[] = [
   overrideMinIlvl: 1620
 },
 {
-  name: "Theamine Normal Gate 1",
+  name: "Thaemine Normal Gate 1",
   goldReward: 3500,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 1500,
   completionId: "T3.L12.1",
-  chestId: "TheamineN1",
+  chestId: "ThaemineN1",
   overrideMinIlvl: 1610,
   overrideMaxIlvl: 1630
 },
 {
-  name: "Theamine Normal Gate 2",
+  name: "Thaemine Normal Gate 2",
   goldReward: 4000,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 1800,
   completionId: "T3.L12.2",
-  chestId: "TheamineN2",
+  chestId: "ThaemineN2",
   overrideMinIlvl: 1610,
   overrideMaxIlvl: 1630
 },
 {
-  name: "Theamine Normal Gate 3",
+  name: "Thaemine Normal Gate 3",
   goldReward: 5500,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 2500,
   completionId: "T3.L12.3",
-  chestId: "TheamineN3",
+  chestId: "ThaemineN3",
   overrideMinIlvl: 1610,
   overrideMaxIlvl: 1630
 },
 {
-  name: "Theamine Hard Gate 1",
+  name: "Thaemine Hard Gate 1",
   goldReward: 5000,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 2000,
   completionId: "T3.L13.1",
-  chestId: "TheamineH1",
+  chestId: "ThaemineH1",
   overrideMinIlvl: 1630
 },
 {
-  name: "Theamine Hard Gate 2",
+  name: "Thaemine Hard Gate 2",
   goldReward: 6000,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 2400,
   completionId: "T3.L13.2",
-  chestId: "TheamineH2",
+  chestId: "ThaemineH2",
   overrideMinIlvl: 1630
 },
 {
-  name: "Theamine Hard Gate 3",
+  name: "Thaemine Hard Gate 3",
   goldReward: 9000,
-  taskName: "Theamine",
+  taskName: "Thaemine",
   chestPrice: 2800,
   completionId: "T3.L13.3",
-  chestId: "TheamineH3",
+  chestId: "ThaemineH3",
   overrideMinIlvl: 1630
 },
 {
-  name: "Theamine Hard Gate 4",
+  name: "Thaemine Hard Gate 4",
   goldReward: 21000,
-  taskName: "Theamine G4",
+  taskName: "Thaemine G4",
   chestPrice: 3600,
   completionId: "T3.L13.4",
-  chestId: "TheamineH4",
+  chestId: "ThaemineH4",
   overrideMinIlvl: 1630
 }
     
