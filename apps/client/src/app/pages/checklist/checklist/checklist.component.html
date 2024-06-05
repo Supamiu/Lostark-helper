@@ -106,6 +106,10 @@
                 *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.weeklyRoster, title: 'Weekly Roster', key:'weeklyRoster' }"></ng-container>
               <ng-container
                 *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.biWeeklyRoster, title: 'Biweekly Roster', key:'biWeeklyRoster' }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.oneTimeCharacter, title: 'One Time Character', key:'oneTimeCharacter' }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="rowsDisplay;context:{$implicit: display.data.oneTimeRoster, title: 'One Time Roster', key:'oneTimeRoster' }"></ng-container>
 
               <ng-template #rowsDisplay let-entry let-title="title" let-key="key">
                 <ng-container *ngIf="entry.data.length > 0">
