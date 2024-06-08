@@ -234,7 +234,7 @@ export class PartyPlannerComponent {
             y: `${window.innerHeight - 64 - 48 - 180}px`
           };
           if (roster.characters.length > 8) {
-            scroll.x = `${window.innerWidth - 80 - 48}px`;
+            scroll.x = `${window.innerWidth + roster.characters.length * 80}px`;
           }
           return scroll;
         })
