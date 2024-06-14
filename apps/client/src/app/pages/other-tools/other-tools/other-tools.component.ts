@@ -8,12 +8,6 @@ import { Component } from "@angular/core";
 export class OtherToolsComponent {
   otherTools = [
     {
-      name: "Lost Ark Market",
-      url: "https://lostarkmarket.online",
-      image: "lostarkmarket.png",
-      description: "Open Source, crowd-sourced marketboard website with crafting profits optimizer and an open, documented API."
-    },
-    {
       name: "Lost Ark Ability Stone Calculator",
       url: "https://lostark.meta-game.gg/ability-stone-calculator",
       image: "ability-stone-calculator.png",
