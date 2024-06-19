@@ -565,6 +565,43 @@ export const goldTasks: GoldTask[] = [
   completionId: "T3.L13.4",
   chestId: "ThaemineH4",
   overrideMinIlvl: 1630
+},
+{
+  name: "Echidna Normal Gate 1",
+  goldReward: 5000,
+  taskName: "Echidna",
+  chestPrice: 2200,
+  completionId: "T3.L14.1",
+  chestId: "EchidnaN1",
+  overrideMinIlvl: 1620,
+  overrideMaxIlvl: 1630
+},
+{
+  name: "Echidna Normal Gate 2",
+  goldReward: 9500,
+  taskName: "Echidna",
+  chestPrice: 3400,
+  completionId: "T3.L14.2",
+  chestId: "EchidnaN2",
+  overrideMinIlvl: 1620,
+  overrideMaxIlvl: 1630
+},
+{
+  name: "Echidna Hard Gate 1",
+  goldReward: 6000,
+  taskName: "Echidna",
+  chestPrice: 2800,
+  completionId: "T3.L15.1",
+  chestId: "EchidnaH1",
+  overrideMinIlvl: 1630
+},
+{
+  name: "Echidna Hard Gate 2",
+  goldReward: 125000,
+  taskName: "Echidna",
+  chestPrice: 4100,
+  completionId: "T3.L15.2",
+  chestId: "EchidnaH2",
+  overrideMinIlvl: 1630
 }
-    
 ];
