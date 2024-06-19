@@ -597,7 +597,7 @@ export const goldTasks: GoldTask[] = [
 },
 {
   name: "Echidna Hard Gate 2",
-  goldReward: 125000,
+  goldReward: 12500,
   taskName: "Echidna",
   chestPrice: 4100,
   completionId: "T3.L15.2",
