@@ -10,7 +10,7 @@ import { Character } from "../../../model/character/character";
 import { TimeService } from "../../../core/time.service";
 import { ManualWeeklyGoldEntry, Settings } from "../../../model/settings";
 import { UpdateData } from "@angular/fire/firestore";
-
+import { getCompletionEntry } from '../../../core/get-completion-entry-key';
 
 interface GoldPlannerDisplay {
   chestsData: {
@@ -33,6 +33,7 @@ interface GoldPlannerDisplay {
   styleUrls: ["./gold-planner.component.less"]
 })
 export class GoldPlannerComponent {
+  public rawRoster$ = this.rosterService.roster$;
   public roster$ = this.rosterService.roster$.pipe(
     map(roster => roster.characters)
   );
@@ -58,9 +59,10 @@ export class GoldPlannerComponent {
     of(goldTasks),
     this.forceAbyss$,
     this.manualGoldEntries$,
-    this.timeService.lastWeeklyReset$
+    this.timeService.lastWeeklyReset$,
+    this.rawRoster$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, forceAbyss, manualGoldEntries, weeklyReset]) => {
+    map(([roster, tasks, tracking, gTasks, forceAbyss, manualGoldEntries, weeklyReset, rawRoster]) => {
       const chestsData = gTasks
         .map(gTask => {
           if (gTask.taskName) {
@@ -81,6 +83,12 @@ export class GoldPlannerComponent {
         .map(({ gTask, task }, i, array) => {
           const flagsData = roster.map((character) => {
             if (!task || !character.weeklyGold) {
+              return {
+                force: null,
+                value: null
+              };
+            }
+            if (getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false) {
               return {
                 force: null,
                 value: null
