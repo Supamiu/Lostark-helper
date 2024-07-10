@@ -49,7 +49,7 @@ export class GoldPlannerComponent {
   private goldChestRewardPerIlvl = {
     1302: 2 * 1250,
     1415: 3 * 1250,
-	1490: 4 * 1250
+    1490: 4 * 1250
   };
 
   public display$: Observable<GoldPlannerDisplay> = combineLatest([
@@ -224,9 +224,9 @@ export class GoldPlannerComponent {
   );
 
   constructor(private rosterService: RosterService,
-              private tasksService: TasksService,
-              private settings: SettingsService,
-              private timeService: TimeService) {
+    private tasksService: TasksService,
+    private settings: SettingsService,
+    private timeService: TimeService) {
   }
 
   private getGoldChestFlag(characterName: string, gTask: GoldTask): string {
@@ -283,10 +283,9 @@ export class GoldPlannerComponent {
   }
 
   manualGoldFormatter(value: number | string): number {
-    if(!value || typeof value === 'string' ) {
+    if (!value || typeof value === 'string') {
       return 0;
     }
-    
     return Math.floor(value);
   };
 }
