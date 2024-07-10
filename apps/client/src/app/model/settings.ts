@@ -12,5 +12,7 @@ export interface Settings extends DataModel {
   manualGoldEntries: Record<string, ManualWeeklyGoldEntry>;
   // True = skip chest, False = take chest
   chestConfiguration: Record<string, boolean>;
+    // True = skip gold, False = take gold
+  goldPlannerConfiguration: Record<string, boolean>;
   forceAbyss: Record<string, boolean>;
 }

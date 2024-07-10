@@ -42,7 +42,7 @@ export class GoldPlannerComponent {
 
   public tasks$ = this.tasksService.tasks$;
 
-  public tracking$ = this.settings.settings$.pipe(pluck("chestConfiguration"));
+  public tracking$ = this.settings.settings$.pipe(pluck("goldPlannerConfiguration"));
   public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
   public forceAbyss$ = this.settings.settings$.pipe(pluck("forceAbyss"));
 
@@ -253,7 +253,7 @@ export class GoldPlannerComponent {
     tracking[this.getGoldChestFlag(character.name, gTask)] = !flag;
     this.settings.patch({
       $key: settingsKey,
-      chestConfiguration: tracking
+      goldPlannerConfiguration: tracking
     });
   }
 
