@@ -199,7 +199,7 @@ export class GoldPlannerComponent {
         total,
         forceAbyss,
         tracking,
-        grandTotal: total.reduce((acc, v) => acc + v, chestGold),
+        grandTotal: total.reduce((acc, v) => acc + v, 0),
         chestGold,
         chaos,
         other
