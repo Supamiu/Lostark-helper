@@ -30,6 +30,18 @@ export class SettingsService extends FirestoreStorage<Settings> {
               })
             );
           }
+
+          // Smooth migration
+          if (settings.goldPlannerConfiguration === undefined) {
+            settings.goldPlannerConfiguration = {}
+            return this.setOne(uid, settings).pipe(
+              mapTo({
+                ...settings,
+                $key: uid
+              })
+            );
+          }
+
           return of(settings);
         })
       );
