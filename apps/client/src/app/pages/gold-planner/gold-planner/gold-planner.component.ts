@@ -16,7 +16,13 @@ interface GoldPlannerDisplay {
   chestsData: {
     task?: LostarkTask,
     gTask: GoldTask,
-    flags: { value: boolean | null, force: boolean | null, taking: boolean | null }[]
+    flags: {
+      value: boolean | null,
+      force: boolean | null,
+      taking: boolean | null,
+      forceRunningNM: boolean | null
+    }[],
+    goldOverride
   }[];
   chaos: Record<string, number>;
   other: Record<string, number>;
@@ -86,14 +92,16 @@ export class GoldPlannerComponent {
               return {
                 force: null,
                 value: null,
-                taking: null
+                taking: null,
+                forceRunningNM: null
               };
             }
             if (getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false) {
               return {
                 force: null,
                 value: null,
-                taking: null
+                taking: null,
+                forceRunningNM: null
               };
             }
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
@@ -110,7 +118,8 @@ export class GoldPlannerComponent {
                 return {
                   force: null,
                   value: null,
-                  taking: null
+                  taking: null,
+                  forceRunningNM: null
                 };
               }
             }
@@ -119,23 +128,39 @@ export class GoldPlannerComponent {
                 return {
                   force: gTask.canForce && !ilvlTooHigh ? false : null,
                   value: null,
-                  taking: null
+                  taking: null,
+                  forceRunningNM: null
                 };
               }
             }
             const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
             const takingFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
+            const forceRunningNMFlag = tracking[this.getForceRunningNMFlag(character.name, gTask)];
 
             return {
               force: forceFlag,
               value: goldChestflag === undefined ? true : goldChestflag,
-              taking: takingFlag === undefined ? true : takingFlag
+              taking: takingFlag === undefined ? true : takingFlag,
+              forceRunningNM: forceRunningNMFlag === undefined ? true : forceRunningNMFlag
             };
           });
+
+          let goldOverride
+          if (gTask.hasNM) {
+            const nmGoldTask = gTasks.find(task => task.completionId === gTask.completionId && task.hasNM === undefined)
+            goldOverride = {
+              goldRewardNM: nmGoldTask?.goldReward,
+              chestPriceNM: nmGoldTask?.chestPrice,
+            }
+          } else {
+            goldOverride = {}
+          }
+
           return {
             task,
             gTask,
-            flags: flagsData
+            flags: flagsData,
+            goldOverride
           };
         })
         .filter(({ flags }) => {
@@ -162,11 +187,11 @@ export class GoldPlannerComponent {
         .filter(row => row.task)
         .reverse()
         .reduce((acc, row) => {
-          const { gTask, flags } = row;
+          const { gTask, flags, goldOverride } = row;
           flags.forEach((flag, i) => {
             // True = skip gold, False = take gold
             if (flag.taking === false) {
-              acc[i] += gTask.goldReward
+              acc[i] += flag.forceRunningNM ? gTask.goldReward : goldOverride.goldRewardNM
             }
 
             let chestPrice = (gTask.chestPrice || 0);
@@ -178,7 +203,7 @@ export class GoldPlannerComponent {
             }
             // True = skip chest, False = take chest
             if (flag.value === false) {
-              acc[i] -= chestPrice
+              acc[i] -= flag.forceRunningNM ? chestPrice : goldOverride.chestPriceNM
             }
           });
           return acc;
@@ -240,6 +265,10 @@ export class GoldPlannerComponent {
     return `${characterName}:gold:taking:${gTask.name}`;
   }
 
+  private getForceRunningNMFlag(characterName: string, gTask: GoldTask): string {
+    return `${characterName}:forceRunningNM:${gTask.name}`;
+  }
+
   private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
     const entry: ManualWeeklyGoldEntry = data[`${type}:${characterName}`] || { amount: 0, timestamp: Date.now() };
     if (entry.timestamp < weeklyReset) {
@@ -264,6 +293,14 @@ export class GoldPlannerComponent {
 
   setGoldTakingFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[this.getGoldTakingFlag(character.name, gTask)] = !flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  setForceRunningNMFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+    tracking[this.getForceRunningNMFlag(character.name, gTask)] = !flag;
     this.settings.patch({
       $key: settingsKey,
       goldPlannerConfiguration: tracking
