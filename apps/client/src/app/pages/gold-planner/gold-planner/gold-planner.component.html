@@ -37,19 +37,32 @@
                 <div class="cell-container">
                   <ng-container *ngIf="flag.value !== null || flag.force">
                     <div class="switch-container">
-                    <nz-switch nzCheckedChildren="Taking gold"
-                              nzUnCheckedChildren="Skipping gold"
-                              [ngModel]="!flag.taking"
-                              (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"></nz-switch>
-                            </div>
+                      <nz-switch nzCheckedChildren="Taking gold"
+                                nzUnCheckedChildren="Skipping gold"
+                                [ngModel]="!flag.taking"
+                                (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                                class="chest-switch"></nz-switch>
+                      <ng-container *ngIf="!flag.taking">
+                        ( {{flag.forceRunningNM ? row.gTask.goldReward: row.goldOverride.goldRewardNM}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
+                      </ng-container>
+                    </div>
                     <div class="switch-container">
                       <nz-switch nzCheckedChildren="Taking chest"
                                 nzUnCheckedChildren="Skipping chest"
                                 [ngModel]="!flag.value"
                                 (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
                                 class="chest-switch"></nz-switch>
-                      ( -{{row.gTask.chestPrice}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
+                      ( -{{flag.forceRunningNM ? row.gTask.chestPrice: row.goldOverride.chestPriceNM}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
                     </div>
+                    <ng-container *ngIf="row.gTask.hasNM">
+                      <div class="switch-container">
+                        <nz-switch nzCheckedChildren="Running NM"
+                                  nzUnCheckedChildren="Running HM"
+                                  [ngModel]="!flag.forceRunningNM"
+                                  (ngModelChange)="setForceRunningNMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                        ></nz-switch>
+                      </div>
+                    </ng-container>
                   </ng-container>
                   <div *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
                     <label nz-checkbox [(ngModel)]="flag.force"
