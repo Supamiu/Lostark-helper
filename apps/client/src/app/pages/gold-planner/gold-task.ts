@@ -1,6 +1,6 @@
 export interface GoldTask {
   name: string;
-  completionId?: string;
+  completionId: string;
   entryId?: string;
   taskName?: string;
   goldReward?: number;
@@ -10,4 +10,5 @@ export interface GoldTask {
   overrideMinIlvl?: number;
   overrideMaxIlvl?: number;
   canForce?: boolean;
+  hasNM?: boolean;
 }
