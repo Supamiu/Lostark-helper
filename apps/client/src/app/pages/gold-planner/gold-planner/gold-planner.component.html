@@ -7,6 +7,13 @@
   <ng-container *ngIf="roster$ | async as roster">
     <ng-container *ngIf="scrolling$ | async as scrolling">
       <div class="chest-matrix" *ngIf="display$ | async as display">
+          <div class="switch-container">
+            <nz-switch nzCheckedChildren="Remaining for the week"
+                      nzUnCheckedChildren="Full Planning"
+                      [ngModel]="display.tracking['hideAlreadyDoneTasks']"
+                      (ngModelChange)="setHideAlreadyDoneTasksFlag(settings.$key, display.tracking, $event)"
+                      ></nz-switch>
+          </div>
         <nz-table #tasksTable
                   [nzData]="display.chestsData"
                   [nzPageSize]="999"

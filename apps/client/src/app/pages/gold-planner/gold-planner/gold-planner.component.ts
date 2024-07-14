@@ -240,6 +240,14 @@ export class GoldPlannerComponent {
     });
   }
 
+  setHideAlreadyDoneTasksFlag(settingsKey: string, tracking: Record<string, boolean>, flag: boolean): void {
+    tracking['hideAlreadyDoneTasks'] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
   trackByIndex(index: number): number {
     return index;
   }
