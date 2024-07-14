@@ -7,8 +7,10 @@ export interface GoldTask {
   goldRewardPerIlvl?: Record<number, number>;
   chestPrice?: number;
   chestId?: string;
-  overrideMinIlvl?: number;
-  overrideMaxIlvl?: number;
-  canForce?: boolean;
-  hasNM?: boolean;
+  modes?: {
+      name: string,
+      goldReward: number,
+      chestPrice: number,
+      HMThreashold: number
+    }[]
 }
