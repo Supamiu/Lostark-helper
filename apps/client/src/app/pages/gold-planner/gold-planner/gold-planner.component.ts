@@ -29,10 +29,8 @@ interface GoldPlannerDisplay {
   chaos: Record<string, number>;
   other: Record<string, number>;
   tracking: Record<string, boolean>;
-  forceAbyss: Record<string, boolean>;
   total: number[];
   grandTotal: number;
-  chestGold: number;
 }
 
 @Component({
@@ -52,35 +50,22 @@ export class GoldPlannerComponent {
 
   public tracking$ = this.settings.settings$.pipe(pluck("goldPlannerConfiguration"));
   public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
-  public forceAbyss$ = this.settings.settings$.pipe(pluck("forceAbyss"));
-
-  private goldChestRewardPerIlvl = {
-    1302: 2 * 1250,
-    1415: 3 * 1250,
-    1490: 4 * 1250
-  };
 
   public display$: Observable<GoldPlannerDisplay> = combineLatest([
     this.roster$,
     this.tasks$,
     this.tracking$,
     of(goldTasks),
-    this.forceAbyss$,
     this.manualGoldEntries$,
     this.timeService.lastWeeklyReset$,
     this.rawRoster$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, forceAbyss, manualGoldEntries, weeklyReset, rawRoster]) => {
+    map(([roster, tasks, tracking, gTasks, manualGoldEntries, weeklyReset, rawRoster]) => {
       const chestsData = gTasks
         .map(gTask => {
-          if (gTask.taskName) {
-            const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
-            return {
-              task,
-              gTask
-            };
-          }
+          const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
           return {
+            task,
             gTask
           };
         })
@@ -91,34 +76,6 @@ export class GoldPlannerComponent {
         .map(({ gTask, task }) => {
           const goldDetails = roster.map((character) => {
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
-            const ilvlTooLow = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
-            const ilvlTooHigh = gTask.overrideMaxIlvl && character.ilvl >= gTask.overrideMaxIlvl;
-            const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
-            if (gTask.entryId) {
-              // Find the other ones with same entry ID
-              const relevantTasks = array.filter((row) => row.gTask.entryId === gTask.entryId);
-              const highestPossible = relevantTasks.filter(row => {
-                return character.ilvl >= (row.gTask.overrideMinIlvl || 0);
-              }).sort((a, b) => (b.gTask.overrideMinIlvl || 0) - (a.gTask.overrideMinIlvl || 0))[0];
-              if (highestPossible.gTask.name !== gTask.name) {
-                return {
-                  force: null,
-                  value: null,
-                  taking: null,
-                  forceRunningNM: null
-                };
-              }
-            }
-            if (cantDoTask || ilvlTooLow || ilvlTooHigh) {
-              if (!forceFlag) {
-                return {
-                  force: gTask.canForce && !ilvlTooHigh ? false : null,
-                  value: null,
-                  taking: null,
-                  forceRunningNM: null
-                };
-              }
-            }
             const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
             const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
             const runningHFlag = tracking[this.getRunningHMFlag(character.name, gTask)];
@@ -148,8 +105,6 @@ export class GoldPlannerComponent {
           return goldDetails.some(f => !f.hide);
         });
 
-      const chestIdsDone = {};
-
       const chaos = roster.reduce((acc, c) => {
         return {
           ...acc,
@@ -175,13 +130,6 @@ export class GoldPlannerComponent {
               acc[i] += flag.goldReward
             }
 
-            let chestPrice = (gTask.chestPrice || 0);
-            if (gTask.chestId && flag.value === false) {
-              if (chestIdsDone[`${gTask.chestId}:${i}`]) {
-                chestPrice = 0;
-              }
-              chestIdsDone[`${gTask.chestId}:${i}`] = true;
-            }
             // True = skip chest, False = take chest
             if (flag.takingChest === false) {
               acc[i] -= flag.chestPrice
@@ -195,18 +143,11 @@ export class GoldPlannerComponent {
         total[i] += other[char.name];
       });
 
-      const highestIlvl = roster.map(c => c.ilvl).sort((a, b) => b - a)[0];
-
-      const chestGold = this.goldChestRewardPerIlvl[Object.keys(this.goldChestRewardPerIlvl)
-        .filter(key => +key <= highestIlvl)
-        .sort((a, b) => +b - +a)[0]];
       return {
         chestsData,
         total,
-        forceAbyss,
         tracking,
         grandTotal: total.reduce((acc, v) => acc + v, 0),
-        chestGold,
         chaos,
         other
       };
@@ -285,14 +226,6 @@ export class GoldPlannerComponent {
     this.settings.patch({
       $key: settingsKey,
       goldPlannerConfiguration: tracking
-    });
-  }
-
-  setForceAbyss(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[`${character.name}:${gTask.name}`] = flag;
-    this.settings.patch({
-      $key: settingsKey,
-      forceAbyss: tracking
     });
   }
 

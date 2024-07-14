@@ -63,21 +63,10 @@
                       </div>
                     </ng-container>
                   </ng-container>
-                  <div *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
-                    <label nz-checkbox [(ngModel)]="flag.force"
-                          (ngModelChange)="setForceAbyss(settings.$key, display.forceAbyss, row.gTask, roster[i], $event)"></label>
-                    Force
-                  </div>
                 </div>
               </td>
             </tr>
           </ng-container>
-          <!-- <tr>
-            <td nzLeft nzWidth="300px">Large Gold Chest(s) - (<img src="./assets/icons/gold.png"
-              class="gold-icon" alt="gold">{{display.chestGold | number}})</td>
-            <td [attr.colspan]="display.total.length" class="roster-income">
-            </td>
-          </tr> -->
           <tr>
             <td nzLeft nzWidth="300px">Chaos Dungeons</td>
             <td class="manual-row" *ngFor="let character of roster">
