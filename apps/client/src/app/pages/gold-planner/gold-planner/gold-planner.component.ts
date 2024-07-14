@@ -16,15 +16,21 @@ interface GoldPlannerDisplay {
   chestsData: {
     task?: LostarkTask,
     gTask: GoldTask,
-    flags: { value: boolean | null, force: boolean | null, taking: boolean | null }[]
+    goldDetails: {
+      hide: boolean | false,
+      takingChest: boolean | null,
+      takingGold: boolean | null,
+      canRunHM: boolean | null,
+      runningHM: boolean | null,
+      goldReward: number
+      chestPrice: number,
+    }[]
   }[];
   chaos: Record<string, number>;
   other: Record<string, number>;
   tracking: Record<string, boolean>;
-  forceAbyss: Record<string, boolean>;
   total: number[];
   grandTotal: number;
-  chestGold: number;
 }
 
 @Component({
@@ -44,35 +50,22 @@ export class GoldPlannerComponent {
 
   public tracking$ = this.settings.settings$.pipe(pluck("goldPlannerConfiguration"));
   public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
-  public forceAbyss$ = this.settings.settings$.pipe(pluck("forceAbyss"));
-
-  private goldChestRewardPerIlvl = {
-    1302: 2 * 1250,
-    1415: 3 * 1250,
-    1490: 4 * 1250
-  };
 
   public display$: Observable<GoldPlannerDisplay> = combineLatest([
     this.roster$,
     this.tasks$,
     this.tracking$,
     of(goldTasks),
-    this.forceAbyss$,
     this.manualGoldEntries$,
     this.timeService.lastWeeklyReset$,
     this.rawRoster$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, forceAbyss, manualGoldEntries, weeklyReset, rawRoster]) => {
+    map(([roster, tasks, tracking, gTasks, manualGoldEntries, weeklyReset, rawRoster]) => {
       const chestsData = gTasks
         .map(gTask => {
-          if (gTask.taskName) {
-            const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
-            return {
-              task,
-              gTask
-            };
-          }
+          const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
           return {
+            task,
             gTask
           };
         })
@@ -80,69 +73,37 @@ export class GoldPlannerComponent {
           return !task || (task.enabled
             && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
-        .map(({ gTask, task }, i, array) => {
-          const flagsData = roster.map((character) => {
-            if (!task || !character.weeklyGold) {
-              return {
-                force: null,
-                value: null,
-                taking: null
-              };
-            }
-            if (getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false) {
-              return {
-                force: null,
-                value: null,
-                taking: null
-              };
-            }
+        .map(({ gTask, task }) => {
+          const goldDetails = roster.map((character) => {
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
-            const ilvlTooLow = gTask.overrideMinIlvl && character.ilvl < gTask.overrideMinIlvl;
-            const ilvlTooHigh = gTask.overrideMaxIlvl && character.ilvl >= gTask.overrideMaxIlvl;
-            const forceFlag = forceAbyss[`${character.name}:${gTask.name}`];
-            if (gTask.entryId) {
-              // Find the other ones with same entry ID
-              const relevantTasks = array.filter((row) => row.gTask.entryId === gTask.entryId);
-              const highestPossible = relevantTasks.filter(row => {
-                return character.ilvl >= (row.gTask.overrideMinIlvl || 0);
-              }).sort((a, b) => (b.gTask.overrideMinIlvl || 0) - (a.gTask.overrideMinIlvl || 0))[0];
-              if (highestPossible.gTask.name !== gTask.name) {
-                return {
-                  force: null,
-                  value: null,
-                  taking: null
-                };
-              }
-            }
-            if (cantDoTask || ilvlTooLow || ilvlTooHigh) {
-              if (!forceFlag) {
-                return {
-                  force: gTask.canForce && !ilvlTooHigh ? false : null,
-                  value: null,
-                  taking: null
-                };
-              }
-            }
             const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
-            const takingFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
+            const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
+            const runningHFlag = tracking[this.getRunningHMFlag(character.name, gTask)];
+            const nmMode = gTask.modes && gTask.modes.find(mode => mode.name === 'NM')
+            const chosenMode = gTask.modes && gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
 
-            return {
-              force: forceFlag,
-              value: goldChestflag === undefined ? true : goldChestflag,
-              taking: takingFlag === undefined ? true : takingFlag
-            };
+            const goldDetail = {
+              hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false),
+              takingChest: goldChestflag === undefined ? true : goldChestflag,
+              takingGold: takingGoldFlag === undefined ? true : takingGoldFlag,
+              runningHM: runningHFlag === undefined ? true : runningHFlag,
+              canRunHM: nmMode ? character.ilvl >= nmMode.HMThreashold : false,
+              goldReward: chosenMode ? chosenMode.goldReward : 0,
+              chestPrice: chosenMode ? chosenMode.chestPrice : 0
+            }
+
+            return goldDetail;
           });
+
           return {
             task,
             gTask,
-            flags: flagsData
+            goldDetails
           };
         })
-        .filter(({ flags }) => {
-          return flags.some(f => f.force !== null || f.value !== null);
+        .filter(({ goldDetails }) => {
+          return goldDetails.some(f => !f.hide);
         });
-
-      const chestIdsDone = {};
 
       const chaos = roster.reduce((acc, c) => {
         return {
@@ -162,23 +123,16 @@ export class GoldPlannerComponent {
         .filter(row => row.task)
         .reverse()
         .reduce((acc, row) => {
-          const { gTask, flags } = row;
-          flags.forEach((flag, i) => {
+          const { goldDetails } = row;
+          goldDetails.forEach((flag, i) => {
             // True = skip gold, False = take gold
-            if (flag.taking === false) {
-              acc[i] += gTask.goldReward
+            if (flag.takingGold === false) {
+              acc[i] += flag.goldReward
             }
 
-            let chestPrice = (gTask.chestPrice || 0);
-            if (gTask.chestId && flag.value === false) {
-              if (chestIdsDone[`${gTask.chestId}:${i}`]) {
-                chestPrice = 0;
-              }
-              chestIdsDone[`${gTask.chestId}:${i}`] = true;
-            }
             // True = skip chest, False = take chest
-            if (flag.value === false) {
-              acc[i] -= chestPrice
+            if (flag.takingChest === false) {
+              acc[i] -= flag.chestPrice
             }
           });
           return acc;
@@ -189,18 +143,11 @@ export class GoldPlannerComponent {
         total[i] += other[char.name];
       });
 
-      const highestIlvl = roster.map(c => c.ilvl).sort((a, b) => b - a)[0];
-
-      const chestGold = this.goldChestRewardPerIlvl[Object.keys(this.goldChestRewardPerIlvl)
-        .filter(key => +key <= highestIlvl)
-        .sort((a, b) => +b - +a)[0]];
       return {
         chestsData,
         total,
-        forceAbyss,
         tracking,
         grandTotal: total.reduce((acc, v) => acc + v, 0),
-        chestGold,
         chaos,
         other
       };
@@ -240,6 +187,10 @@ export class GoldPlannerComponent {
     return `${characterName}:gold:taking:${gTask.name}`;
   }
 
+  private getRunningHMFlag(characterName: string, gTask: GoldTask): string {
+    return `${characterName}:runningHM:${gTask.name}`;
+  }
+
   private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
     const entry: ManualWeeklyGoldEntry = data[`${type}:${characterName}`] || { amount: 0, timestamp: Date.now() };
     if (entry.timestamp < weeklyReset) {
@@ -270,11 +221,11 @@ export class GoldPlannerComponent {
     });
   }
 
-  setForceAbyss(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[`${character.name}:${gTask.name}`] = flag;
+  setRunningHMFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+    tracking[this.getRunningHMFlag(character.name, gTask)] = !flag;
     this.settings.patch({
       $key: settingsKey,
-      forceAbyss: tracking
+      goldPlannerConfiguration: tracking
     });
   }
 

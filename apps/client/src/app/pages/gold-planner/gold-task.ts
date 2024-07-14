@@ -1,13 +1,12 @@
 export interface GoldTask {
   name: string;
-  completionId?: string;
-  entryId?: string;
+  completionId: string;
   taskName?: string;
-  goldReward?: number;
-  goldRewardPerIlvl?: Record<number, number>;
-  chestPrice?: number;
   chestId?: string;
-  overrideMinIlvl?: number;
-  overrideMaxIlvl?: number;
-  canForce?: boolean;
+  modes?: {
+      name: string,
+      goldReward: number,
+      chestPrice: number,
+      HMThreashold: number
+    }[]
 }

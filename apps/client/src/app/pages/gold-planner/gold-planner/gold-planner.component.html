@@ -29,43 +29,44 @@
             <tr>
               <td nzLeft nzWidth="280px" class="task-name">
                 <img *ngIf="row.task?.iconPath" src="./assets/icons/{{row.task?.iconPath}}" alt="" class="task-icon">
-                {{row.gTask.name}} - 
-                (<img src="./assets/icons/gold.png" class="gold-icon" alt="gold">{{row.gTask.goldReward}})
+                {{row.gTask.name}}
               </td>
               <td 
-                *ngFor="let flag of row.flags; index as i; trackBy: trackByIndex">
+                *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
                 <div class="cell-container">
-                  <ng-container *ngIf="flag.value !== null || flag.force">
+                  <ng-container *ngIf="!flag.hide">
                     <div class="switch-container">
-                    <nz-switch nzCheckedChildren="Taking gold"
-                              nzUnCheckedChildren="Skipping gold"
-                              [ngModel]="!flag.taking"
-                              (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"></nz-switch>
-                            </div>
+                      <nz-switch nzCheckedChildren="Taking gold"
+                                nzUnCheckedChildren="Skipping gold"
+                                [ngModel]="!flag.takingGold"
+                                (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                                class="chest-switch"></nz-switch>
+                      <ng-container *ngIf="!flag.takingGold">
+                        ( {{flag.goldReward}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
+                      </ng-container>
+                    </div>
                     <div class="switch-container">
                       <nz-switch nzCheckedChildren="Taking chest"
                                 nzUnCheckedChildren="Skipping chest"
-                                [ngModel]="!flag.value"
+                                [ngModel]="!flag.takingChest"
                                 (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
                                 class="chest-switch"></nz-switch>
-                      ( -{{row.gTask.chestPrice}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
+                      ( -{{flag.chestPrice}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
                     </div>
+                    <ng-container *ngIf="flag.canRunHM">
+                      <div class="switch-container">
+                        <nz-switch nzCheckedChildren="Running HM"
+                                  nzUnCheckedChildren="Running NM"
+                                  [ngModel]="!flag.runningHM"
+                                  (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                        ></nz-switch>
+                      </div>
+                    </ng-container>
                   </ng-container>
-                  <div *ngIf="(flag.value === null || flag.force) && (flag.force !== null)">
-                    <label nz-checkbox [(ngModel)]="flag.force"
-                          (ngModelChange)="setForceAbyss(settings.$key, display.forceAbyss, row.gTask, roster[i], $event)"></label>
-                    Force
-                  </div>
                 </div>
               </td>
             </tr>
           </ng-container>
-          <!-- <tr>
-            <td nzLeft nzWidth="300px">Large Gold Chest(s) - (<img src="./assets/icons/gold.png"
-              class="gold-icon" alt="gold">{{display.chestGold | number}})</td>
-            <td [attr.colspan]="display.total.length" class="roster-income">
-            </td>
-          </tr> -->
           <tr>
             <td nzLeft nzWidth="300px">Chaos Dungeons</td>
             <td class="manual-row" *ngFor="let character of roster">
