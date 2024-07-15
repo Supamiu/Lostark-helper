@@ -214,7 +214,10 @@ export class GoldPlannerComponent {
   }
 
   private getRunningSoloFlag(characterName: string, gTask: GoldTask): string {
-    return `${characterName}:runningSolo:${gTask.name}`;
+    // This regex replaces every word after the first one with an empty string
+    // It is used to track Solo flag on all lines of 1 raid when it has several checklist tasks (i.e. Brel and Thaemine)
+    const raidName = gTask.name.replace(/ .*/,'');
+    return `${characterName}:runningSolo:${raidName}`;
   }
 
   private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
