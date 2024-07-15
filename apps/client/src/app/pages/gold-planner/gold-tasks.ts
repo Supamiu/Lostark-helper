@@ -371,7 +371,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 3",
     taskName: "Brelshaza Gate 3",
-    completionId: "T3.L4.G3",
+    completionId: "T3.L5.G1",
     chestId: "BrelshazaN3",
     modes: [
       {
@@ -391,7 +391,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Brelshaza Gate 4",
     taskName: "Brelshaza Gate 4",
-    completionId: "T3.L4.G4",
+    completionId: "T3.L6.G1",
     chestId: "BrelshazaN4",
     modes: [
       {
@@ -475,7 +475,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Akkan Gate 1",
     taskName: "Akkan",
-    completionId: "T3.L5.G1",
+    completionId: "T3.L7.G1",
     chestId: "AkkanN1",
     modes: [
       {
@@ -495,7 +495,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Akkan Gate 2",
     taskName: "Akkan",
-    completionId: "T3.L5.G2",
+    completionId: "T3.L7.G2",
     chestId: "AkkanN2",
     modes: [
       {
@@ -515,7 +515,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Akkan Gate 3",
     taskName: "Akkan",
-    completionId: "T3.L5.G3",
+    completionId: "T3.L7.G3",
     chestId: "AkkanN3",
     modes: [
       {
@@ -619,7 +619,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Thaemine Gate 1",
     taskName: "Thaemine",
-    completionId: "T3.L6.G1",
+    completionId: "T3.L8.G1",
     chestId: "ThaemineN1",
     modes: [
       {
@@ -639,7 +639,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Thaemine Gate 2",
     taskName: "Thaemine",
-    completionId: "T3.L6.G2",
+    completionId: "T3.L8.G2",
     chestId: "ThaemineN2",
     modes: [
       {
@@ -659,7 +659,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Thaemine Gate 3",
     taskName: "Thaemine",
-    completionId: "T3.L6.G3",
+    completionId: "T3.L8.G3",
     chestId: "ThaemineN3",
     modes: [
       {
@@ -679,7 +679,7 @@ export const goldTasks: GoldTask[] = [
   {
     name: "Thaemine Gate 4",
     taskName: "Thaemine G4",
-    completionId: "T3.L6.G4",
+    completionId: "T3.L9.G1",
     chestId: "ThaemineH4",
     modes: [
       {

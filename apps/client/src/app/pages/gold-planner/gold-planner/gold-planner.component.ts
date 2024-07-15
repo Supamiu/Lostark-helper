@@ -6,6 +6,7 @@ import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
 import { TasksService } from "../../../core/database/services/tasks.service";
+import { CompletionService } from '../../../core/database/services/completion.service';
 import { Character } from "../../../model/character/character";
 import { TimeService } from "../../../core/time.service";
 import { ManualWeeklyGoldEntry, Settings } from "../../../model/settings";
@@ -47,6 +48,7 @@ export class GoldPlannerComponent {
   public settings$ = this.settings.settings$;
 
   public tasks$ = this.tasksService.tasks$;
+  public completion$ = this.completionService.completion$;
 
   public tracking$ = this.settings.settings$.pipe(pluck("goldPlannerConfiguration"));
   public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
@@ -58,9 +60,10 @@ export class GoldPlannerComponent {
     of(goldTasks),
     this.manualGoldEntries$,
     this.timeService.lastWeeklyReset$,
-    this.rawRoster$
+    this.rawRoster$,
+    this.completion$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, manualGoldEntries, weeklyReset, rawRoster]) => {
+    map(([roster, tasks, tracking, gTasks, manualGoldEntries, weeklyReset, rawRoster, completion]) => {
       const chestsData = gTasks
         .map(gTask => {
           const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
@@ -75,6 +78,11 @@ export class GoldPlannerComponent {
         })
         .map(({ gTask, task }) => {
           const goldDetails = roster.map((character) => {
+
+            const completionFlag = task && getCompletionEntry(completion.data, character, task);
+            const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gTask.completionId.substring(gTask.completionId.length - 1))
+            const hideAlreadyDoneGate = tracking['hideAlreadyDoneTasks'] && gateAlreadyDone === true
+
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
             const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
             const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
@@ -83,7 +91,7 @@ export class GoldPlannerComponent {
             const chosenMode = gTask.modes && gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
 
             const goldDetail = {
-              hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false),
+              hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false) || hideAlreadyDoneGate,
               takingChest: goldChestflag === undefined ? true : goldChestflag,
               takingGold: takingGoldFlag === undefined ? true : takingGoldFlag,
               runningHM: runningHFlag === undefined ? true : runningHFlag,
@@ -125,14 +133,16 @@ export class GoldPlannerComponent {
         .reduce((acc, row) => {
           const { goldDetails } = row;
           goldDetails.forEach((flag, i) => {
-            // True = skip gold, False = take gold
-            if (flag.takingGold === false) {
-              acc[i] += flag.goldReward
-            }
+            if (!flag.hide) {
+              // True = skip gold, False = take gold
+              if (flag.takingGold === false) {
+                acc[i] += flag.goldReward
+              }
 
-            // True = skip chest, False = take chest
-            if (flag.takingChest === false) {
-              acc[i] -= flag.chestPrice
+              // True = skip chest, False = take chest
+              if (flag.takingChest === false) {
+                acc[i] -= flag.chestPrice
+              }
             }
           });
           return acc;
@@ -173,7 +183,8 @@ export class GoldPlannerComponent {
   constructor(private rosterService: RosterService,
     private tasksService: TasksService,
     private settings: SettingsService,
-    private timeService: TimeService) {
+    private timeService: TimeService,
+    private completionService: CompletionService) {
   }
 
   private getGoldChestFlag(characterName: string, gTask: GoldTask): string {
@@ -223,6 +234,14 @@ export class GoldPlannerComponent {
 
   setRunningHMFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[this.getRunningHMFlag(character.name, gTask)] = !flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  setHideAlreadyDoneTasksFlag(settingsKey: string, tracking: Record<string, boolean>, flag: boolean): void {
+    tracking['hideAlreadyDoneTasks'] = flag;
     this.settings.patch({
       $key: settingsKey,
       goldPlannerConfiguration: tracking
