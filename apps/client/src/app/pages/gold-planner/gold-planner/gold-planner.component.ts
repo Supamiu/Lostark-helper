@@ -179,7 +179,7 @@ export class GoldPlannerComponent {
 
   public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
     map(([roster]) => {
-      const y = window.innerHeight - 64 - 48 - 190 - 20;
+      const y = window.innerHeight - 64 - 48 - 190 - 20 - 65;
 
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px`, x: "1200px" };
       const widthPerCharacter = window.innerWidth < 992 ? 80 : 120;

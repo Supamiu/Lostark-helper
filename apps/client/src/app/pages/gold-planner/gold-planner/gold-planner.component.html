@@ -27,8 +27,8 @@
           <nz-table #tasksTable [nzData]="display.chestsData" [nzPageSize]="999" [nzScroll]="scrolling" nzHideOnSinglePage nzBordered nzSize="middle">
             <thead>
               <tr>
-                <th nzLeft nzWidth="280px">Source</th>
-                <th nzWidth="{{ display.total.length > 6 && '200px' }}" *ngFor="let character of roster">
+                <th nzLeft nzWidth="180px">Source</th>
+                <th nzWidth="260px" *ngFor="let character of roster">
                   {{ character.name }}[{{ character.ilvl }}] <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note" nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i>
                 </th>
               </tr>
@@ -36,7 +36,7 @@
             <tbody>
               <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
                 <tr>
-                  <td nzLeft nzWidth="280px" class="task-name">
+                  <td nzLeft nzWidth="180px" class="task-name">
                     <img *ngIf="row.task?.iconPath" src="./assets/icons/{{ row.task?.iconPath }}" alt="" class="task-icon" />
                     {{ row.gTask.name }}
                   </td>
