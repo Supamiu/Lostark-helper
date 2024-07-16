@@ -1,116 +1,115 @@
-<nz-page-header nzTitle="Gold Planner"
-                nzSubtitle="Plan how much gold income you're generating with weeklies"></nz-page-header>
-
-<ng-template #goldIcon><img src="./assets/icons/gold.png" class="gold-icon" alt="gold"></ng-template>
-
 <ng-container *ngIf="settings$ | async as settings">
   <ng-container *ngIf="roster$ | async as roster">
     <ng-container *ngIf="scrolling$ | async as scrolling">
-      <div class="chest-matrix" *ngIf="display$ | async as display">
-          <div class="switch-container">
-            <nz-switch nzCheckedChildren="Remaining for the week"
-                      nzUnCheckedChildren="Full Planning"
-                      [ngModel]="display.tracking['hideAlreadyDoneTasks']"
-                      (ngModelChange)="setHideAlreadyDoneTasksFlag(settings.$key, display.tracking, $event)"
-                      ></nz-switch>
-          </div>
-        <nz-table #tasksTable
-                  [nzData]="display.chestsData"
-                  [nzPageSize]="999"
-                  [nzScroll]="scrolling"
-                  nzHideOnSinglePage
-                  nzBordered
-                  nzSize="middle">
-          <thead>
-          <tr>
-            <th nzLeft nzWidth="280px">Source</th>
-            <th 
-              nzWidth="{{display.total.length > 6 && '200px'}}"
-              *ngFor="let character of roster">{{character.name}}[{{character.ilvl}}]
-              <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note"
-                nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i></th>
-          </tr>
-          </thead>
-          <tbody>
-          <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
-            <tr>
-              <td nzLeft nzWidth="280px" class="task-name">
-                <img *ngIf="row.task?.iconPath" src="./assets/icons/{{row.task?.iconPath}}" alt="" class="task-icon">
-                {{row.gTask.name}}
-              </td>
-              <td 
-                *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
-                <div class="cell-container">
-                  <ng-container *ngIf="!flag.hide">
-                    <div class="mode-switch-container">
-                      <ng-container *ngIf="flag.canRunSolo">
-                        <div class="switch-container">
-                          <nz-switch nzCheckedChildren="Running Solo"
-                                    nzUnCheckedChildren="Running in Group"
-                                    [ngModel]="!flag.runningSolo"
-                                    (ngModelChange)="setRunningSoloFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                                    class="chest-switch"></nz-switch>
+      <ng-container *ngIf="display$ | async as display">
+        <nz-page-header nzTitle="Gold Planner" nzSubtitle="Plan how much gold income you're generating with weeklies">
+          <nz-page-header-content>
+            For each raid you're taking gold in game, set the <b>Skipping Gold</b> slider to <b>Taking gold</b> (do this for each gate you're running).
+            <br />
+            If you are buying the chest, set the <b>Skipping chest</b> slider to <b>Taking chest</b>.
+            <br />
+            Configure your run by selecting <b>Running in group</b>, <b>Running Solo</b>, <b>Running NM</b> and <b>Running HM</b> when applicable. You can mix and match depending on the raid and the ilvl of your character. <br /><br />
+            Interested in how much gold you can still earn this week? Set the <b>Full Planning</b> slider to <b>Remaining for the week</b> and find out. The remaining raid entries are based on your weekly completion in the Checklist.
+            <div class="switch-container">
+              <nz-switch
+                nzCheckedChildren="Remaining for the week"
+                nzUnCheckedChildren="Full Planning"
+                [ngModel]="display.tracking['hideAlreadyDoneTasks']"
+                (ngModelChange)="setHideAlreadyDoneTasksFlag(settings.$key, display.tracking, $event)"
+              ></nz-switch>
+            </div>
+          </nz-page-header-content>
+        </nz-page-header>
+
+        <ng-template #goldIcon><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /></ng-template>
+
+        <div class="chest-matrix">
+          <nz-table #tasksTable [nzData]="display.chestsData" [nzPageSize]="999" [nzScroll]="scrolling" nzHideOnSinglePage nzBordered nzSize="middle">
+            <thead>
+              <tr>
+                <th nzLeft nzWidth="280px">Source</th>
+                <th nzWidth="{{ display.total.length > 6 && '200px' }}" *ngFor="let character of roster">
+                  {{ character.name }}[{{ character.ilvl }}] <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note" nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
+                <tr>
+                  <td nzLeft nzWidth="280px" class="task-name">
+                    <img *ngIf="row.task?.iconPath" src="./assets/icons/{{ row.task?.iconPath }}" alt="" class="task-icon" />
+                    {{ row.gTask.name }}
+                  </td>
+                  <td *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
+                    <div class="cell-container">
+                      <ng-container *ngIf="!flag.hide">
+                        <div class="mode-switch-container">
+                          <ng-container *ngIf="flag.canRunSolo">
+                            <div class="switch-container">
+                              <nz-switch
+                                nzCheckedChildren="Running Solo"
+                                nzUnCheckedChildren="Running in Group"
+                                [ngModel]="!flag.runningSolo"
+                                (ngModelChange)="setRunningSoloFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                                class="chest-switch"
+                              ></nz-switch>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="flag.canRunHM && flag.runningSolo">
+                            <div class="switch-container">
+                              <nz-switch nzCheckedChildren="Running HM" nzUnCheckedChildren="Running NM" [ngModel]="!flag.runningHM" (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"></nz-switch>
+                            </div>
+                          </ng-container>
                         </div>
-                      </ng-container>
-                      <ng-container *ngIf="flag.canRunHM && flag.runningSolo">
                         <div class="switch-container">
-                          <nz-switch nzCheckedChildren="Running HM"
-                                    nzUnCheckedChildren="Running NM"
-                                    [ngModel]="!flag.runningHM"
-                                    (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                          <nz-switch
+                            nzCheckedChildren="Taking gold"
+                            nzUnCheckedChildren="Skipping gold"
+                            [ngModel]="!flag.takingGold"
+                            (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                            class="chest-switch"
                           ></nz-switch>
+                          <ng-container *ngIf="!flag.takingGold"> ( {{ flag.goldReward }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> ) </ng-container>
+                        </div>
+                        <div class="switch-container">
+                          <nz-switch
+                            nzCheckedChildren="Taking chest"
+                            nzUnCheckedChildren="Skipping chest"
+                            [ngModel]="!flag.takingChest"
+                            (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                            class="chest-switch"
+                          ></nz-switch>
+                          ( -{{ flag.chestPrice }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
                         </div>
                       </ng-container>
                     </div>
-                    <div class="switch-container">
-                      <nz-switch nzCheckedChildren="Taking gold"
-                                nzUnCheckedChildren="Skipping gold"
-                                [ngModel]="!flag.takingGold"
-                                (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                                class="chest-switch"></nz-switch>
-                      <ng-container *ngIf="!flag.takingGold">
-                        ( {{flag.goldReward}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
-                      </ng-container>
-                    </div>
-                    <div class="switch-container">
-                      <nz-switch nzCheckedChildren="Taking chest"
-                                nzUnCheckedChildren="Skipping chest"
-                                [ngModel]="!flag.takingChest"
-                                (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                                class="chest-switch"></nz-switch>
-                      ( -{{flag.chestPrice}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
-                    </div>
-                  </ng-container>
-                </div>
-              </td>
-            </tr>
-          </ng-container>
-          <tr>
-            <td nzLeft nzWidth="300px">Chaos Dungeons</td>
-            <td class="manual-row" *ngFor="let character of roster">
-              <nz-input-group [nzAddOnBefore]="goldIcon">
-                <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
-              </nz-input-group>
-            </td>
-          </tr>
-          <tr>
-            <td nzLeft nzWidth="300px">Other sources  <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)"  class="info-icon"></i></td>
-            <td class="manual-row" *ngFor="let character of roster">
-              <nz-input-group [nzAddOnBefore]="goldIcon">
-                <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{updateOn: 'blur'}"></nz-input-number>
-              </nz-input-group>
-            </td>
-          </tr>
-            <tr>
-              <td nzLeft nzWidth="300px" class="total-cell">Total: <img src="./assets/icons/gold.png"
-                                                class="gold-icon" alt="gold">{{display.grandTotal | number}} </td>
-              <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png"
-                                                                            class="gold-icon" alt="gold">{{row | number}}
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr>
+                <td nzLeft nzWidth="300px">Chaos Dungeons</td>
+                <td class="manual-row" *ngFor="let character of roster">
+                  <nz-input-group [nzAddOnBefore]="goldIcon">
+                    <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{ updateOn: 'blur' }"></nz-input-number>
+                  </nz-input-group>
+                </td>
+              </tr>
+              <tr>
+                <td nzLeft nzWidth="300px">Other sources <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)" class="info-icon"></i></td>
+                <td class="manual-row" *ngFor="let character of roster">
+                  <nz-input-group [nzAddOnBefore]="goldIcon">
+                    <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{ updateOn: 'blur' }"></nz-input-number>
+                  </nz-input-group>
+                </td>
+              </tr>
+              <tr>
+                <td nzLeft nzWidth="300px" class="total-cell">Total: <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ display.grandTotal | number }}</td>
+                <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ row | number }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>
