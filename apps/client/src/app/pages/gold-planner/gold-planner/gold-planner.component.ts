@@ -90,13 +90,13 @@ export class GoldPlannerComponent {
             const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
             const runningHFlag = tracking[this.getRunningHMFlag(character.name, gTask)];
             const runningSoloFlag = tracking[this.getRunningSoloFlag(character.name, gTask)];
-            const nmMode = gTask.modes && gTask.modes.find(mode => mode.name === 'NM')
-            const soloMode = gTask.modes && gTask.modes.find(mode => mode.name === 'Solo')
+            const nmMode = gTask.modes.find(mode => mode.name === 'NM')
+            const soloMode = gTask.modes.find(mode => mode.name === 'Solo')
             let chosenMode
             if (runningSoloFlag === true || runningSoloFlag === undefined) {
-              chosenMode = gTask.modes && gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
+              chosenMode = gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
             } else {
-              chosenMode = gTask.modes && gTask.modes.find(mode => mode.name === 'Solo')
+              chosenMode = gTask.modes.find(mode => mode.name === 'Solo')
             }
 
             const goldDetail = {
@@ -107,7 +107,7 @@ export class GoldPlannerComponent {
               canRunHM: nmMode ? character.ilvl >= nmMode.HMThreashold : false,
               canRunSolo: soloMode !== undefined,
               runningSolo : runningSoloFlag === undefined ? true : runningSoloFlag,
-              goldReward: chosenMode ? chosenMode.goldReward : 0,
+              goldReward: chosenMode ? chosenMode.goldILvlLimit > character.ilvl ? chosenMode.goldReward : 0 : 0,
               chestPrice: chosenMode ? chosenMode.chestPrice : 0
             }
 

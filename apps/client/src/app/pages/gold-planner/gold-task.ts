@@ -3,10 +3,11 @@ export interface GoldTask {
   completionId: string;
   taskName?: string;
   chestId?: string;
-  modes?: {
+  modes: {
       name: string,
       goldReward: number,
       chestPrice: number,
-      HMThreashold: number
+      HMThreashold: number,
+      goldILvlLimit: number
     }[]
 }
