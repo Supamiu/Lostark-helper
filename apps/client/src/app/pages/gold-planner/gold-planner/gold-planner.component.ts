@@ -23,6 +23,8 @@ interface GoldPlannerDisplay {
       takingGold: boolean | null,
       canRunHM: boolean | null,
       runningHM: boolean | null,
+      canRunSolo: boolean | null,
+      runningSolo : boolean | null,
       goldReward: number
       chestPrice: number,
     }[]
@@ -87,8 +89,15 @@ export class GoldPlannerComponent {
             const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
             const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
             const runningHFlag = tracking[this.getRunningHMFlag(character.name, gTask)];
-            const nmMode = gTask.modes && gTask.modes.find(mode => mode.name === 'NM')
-            const chosenMode = gTask.modes && gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
+            const runningSoloFlag = tracking[this.getRunningSoloFlag(character.name, gTask)];
+            const nmMode = gTask.modes.find(mode => mode.name === 'NM')
+            const soloMode = gTask.modes.find(mode => mode.name === 'Solo')
+            let chosenMode
+            if (runningSoloFlag === true || runningSoloFlag === undefined) {
+              chosenMode = gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
+            } else {
+              chosenMode = gTask.modes.find(mode => mode.name === 'Solo')
+            }
 
             const goldDetail = {
               hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false) || hideAlreadyDoneGate,
@@ -96,7 +105,9 @@ export class GoldPlannerComponent {
               takingGold: takingGoldFlag === undefined ? true : takingGoldFlag,
               runningHM: runningHFlag === undefined ? true : runningHFlag,
               canRunHM: nmMode ? character.ilvl >= nmMode.HMThreashold : false,
-              goldReward: chosenMode ? chosenMode.goldReward : 0,
+              canRunSolo: soloMode !== undefined,
+              runningSolo : runningSoloFlag === undefined ? true : runningSoloFlag,
+              goldReward: chosenMode ? chosenMode.goldILvlLimit > character.ilvl ? chosenMode.goldReward : 0 : 0,
               chestPrice: chosenMode ? chosenMode.chestPrice : 0
             }
 
@@ -202,6 +213,13 @@ export class GoldPlannerComponent {
     return `${characterName}:runningHM:${gTask.name}`;
   }
 
+  private getRunningSoloFlag(characterName: string, gTask: GoldTask): string {
+    // This regex replaces every word after the first one with an empty string
+    // It is used to track Solo flag on all lines of 1 raid when it has several checklist tasks (i.e. Brel and Thaemine)
+    const raidName = gTask.name.replace(/ .*/,'');
+    return `${characterName}:runningSolo:${raidName}`;
+  }
+
   private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
     const entry: ManualWeeklyGoldEntry = data[`${type}:${characterName}`] || { amount: 0, timestamp: Date.now() };
     if (entry.timestamp < weeklyReset) {
@@ -234,6 +252,14 @@ export class GoldPlannerComponent {
 
   setRunningHMFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
     tracking[this.getRunningHMFlag(character.name, gTask)] = !flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+  
+  setRunningSoloFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
+    tracking[this.getRunningSoloFlag(character.name, gTask)] = !flag;
     this.settings.patch({
       $key: settingsKey,
       goldPlannerConfiguration: tracking

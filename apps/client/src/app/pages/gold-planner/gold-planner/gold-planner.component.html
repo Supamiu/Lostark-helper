@@ -42,6 +42,26 @@
                 *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
                 <div class="cell-container">
                   <ng-container *ngIf="!flag.hide">
+                    <div class="mode-switch-container">
+                      <ng-container *ngIf="flag.canRunSolo">
+                        <div class="switch-container">
+                          <nz-switch nzCheckedChildren="Running Solo"
+                                    nzUnCheckedChildren="Running in Group"
+                                    [ngModel]="!flag.runningSolo"
+                                    (ngModelChange)="setRunningSoloFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                                    class="chest-switch"></nz-switch>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="flag.canRunHM && flag.runningSolo">
+                        <div class="switch-container">
+                          <nz-switch nzCheckedChildren="Running HM"
+                                    nzUnCheckedChildren="Running NM"
+                                    [ngModel]="!flag.runningHM"
+                                    (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
+                          ></nz-switch>
+                        </div>
+                      </ng-container>
+                    </div>
                     <div class="switch-container">
                       <nz-switch nzCheckedChildren="Taking gold"
                                 nzUnCheckedChildren="Skipping gold"
@@ -60,15 +80,6 @@
                                 class="chest-switch"></nz-switch>
                       ( -{{flag.chestPrice}}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold"> )
                     </div>
-                    <ng-container *ngIf="flag.canRunHM">
-                      <div class="switch-container">
-                        <nz-switch nzCheckedChildren="Running HM"
-                                  nzUnCheckedChildren="Running NM"
-                                  [ngModel]="!flag.runningHM"
-                                  (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                        ></nz-switch>
-                      </div>
-                    </ng-container>
                   </ng-container>
                 </div>
               </td>
