@@ -112,7 +112,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Ivory Tower`, 1600, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 4, 9999, "abyssal-dungeon.webp", {
+  createTask(`Ivory Tower`, 1600, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
   }),
