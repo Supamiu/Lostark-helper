@@ -87,7 +87,7 @@
                 </tr>
               </ng-container>
               <tr>
-                <td nzLeft nzWidth="300px">Chaos Dungeons</td>
+                <td nzLeft>Chaos Dungeons</td>
                 <td class="manual-row" *ngFor="let character of roster">
                   <nz-input-group [nzAddOnBefore]="goldIcon">
                     <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.chaos[character.name]" (ngModelChange)="setManualGold(settings.$key, 'chaos', character.name, $event)" [ngModelOptions]="{ updateOn: 'blur' }"></nz-input-number>
@@ -95,15 +95,15 @@
                 </td>
               </tr>
               <tr>
-                <td nzLeft nzWidth="300px">Other sources <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)" class="info-icon"></i></td>
+                <td nzLeft>Other sources <i nz-icon nzType="message" nzTheme="outline" nz-tooltip nzTooltipTitle="For buses costs you can put negative values like (-1300)" class="info-icon"></i></td>
                 <td class="manual-row" *ngFor="let character of roster">
                   <nz-input-group [nzAddOnBefore]="goldIcon">
                     <nz-input-number [nzFormatter]="manualGoldFormatter" [ngModel]="display.other[character.name]" (ngModelChange)="setManualGold(settings.$key, 'other', character.name, $event)" [ngModelOptions]="{ updateOn: 'blur' }"></nz-input-number>
                   </nz-input-group>
                 </td>
               </tr>
-              <tr>
-                <td nzLeft nzWidth="300px" class="total-cell">Total: <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ display.grandTotal | number }}</td>
+              <tr class="total-row">
+                <td nzLeft class="total-cell">Total: <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ display.grandTotal | number }}</td>
                 <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ row | number }}</td>
               </tr>
             </tbody>
