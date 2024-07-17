@@ -82,7 +82,7 @@ export class GoldPlannerComponent {
           const goldDetails = roster.map((character) => {
 
             const completionFlag = task && getCompletionEntry(completion.data, character, task);
-            const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gTask.completionId.substring(gTask.completionId.length - 1))
+            const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gTask.completionId.substring(gTask.completionId.length - 1)) && completionFlag.updated > weeklyReset
             const hideAlreadyDoneGate = tracking['hideAlreadyDoneTasks'] && gateAlreadyDone === true
 
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
