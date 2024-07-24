@@ -124,7 +124,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Echidna`, 1620, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "legion_raid.png", {
+  createTask(`Echidna`, 1620, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "kazeros-raid.webp", {
     shared: true,
     partySize: 8
   }),
