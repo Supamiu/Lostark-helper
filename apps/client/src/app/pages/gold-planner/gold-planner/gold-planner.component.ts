@@ -137,10 +137,10 @@ export class GoldPlannerComponent {
             let hideAlreadyDoneRaidOrGate
 
             if (line.gate) {
-              hideAlreadyDoneRaidOrGate = this.shouldHideGateBasedOnWeeklyCompletion(line.gate, character, tasks, tracking, completion, task)
+              hideAlreadyDoneRaidOrGate = this.shouldHideGateBasedOnWeeklyCompletion(line.gate, character, tasks, tracking, completion, weeklyReset, task)
             } else {
               hideAlreadyDoneRaidOrGate = line.gTask.gates.every(gate => {
-                return this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)
+                return this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)
               })
             }
 
@@ -168,11 +168,11 @@ export class GoldPlannerComponent {
               indeterminateTakingChest = false
             } else {
               if (tracking['hideAlreadyDoneTasks']) {
-                const firstUndoneGate = line.gTask.gates.find(gate => !this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task))
+                const firstUndoneGate = line.gTask.gates.find(gate => !this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task))
 
                 takingGold = firstUndoneGate ? tracking[this.getGoldTakingFlagNameForGate(character.name, firstUndoneGate)] : false
                 indeterminateTakingGold = firstUndoneGate ? !line.gTask.gates.every(gate => {
-                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
                     return true
                   } else {
                     return tracking[this.getGoldTakingFlagNameForGate(character.name, gate)] === takingGold
@@ -181,7 +181,7 @@ export class GoldPlannerComponent {
 
                 takingChest = firstUndoneGate ? tracking[this.getChestTakingFlagNameForGate(character.name, firstUndoneGate)] : false
                 indeterminateTakingChest = firstUndoneGate ? !line.gTask.gates.every(gate => {
-                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
                     return true
                   } else {
                     return tracking[this.getChestTakingFlagNameForGate(character.name, gate)] === takingChest
@@ -212,7 +212,7 @@ export class GoldPlannerComponent {
               chestPrice = runningMode ? runningMode.chestPrice : 0
             } else {
               line.gTask.gates.forEach(gate => {
-                if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
                   const runningMode = gate.modes.find(mode => mode.name === this.getRunningModeFlagForGate(raidModesForGoldPlanner, character.name, gate))
                   goldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
                   chestPrice += runningMode ? runningMode.chestPrice : 0
@@ -326,14 +326,14 @@ export class GoldPlannerComponent {
     }
   }
 
-  private shouldHideGateBasedOnWeeklyCompletion(gate: Gate, character: Character, taskList: LostarkTask[], tracking: Record<string, boolean>, completion: Completion, task?: LostarkTask): boolean {
+  private shouldHideGateBasedOnWeeklyCompletion(gate: Gate, character: Character, taskList: LostarkTask[], tracking: Record<string, boolean>, completion: Completion, weeklyReset: number, task?: LostarkTask): boolean {
     const tempTask = taskList.find(t => t.label === gate.taskName && !t.custom);
 
     if (!this.characterHasRequiredILvlForGate(gate, character, taskList, task)) {
       return true
     } else {
       const completionFlag = task && getCompletionEntry(completion.data, character, tempTask ? tempTask : task);
-      const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gate.completionId.substring(gate.completionId.length - 1))
+      const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gate.completionId.substring(gate.completionId.length - 1)) && completionFlag.updated > weeklyReset
       const hideAlreadyDoneGate = tracking['hideAlreadyDoneTasks'] && gateAlreadyDone === true
       return hideAlreadyDoneGate
     }
