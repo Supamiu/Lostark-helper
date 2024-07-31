@@ -14,5 +14,6 @@ export interface Settings extends DataModel {
   chestConfiguration: Record<string, boolean>;
     // True = skip gold, False = take gold
   goldPlannerConfiguration: Record<string, boolean>;
+  raidModesForGoldPlanner: Record<string, string>;
   forceAbyss: Record<string, boolean>;
 }

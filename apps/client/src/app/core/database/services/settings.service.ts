@@ -31,9 +31,20 @@ export class SettingsService extends FirestoreStorage<Settings> {
             );
           }
 
-          // Smooth migration
+          // Smooth migration for goldPlannerConfiguration
           if (settings.goldPlannerConfiguration === undefined) {
             settings.goldPlannerConfiguration = {}
+            return this.setOne(uid, settings).pipe(
+              mapTo({
+                ...settings,
+                $key: uid
+              })
+            );
+          }
+
+          // Smooth migration for goldPlannerConfiguration
+          if (settings.raidModesForGoldPlanner === undefined) {
+            settings.raidModesForGoldPlanner = {}
             return this.setOne(uid, settings).pipe(
               mapTo({
                 ...settings,

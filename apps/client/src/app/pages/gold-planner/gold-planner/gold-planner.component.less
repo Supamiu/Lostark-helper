@@ -1,4 +1,4 @@
-.task-name {
+.task-cell {
   text-align: left;
   line-height: 20px;
 
@@ -8,8 +8,20 @@
   }
 }
 
+.task-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.task-label {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3px;
+}
+
 .cell-container {
-  width: 250px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -19,21 +31,8 @@
   }
 }
 
-.switch-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-}
-
-.mode-switch-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.chest-switch {
-  margin-right: 5px;
+.gold-checkbox-container {
+  margin-top: 5px
 }
 
 .total-cell {
@@ -52,10 +51,6 @@
 .gold-icon {
   width: 24px;
   height: 24px;
-}
-
-.roster-income {
-  text-align: center;
 }
 
 .header-link {

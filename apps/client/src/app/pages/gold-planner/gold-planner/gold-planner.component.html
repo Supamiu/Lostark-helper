@@ -3,21 +3,29 @@
     <ng-container *ngIf="scrolling$ | async as scrolling">
       <ng-container *ngIf="display$ | async as display">
         <nz-page-header nzTitle="Gold Planner" nzSubtitle="Plan how much gold income you're generating with weeklies">
+          <nz-page-header-extra>
+            <button nz-button nzType="primary"
+              (click)="toggleExplanations(settings.$key, display.tracking)"
+            >
+              {{ display.tracking['showExplanations'] ? "Hide" : "Show" }} explainations
+            </button>
+          </nz-page-header-extra>
           <nz-page-header-content>
-            For each raid you're taking gold in game, set the <b>Skipping Gold</b> slider to <b>Taking gold</b> (do this for each gate you're running).
-            <br />
-            If you are buying the chest, set the <b>Skipping chest</b> slider to <b>Taking chest</b>.
-            <br />
-            Configure your run by selecting <b>Running in group</b>, <b>Running Solo</b>, <b>Running NM</b> and <b>Running HM</b> when applicable. You can mix and match depending on the raid and the ilvl of your character. <br /><br />
-            Interested in how much gold you can still earn this week? Set the <b>Full Planning</b> slider to <b>Remaining for the week</b> and find out. The remaining raid entries are based on your weekly completion in the <a class='header-link' routerLink="/checklist">Checklist</a>.
-            <div class="switch-container">
+            <div *ngIf="display.tracking['showExplanations']">
+              Configure your run by selecting the right mode: <b>Solo</b>, <b>Normal</b> or <b>Hard</b>. Not available modes (based on the raid and your ilvl) are greyed out.<br />
+              For each raid you're taking gold in game, tick the <b>Taking Gold</b> checkbox.<br />
+              If you are buying the chest, tick the <b>Taking Chest</b> checkbox.<br />
+              <br />
+              You can further cutomize each gate of a raid by expanding the gates using the <b>+</b> icon on the left. <b>Mixed</b> means that you mixed and matched modes.<br />
+              <br />
+              Interested in how much gold you can still earn this week? Set the <b>Full Planning</b> slider to <b>Remaining for the week</b> and find out. The remaining raid entries are based on your weekly completion in the <a class='header-link' routerLink="/checklist">Checklist</a>.
+            </div>
               <nz-switch
                 nzCheckedChildren="Remaining for the week"
                 nzUnCheckedChildren="Full Planning"
                 [ngModel]="display.tracking['hideAlreadyDoneTasks']"
                 (ngModelChange)="setHideAlreadyDoneTasksFlag(settings.$key, display.tracking, $event)"
               ></nz-switch>
-            </div>
           </nz-page-header-content>
         </nz-page-header>
 
@@ -28,58 +36,65 @@
             <thead>
               <tr>
                 <th nzLeft nzWidth="180px">Source</th>
-                <th nzWidth="260px" *ngFor="let character of roster">
+                <th nzWidth="300px" *ngFor="let character of roster">
                   {{ character.name }}[{{ character.ilvl }}] <i nz-icon nzType="message" nzTheme="outline" *ngIf="character.note" nz-tooltip [nzTooltipTitle]="character.note" class="note-icon"></i>
                 </th>
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
-                <tr>
-                  <td nzLeft nzWidth="180px" class="task-name">
-                    <img *ngIf="row.task?.iconPath" src="./assets/icons/{{ row.task?.iconPath }}" alt="" class="task-icon" />
-                    {{ row.gTask.name }}
+                <tr *ngIf="(row.line.parent && row.line.parent.expand) || !row.line.parent">
+                  <td 
+                    nzLeft
+                    nzWidth="180px"
+                    class="task-cell"
+                    [nzIndentSize]="row.line.parent ? 20 : 0"
+                    [nzShowExpand]="!row.line.gate"
+                    [(nzExpand)]="row.line.expand"
+                    (nzExpandChange)="setExpandRaidFlag(settings.$key, display.tracking,row.line.gTask, $event)"
+                  >
+                    <div class="task-name">
+                      <img *ngIf="row.task?.iconPath" src="./assets/icons/{{ row.task?.iconPath }}" alt="" class="task-icon" />
+                      <div class="task-label">
+                        <div>{{ row.line.gate ? row.line.name.substring(0, row.line.name.indexOf(' ')) : row.line.name}}</div>
+                        <div *ngIf="row.line.gate">{{ row.line.name.substring(row.line.name.indexOf(' ')) }}</div>
+                      </div>
+                    </div>
                   </td>
                   <td *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
                     <div class="cell-container">
                       <ng-container *ngIf="!flag.hide">
-                        <div class="mode-switch-container">
-                          <ng-container *ngIf="flag.canRunSolo">
-                            <div class="switch-container">
-                              <nz-switch
-                                nzCheckedChildren="Running Solo"
-                                nzUnCheckedChildren="Running in Group"
-                                [ngModel]="!flag.runningSolo"
-                                (ngModelChange)="setRunningSoloFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                                class="chest-switch"
-                              ></nz-switch>
-                            </div>
-                          </ng-container>
-                          <ng-container *ngIf="flag.canRunHM && flag.runningSolo">
-                            <div class="switch-container">
-                              <nz-switch nzCheckedChildren="Running HM" nzUnCheckedChildren="Running NM" [ngModel]="!flag.runningHM" (ngModelChange)="setRunningHMFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"></nz-switch>
-                            </div>
-                          </ng-container>
-                        </div>
-                        <div class="switch-container">
-                          <nz-switch
-                            nzCheckedChildren="Taking gold"
-                            nzUnCheckedChildren="Skipping gold"
-                            [ngModel]="!flag.takingGold"
-                            (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                            class="chest-switch"
-                          ></nz-switch>
-                          <ng-container *ngIf="!flag.takingGold"> ( {{ flag.goldReward }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> ) </ng-container>
-                        </div>
-                        <div class="switch-container">
-                          <nz-switch
-                            nzCheckedChildren="Taking chest"
-                            nzUnCheckedChildren="Skipping chest"
-                            [ngModel]="!flag.takingChest"
-                            (ngModelChange)="setChestFlag(settings.$key, display.tracking, row.gTask, roster[i], $event)"
-                            class="chest-switch"
-                          ></nz-switch>
-                          ( -{{ flag.chestPrice }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
+                        <nz-radio-group 
+                          [(ngModel)]="flag.runningMode" 
+                          nzButtonStyle="solid"
+                          (ngModelChange)="setRunningModeFlag(settings.$key, display.raidModesForGoldPlanner, row.line, roster[i], $event)"
+                        >
+                          <label nz-radio-button nzValue="Solo" [nzDisabled]="!flag.canRunSolo">Solo</label>
+                          <label nz-radio-button nzValue="NM">Normal</label>
+                          <label nz-radio-button nzValue="HM" [nzDisabled]="!flag.canRunHM">Hard</label>
+                          <label nz-radio-button nzValue="Mixed" [nzDisabled]="true">Mixed</label>
+                        </nz-radio-group>
+                        <div class="gold-checkbox-container">
+                          <div>
+                            <label 
+                              nz-checkbox 
+                              [(ngModel)]="flag.takingGold"
+                              nzIndeterminate={{flag.indeterminateTakingGold}}
+                              (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.line, roster[i], $event)"
+                            >
+                              Taking Gold ( {{ flag.goldReward }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
+                            </label>
+                          </div>
+                          <div>
+                            <label 
+                              nz-checkbox
+                              [(ngModel)]="flag.takingChest"
+                              nzIndeterminate={{flag.indeterminateTakingChest}}
+                              (ngModelChange)="setChestTakingFlag(settings.$key, display.tracking, row.line, roster[i], $event)"
+                            >
+                              Taking Chest ( -{{ flag.chestPrice }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
+                            </label>
+                          </div>
                         </div>
                       </ng-container>
                     </div>
