@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, map, Observable, of, pluck, startWith } from "rxjs";
 import { goldTasks } from "../gold-tasks";
-import { GoldTask } from "../gold-task";
+import { GoldTask, Gate } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -12,28 +12,42 @@ import { TimeService } from "../../../core/time.service";
 import { ManualWeeklyGoldEntry, Settings } from "../../../model/settings";
 import { UpdateData } from "@angular/fire/firestore";
 import { getCompletionEntry } from '../../../core/get-completion-entry-key';
+import { Completion } from "../../../model/completion";
+
+interface chestsData {
+  task?: LostarkTask,
+  line: PlannerLine,
+  goldDetails: {
+    hide: boolean | false,
+    takingChest: boolean,
+    indeterminateTakingChest: boolean,
+    takingGold: boolean,
+    indeterminateTakingGold: boolean,
+    canRunHM: boolean,
+    canRunSolo: boolean,
+    goldReward: number
+    chestPrice: number,
+    runningMode: string,
+  }[],
+}
+
+interface PlannerLine {
+  name: string;
+  gTask: GoldTask;
+  expand?: boolean;
+  gate?: Gate;
+  parent?: PlannerLine
+}
 
 interface GoldPlannerDisplay {
-  chestsData: {
-    task?: LostarkTask,
-    gTask: GoldTask,
-    goldDetails: {
-      hide: boolean | false,
-      takingChest: boolean | null,
-      takingGold: boolean | null,
-      canRunHM: boolean | null,
-      runningHM: boolean | null,
-      canRunSolo: boolean | null,
-      runningSolo : boolean | null,
-      goldReward: number
-      chestPrice: number,
-    }[]
-  }[];
+  chestsData: chestsData[];
   chaos: Record<string, number>;
   other: Record<string, number>;
   tracking: Record<string, boolean>;
+  raidModesForGoldPlanner: Record<string, string>;
   total: number[];
   grandTotal: number;
+  plannerLines: PlannerLine[]
 }
 
 @Component({
@@ -48,12 +62,12 @@ export class GoldPlannerComponent {
   );
 
   public settings$ = this.settings.settings$;
-
   public tasks$ = this.tasksService.tasks$;
   public completion$ = this.completionService.completion$;
 
   public tracking$ = this.settings.settings$.pipe(pluck("goldPlannerConfiguration"));
   public manualGoldEntries$ = this.settings.settings$.pipe(pluck("manualGoldEntries"));
+  public raidModesForGoldPlanner$ = this.settings.settings$.pipe(pluck("raidModesForGoldPlanner"))
 
   public display$: Observable<GoldPlannerDisplay> = combineLatest([
     this.roster$,
@@ -61,62 +75,170 @@ export class GoldPlannerComponent {
     this.tracking$,
     of(goldTasks),
     this.manualGoldEntries$,
+    this.raidModesForGoldPlanner$,
     this.timeService.lastWeeklyReset$,
     this.rawRoster$,
     this.completion$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, manualGoldEntries, weeklyReset, rawRoster, completion]) => {
-      const chestsData = gTasks
-        .map(gTask => {
-          const task = tasks.find(t => t.label === gTask.taskName && !t.custom);
+    map(([roster, tasks, tracking, gTasks, manualGoldEntries, raidModesForGoldPlanner, weeklyReset, rawRoster, completion]) => {
+      const plannerLines: PlannerLine[] = [];
+      gTasks.forEach(gTask => {
+
+        const raidLine: PlannerLine = {
+          name: gTask.name,
+          gTask: gTask,
+          expand: tracking[this.getExpandRaidFlag(gTask)]
+        }
+
+        if (gTask.gates.length === 1) {
+          // For raids with only 1 gate, we add that gate to the main raid line
+          // Further code will check for its presence to adapt display
+          raidLine.gate = gTask.gates[0]
+          plannerLines.push(raidLine)
+        } else {
+          // If a raid has several gates, we need several lines
+          // - 1 main line for the raid that will always be visible and explandable
+          // - 1 child line (which has the main line as parent) per gate, that will only be visible when parent line is expanded
+          plannerLines.push(raidLine)
+          gTask.gates.forEach(gate => {
+            plannerLines.push({
+              name: gate.name,
+              gTask: gTask,
+              gate: gate,
+              parent: raidLine
+            })
+          })
+        }
+      })
+
+      const chestsData = plannerLines
+        .map(line => {
+          let task: LostarkTask | undefined
+          if (line.gate && line.gate.taskName) {
+            task = tasks.find(t => t.label === line.gate?.taskName && !t.custom);
+          } else {
+            task = tasks.find(t => t.label === line.gTask.taskName && !t.custom);
+          }
           return {
             task,
-            gTask
+            line
           };
         })
         .filter(({ task }) => {
           return !task || (task.enabled
             && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
-        .map(({ gTask, task }) => {
+        .map(({ line, task }) => {
           const goldDetails = roster.map((character) => {
 
-            const completionFlag = task && getCompletionEntry(completion.data, character, task);
-            const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gTask.completionId.substring(gTask.completionId.length - 1)) && completionFlag.updated > weeklyReset
-            const hideAlreadyDoneGate = tracking['hideAlreadyDoneTasks'] && gateAlreadyDone === true
-
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
-            const goldChestflag = tracking[this.getGoldChestFlag(character.name, gTask)];
-            const takingGoldFlag = tracking[this.getGoldTakingFlag(character.name, gTask)];
-            const runningHFlag = tracking[this.getRunningHMFlag(character.name, gTask)];
-            const runningSoloFlag = tracking[this.getRunningSoloFlag(character.name, gTask)];
-            const nmMode = gTask.modes.find(mode => mode.name === 'NM')
-            const soloMode = gTask.modes.find(mode => mode.name === 'Solo')
-            let chosenMode
-            if (runningSoloFlag === true || runningSoloFlag === undefined) {
-              chosenMode = gTask.modes.find(mode => (runningHFlag === true || runningHFlag === undefined) ? mode.name === 'NM' : mode.name === 'HM')
+
+            // Check if the cell (raid or gate) should be visible when looking at Remaining for the week
+            let hideAlreadyDoneRaidOrGate
+
+            if (line.gate) {
+              hideAlreadyDoneRaidOrGate = this.shouldHideGateBasedOnWeeklyCompletion(line.gate, character, tasks, tracking, completion, task)
             } else {
-              chosenMode = gTask.modes.find(mode => mode.name === 'Solo')
+              hideAlreadyDoneRaidOrGate = line.gTask.gates.every(gate => {
+                return this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)
+              })
+            }
+
+            // Used to activate/deactivate the Hard option on the mode selection radio 
+            let canRunHM
+            if (line.gate) {
+              canRunHM = this.canRunHardModeForGateAndCharacter(line.gate, character)
+            } else {
+              canRunHM = line.gTask.gates.every(gate => {
+                return this.canRunHardModeForGateAndCharacter(gate, character)
+              })
+            }
+
+            // Determine state of Taking Gold and Taking Chest tick boxes
+            // They can be indeterminate for main raid line if gate lines have different values
+            let takingGold = false
+            let indeterminateTakingGold = false
+            let takingChest = false
+            let indeterminateTakingChest = false
+
+            if (line.gate) {
+              takingGold = tracking[this.getGoldTakingFlagNameForGate(character.name, line.gate)];
+              indeterminateTakingGold = false
+              takingChest = tracking[this.getChestTakingFlagNameForGate(character.name, line.gate)];
+              indeterminateTakingChest = false
+            } else {
+              if (tracking['hideAlreadyDoneTasks']) {
+                const firstUndoneGate = line.gTask.gates.find(gate => !this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task))
+
+                takingGold = firstUndoneGate ? tracking[this.getGoldTakingFlagNameForGate(character.name, firstUndoneGate)] : false
+                indeterminateTakingGold = firstUndoneGate ? !line.gTask.gates.every(gate => {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                    return true
+                  } else {
+                    return tracking[this.getGoldTakingFlagNameForGate(character.name, gate)] === takingGold
+                  }
+                }) : false
+
+                takingChest = firstUndoneGate ? tracking[this.getChestTakingFlagNameForGate(character.name, firstUndoneGate)] : false
+                indeterminateTakingChest = firstUndoneGate ? !line.gTask.gates.every(gate => {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                    return true
+                  } else {
+                    return tracking[this.getChestTakingFlagNameForGate(character.name, gate)] === takingChest
+                  }
+                }) : false
+              } else {
+                takingGold = tracking[this.getGoldTakingFlagNameForGate(character.name, line.gTask.gates[0])]
+                indeterminateTakingGold = !line.gTask.gates.every(gate => {
+                  return this.characterHasRequiredILvlForGate(gate, character, tasks, task) ?
+                    tracking[this.getGoldTakingFlagNameForGate(character.name, gate)] === takingGold
+                    : true
+                })
+
+                takingChest = tracking[this.getChestTakingFlagNameForGate(character.name, line.gTask.gates[0])];
+                indeterminateTakingChest = !line.gTask.gates.every(gate => {
+                  return this.characterHasRequiredILvlForGate(gate, character, tasks, task) ?
+                    tracking[this.getChestTakingFlagNameForGate(character.name, gate)] === takingChest
+                    : true
+                })
+              }
+            }
+
+            let goldReward = 0
+            let chestPrice = 0
+            if (line.gate) {
+              const runningMode = line.gate.modes.find(mode => mode.name === this.getRunningModeFlag(raidModesForGoldPlanner, character.name, line))
+              goldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
+              chestPrice = runningMode ? runningMode.chestPrice : 0
+            } else {
+              line.gTask.gates.forEach(gate => {
+                if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, task)) {
+                  const runningMode = gate.modes.find(mode => mode.name === this.getRunningModeFlagForGate(raidModesForGoldPlanner, character.name, gate))
+                  goldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
+                  chestPrice += runningMode ? runningMode.chestPrice : 0
+                }
+              })
             }
 
             const goldDetail = {
-              hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false) || hideAlreadyDoneGate,
-              takingChest: goldChestflag === undefined ? true : goldChestflag,
-              takingGold: takingGoldFlag === undefined ? true : takingGoldFlag,
-              runningHM: runningHFlag === undefined ? true : runningHFlag,
-              canRunHM: nmMode ? character.ilvl >= nmMode.HMThreashold : false,
-              canRunSolo: soloMode !== undefined,
-              runningSolo : runningSoloFlag === undefined ? true : runningSoloFlag,
-              goldReward: chosenMode ? chosenMode.goldILvlLimit > character.ilvl ? chosenMode.goldReward : 0 : 0,
-              chestPrice: chosenMode ? chosenMode.chestPrice : 0
+              hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false) || hideAlreadyDoneRaidOrGate,
+              runningMode: this.getRunningModeFlag(raidModesForGoldPlanner, character.name, line),
+              takingChest,
+              indeterminateTakingChest,
+              takingGold,
+              indeterminateTakingGold,
+              canRunHM,
+              canRunSolo: line.gTask.gates[0].modes.find(mode => mode.name === 'Solo') !== undefined,
+              goldReward,
+              chestPrice
             }
 
             return goldDetail;
-          });
+          })
 
           return {
             task,
-            gTask,
+            line,
             goldDetails
           };
         })
@@ -127,31 +249,29 @@ export class GoldPlannerComponent {
       const chaos = roster.reduce((acc, c) => {
         return {
           ...acc,
-          [c.name]: this.getGoldEntry("chaos", c.name, weeklyReset, manualGoldEntries || {})
+          [c.name]: this.getManualGoldEntry("chaos", c.name, weeklyReset, manualGoldEntries || {})
         };
       }, {});
 
       const other = roster.reduce((acc, c) => {
         return {
           ...acc,
-          [c.name]: this.getGoldEntry("other", c.name, weeklyReset, manualGoldEntries || {})
+          [c.name]: this.getManualGoldEntry("other", c.name, weeklyReset, manualGoldEntries || {})
         };
       }, {});
 
       const total = chestsData
-        .filter(row => row.task)
+        .filter(row => row.task && row.line && row.line.gate)
         .reverse()
         .reduce((acc, row) => {
           const { goldDetails } = row;
           goldDetails.forEach((flag, i) => {
             if (!flag.hide) {
-              // True = skip gold, False = take gold
-              if (flag.takingGold === false) {
+              if (flag.takingGold) {
                 acc[i] += flag.goldReward
               }
 
-              // True = skip chest, False = take chest
-              if (flag.takingChest === false) {
+              if (flag.takingChest) {
                 acc[i] -= flag.chestPrice
               }
             }
@@ -165,21 +285,26 @@ export class GoldPlannerComponent {
       });
 
       return {
-        chestsData,
+        chestsData: chestsData,
         total,
         tracking,
+        raidModesForGoldPlanner,
         grandTotal: total.reduce((acc, v) => acc + v, 0),
         chaos,
-        other
+        other,
+        plannerLines
       };
     })
   );
 
   private windowResize$ = new BehaviorSubject<void>(void 0);
 
-  public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
-    map(([roster]) => {
-      const y = window.innerHeight - 64 - 48 - 190 - 20 - 65;
+  public scrolling$ = combineLatest([this.roster$, this.display$, this.windowResize$]).pipe(
+    map(([roster, display]) => {
+      let y = window.innerHeight - 270;
+      if (display.tracking['showExplanations']) {
+        y = y - 155
+      }
 
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px`, x: "1200px" };
       const widthPerCharacter = window.innerWidth < 992 ? 80 : 120;
@@ -191,36 +316,153 @@ export class GoldPlannerComponent {
     startWith({ x: null, y: null })
   );
 
-  constructor(private rosterService: RosterService,
-    private tasksService: TasksService,
-    private settings: SettingsService,
-    private timeService: TimeService,
-    private completionService: CompletionService) {
-  }
-
-  private getGoldChestFlag(characterName: string, gTask: GoldTask): string {
-    if (gTask.chestId) {
-      return `${characterName}:gold:chest:${gTask.chestId}`;
+  // Utilities for chestsData calculation
+  private canRunHardModeForGateAndCharacter(gate: Gate, character: Character): boolean {
+    const nmMode = gate.modes.find(mode => mode.name === 'NM')
+    if (nmMode && nmMode.HMThreashold) {
+      return nmMode.HMThreashold <= character.ilvl
+    } else {
+      return true
     }
-    return `${characterName}:gold:${gTask.name}`;
   }
 
-  private getGoldTakingFlag(characterName: string, gTask: GoldTask): string {
-    return `${characterName}:gold:taking:${gTask.name}`;
+  private shouldHideGateBasedOnWeeklyCompletion(gate: Gate, character: Character, taskList: LostarkTask[], tracking: Record<string, boolean>, completion: Completion, task?: LostarkTask): boolean {
+    const tempTask = taskList.find(t => t.label === gate.taskName && !t.custom);
+
+    if (!this.characterHasRequiredILvlForGate(gate, character, taskList, task)) {
+      return true
+    } else {
+      const completionFlag = task && getCompletionEntry(completion.data, character, tempTask ? tempTask : task);
+      const gateAlreadyDone = completionFlag && completionFlag.amount >= parseInt(gate.completionId.substring(gate.completionId.length - 1))
+      const hideAlreadyDoneGate = tracking['hideAlreadyDoneTasks'] && gateAlreadyDone === true
+      return hideAlreadyDoneGate
+    }
   }
 
-  private getRunningHMFlag(characterName: string, gTask: GoldTask): string {
-    return `${characterName}:runningHM:${gTask.name}`;
+  private characterHasRequiredILvlForGate(gate: Gate, character: Character, taskList: LostarkTask[], task?: LostarkTask): boolean {
+    const tempTask = taskList.find(t => t.label === gate.taskName && !t.custom);
+    if (tempTask && tempTask.minIlvl > character.ilvl) {
+      return false
+    } else if (task && task.minIlvl > character.ilvl) {
+      return false
+    } else {
+      return true
+    }
   }
 
-  private getRunningSoloFlag(characterName: string, gTask: GoldTask): string {
-    // This regex replaces every word after the first one with an empty string
-    // It is used to track Solo flag on all lines of 1 raid when it has several checklist tasks (i.e. Brel and Thaemine)
-    const raidName = gTask.name.replace(/ .*/,'');
-    return `${characterName}:runningSolo:${raidName}`;
+  // Taking Gold tick box
+  private getGoldTakingFlagNameForGate(characterName: string, gate: Gate): string {
+    return `${characterName}:gold:taking:${gate.name}`;
   }
 
-  private getGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
+  setGoldTakingFlag(settingsKey: string, tracking: Record<string, boolean>, line: PlannerLine, character: Character, flag: boolean): void {
+    if (!line.gate) {
+      line.gTask.gates.forEach(gate => {
+        this.setGoldTakingFlagForGate(settingsKey, tracking, gate, character, flag)
+      })
+    } else {
+      this.setGoldTakingFlagForGate(settingsKey, tracking, line.gate, character, flag)
+    }
+  }
+
+  setGoldTakingFlagForGate(settingsKey: string, tracking: Record<string, boolean>, gate: Gate, character: Character, flag: boolean): void {
+    tracking[this.getGoldTakingFlagNameForGate(character.name, gate)] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  //Taking Chest tick box
+  private getChestTakingFlagNameForGate(characterName: string, gate: Gate): string {
+    return `${characterName}:gold:${gate.name}`;
+  }
+
+  setChestTakingFlag(settingsKey: string, tracking: Record<string, boolean>, line: PlannerLine, character: Character, flag: boolean): void {
+    if (!line.gate) {
+      line.gTask.gates.forEach(gate => {
+        this.setChestTakingFlagForGate(settingsKey, tracking, gate, character, flag)
+      })
+    } else {
+      this.setChestTakingFlagForGate(settingsKey, tracking, line.gate, character, flag)
+    }
+  }
+
+  setChestTakingFlagForGate(settingsKey: string, tracking: Record<string, boolean>, gate: Gate, character: Character, flag: boolean): void {
+    tracking[this.getChestTakingFlagNameForGate(character.name, gate)] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  // Running mode selection utilities
+  private getRunningModeFlag(raidModesForGoldPlanner: Record<string, string>, characterName: string, line: PlannerLine): string {
+    if (line.gate) {
+      return this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, line.gate)
+    } else {
+      const gateOneMode = this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, line.gTask.gates[0])
+      return line.gTask.gates.every(gate => {
+        return this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, gate) === gateOneMode
+      }) ? gateOneMode : "Mixed"
+    }
+  }
+
+  setRunningModeFlag(settingsKey: string, raidModesForGoldPlanner: Record<string, string>, line: PlannerLine, character: Character, flag: string): void {
+    if (!line.gate || flag === "Solo") {
+      line.gTask.gates.forEach(gate => {
+        this.setRunningModeFlagForGate(settingsKey, raidModesForGoldPlanner, gate, character, flag)
+      })
+    } else if (raidModesForGoldPlanner[this.getRunningModeFlagNameForGate(character.name, line.gate)] === 'Solo') {
+      line.gTask.gates.forEach(gate => {
+        this.setRunningModeFlagForGate(settingsKey, raidModesForGoldPlanner, gate, character, "")
+      })
+      this.setRunningModeFlagForGate(settingsKey, raidModesForGoldPlanner, line.gate, character, flag)
+    } else {
+      this.setRunningModeFlagForGate(settingsKey, raidModesForGoldPlanner, line.gate, character, flag)
+    }
+  }
+
+  private getRunningModeFlagForGate(raidModesForGoldPlanner: Record<string, string>, characterName: string, gate: Gate): string {
+    return raidModesForGoldPlanner[this.getRunningModeFlagNameForGate(characterName, gate)];
+  }
+
+  setRunningModeFlagForGate(settingsKey: string, raidModesForGoldPlanner: Record<string, string>, gate: Gate, character: Character, flag: string): void {
+    raidModesForGoldPlanner[this.getRunningModeFlagNameForGate(character.name, gate)] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      raidModesForGoldPlanner: raidModesForGoldPlanner
+    });
+  }
+
+  private getRunningModeFlagNameForGate(characterName: string, gate: Gate): string {
+    return `${characterName}:runningMode:${gate.name}`;
+  }
+
+  // Raid Row Expander utilities
+  private getExpandRaidFlag(gTask: GoldTask): string {
+    return `expandRaid:${gTask.name}`;
+  }
+
+  setExpandRaidFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, flag: boolean): void {
+    tracking[this.getExpandRaidFlag(gTask)] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  // Toggle between Full Planning and Remaining for the week
+  setHideAlreadyDoneTasksFlag(settingsKey: string, tracking: Record<string, boolean>, flag: boolean): void {
+    tracking['hideAlreadyDoneTasks'] = flag;
+    this.settings.patch({
+      $key: settingsKey,
+      goldPlannerConfiguration: tracking
+    });
+  }
+
+  // Manuel gold entries utilities
+  private getManualGoldEntry(type: string, characterName: string, weeklyReset: number, data: Record<string, ManualWeeklyGoldEntry>): number {
     const entry: ManualWeeklyGoldEntry = data[`${type}:${characterName}`] || { amount: 0, timestamp: Date.now() };
     if (entry.timestamp < weeklyReset) {
       return 0;
@@ -234,46 +476,16 @@ export class GoldPlannerComponent {
     } as unknown as UpdateData<Settings>);
   }
 
-  setChestFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[this.getGoldChestFlag(character.name, gTask)] = !flag;
+  // Show/Hide explanations
+  toggleExplanations(settingsKey: string, tracking: Record<string, boolean>): void {
+    tracking['showExplanations'] = tracking['showExplanations'] ? !tracking['showExplanations'] : true;
     this.settings.patch({
       $key: settingsKey,
       goldPlannerConfiguration: tracking
     });
   }
 
-  setGoldTakingFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[this.getGoldTakingFlag(character.name, gTask)] = !flag;
-    this.settings.patch({
-      $key: settingsKey,
-      goldPlannerConfiguration: tracking
-    });
-  }
-
-  setRunningHMFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[this.getRunningHMFlag(character.name, gTask)] = !flag;
-    this.settings.patch({
-      $key: settingsKey,
-      goldPlannerConfiguration: tracking
-    });
-  }
-  
-  setRunningSoloFlag(settingsKey: string, tracking: Record<string, boolean>, gTask: GoldTask, character: Character, flag: boolean): void {
-    tracking[this.getRunningSoloFlag(character.name, gTask)] = !flag;
-    this.settings.patch({
-      $key: settingsKey,
-      goldPlannerConfiguration: tracking
-    });
-  }
-
-  setHideAlreadyDoneTasksFlag(settingsKey: string, tracking: Record<string, boolean>, flag: boolean): void {
-    tracking['hideAlreadyDoneTasks'] = flag;
-    this.settings.patch({
-      $key: settingsKey,
-      goldPlannerConfiguration: tracking
-    });
-  }
-
+  //Miscellaneous
   trackByIndex(index: number): number {
     return index;
   }
@@ -284,4 +496,11 @@ export class GoldPlannerComponent {
     }
     return Math.floor(value);
   };
+
+  constructor(private rosterService: RosterService,
+    private tasksService: TasksService,
+    private settings: SettingsService,
+    private timeService: TimeService,
+    private completionService: CompletionService) {
+  }
 }
