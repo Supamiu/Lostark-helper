@@ -304,8 +304,8 @@ export const goldTasks: GoldTask[] = [
             name: "Solo",
             HMThreashold: Infinity,
             goldILvlLimit: 1600,
-            goldReward: 120,
-            chestPrice: 45,
+            goldReward: 240,
+            chestPrice: 140,
           }
         ]
       },
@@ -332,8 +332,8 @@ export const goldTasks: GoldTask[] = [
             name: "Solo",
             HMThreashold: Infinity,
             goldILvlLimit: 1600,
-            goldReward: 230,
-            chestPrice: 60,
+            goldReward: 360,
+            chestPrice: 200,
           }
         ]
       }
@@ -363,8 +363,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 170,
-            chestPrice: 60,
+            goldReward: 280,
+            chestPrice: 140,
             HMThreashold: Infinity,
             goldILvlLimit: 1600
           }
@@ -390,8 +390,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 330,
-            chestPrice: 100,
+            goldReward: 520,
+            chestPrice: 230,
             HMThreashold: Infinity,
             goldILvlLimit: 1600
           }
@@ -416,8 +416,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 200,
-            chestPrice: 70,
+            goldReward: 320,
+            chestPrice: 160,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
           }
@@ -436,8 +436,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 250,
-            chestPrice: 95,
+            goldReward: 480,
+            chestPrice: 265,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
           }
@@ -456,8 +456,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 450,
-            chestPrice: 130,
+            goldReward: 800,
+            chestPrice: 375,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
           }
@@ -489,8 +489,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 400,
-            chestPrice: 100,
+            goldReward: 800,
+            chestPrice: 140,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
@@ -516,8 +516,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 500,
-            chestPrice: 150,
+            goldReward: 800,
+            chestPrice: 210,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
@@ -545,7 +545,7 @@ export const goldTasks: GoldTask[] = [
           {
             name: "Solo",
             goldReward: 800,
-            chestPrice: 200,
+            chestPrice: 280,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
@@ -572,8 +572,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 900,
-            chestPrice: 375,
+            goldReward: 1280,
+            chestPrice: 530,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
@@ -607,8 +607,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 400,
-            chestPrice: 200,
+            goldReward: 640,
+            chestPrice: 240,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
           }
@@ -634,8 +634,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 500,
-            chestPrice: 225,
+            goldReward: 960,
+            chestPrice: 320,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
           }
@@ -661,8 +661,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 800,
-            chestPrice: 300,
+            goldReward: 1280,
+            chestPrice: 400,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
           }
@@ -696,8 +696,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 800,
-            chestPrice: 225,
+            goldReward: 1400,
+            chestPrice: 720,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -723,8 +723,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 900,
-            chestPrice: 275,
+            goldReward: 1800,
+            chestPrice: 880,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -750,8 +750,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 1600,
-            chestPrice: 375,
+            goldReward: 3600,
+            chestPrice: 1200,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -785,8 +785,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 1000,
-            chestPrice: 210,
+            goldReward: 1600,
+            chestPrice: 400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -812,8 +812,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 1200,
-            chestPrice: 300,
+            goldReward: 2400,
+            chestPrice: 440,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -839,8 +839,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 1700,
-            chestPrice: 500,
+            goldReward: 3200,
+            chestPrice: 720,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
