@@ -118,7 +118,12 @@
                 </td>
               </tr>
               <tr class="total-row">
-                <td nzLeft class="total-cell">Total: <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ display.grandTotal | number }}</td>
+                <td nzLeft class="total-cell">
+                  Total:
+                  <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
+                  {{ display.grandTotal | number }}
+                  <i nz-icon nzType="message" nzTheme="outline" nz-tooltip [nzTooltipOverlayStyle]="{'max-width': '180px'}" nzTooltipTitle="{{ display.unboundGold | number }} Unbound Gold {{ display.boundGold | number }} Bound Gold" class="info-icon"></i>
+                </td>
                 <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ row | number }}</td>
               </tr>
             </tbody>
