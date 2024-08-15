@@ -47,6 +47,8 @@ interface GoldPlannerDisplay {
   raidModesForGoldPlanner: Record<string, string>;
   total: number[];
   grandTotal: number;
+  boundGold: number;
+  unboundGold: number;
   plannerLines: PlannerLine[]
 }
 
@@ -260,6 +262,9 @@ export class GoldPlannerComponent {
         };
       }, {});
 
+      let unboundGold = 0;
+      let boundGold = 0;
+
       const total = chestsData
         .filter(row => row.task && row.line && row.line.gate)
         .reverse()
@@ -268,6 +273,13 @@ export class GoldPlannerComponent {
           goldDetails.forEach((flag, i) => {
             if (!flag.hide) {
               if (flag.takingGold) {
+                if (flag.runningMode === 'Solo') {
+                  boundGold += flag.goldReward
+                }
+                else {
+                  unboundGold += flag.goldReward
+                }
+
                 acc[i] += flag.goldReward
               }
 
@@ -290,6 +302,8 @@ export class GoldPlannerComponent {
         tracking,
         raidModesForGoldPlanner,
         grandTotal: total.reduce((acc, v) => acc + v, 0),
+        boundGold,
+        unboundGold,
         chaos,
         other,
         plannerLines
