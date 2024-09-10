@@ -76,4 +76,7 @@ export const subtasks: Subtask[] = [
   //Echidna Difficulties
   { id: `echidna-normal`, name: `Echidna Normal`, parentName: "Echidna", minIlvl: 1620 },  
   { id: `echidna-hard`, name: `Echidna Hard`, parentName: "Echidna", minIlvl: 1630 }, 
+
+  //Behemoth Difficulties
+  { id: `behemoth-normal`, name: `Behemoth Normal`, parentName: "Behemoth", minIlvl: 1620 },
 ];

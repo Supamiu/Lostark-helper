@@ -931,7 +931,7 @@ export const goldTasks: GoldTask[] = [
     ]
   },
   
-  // Kazeros Raid
+  // Kazeros Raids
   {
     name: "Echidna",
     taskName: "Echidna",
@@ -971,6 +971,38 @@ export const goldTasks: GoldTask[] = [
             name: "HM",
             goldReward: 12500,
             chestPrice: 4100,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Behemoth",
+    taskName: "Behemoth",
+    gates: [
+      {
+        name: "Behemoth Gate 1",
+        completionId: "T3.K2.G1",
+        modes: [
+          {
+            name: "NM",
+            goldReward: 7000,
+            chestPrice: 3100,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      },
+      {
+        name: "Behemoth Gate 2",
+        completionId: "T3.K2.G2",
+        modes: [
+          {
+            name: "NM",
+            goldReward: 14500,
+            chestPrice: 4900,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
