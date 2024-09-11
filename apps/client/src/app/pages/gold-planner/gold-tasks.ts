@@ -988,8 +988,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 7000,
-            chestPrice: 3100,
+            goldReward: 6500,
+            chestPrice: 1800,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -1001,8 +1001,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 14500,
-            chestPrice: 4900,
+            goldReward: 11500,
+            chestPrice: 2900,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
