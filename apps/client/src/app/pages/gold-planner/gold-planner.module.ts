@@ -14,6 +14,7 @@ import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzButtonModule } from "ng-zorro-antd/button";
+import { NzAlertModule } from "ng-zorro-antd/alert";
 
 const routes: Routes = [{
   path: "",
@@ -36,7 +37,8 @@ const routes: Routes = [{
     NzToolTipModule,
     NzInputModule,
     NzInputNumberModule,
-    NzButtonModule
+    NzButtonModule,
+    NzAlertModule
   ]
 })
 export class GoldPlannerModule {
