@@ -120,7 +120,7 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-  createTask(`Thaemine G4`, 1630, TaskFrequency.BIWEEKLY_OFFSET, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
+  createTask(`Thaemine G4`, 1620, TaskFrequency.BIWEEKLY_OFFSET, TaskScope.CHARACTER, 1, 9999, "legion_raid.png", {
     shared: true,
     partySize: 8
   }),

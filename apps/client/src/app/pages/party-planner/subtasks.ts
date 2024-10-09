@@ -29,8 +29,10 @@ export const subtasks: Subtask[] = [
   { id: `caliligos`, name: `Caliligos`, parentName: "Guardian", banner: 'guardians/monster_info_16.png', minIlvl: 1490 },
   { id: `hanumatan`, name: `Hanumatan`, parentName: "Guardian", banner: 'guardians/monster_info_29.png', minIlvl: 1540 },
   { id: `sonavel`, name: `Sonavel`, parentName: "Guardian", banner: 'guardians/monster_info_30.png', minIlvl: 1580 },
-  { id: `gargadeth`, name: `Gargadeth`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1610 },
-
+  { id: `gargadeth`, name: `Gargadeth`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1600 },
+  { id: `veskal`, name: `Veskal`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1610 },
+  { id: `argeos`, name: `Argeos`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1640 },
+  
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
   { id: `aira's-oculus-hard`, name: `Aira's Oculus (Hard)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1370, maxIlvl: 1415 },
@@ -67,11 +69,11 @@ export const subtasks: Subtask[] = [
 
   //Ivory Tower Difficulties
   { id: `ivory-tower-normal`, name: `Ivory Tower Normal`, parentName: "Ivory Tower", minIlvl: 1600 },  
-  { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1620 }, 
+  { id: `ivory-tower-hard`, name: `Ivory Tower Hard`, parentName: "Ivory Tower", minIlvl: 1610 }, 
   
   //Theamine Difficulties
   { id: `thaemine-normal`, name: `Thaemine Normal`, parentName: "Thaemine", minIlvl: 1610 },  
-  { id: `thaemine-hard`, name: `Thaemine Hard`, parentName: "Thaemine G4", minIlvl: 1630 }, 
+  { id: `thaemine-hard`, name: `Thaemine Hard`, parentName: "Thaemine G4", minIlvl: 1620 }, 
 
   //Echidna Difficulties
   { id: `echidna-normal`, name: `Echidna Normal`, parentName: "Echidna", minIlvl: 1620 },  
