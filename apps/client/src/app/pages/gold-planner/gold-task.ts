@@ -10,10 +10,18 @@ export interface Gate {
     goldReward: number,
     chestPrice: number,
   }[],
+  reset?: resetType
 }
 
 export interface GoldTask {
   name: string;
   taskName?: string;
   gates: Gate[]
+}
+
+
+export enum resetType {
+  weekly,
+  biWeekly,
+  biWeeklyOffset
 }
