@@ -1,4 +1,4 @@
-import { GoldTask } from "./gold-task";
+import { GoldTask, resetType } from "./gold-task";
 
 export const goldTasks: GoldTask[] = [
 
@@ -577,7 +577,8 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
-        ]
+        ],
+        reset: resetType.biWeekly
       },
     ]
   },
@@ -926,7 +927,8 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
-        ]
+        ],
+        reset: resetType.biWeeklyOffset
       },
     ]
   },

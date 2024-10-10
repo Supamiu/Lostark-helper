@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, map, Observable, of, pluck, startWith } from "rxjs";
 import { goldTasks } from "../gold-tasks";
-import { GoldTask, Gate } from "../gold-task";
+import { GoldTask, Gate, resetType } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -79,10 +79,12 @@ export class GoldPlannerComponent {
     this.manualGoldEntries$,
     this.raidModesForGoldPlanner$,
     this.timeService.lastWeeklyReset$,
+    this.timeService.lastBiWeeklyReset$,
+    this.timeService.lastBiWeeklyOffsetReset$,
     this.rawRoster$,
     this.completion$
   ]).pipe(
-    map(([roster, tasks, tracking, gTasks, manualGoldEntries, raidModesForGoldPlanner, weeklyReset, rawRoster, completion]) => {
+    map(([roster, tasks, tracking, gTasks, manualGoldEntries, raidModesForGoldPlanner, lastWeeklyReset, lastBiWeeklyReset, lastBiWeeklyOffsetReset, rawRoster, completion]) => {
       const plannerLines: PlannerLine[] = [];
       gTasks.forEach(gTask => {
 
@@ -131,6 +133,8 @@ export class GoldPlannerComponent {
             && roster.some(c => c.ilvl >= (task.minIlvl || 0) && c.ilvl <= (task.maxIlvl || Infinity)));
         })
         .map(({ line, task }) => {
+          const lineReset = this.findLineReset(lastWeeklyReset, lastBiWeeklyReset, lastBiWeeklyOffsetReset, line)
+
           const goldDetails = roster.map((character) => {
 
             const cantDoTask = task && (!task.enabled || character.ilvl < (task.minIlvl || 0) || character.ilvl >= (task.maxIlvl || Infinity));
@@ -139,10 +143,10 @@ export class GoldPlannerComponent {
             let hideAlreadyDoneRaidOrGate
 
             if (line.gate) {
-              hideAlreadyDoneRaidOrGate = this.shouldHideGateBasedOnWeeklyCompletion(line.gate, character, tasks, tracking, completion, weeklyReset, task)
+              hideAlreadyDoneRaidOrGate = this.shouldHideGateBasedOnWeeklyCompletion(line.gate, character, tasks, tracking, completion, lineReset, task)
             } else {
               hideAlreadyDoneRaidOrGate = line.gTask.gates.every(gate => {
-                return this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)
+                return this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)
               })
             }
 
@@ -170,11 +174,11 @@ export class GoldPlannerComponent {
               indeterminateTakingChest = false
             } else {
               if (tracking['hideAlreadyDoneTasks']) {
-                const firstUndoneGate = line.gTask.gates.find(gate => !this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task))
+                const firstUndoneGate = line.gTask.gates.find(gate => !this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task))
 
                 takingGold = firstUndoneGate ? tracking[this.getGoldTakingFlagNameForGate(character.name, firstUndoneGate)] : false
                 indeterminateTakingGold = firstUndoneGate ? !line.gTask.gates.every(gate => {
-                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
                     return true
                   } else {
                     return tracking[this.getGoldTakingFlagNameForGate(character.name, gate)] === takingGold
@@ -183,7 +187,7 @@ export class GoldPlannerComponent {
 
                 takingChest = firstUndoneGate ? tracking[this.getChestTakingFlagNameForGate(character.name, firstUndoneGate)] : false
                 indeterminateTakingChest = firstUndoneGate ? !line.gTask.gates.every(gate => {
-                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
+                  if (this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
                     return true
                   } else {
                     return tracking[this.getChestTakingFlagNameForGate(character.name, gate)] === takingChest
@@ -214,7 +218,7 @@ export class GoldPlannerComponent {
               chestPrice = runningMode ? runningMode.chestPrice : 0
             } else {
               line.gTask.gates.forEach(gate => {
-                if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, weeklyReset, task)) {
+                if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
                   const runningMode = gate.modes.find(mode => mode.name === this.getRunningModeFlagForGate(raidModesForGoldPlanner, character.name, gate))
                   goldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
                   chestPrice += runningMode ? runningMode.chestPrice : 0
@@ -251,14 +255,14 @@ export class GoldPlannerComponent {
       const chaos = roster.reduce((acc, c) => {
         return {
           ...acc,
-          [c.name]: this.getManualGoldEntry("chaos", c.name, weeklyReset, manualGoldEntries || {})
+          [c.name]: this.getManualGoldEntry("chaos", c.name, lastWeeklyReset, manualGoldEntries || {})
         };
       }, {});
 
       const other = roster.reduce((acc, c) => {
         return {
           ...acc,
-          [c.name]: this.getManualGoldEntry("other", c.name, weeklyReset, manualGoldEntries || {})
+          [c.name]: this.getManualGoldEntry("other", c.name, lastWeeklyReset, manualGoldEntries || {})
         };
       }, {});
 
@@ -361,6 +365,21 @@ export class GoldPlannerComponent {
       return false
     } else {
       return true
+    }
+  }
+
+  private findLineReset(lastWeeklyReset: number, lastBiWeeklyReset: number, lastBiWeeklyOffsetReset: number, line: PlannerLine) {
+    if (line.gate && line.gate.reset) {
+      switch (line.gate.reset) {
+        case resetType.biWeekly:
+          return lastBiWeeklyReset
+        case resetType.biWeeklyOffset:
+          return lastBiWeeklyOffsetReset
+        default:
+          return lastWeeklyReset
+      }
+    } else {
+      return lastWeeklyReset
     }
   }
 
