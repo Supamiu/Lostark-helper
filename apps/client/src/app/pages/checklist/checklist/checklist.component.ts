@@ -163,6 +163,7 @@ export class ChecklistComponent {
           return {
             task,
             hasEnergy: ['Una', 'Guardian', 'Chaos'].some(n => task.label?.startsWith(n)),
+            chaosDungeon: task.label === 'Chaos Dungeon',
             completion: completionData.map(row => row.done),
             energy: completionData.map(row => row.energy),
             completionData,
@@ -266,8 +267,8 @@ export class ChecklistComponent {
   );
 
   constructor(private rosterService: RosterService, private tasksService: TasksService,
-              private settings: SettingsService, private energyService: EnergyService,
-              private timeService: TimeService, private completionService: CompletionService) {
+    private settings: SettingsService, private energyService: EnergyService,
+    private timeService: TimeService, private completionService: CompletionService) {
     this.setTableHeight();
   }
 
@@ -304,20 +305,33 @@ export class ChecklistComponent {
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
+      let newCompletionAmount = setAllDone ? task.amount : (existingEntry?.amount || 0) + 1
+      if (task.label === 'Chaos Dungeon' && character.ilvl >= 1640) {
+        newCompletionAmount = 2
+      }
       setCompletionEntry(completion.data, character, task, {
         ...(existingEntry || {}),
-        amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
+        amount: newCompletionAmount,
         updated: Date.now()
       });
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
         && ['Chaos', 'Guardian', 'Una'].some(n => task.label?.startsWith(n))) {
         const energyEntry = getCompletionEntry(energy.data, character, task) || { amount: 0 };
-        if (energyEntry.amount >= 20) {
-          energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 1)), 0);
-          this.energyService.updateOne(energy.$key, {
-            [`data.${getCompletionEntryKey(character, task)}`]: energyEntry
-          });
+        if (task.label === 'Chaos Dungeon' && character.ilvl >= 1640) {
+          if (energyEntry.amount >= 40) {
+            energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 2)), 0);
+            this.energyService.updateOne(energy.$key, {
+              [`data.${getCompletionEntryKey(character, task)}`]: energyEntry
+            });
+          }
+        } else {
+          if (energyEntry.amount >= 20) {
+            energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 1)), 0);
+            this.energyService.updateOne(energy.$key, {
+              [`data.${getCompletionEntryKey(character, task)}`]: energyEntry
+            });
+          }
         }
       }
     } else {

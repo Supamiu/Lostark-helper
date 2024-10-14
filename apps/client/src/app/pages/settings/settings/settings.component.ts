@@ -153,7 +153,7 @@ export class SettingsComponent {
 
   setRestBonus(energy: Energy, task: LostarkTask, character: Character, value: number): void {
     this.energyService.updateOne(energy.$key, {
-      [`data.${getCompletionEntryKey(character, task)}`]: { amount: Math.max(Math.min(100, value), 0) }
+      [`data.${getCompletionEntryKey(character, task)}`]: { amount: Math.max(Math.min(task.label === 'Chaos Dungeon' ? 200 : 100, value), 0) }
     });
   }
 

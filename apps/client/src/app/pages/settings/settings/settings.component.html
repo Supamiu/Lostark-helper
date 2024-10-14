@@ -94,7 +94,7 @@
                         <nz-input-number [ngModel]="bonus"
                                          [nzMin]="0"
                                          [nzStep]="10"
-                                         [nzMax]="100"
+                                         [nzMax]="row.task.label === 'Chaos Dungeon' ? 200 : 100"
                                          [ngModelOptions]="{updateOn: 'blur'}"
                                          (ngModelChange)="setRestBonus(energy, row.task, fullRoster[i], $event)"></nz-input-number>
                       </td>

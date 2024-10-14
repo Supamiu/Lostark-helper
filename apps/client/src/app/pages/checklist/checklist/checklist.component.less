@@ -132,6 +132,28 @@ table {
       }
     }
 
+    .progress-chaos {
+      height: 4px;
+      position: absolute;
+      border-radius: 1px;
+
+      &-10, &-20, &-30, &-40, &-50, &-60, &-70, &-80 {
+        background-color: #8EAF37;
+      }
+
+      &-100, &-110, &-120, &-130, &-140, &-150 {
+        background-color: #af9f37;
+      }
+
+      &-160, &-170, &-180, &-190 {
+        background-color: #af6137;
+      }
+
+      &-200 {
+        background-color: #af3737;
+      }
+    }
+
     .threshold {
       width: 2px;
       height: 4px;
@@ -139,20 +161,40 @@ table {
       position: absolute;
       z-index: 10;
 
+      &.t-10 {
+        left: 10%;
+      }
+
       &.t-20 {
         left: 20%;
+      }
+
+      &.t-30 {
+        left: 30%;
       }
 
       &.t-40 {
         left: 40%;
       }
 
+      &.t-50 {
+        left: 50%;
+      }
+
       &.t-60 {
         left: 60%;
       }
 
+      &.t-70 {
+        left: 70%;
+      }
+
       &.t-80 {
         left: 80%;
+      }
+
+      &.t-90 {
+        left: 90%;
       }
     }
   }
