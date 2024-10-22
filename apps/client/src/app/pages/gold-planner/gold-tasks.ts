@@ -690,7 +690,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 2250,
+            goldReward: 1500,
             chestPrice: 600,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -717,7 +717,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 2750,
+            goldReward: 2500,
             chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -744,7 +744,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 6000,
+            goldReward: 3500,
             chestPrice: 950,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -980,6 +980,8 @@ export const goldTasks: GoldTask[] = [
       }
     ]
   },
+
+  // Epic Raid
   {
     name: "Behemoth",
     taskName: "Behemoth",
@@ -1012,4 +1014,52 @@ export const goldTasks: GoldTask[] = [
       }
     ]
   },
+
+    // Kazeros Raids
+    {
+      name: "Aegir",
+      taskName: "Aegir",
+      gates: [
+        {
+          name: "Aegir Gate 1",
+          completionId: "T3.K3.G1",
+          modes: [
+            {
+              name: "NM",
+              goldReward: 7500,
+              chestPrice: 2200,
+              HMThreashold: 1680,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              goldReward: 9000,
+              chestPrice: 2800,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        },
+        {
+          name: "Aegir Gate 2",
+          completionId: "T3.K3.G2",
+          modes: [
+            {
+              name: "NM",
+              goldReward: 15500,
+              chestPrice: 3400,
+              HMThreashold: 1680,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              goldReward: 18500,
+              chestPrice: 4100,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        }
+      ]
+    },
 ];
