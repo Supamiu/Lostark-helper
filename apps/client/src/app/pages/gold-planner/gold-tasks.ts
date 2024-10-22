@@ -690,7 +690,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 2250,
+            goldReward: 1500,
             chestPrice: 600,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -717,7 +717,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 2750,
+            goldReward: 2500,
             chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -744,7 +744,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            goldReward: 6000,
+            goldReward: 3500,
             chestPrice: 950,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
