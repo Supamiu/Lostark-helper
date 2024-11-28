@@ -17,6 +17,7 @@ export interface Character {
     EbonyCubeLevel3: number;
     EbonyCubeLevel4: number;
     EbonyCubeLevel5: number;
+    EbonyCube1stUnlock: number;
     platinumFields: number;
   };
 }

@@ -39,6 +39,13 @@ export const tickets: {tier?: number, icon: string, rarity: ItemRarity, key: key
     name: "Ebony Cube Level 5"
   },
   {
+    tier: 3,
+    icon: 'ebony1640.png',
+    rarity: ItemRarity.LEGENDARY,
+    key: "EbonyCube1stUnlock",
+    name: "Ebony Cube 1st Unlock"
+  },
+  {
     icon: 'platinum_fields.png',
     rarity: ItemRarity.LEGENDARY,
     key: "platinumFields",
