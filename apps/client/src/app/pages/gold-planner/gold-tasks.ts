@@ -875,8 +875,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 0,
-            chestPrice: 0,
+            goldReward: 2450,
+            chestPrice: 750,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -902,8 +902,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 0,
-            chestPrice: 0,
+            goldReward: 2800,
+            chestPrice: 840,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -929,8 +929,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 0,
-            chestPrice: 0,
+            goldReward: 3850,
+            chestPrice: 1200,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -953,7 +953,7 @@ export const goldTasks: GoldTask[] = [
       },
     ]
   },
-  
+
   // Kazeros Raids
   {
     name: "Echidna",
@@ -979,8 +979,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 0,
-            chestPrice: 0,
+            goldReward: 4800,
+            chestPrice: 1450,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -1006,8 +1006,8 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "Solo",
-            goldReward: 0,
-            chestPrice: 0,
+            goldReward: 8000,
+            chestPrice: 2400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
