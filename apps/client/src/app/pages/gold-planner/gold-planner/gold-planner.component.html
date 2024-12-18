@@ -11,7 +11,6 @@
             </button>
           </nz-page-header-extra>
           <nz-page-header-content>
-            <nz-alert class="warning" nzType="warning" nzShowIcon="true" nzMessage="We are looking for the gold and chest values for each gate of Echidna Solo Mode. If you have them, please drop a message on Discord." ></nz-alert>
             <div *ngIf="display.tracking['showExplanations']">
               Configure your run by selecting the right mode: <b>Solo</b>, <b>Normal</b> or <b>Hard</b>. Not available modes (based on the raid and your ilvl) are greyed out.<br />
               For each raid you're taking gold in game, tick the <b>Taking Gold</b> checkbox.<br />
@@ -45,7 +44,7 @@
             <tbody>
               <ng-container *ngFor="let row of tasksTable.data; trackBy: trackByIndex">
                 <tr *ngIf="(row.line.parent && row.line.parent.expand) || !row.line.parent">
-                  <td 
+                  <td
                     nzLeft
                     nzWidth="180px"
                     class="task-cell"
@@ -65,8 +64,8 @@
                   <td *ngFor="let flag of row.goldDetails; index as i; trackBy: trackByIndex">
                     <div class="cell-container">
                       <ng-container *ngIf="!flag.hide">
-                        <nz-radio-group 
-                          [(ngModel)]="flag.runningMode" 
+                        <nz-radio-group
+                          [(ngModel)]="flag.runningMode"
                           nzButtonStyle="solid"
                           (ngModelChange)="setRunningModeFlag(settings.$key, display.raidModesForGoldPlanner, row.line, roster[i], $event)"
                         >
@@ -77,8 +76,8 @@
                         </nz-radio-group>
                         <div class="gold-checkbox-container">
                           <div>
-                            <label 
-                              nz-checkbox 
+                            <label
+                              nz-checkbox
                               [(ngModel)]="flag.takingGold"
                               nzIndeterminate={{flag.indeterminateTakingGold}}
                               (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.line, roster[i], $event)"
@@ -87,7 +86,7 @@
                             </label>
                           </div>
                           <div>
-                            <label 
+                            <label
                               nz-checkbox
                               [(ngModel)]="flag.takingChest"
                               nzIndeterminate={{flag.indeterminateTakingChest}}
