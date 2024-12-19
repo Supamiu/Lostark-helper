@@ -181,9 +181,7 @@
                                           nzType="primary"
                                           [disabled]="col >= row.task.amount"
                                           (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)">
-                                    {{roster[i].ilvl >= 1640 && row.chaosDungeon ? col/2 : col}}
-                                    /
-                                    {{roster[i].ilvl >= 1640 && row.chaosDungeon ? 1 : row.task.amount}}
+                                    {{col}} / {{row.task.amount}}
                                   </button>
                                 </div>
                                 <div *ngIf="col > 0" class="reset-button">
@@ -193,30 +191,20 @@
                                   </button>
                                 </div>
                                 <div class="energy-bar"
-                                     *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy && row.chaosDungeon"
+                                     *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy"
                                      nz-tooltip
                                      nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
-                                  <div class="threshold t-10" *ngIf="roster[i].ilvl < 1640"></div>
                                   <div class="threshold t-20"></div>
-                                  <div class="threshold t-30" *ngIf="roster[i].ilvl < 1640"></div>
                                   <div class="threshold t-40"></div>
-                                  <div class="threshold t-50" *ngIf="roster[i].ilvl < 1640"></div>
                                   <div class="threshold t-60"></div>
-                                  <div class="threshold t-70" *ngIf="roster[i].ilvl < 1640"></div>
                                   <div class="threshold t-80"></div>
-                                  <div class="threshold t-90" *ngIf="roster[i].ilvl < 1640"></div>
-                                  <div class="progress progress-chaos-{{row.energy[i].amount}}" style="width:{{row.energy[i].amount/2}}%"
+                                  <div class="progress progress-chaos-{{row.energy[i].amount}}" 
+                                  *ngIf="row.chaosDungeon"
+                                  style="width:{{row.energy[i].amount/2}}%"
                                   ></div>
-                                </div>
-                                <div class="energy-bar"
-                                     *ngIf="row.energy[i].amount && row.task.frequency === TaskFrequency.DAILY && row.hasEnergy && !row.chaosDungeon"
-                                     nz-tooltip
-                                     nzTooltipTitle="Rest bonus: {{row.energy[i].amount}}">
-                                  <div class="threshold t-20"></div>
-                                  <div class="threshold t-40"></div>
-                                  <div class="threshold t-60"></div>
-                                  <div class="threshold t-80"></div>
-                                  <div class="progress progress-{{row.energy[i].amount}}" [style.width.%]="row.energy[i].amount"></div>
+                                  <div class="progress progress-{{row.energy[i].amount}}" 
+                                  *ngIf="!row.chaosDungeon"
+                                  [style.width.%]="row.energy[i].amount"></div>
                                 </div>
                               </div>
                             </ng-container>

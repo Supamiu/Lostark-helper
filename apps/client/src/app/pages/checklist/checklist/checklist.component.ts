@@ -305,20 +305,18 @@ export class ChecklistComponent {
       if (existingEntry?.updated < reset) {
         existingEntry.amount = 0;
       }
-      let newCompletionAmount = setAllDone ? task.amount : (existingEntry?.amount || 0) + 1
-      if (task.label === 'Chaos Dungeon' && character.ilvl >= 1640) {
-        newCompletionAmount = 2
-      }
+
       setCompletionEntry(completion.data, character, task, {
         ...(existingEntry || {}),
-        amount: newCompletionAmount,
+        amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
         updated: Date.now()
       });
+      
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
         && ['Chaos', 'Guardian', 'Una'].some(n => task.label?.startsWith(n))) {
         const energyEntry = getCompletionEntry(energy.data, character, task) || { amount: 0 };
-        if (task.label === 'Chaos Dungeon' && character.ilvl >= 1640) {
+        if (task.label === 'Chaos Dungeon') {
           if (energyEntry.amount >= 40) {
             energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 2)), 0);
             this.energyService.updateOne(energy.$key, {
