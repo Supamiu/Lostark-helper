@@ -4,7 +4,7 @@ import { TaskScope } from "../model/task-scope";
 
 export const tasks = [
   // Daily character
-  createTask("Chaos Dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 2, 9999, "chaos-dungeon.webp", {
+  createTask("Chaos Dungeon", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "chaos-dungeon.webp", {
     partySize: 4
   }),
   createTask("Guardian", 302, TaskFrequency.DAILY, TaskScope.CHARACTER, 1, 9999, "guardian.png", {

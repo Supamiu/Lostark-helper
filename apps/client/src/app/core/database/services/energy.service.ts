@@ -86,11 +86,12 @@ export class EnergyService extends FirestoreStorage<Energy> {
   }
 
   public getEnergyUpdate(reset: number, completionEntry: CompletionEntry, energy: Energy, task: LostarkTask, entry: { amount: number }): { amount: number } {
+    const energyPerEntry = task.label === 'Chaos Dungeon' ? 20 : 10
     const daysWithoutDoingTheTask = Math.ceil((reset - completionEntry.updated) / 86400000);
     const daysWithoutEnergyUpdate = Math.ceil((reset - energy.updated) / 86400000);
     const firstTaskUpdateSinceLastDone = daysWithoutDoingTheTask === daysWithoutEnergyUpdate;
-    const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * 10 : 0;
-    const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * 10;
+    const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * energyPerEntry : 0;
+    const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * energyPerEntry;
     entry.amount = Math.min(entry.amount + timeBonus + baseBonus, task.label === 'Chaos Dungeon' ? 200 : 100);
     return entry;
   }
