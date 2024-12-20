@@ -92,7 +92,7 @@ export class EnergyService extends FirestoreStorage<Energy> {
     const firstTaskUpdateSinceLastDone = daysWithoutDoingTheTask === daysWithoutEnergyUpdate;
     const baseBonus = firstTaskUpdateSinceLastDone ? (task.amount - completionEntry.amount) * energyPerEntry : 0;
     const timeBonus = (daysWithoutEnergyUpdate - (firstTaskUpdateSinceLastDone ? 1 : 0)) * task.amount * energyPerEntry;
-    entry.amount = Math.min(entry.amount + timeBonus + baseBonus, task.label === 'Chaos Dungeon' ? 200 : 100);
+    entry.amount = Math.max(Math.min(entry.amount + timeBonus + baseBonus, task.label === 'Chaos Dungeon' ? 200 : 100), 0);
     return entry;
   }
 
