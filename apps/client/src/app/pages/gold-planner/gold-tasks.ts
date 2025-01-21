@@ -1097,4 +1097,50 @@ export const goldTasks: GoldTask[] = [
         }
       ]
     },
+    {
+      name: "Brelshaza Chapter 2",
+      taskName: "Brelshaza Chapter 2",
+      gates: [
+        {
+          name: "Brelshaza Chapter 2 Gate 1",
+          completionId: "T4.K4.G1",
+          modes: [
+            {
+              name: "NM",
+              goldReward: 8500,
+              chestPrice: 3800,
+              HMThreashold: 1690,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              goldReward: 10000,
+              chestPrice: 4500,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        },
+        {
+          name: "Brelshaza Chapter 2 Gate 2",
+          completionId: "T4.K4.G2",
+          modes: [
+            {
+              name: "NM",
+              goldReward: 16500,
+              chestPrice: 5200,
+              HMThreashold: 1690,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              goldReward: 20500,
+              chestPrice: 7200,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        }
+      ]
+    },
 ];
