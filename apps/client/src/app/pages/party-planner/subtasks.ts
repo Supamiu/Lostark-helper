@@ -23,15 +23,16 @@ export const subtasks: Subtask[] = [
   { id: `armored-nacrasena`, name: `Armored Nacrasena`, parentName: "Guardian", banner: "guardians/monster_info_08.png", minIlvl: 1302 },
   { id: `igrexion`, name: `Igrexion`, parentName: "Guardian", banner: "guardians/monster_info_25.png", minIlvl: 1340 },
   { id: `night-fox-yoho`, name: `Night Fox Yoho`, parentName: "Guardian", banner: "guardians/monster_info_18.png", minIlvl: 1370 },
-  // { ie: `velganosd: , name: `Velganos`, parentName: "Guardian", banner: 'guardians/monster_info_.png', minIlvl: 1400 },
+  { id: `velganos` , name: `Velganos`, parentName: "Guardian", banner: 'guardians/monster_info_.png', minIlvl: 1400 },
   { id: `deskaluda`, name: `Deskaluda`, parentName: "Guardian", banner: 'guardians/monster_info_27.png', minIlvl: 1415 },
   { id: `kungelanium`, name: `Kungelanium`, parentName: "Guardian", banner: 'guardians/monster_info_28.png', minIlvl: 1460 },
   { id: `caliligos`, name: `Caliligos`, parentName: "Guardian", banner: 'guardians/monster_info_16.png', minIlvl: 1490 },
   { id: `hanumatan`, name: `Hanumatan`, parentName: "Guardian", banner: 'guardians/monster_info_29.png', minIlvl: 1540 },
   { id: `sonavel`, name: `Sonavel`, parentName: "Guardian", banner: 'guardians/monster_info_30.png', minIlvl: 1580 },
   { id: `gargadeth`, name: `Gargadeth`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1600 },
-  { id: `veskal`, name: `Veskal`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1610 },
-  { id: `argeos`, name: `Argeos`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1640 },
+  { id: `veskal`, name: `Veskal`, parentName: "Guardian", minIlvl: 1610 },
+  { id: `argeos`, name: `Argeos`, parentName: "Guardian", minIlvl: 1640 },
+  { id: `argeos`, name: `Skolakia`, parentName: "Guardian", minIlvl: 1680 },
   
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },
@@ -85,4 +86,8 @@ export const subtasks: Subtask[] = [
   //Aegir Difficulties
   { id: `aegir-normal`, name: `Aegir Normal`, parentName: "Aegir", minIlvl: 1660 },  
   { id: `aegir-hard`, name: `Aegir Hard`, parentName: "Aegir", minIlvl: 1680 }, 
+
+  //Brelshaza v2 Difficulties
+  { id: `brelshaza-v2-normal`, name: `Brelshaza Chapter 2 Normal`, parentName: "Brelshaza Chapter 2", minIlvl: 1670 },  
+  { id: `brelshaza-v2-hard`, name: `Brelshaza Chapter 2 Hard`, parentName: "Brelshaza Chapter 2", minIlvl: 1690 }, 
 ];
