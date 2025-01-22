@@ -25,7 +25,8 @@ interface chestsData {
     indeterminateTakingGold: boolean,
     canRunHM: boolean,
     canRunSolo: boolean,
-    goldReward: number
+    unboundGoldReward: number,
+    boundGoldReward: number,
     chestPrice: number,
     runningMode: string,
   }[],
@@ -45,10 +46,8 @@ interface GoldPlannerDisplay {
   other: Record<string, number>;
   tracking: Record<string, boolean>;
   raidModesForGoldPlanner: Record<string, string>;
-  total: number[];
-  grandTotal: number;
-  boundGold: number;
-  unboundGold: number;
+  total: { unboundGold: number, boundGold: number}[];
+  grandTotal: { unboundGold: number, boundGold: number};
   plannerLines: PlannerLine[]
 }
 
@@ -210,17 +209,20 @@ export class GoldPlannerComponent {
               }
             }
 
-            let goldReward = 0
+            let unboundGoldReward = 0
+            let boundGoldReward = 0
             let chestPrice = 0
             if (line.gate) {
               const runningMode = line.gate.modes.find(mode => mode.name === this.getRunningModeFlag(raidModesForGoldPlanner, character.name, line))
-              goldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
+              unboundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
+              boundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
               chestPrice = runningMode ? runningMode.chestPrice : 0
             } else {
               line.gTask.gates.forEach(gate => {
                 if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
                   const runningMode = gate.modes.find(mode => mode.name === this.getRunningModeFlagForGate(raidModesForGoldPlanner, character.name, gate))
-                  goldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.goldReward : 0 : 0
+                  unboundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
+                  boundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
                   chestPrice += runningMode ? runningMode.chestPrice : 0
                 }
               })
@@ -235,7 +237,8 @@ export class GoldPlannerComponent {
               indeterminateTakingGold,
               canRunHM,
               canRunSolo: line.gTask.gates[0].modes.find(mode => mode.name === 'Solo') !== undefined,
-              goldReward,
+              unboundGoldReward,
+              boundGoldReward,
               chestPrice
             }
 
@@ -266,48 +269,47 @@ export class GoldPlannerComponent {
         };
       }, {});
 
-      let unboundGold = 0;
-      let boundGold = 0;
-
       const total = chestsData
         .filter(row => row.task && row.line && row.line.gate)
-        .reverse()
         .reduce((acc, row) => {
           const { goldDetails } = row;
           goldDetails.forEach((flag, i) => {
             if (!flag.hide) {
               if (flag.takingGold) {
-                if (flag.runningMode === 'Solo') {
-                  boundGold += flag.goldReward
-                }
-                else {
-                  unboundGold += flag.goldReward
-                }
-
-                acc[i] += flag.goldReward
+                acc[i].unboundGold += flag.unboundGoldReward
+                acc[i].boundGold += flag.boundGoldReward
               }
 
               if (flag.takingChest) {
-                acc[i] -= flag.chestPrice
+                acc[i].boundGold -= flag.chestPrice
               }
             }
           });
           return acc;
-        }, new Array(roster.length).fill(0));
+        }, new Array(roster.length).fill(undefined).map(u => {return { unboundGold: 0, boundGold: 0}}));
 
       roster.forEach((char, i) => {
-        total[i] += chaos[char.name];
-        total[i] += other[char.name];
+        total[i].unboundGold += chaos[char.name];
+        total[i].unboundGold += other[char.name];
       });
+
+      const grandTotal = total.reduce((acc, v) => {
+        acc.unboundGold += v.unboundGold
+        acc.boundGold += v.boundGold
+        return acc
+      }, { unboundGold: 0, boundGold: 0})
+
+      if (grandTotal.boundGold < 0) {
+        grandTotal.unboundGold += grandTotal.boundGold
+        grandTotal.boundGold = 0
+      }
 
       return {
         chestsData: chestsData,
         total,
         tracking,
         raidModesForGoldPlanner,
-        grandTotal: total.reduce((acc, v) => acc + v, 0),
-        boundGold,
-        unboundGold,
+        grandTotal,
         chaos,
         other,
         plannerLines

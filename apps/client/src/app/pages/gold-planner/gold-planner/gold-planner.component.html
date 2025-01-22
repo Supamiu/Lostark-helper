@@ -11,7 +11,7 @@
             </button>
           </nz-page-header-extra>
           <nz-page-header-content>
-            <nz-alert class="warning" nzType="warning" nzShowIcon="true" nzMessage="Following the Brel v2 update, we are looking for the gold and chest values for the new update. Current values for Ivory Tower, Thaemine, Aegir and Brelshaza v2 are wrong. If you have them, please drop a message on Discord." ></nz-alert>
+            <nz-alert class="warning" nzType="warning" nzShowIcon="true" nzMessage="For the Brel v2 update, we used gold values from the Russian Wiki. Data changed up to Valtan! We may have different prices in AGS. If you see any mistake, please drop a message on Discord." ></nz-alert>
             <div *ngIf="display.tracking['showExplanations']">
               Configure your run by selecting the right mode: <b>Solo</b>, <b>Normal</b> or <b>Hard</b>. Not available modes (based on the raid and your ilvl) are greyed out.<br />
               For each raid you're taking gold in game, tick the <b>Taking Gold</b> checkbox.<br />
@@ -83,8 +83,9 @@
                               nzIndeterminate={{flag.indeterminateTakingGold}}
                               (ngModelChange)="setGoldTakingFlag(settings.$key, display.tracking, row.line, roster[i], $event)"
                             >
-                              Taking Gold ( {{ flag.goldReward }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
+                              Taking Gold ( {{ flag.unboundGoldReward + flag.boundGoldReward }}<img src="./assets/icons/gold.png" class="gold-icon" alt="gold" /> )
                             </label>
+                            <i *ngIf="flag.unboundGoldReward !== 0 && flag.boundGoldReward !==0" nz-icon nzType="message" nzTheme="outline" nz-tooltip [nzTooltipOverlayStyle]="{'max-width': '180px'}" nzTooltipTitle="{{ flag.unboundGoldReward | number }} Unbound Gold {{ flag.boundGoldReward | number }} Bound Gold" class="info-icon"></i>
                           </div>
                           <div>
                             <label 
@@ -122,10 +123,10 @@
                 <td nzLeft class="total-cell">
                   Total:
                   <img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
-                  {{ display.grandTotal | number }}
-                  <i nz-icon nzType="message" nzTheme="outline" nz-tooltip [nzTooltipOverlayStyle]="{'max-width': '180px'}" nzTooltipTitle="{{ display.unboundGold | number }} Unbound Gold {{ display.boundGold | number }} Bound Gold" class="info-icon"></i>
+                  {{ display.grandTotal.unboundGold + display.grandTotal.boundGold | number }}
+                  <i *ngIf="display.grandTotal.unboundGold !== 0 && display.grandTotal.boundGold !==0" nz-icon nzType="message" nzTheme="outline" nz-tooltip [nzTooltipOverlayStyle]="{'max-width': '180px'}" nzTooltipTitle="{{ display.grandTotal.unboundGold | number }} Unbound Gold {{ display.grandTotal.boundGold | number }} Bound Gold" class="info-icon"></i>
                 </td>
-                <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ row | number }}</td>
+                <td class="total-cell" *ngFor="let row of display.total"><img src="./assets/icons/gold.png" class="gold-icon" alt="gold" />{{ row.unboundGold + row.boundGold | number }}</td>
               </tr>
             </tbody>
           </nz-table>
