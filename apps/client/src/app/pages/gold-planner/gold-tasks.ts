@@ -13,7 +13,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 80,
+            unboundGoldReward: 80,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 805
@@ -32,7 +33,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 80,
+            unboundGoldReward: 80,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 805
@@ -51,7 +53,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 80,
+            unboundGoldReward: 80,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 960
@@ -70,7 +73,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 80,
+            unboundGoldReward: 80,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 960
@@ -89,7 +93,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 100,
+            unboundGoldReward: 100,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 1340
@@ -108,7 +113,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 100,
+            unboundGoldReward: 100,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 1340
@@ -127,7 +133,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 100,
+            unboundGoldReward: 100,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 1370
@@ -146,7 +153,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 100,
+            unboundGoldReward: 100,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 1370
@@ -165,7 +173,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 100,
+            unboundGoldReward: 100,
+            boundGoldReward: 0,
             chestPrice: 0,
             HMThreashold: Infinity,
             goldILvlLimit: 1370
@@ -186,14 +195,16 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 200,
+            unboundGoldReward: 200,
+            boundGoldReward: 0,
             chestPrice: 100,
             HMThreashold: 1370,
             goldILvlLimit: 1415
           },
           {
             name: "HM",
-            goldReward: 300,
+            unboundGoldReward: 300,
+            boundGoldReward: 0,
             chestPrice: 100,
             HMThreashold: Infinity,
             goldILvlLimit: 1415
@@ -212,14 +223,16 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 300,
+            unboundGoldReward: 300,
+            boundGoldReward: 0,
             chestPrice: 150,
             HMThreashold: 1370,
             goldILvlLimit: 1415
           },
           {
             name: "HM",
-            goldReward: 400,
+            unboundGoldReward: 400,
+            boundGoldReward: 0,
             chestPrice: 150,
             HMThreashold: Infinity,
             goldILvlLimit: 1415
@@ -240,7 +253,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 150,
+            unboundGoldReward: 150,
+            boundGoldReward: 0,
             chestPrice: 50,
             HMThreashold: Infinity,
             goldILvlLimit: 1475
@@ -253,7 +267,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 150,
+            unboundGoldReward: 150,
+            boundGoldReward: 0,
             chestPrice: 75,
             HMThreashold: Infinity,
             goldILvlLimit: 1475
@@ -266,7 +281,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 200,
+            unboundGoldReward: 200,
+            boundGoldReward: 0,
             chestPrice: 75,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -290,21 +306,24 @@ export const goldTasks: GoldTask[] = [
             name: "NM",
             HMThreashold: 1445,
             goldILvlLimit: Infinity,
-            goldReward: 300,
-            chestPrice: 180,
+            unboundGoldReward: 100,
+            boundGoldReward: 400,
+            chestPrice: 300,
           },
           {
             name: "HM",
             HMThreashold: Infinity,
             goldILvlLimit: Infinity,
-            goldReward: 400,
-            chestPrice: 255,
+            unboundGoldReward: 140,
+            boundGoldReward: 560,
+            chestPrice: 450,
           },
           {
             name: "Solo",
             HMThreashold: Infinity,
             goldILvlLimit: 1600,
-            goldReward: 240,
+            unboundGoldReward: 0,
+            boundGoldReward: 240,
             chestPrice: 75,
           }
         ]
@@ -318,21 +337,24 @@ export const goldTasks: GoldTask[] = [
             name: "NM",
             HMThreashold: 1445,
             goldILvlLimit: Infinity,
-            goldReward: 450,
-            chestPrice: 255,
+            unboundGoldReward: 140,
+            boundGoldReward: 560,
+            chestPrice: 400,
           },
           {
             name: "HM",
             HMThreashold: Infinity,
             goldILvlLimit: Infinity,
-            goldReward: 700,
-            chestPrice: 380,
+            unboundGoldReward: 220,
+            boundGoldReward: 880,
+            chestPrice: 600,
           },
           {
             name: "Solo",
             HMThreashold: Infinity,
             goldILvlLimit: 1600,
-            goldReward: 360,
+            unboundGoldReward: 0,
+            boundGoldReward: 360,
             chestPrice: 100,
           }
         ]
@@ -349,21 +371,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 350,
-            chestPrice: 175,
+            unboundGoldReward: 120,
+            boundGoldReward: 480,
+            chestPrice: 300,
             HMThreashold: 1460,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 500,
-            chestPrice: 280,
+            unboundGoldReward: 180,
+            boundGoldReward: 720,
+            chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 280,
+            unboundGoldReward: 0,
+            boundGoldReward: 280,
             chestPrice: 100,
             HMThreashold: Infinity,
             goldILvlLimit: 1600
@@ -376,21 +401,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 650,
-            chestPrice: 290,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
+            chestPrice: 450,
             HMThreashold: 1460,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1000,
-            chestPrice: 432,
+            unboundGoldReward: 300,
+            boundGoldReward: 1200,
+            chestPrice: 650,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 520,
+            unboundGoldReward: 0,
+            boundGoldReward: 520,
             chestPrice: 150,
             HMThreashold: Infinity,
             goldILvlLimit: 1600
@@ -409,14 +437,16 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 400,
-            chestPrice: 200,
+            unboundGoldReward: 120,
+            boundGoldReward: 480,
+            chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 320,
+            unboundGoldReward: 0,
+            boundGoldReward: 320,
             chestPrice: 100,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
@@ -429,14 +459,16 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 600,
-            chestPrice: 335,
+            unboundGoldReward: 180,
+            boundGoldReward: 720,
+            chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 480,
+            unboundGoldReward: 0,
+            boundGoldReward: 480,
             chestPrice: 150,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
@@ -449,14 +481,16 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1000,
-            chestPrice: 470,
+            unboundGoldReward: 300,
+            boundGoldReward: 1200,
+            chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 800,
+            unboundGoldReward: 0,
+            boundGoldReward: 800,
             chestPrice: 200,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
@@ -475,21 +509,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1000,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
             chestPrice: 250,
             HMThreashold: 1540,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1200,
+            unboundGoldReward: 240,
+            boundGoldReward: 960,
             chestPrice: 400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 800,
+            unboundGoldReward: 0,
+            boundGoldReward: 800,
             chestPrice: 100,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
@@ -502,21 +539,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1000,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
             chestPrice: 300,
             HMThreashold: 1540,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1200,
+            unboundGoldReward: 240,
+            boundGoldReward: 960,
             chestPrice: 400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 800,
+            unboundGoldReward: 0,
+            boundGoldReward: 800,
             chestPrice: 150,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
@@ -530,21 +570,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1000,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
             chestPrice: 400,
             HMThreashold: 1550,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1200,
+            unboundGoldReward: 240,
+            boundGoldReward: 960,
             chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 800,
+            unboundGoldReward: 0,
+            boundGoldReward: 800,
             chestPrice: 200,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
@@ -558,22 +601,25 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1600,
+            unboundGoldReward: 320,
+            boundGoldReward: 1280,
             chestPrice: 600,
             HMThreashold: 1560,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 2000,
+            unboundGoldReward: 400,
+            boundGoldReward: 1600,
             chestPrice: 800,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 1280,
-            chestPrice: 375,
+            unboundGoldReward: 0,
+            boundGoldReward: 1280,
+            chestPrice: 400,
             HMThreashold: Infinity,
             goldILvlLimit: 1620
           }
@@ -594,21 +640,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 800,
+            unboundGoldReward: 160,
+            boundGoldReward: 640,
             chestPrice: 300,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1000,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
             chestPrice: 350,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 640,
+            unboundGoldReward: 0,
+            boundGoldReward: 640,
             chestPrice: 200,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
@@ -621,21 +670,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1200,
+            unboundGoldReward: 240,
+            boundGoldReward: 960,
             chestPrice: 400,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1600,
+            unboundGoldReward: 320,
+            boundGoldReward: 1280,
             chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 960,
+            unboundGoldReward: 0,
+            boundGoldReward: 960,
             chestPrice: 225,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
@@ -648,21 +700,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1600,
+            unboundGoldReward: 320,
+            boundGoldReward: 1280,
             chestPrice: 500,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 2200,
+            unboundGoldReward: 440,
+            boundGoldReward: 1760,
             chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 1280,
+            unboundGoldReward: 0,
+            boundGoldReward: 1280,
             chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: 1640
@@ -683,21 +738,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1000,
+            unboundGoldReward: 200,
+            boundGoldReward: 800,
             chestPrice: 450,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 1500,
+            unboundGoldReward: 300,
+            boundGoldReward: 1200,
             chestPrice: 600,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 800,
+            unboundGoldReward: 0,
+            boundGoldReward: 800,
             chestPrice: 225,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -710,21 +768,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1800,
-            chestPrice: 500,
+            unboundGoldReward: 360,
+            boundGoldReward: 1440,
+            chestPrice: 550,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 2500,
+            unboundGoldReward: 500,
+            boundGoldReward: 2000,
             chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 1440,
+            unboundGoldReward: 0,
+            boundGoldReward: 1440,
             chestPrice: 275,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -737,21 +798,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 2600,
+            unboundGoldReward: 520,
+            boundGoldReward: 2080,
             chestPrice: 750,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 3500,
+            unboundGoldReward: 700,
+            boundGoldReward: 2800,
             chestPrice: 950,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 2080,
+            unboundGoldReward: 0,
+            boundGoldReward: 2080,
             chestPrice: 375,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -772,21 +836,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 1500,
-            chestPrice: 500,
+            unboundGoldReward: 300,
+            boundGoldReward: 1200,
+            chestPrice: 600,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 3000,
-            chestPrice: 750,
+            unboundGoldReward: 400,
+            boundGoldReward: 1600,
+            chestPrice: 520,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 1200,
+            unboundGoldReward: 0,
+            boundGoldReward: 1200,
             chestPrice: 250,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -799,21 +866,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 2000,
-            chestPrice: 550,
+            unboundGoldReward: 400,
+            boundGoldReward: 1600,
+            chestPrice: 650,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 4000,
-            chestPrice: 900,
+            unboundGoldReward: 600,
+            boundGoldReward: 2400,
+            chestPrice: 670,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 1600,
+            unboundGoldReward: 0,
+            boundGoldReward: 1600,
             chestPrice: 350,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -826,21 +896,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 3000,
-            chestPrice: 900,
+            unboundGoldReward: 600,
+            boundGoldReward: 2400,
+            chestPrice: 1000,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 6000,
-            chestPrice: 1350,
+            unboundGoldReward: 1100,
+            boundGoldReward: 4400,
+            chestPrice: 1200,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 2400,
+            unboundGoldReward: 0,
+            boundGoldReward: 2400,
             chestPrice: 550,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -861,22 +934,25 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 3500,
-            chestPrice: 1500,
+            unboundGoldReward: 2500,
+            boundGoldReward: 250,
+            chestPrice: 1200,
             HMThreashold: 1620,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 5000,
-            chestPrice: 2000,
+            unboundGoldReward: 3500,
+            boundGoldReward: 900,
+            chestPrice: 1700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 2450,
-            chestPrice: 750,
+            unboundGoldReward: 0,
+            boundGoldReward: 2300,
+            chestPrice: 670,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -888,22 +964,25 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 4000,
-            chestPrice: 1800,
+            unboundGoldReward: 3000,
+            boundGoldReward: 300,
+            chestPrice: 1440,
             HMThreashold: 1620,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 6000,
-            chestPrice: 2400,
+            unboundGoldReward: 4500,
+            boundGoldReward: 1000,
+            chestPrice: 1900,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 2800,
-            chestPrice: 840,
+            unboundGoldReward: 0,
+            boundGoldReward: 2700,
+            chestPrice: 800,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -915,22 +994,25 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 5500,
-            chestPrice: 2500,
+            unboundGoldReward: 4500,
+            boundGoldReward: 450,
+            chestPrice: 2250,
             HMThreashold: 1620,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 9000,
-            chestPrice: 2800,
+            unboundGoldReward: 7500,
+            boundGoldReward: 1400,
+            chestPrice: 2300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 3850,
-            chestPrice: 1200,
+            unboundGoldReward: 0,
+            boundGoldReward: 3800,
+            chestPrice: 1140,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -943,8 +1025,9 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "HM",
-            goldReward: 21000,
-            chestPrice: 3600,
+            unboundGoldReward: 8000,
+            boundGoldReward: 1800,
+            chestPrice: 2300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -965,21 +1048,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 6000,
+            unboundGoldReward: 5000,
+            boundGoldReward: 0,
             chestPrice: 2200,
             HMThreashold: 1630,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 7000,
-            chestPrice: 2800,
+            unboundGoldReward: 6000,
+            boundGoldReward: 0,
+            chestPrice: 2200,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 4800,
+            unboundGoldReward: 0,
+            boundGoldReward: 4000,
             chestPrice: 1450,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -992,21 +1078,24 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 10000,
+            unboundGoldReward: 9500,
+            boundGoldReward: 0,
             chestPrice: 3400,
             HMThreashold: 1630,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            goldReward: 12500,
+            unboundGoldReward: 12500,
+            boundGoldReward: 0,
             chestPrice: 4100,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
           {
             name: "Solo",
-            goldReward: 8000,
+            unboundGoldReward: 0,
+            boundGoldReward: 7600,
             chestPrice: 2400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -1027,7 +1116,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 6500,
+            unboundGoldReward: 6500,
+            boundGoldReward: 0,
             chestPrice: 1800,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -1040,8 +1130,9 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            goldReward: 11500,
-            chestPrice: 2900,
+            unboundGoldReward: 11500,
+            boundGoldReward: 0,
+            chestPrice: 2700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -1061,14 +1152,16 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              goldReward: 7500,
+              unboundGoldReward: 7500,
+              boundGoldReward: 0,
               chestPrice: 3200,
               HMThreashold: 1680,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              goldReward: 9000,
+              unboundGoldReward: 10000,
+              boundGoldReward: 0,
               chestPrice: 4100,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
@@ -1081,14 +1174,16 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              goldReward: 15500,
+              unboundGoldReward: 16500,
+              boundGoldReward: 0,
               chestPrice: 5300,
               HMThreashold: 1680,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              goldReward: 18500,
+              unboundGoldReward: 20000,
+              boundGoldReward: 0,
               chestPrice: 6600,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
@@ -1107,14 +1202,16 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              goldReward: 8500,
+              unboundGoldReward: 9000,
+              boundGoldReward: 0,
               chestPrice: 3800,
               HMThreashold: 1690,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              goldReward: 10000,
+              unboundGoldReward: 11000,
+              boundGoldReward: 0,
               chestPrice: 4500,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
@@ -1127,14 +1224,16 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              goldReward: 16500,
-              chestPrice: 5200,
+              unboundGoldReward: 18500,
+              boundGoldReward: 0,
+              chestPrice: 5600,
               HMThreashold: 1690,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              goldReward: 20500,
+              unboundGoldReward: 23000,
+              boundGoldReward: 0,
               chestPrice: 7200,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity

@@ -7,7 +7,8 @@ export interface Gate {
     name: string,
     HMThreashold: number,
     goldILvlLimit: number,
-    goldReward: number,
+    unboundGoldReward: number,
+    boundGoldReward: number,
     chestPrice: number,
   }[],
   reset?: resetType
