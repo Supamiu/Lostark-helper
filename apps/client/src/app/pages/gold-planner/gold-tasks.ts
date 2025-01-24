@@ -1056,7 +1056,7 @@ export const goldTasks: GoldTask[] = [
           },
           {
             name: "HM",
-            unboundGoldReward: 6000,
+            unboundGoldReward: 7000,
             boundGoldReward: 0,
             chestPrice: 2200,
             HMThreashold: Infinity,
