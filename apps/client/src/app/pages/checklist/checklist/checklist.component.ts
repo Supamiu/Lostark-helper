@@ -18,6 +18,8 @@ import { LocalStorageBehaviorSubject } from '../../../core/local-storage-behavio
 import { Character } from '../../../model/character/character';
 import { tickets } from '../../../data/tickets';
 import { addWeeks, getWeek } from 'date-fns';
+import { goldTasks } from "../../gold-planner/gold-tasks";
+import { Gate } from "../../gold-planner/gold-task";
 
 export interface TaskCharacter extends Character {
   done?: boolean;
@@ -125,9 +127,10 @@ export class ChecklistComponent {
       }))
     ),
     this.energy$,
-    this.forceShowHiddenCharacter$
+    this.forceShowHiddenCharacter$,
+    this.settings.settings$.pipe(pluck("goldPlannerConfiguration"))
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, settings, energy, showHidden]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, settings, energy, showHidden, goldTracking]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
@@ -135,7 +138,6 @@ export class ChecklistComponent {
           const editDisabled = !task.canEditDaysFilter;
           const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
           const forceDone = (!available && visible); // If task is not available but is visible, we marked it as done
-
           const completionData = roster.characters
             .filter(c => showHidden || !c.isHide)
             .map(character => {
@@ -152,7 +154,8 @@ export class ChecklistComponent {
                 ), task.amount),
                 tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
                 doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
-                energy: getCompletionEntry(energy.data, character, task) || 0
+                energy: getCompletionEntry(energy.data, character, task) || 0,
+                takingGold: this.getGoldTakingInfoForTask(character.name, task.label, goldTracking)
               };
             });
 
@@ -356,6 +359,26 @@ export class ChecklistComponent {
   saveRoster(roster: Roster): void {
     this.rosterService.setOne(roster.$key, roster);
   }
+
+    private getGoldTakingInfoForTask(characterName: string, taskName: string, goldTracking): boolean {
+      let goldTaskName
+      let gate
+      const goldTask = goldTasks.find(goldTask => goldTask.taskName === taskName)
+      if (goldTask === undefined) {
+        const specificGates = goldTasks.reduce(
+          (acc : Gate[], goldTask) => {
+            const specificGates = goldTask.gates.filter(gate => gate.taskName !== undefined)
+            return [...acc, ...specificGates]
+          },
+          []
+        )
+        gate = specificGates.find(gate => gate.taskName && gate.taskName === taskName)
+        goldTaskName = gate && gate.name
+      } else {
+        goldTaskName = goldTask.gates[0].name
+      }
+      return goldTaskName === undefined ? false : goldTracking[`${characterName}:gold:taking:${goldTaskName}`]
+    }
 }
 
 
