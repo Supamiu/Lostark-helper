@@ -175,6 +175,7 @@
                               [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY">
                             <ng-container *ngIf="row.completionData[i].tracked && roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl < row.task.maxIlvl">
                               <div class="counter">
+                                <img *ngIf="row.completionData[i].takingGold" src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
                                 <div>
                                   <button nz-button
                                           nzSize="small"
