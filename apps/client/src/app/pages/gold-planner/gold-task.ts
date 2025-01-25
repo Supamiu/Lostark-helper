@@ -16,7 +16,7 @@ export interface Gate {
 
 export interface GoldTask {
   name: string;
-  taskName?: string;
+  taskName: string;
   gates: Gate[]
 }
 
