@@ -321,7 +321,7 @@ export class ChecklistComponent {
         const energyEntry = getCompletionEntry(energy.data, character, task) || { amount: 0 };
         if (task.label === 'Chaos Dungeon') {
           if (energyEntry.amount >= 40) {
-            energyEntry.amount = Math.max(energyEntry.amount - (20 * (setAllDone ? task.amount : 2)), 0);
+            energyEntry.amount = energyEntry.amount - 40; // Since Chaos Dungeon rework, max Chaos Dungeon per day is 1 and it consumes 40 energy if you have energy
             this.energyService.updateOne(energy.$key, {
               [`data.${getCompletionEntryKey(character, task)}`]: energyEntry
             });
