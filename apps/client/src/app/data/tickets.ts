@@ -40,7 +40,7 @@ export const tickets: {tier?: number, icon: string, rarity: ItemRarity, key: key
   },
   {
     tier: 3,
-    icon: 'ebony1640.png',
+    icon: 'ebony1640.webp',
     rarity: ItemRarity.LEGENDARY,
     key: "EbonyCube1stUnlock",
     name: "Ebony Cube 1st Unlock"
