@@ -143,14 +143,7 @@ export const tasks = [
 
   // Weekly Roster
   createTask(`South Vern Chaos Line Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "dungeon.webp"),
-  createTask("Challenge Guardian", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 3, 9999, "guardian.png", {
-    shared: true,
-    partySize: 4
-  }),
-  createTask("Challenge Abyssal Dungeon", 302, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "abyssal-dungeon.webp", {
-    shared: true,
-    partySize: 4
-  }),
+
   createTask("Primal Island Battle Royale", 1490, TaskFrequency.WEEKLY, TaskScope.ROSTER, 9, 9999, "event_quest.webp", {
     daysFilter: [2, 4, 6],
     canEditDaysFilter: false,
@@ -162,3 +155,10 @@ export const tasks = [
   createTask(`Pirate Coin Purchases`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "pirate_coin.png"),
   createTask(`Chaos Purchases`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "chaos-dungeon.webp")
 ];
+
+
+export const oldTaskNames = [
+  "South Vern Dungeon",
+  "Challenge Guardian",
+  "Challenge Abyssal Dungeon"
+]

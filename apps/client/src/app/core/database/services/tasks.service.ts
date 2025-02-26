@@ -4,7 +4,7 @@ import { FirestoreStorage } from "../firestore-storage";
 import { LostarkTask, TASKS_VERSION } from "../../../model/lostark-task";
 import { AuthService } from "./auth.service";
 import { combineLatest, debounceTime, from, map, mapTo, Observable, of, pairwise, pluck, shareReplay, switchMap, tap } from "rxjs";
-import { tasks } from "../../tasks";
+import { tasks, oldTaskNames } from "../../tasks";
 import { filter } from "rxjs/operators";
 import { SettingsService } from "./settings.service";
 import { subHours } from "date-fns";
@@ -172,13 +172,13 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
       })
     );
 
-    const southVernDungeonCleanup$ = this.baseData$.pipe(
+    const oldTasksCleanup$ = this.baseData$.pipe(
       pluck("result"),
       debounceTime(1000),
       map((tasks) => {
         return tasks
           .filter(task => {
-            return task.label === "South Vern Dungeon";
+            return oldTaskNames.includes(task.label);
           });
       })
     );
@@ -186,7 +186,7 @@ export class TasksService extends FirestoreStorage<LostarkTask> {
     combineLatest(
       [
         duplicates$,
-        southVernDungeonCleanup$
+        oldTasksCleanup$
       ]
     ).pipe(
       map(([duplicates, cleanup]) => [...duplicates, ...cleanup]),
