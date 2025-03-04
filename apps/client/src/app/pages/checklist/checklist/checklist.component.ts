@@ -155,7 +155,7 @@ export class ChecklistComponent {
                 tracked: getCompletionEntry(roster.trackedTasks, character, task, true) !== false,
                 doable: character.ilvl >= (task.minIlvl || 0) && character.ilvl < (task.maxIlvl || Infinity),
                 energy: getCompletionEntry(energy.data, character, task) || 0,
-                takingGold: this.getGoldTakingInfoForTask(character.name, task.label, goldTracking)
+                takingGold: this.getGoldTakingInfoForTask(character.name, task.label, goldTracking) && character.weeklyGold
               };
             });
 
