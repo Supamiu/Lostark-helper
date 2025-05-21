@@ -31,8 +31,11 @@ export const subtasks: Subtask[] = [
   { id: `sonavel`, name: `Sonavel`, parentName: "Guardian", banner: 'guardians/monster_info_30.png', minIlvl: 1580 },
   { id: `gargadeth`, name: `Gargadeth`, parentName: "Guardian", banner: 'guardians/monster_info_31.png', minIlvl: 1600 },
   { id: `veskal`, name: `Veskal`, parentName: "Guardian", minIlvl: 1610 },
+  
+  // T4 Guardians
   { id: `argeos`, name: `Argeos`, parentName: "Guardian", minIlvl: 1640 },
   { id: `argeos`, name: `Skolakia`, parentName: "Guardian", minIlvl: 1680 },
+  { id: `drextalas`, name: `Drextalas`, parentName: "Guardian", minIlvl: 1700 },
   
   // T3 Abyss
   { id: `aira's-oculus-normal`, name: `Aira's Oculus (Normal)`, parentName: "Aira's Oculus", banner: "abyss_dungeons/abyss_dg_09.png", minIlvl: 1325 },

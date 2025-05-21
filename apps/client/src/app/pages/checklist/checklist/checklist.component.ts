@@ -236,7 +236,7 @@ export class ChecklistComponent {
 
   public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
     map(([roster]) => {
-      const y = window.innerHeight - 64 - 48 - 210 - 20;
+      const y = window.innerHeight - 395;
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px` };
       const widthPerCharacter = window.innerWidth < 992 ? 80 : 120;
       if (window.innerWidth < widthPerCharacter * roster.length + 200) {
