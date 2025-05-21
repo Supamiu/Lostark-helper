@@ -19,6 +19,6 @@ export interface Character {
     EbonyCubeLevel5: number;
     EbonyCube1stUnlock: number;
     EbonyCube2ndUnlock: number;
-    EbonyCube3ndUnlock: number;
+    EbonyCube3rdUnlock: number;
   };
 }

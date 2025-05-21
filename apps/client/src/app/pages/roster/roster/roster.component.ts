@@ -73,7 +73,7 @@ export class RosterComponent {
         EbonyCubeLevel5: 0,
         EbonyCube1stUnlock: 0,
         EbonyCube2ndUnlock: 0,
-        EbonyCube3ndUnlock: 0
+        EbonyCube3rdUnlock: 0
       }
     });
     this.form.reset();
