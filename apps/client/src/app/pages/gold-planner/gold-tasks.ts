@@ -1252,17 +1252,17 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 6000,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 2400,
               HMThreashold: 1700,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 7000,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 2700,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
             }
@@ -1274,17 +1274,17 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 9500,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 3200,
               HMThreashold: 1700,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 11000,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 4100,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
             }
@@ -1296,17 +1296,17 @@ export const goldTasks: GoldTask[] = [
           modes: [
             {
               name: "NM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 12500,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 4200,
               HMThreashold: 1700,
               goldILvlLimit: Infinity
             },
             {
               name: "HM",
-              unboundGoldReward: 0,
+              unboundGoldReward: 20000,
               boundGoldReward: 0,
-              chestPrice: 0,
+              chestPrice: 5800,
               HMThreashold: Infinity,
               goldILvlLimit: Infinity
             }
