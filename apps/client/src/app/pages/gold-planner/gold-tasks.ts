@@ -1242,4 +1242,76 @@ export const goldTasks: GoldTask[] = [
         }
       ]
     },
+        {
+      name: "Mordum",
+      taskName: "Mordum",
+      gates: [
+        {
+          name: "Mordum Gate 1",
+          completionId: "T4.K4.G1",
+          modes: [
+            {
+              name: "NM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: 1700,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        },
+        {
+          name: "Mordum Gate 2",
+          completionId: "T4.K4.G2",
+          modes: [
+            {
+              name: "NM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: 1700,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        },
+                {
+          name: "Mordum Gate 3",
+          completionId: "T4.K4.G3",
+          modes: [
+            {
+              name: "NM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: 1700,
+              goldILvlLimit: Infinity
+            },
+            {
+              name: "HM",
+              unboundGoldReward: 0,
+              boundGoldReward: 0,
+              chestPrice: 0,
+              HMThreashold: Infinity,
+              goldILvlLimit: Infinity
+            }
+          ]
+        }
+      ]
+    },
 ];

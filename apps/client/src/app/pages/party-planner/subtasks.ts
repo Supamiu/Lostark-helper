@@ -93,4 +93,8 @@ export const subtasks: Subtask[] = [
   //Brelshaza v2 Difficulties
   { id: `brelshaza-v2-normal`, name: `Brelshaza Chapter 2 Normal`, parentName: "Brelshaza Chapter 2", minIlvl: 1670 },  
   { id: `brelshaza-v2-hard`, name: `Brelshaza Chapter 2 Hard`, parentName: "Brelshaza Chapter 2", minIlvl: 1690 }, 
+  
+  //Mordum Difficulties
+  { id: `mordum-v2-normal`, name: `Mordum Normal`, parentName: "Mordum", minIlvl: 1680 },  
+  { id: `mordum-v2-hard`, name: `Mordum Hard`, parentName: "Mordum", minIlvl: 1700 }, 
 ];
