@@ -145,6 +145,10 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
+    createTask(`Strike Raid`, 1680, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
+    shared: true,
+    partySize: 8
+  }),
 
   // Weekly Roster
   createTask(`South Vern Chaos Line Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "dungeon.webp"),
