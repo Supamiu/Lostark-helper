@@ -145,10 +145,6 @@ export const tasks = [
     shared: true,
     partySize: 8
   }),
-    createTask(`Strike Raid`, 1680, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 9999, "abyssal-raid.webp", {
-    shared: true,
-    partySize: 8
-  }),
     createTask(`Armoche`, 1700, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "kazeros-raid.webp", {
     shared: true,
     partySize: 8
