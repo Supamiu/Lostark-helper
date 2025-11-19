@@ -1037,7 +1037,7 @@ export const goldTasks: GoldTask[] = [
     ]
   },
 
-  // Kazeros Raids
+  // Kazeros Raid - Overture: Echidna
   {
     name: "Echidna",
     taskName: "Echidna",
@@ -1105,7 +1105,7 @@ export const goldTasks: GoldTask[] = [
     ]
   },
 
-  // Epic Raid
+  // Epic Raid - Behemoth
   {
     name: "Behemoth",
     taskName: "Behemoth",
@@ -1141,194 +1141,302 @@ export const goldTasks: GoldTask[] = [
     ]
   },
 
-    // Kazeros Raids
-    {
-      name: "Aegir",
-      taskName: "Aegir",
-      gates: [
-        {
-          name: "Aegir Gate 1",
-          completionId: "T3.K3.G1",
-          modes: [
-            
+  // Kazeros Raid - Act 1: Aegir
+  {
+    name: "Aegir",
+    taskName: "Aegir",
+    gates: [
+      {
+        name: "Aegir Gate 1",
+        completionId: "T3.K3.G1",
+        modes: [
+          
+          {
+            name: "NM",
+            unboundGoldReward: 6000,
+            boundGoldReward: 3000,
+            chestPrice: 1750,
+            HMThreashold: 1680,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 10000,
+            boundGoldReward: 0,
+            chestPrice: 2500,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 10000,
+            chestPrice: 1750,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      },
+      {
+        name: "Aegir Gate 2",
+        completionId: "T3.K3.G2",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 11000,
+            boundGoldReward: 4000,
+            chestPrice: 3750,
+            HMThreashold: 1680,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 20000,
+            boundGoldReward: 0,
+            chestPrice: 5000,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
             {
-              name: "NM",
-              unboundGoldReward: 6000,
-              boundGoldReward: 3000,
-              chestPrice: 1750,
-              HMThreashold: 1680,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 10000,
-              boundGoldReward: 0,
-              chestPrice: 2500,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "Solo",
-              unboundGoldReward: 0,
-              boundGoldReward: 10000,
-              chestPrice: 1750,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        },
-        {
-          name: "Aegir Gate 2",
-          completionId: "T3.K3.G2",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 11000,
-              boundGoldReward: 4000,
-              chestPrice: 3750,
-              HMThreashold: 1680,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 20000,
-              boundGoldReward: 0,
-              chestPrice: 5000,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            },
-             {
-              name: "Solo",
-              unboundGoldReward: 0,
-              boundGoldReward: 14000,
-              chestPrice: 3750,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "Brelshaza Chapter 2",
-      taskName: "Brelshaza Chapter 2",
-      gates: [
-        {
-          name: "Brelshaza Chapter 2 Gate 1",
-          completionId: "T4.K4.G1",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 9000,
-              boundGoldReward: 0,
-              chestPrice: 3800,
-              HMThreashold: 1690,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 11000,
-              boundGoldReward: 0,
-              chestPrice: 4500,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        },
-        {
-          name: "Brelshaza Chapter 2 Gate 2",
-          completionId: "T4.K4.G2",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 18500,
-              boundGoldReward: 0,
-              chestPrice: 5600,
-              HMThreashold: 1690,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 23000,
-              boundGoldReward: 0,
-              chestPrice: 7200,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        }
-      ]
-    },
-        {
-      name: "Mordum",
-      taskName: "Mordum",
-      gates: [
-        {
-          name: "Mordum Gate 1",
-          completionId: "T4.K4.G1",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 6000,
-              boundGoldReward: 0,
-              chestPrice: 2400,
-              HMThreashold: 1700,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 7000,
-              boundGoldReward: 0,
-              chestPrice: 2700,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        },
-        {
-          name: "Mordum Gate 2",
-          completionId: "T4.K4.G2",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 9500,
-              boundGoldReward: 0,
-              chestPrice: 3200,
-              HMThreashold: 1700,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 11000,
-              boundGoldReward: 0,
-              chestPrice: 4100,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        },
-                {
-          name: "Mordum Gate 3",
-          completionId: "T4.K4.G3",
-          modes: [
-            {
-              name: "NM",
-              unboundGoldReward: 12500,
-              boundGoldReward: 0,
-              chestPrice: 4200,
-              HMThreashold: 1700,
-              goldILvlLimit: Infinity
-            },
-            {
-              name: "HM",
-              unboundGoldReward: 20000,
-              boundGoldReward: 0,
-              chestPrice: 5800,
-              HMThreashold: Infinity,
-              goldILvlLimit: Infinity
-            }
-          ]
-        }
-      ]
-    },
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 14000,
+            chestPrice: 3750,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      }
+    ]
+  },
+
+  // Kazeros Raid - Act 2: Brelshaza
+  {
+    name: "Brelshaza Chapter 2",
+    taskName: "Brelshaza Chapter 2",
+    gates: [
+      {
+        name: "Brelshaza Chapter 2 Gate 1",
+        completionId: "T4.K4.G1",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 9000,
+            boundGoldReward: 0,
+            chestPrice: 3800,
+            HMThreashold: 1690,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 11000,
+            boundGoldReward: 0,
+            chestPrice: 4500,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      },
+      {
+        name: "Brelshaza Chapter 2 Gate 2",
+        completionId: "T4.K4.G2",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 18500,
+            boundGoldReward: 0,
+            chestPrice: 5600,
+            HMThreashold: 1690,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 23000,
+            boundGoldReward: 0,
+            chestPrice: 7200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      }
+    ]
+  },
+
+  // Kazeros Raid - Act 3: Mordum
+  {
+    name: "Mordum",
+    taskName: "Mordum",
+    gates: [
+      {
+        name: "Mordum Gate 1",
+        completionId: "T4.K4.G1",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 6000,
+            boundGoldReward: 0,
+            chestPrice: 2400,
+            HMThreashold: 1700,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 7000,
+            boundGoldReward: 0,
+            chestPrice: 2700,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      },
+      {
+        name: "Mordum Gate 2",
+        completionId: "T4.K4.G2",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 9500,
+            boundGoldReward: 0,
+            chestPrice: 3200,
+            HMThreashold: 1700,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 11000,
+            boundGoldReward: 0,
+            chestPrice: 4100,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      },
+      {
+        name: "Mordum Gate 3",
+        completionId: "T4.K4.G3",
+        modes: [
+          {
+            name: "NM",
+            unboundGoldReward: 12500,
+            boundGoldReward: 0,
+            chestPrice: 4200,
+            HMThreashold: 1700,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "HM",
+            unboundGoldReward: 20000,
+            boundGoldReward: 0,
+            chestPrice: 5800,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          }
+        ]
+      }
+    ]
+  },
+
+  // Kazeros Raid - Act 4: Armoche
+  {
+    name: 'Armoche',
+    taskName: 'Armoche',
+    gates: [
+      {
+        name: 'Armoche Gate 1',
+        completionId: 'T4.K5.G1',
+        modes: [
+          {
+            name: 'NM',
+            unboundGoldReward: 12500,
+            boundGoldReward: 0,
+            chestPrice: 4000,
+            HMThreashold: 1720,
+            goldILvlLimit: Infinity,
+          },
+          {
+            name: 'HM',
+            unboundGoldReward: 15000,
+            boundGoldReward: 0,
+            chestPrice: 4800,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity,
+          },
+        ],
+      },
+      {
+        name: 'Armoche Gate 2',
+        completionId: 'T4.K5.G2',
+        modes: [
+          {
+            name: 'NM',
+            unboundGoldReward: 20500,
+            boundGoldReward: 0,
+            chestPrice: 6560,
+            HMThreashold: 1720,
+            goldILvlLimit: Infinity,
+          },
+          {
+            name: 'HM',
+            unboundGoldReward: 27000,
+            boundGoldReward: 0,
+            chestPrice: 8640,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity,
+          },
+        ],
+      }
+    ],
+  },
+
+  // Kazeros Raid - Denouement: Kazeros
+  {
+    name: 'Kazeros',
+    taskName: 'Kazeros',
+    gates: [
+      {
+        name: 'Kazeros Gate 1',
+        completionId: 'T4.K6.G1',
+        modes: [
+          {
+            name: 'NM',
+            unboundGoldReward: 14000,
+            boundGoldReward: 0,
+            chestPrice: 4480,
+            HMThreashold: 1730,
+            goldILvlLimit: Infinity,
+          },
+          {
+            name: 'HM',
+            unboundGoldReward: 17000,
+            boundGoldReward: 0,
+            chestPrice: 5440,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity,
+          },
+        ],
+      },
+      {
+        name: 'Kazeros Gate 2',
+        completionId: 'T4.K6.G2',
+        modes: [
+          {
+            name: 'NM',
+            unboundGoldReward: 26000,
+            boundGoldReward: 0,
+            chestPrice: 8320,
+            HMThreashold: 1730,
+            goldILvlLimit: Infinity,
+          },
+          {
+            name: 'HM',
+            unboundGoldReward: 35000,
+            boundGoldReward: 0,
+            chestPrice: 11200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity,
+          },
+        ],
+      }
+    ],
+  },
 ];

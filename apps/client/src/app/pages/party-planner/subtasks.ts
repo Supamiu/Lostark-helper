@@ -97,4 +97,12 @@ export const subtasks: Subtask[] = [
   //Mordum Difficulties
   { id: `mordum-v2-normal`, name: `Mordum Normal`, parentName: "Mordum", minIlvl: 1680 },  
   { id: `mordum-v2-hard`, name: `Mordum Hard`, parentName: "Mordum", minIlvl: 1700 }, 
+  
+  //Armoche Difficulties
+  { id: `armoche-normal`, name: `Armoche Normal`, parentName: "Armoche", minIlvl: 1700 },  
+  { id: `armoche-hard`, name: `Armoche Hard`, parentName: "Armoche", minIlvl: 1720 }, 
+
+  //Kazeros Difficulties
+  { id: `kazeros-normal`, name: `Kazeros Normal`, parentName: "Kazeros", minIlvl: 1710 },  
+  { id: `kazeros-hard`, name: `Kazeros Hard`, parentName: "Kazeros", minIlvl: 1730 }, 
 ];
