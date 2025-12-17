@@ -1234,6 +1234,14 @@ export const goldTasks: GoldTask[] = [
             chestPrice: 4500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 9000,
+            boundGoldReward: 0,
+            chestPrice: 3800,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
           }
         ]
       },
@@ -1254,6 +1262,14 @@ export const goldTasks: GoldTask[] = [
             unboundGoldReward: 23000,
             boundGoldReward: 0,
             chestPrice: 7200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 18500,
+            boundGoldReward: 0,
+            chestPrice: 5600,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
@@ -1286,6 +1302,14 @@ export const goldTasks: GoldTask[] = [
             chestPrice: 2700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 6000,
+            boundGoldReward: 0,
+            chestPrice: 2400,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
           }
         ]
       },
@@ -1308,6 +1332,14 @@ export const goldTasks: GoldTask[] = [
             chestPrice: 4100,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 9500,
+            boundGoldReward: 0,
+            chestPrice: 3200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
           }
         ]
       },
@@ -1328,6 +1360,14 @@ export const goldTasks: GoldTask[] = [
             unboundGoldReward: 20000,
             boundGoldReward: 0,
             chestPrice: 5800,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
+            name: "Solo",
+            unboundGoldReward: 12500,
+            boundGoldReward: 0,
+            chestPrice: 4200,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           }
