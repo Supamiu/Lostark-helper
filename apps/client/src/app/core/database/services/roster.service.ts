@@ -56,7 +56,8 @@ export class RosterService extends FirestoreStorage<Roster> {
               EbonyCubeLevel5: 0,
               EbonyCube1stUnlock: 0,
               EbonyCube2ndUnlock: 0,
-              EbonyCube3rdUnlock: 0
+              EbonyCube3rdUnlock: 0,
+              EbonyCube4thUnlock: 0
             };
           }
           return c;

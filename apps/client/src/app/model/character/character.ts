@@ -20,5 +20,6 @@ export interface Character {
     EbonyCube1stUnlock: number;
     EbonyCube2ndUnlock: number;
     EbonyCube3rdUnlock: number;
+    EbonyCube4thUnlock: number;
   };
 }
