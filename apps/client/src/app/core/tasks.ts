@@ -31,7 +31,7 @@ export const tasks = [
   createTask("Affinity Emote", 302, TaskFrequency.DAILY, TaskScope.ROSTER, 6, 9999, "rapport.webp"),
 
   // Weekly Character
-  createTask(`Una's Task`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "weekly.webp"),
+  createTask(`Weekly Mission`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "weekly.webp"),
     createTask(`Paradise`, 1580, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 5, 9999, "weekly.webp"),
   createTask(`Demon Beast Canyon`, 340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 840, "abyssal-dungeon.webp", {
     shared: true,
