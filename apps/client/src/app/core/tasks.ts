@@ -32,7 +32,7 @@ export const tasks = [
 
   // Weekly Character
   createTask(`Weekly Mission`, 302, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 3, 9999, "weekly.webp"),
-    createTask(`Paradise`, 1580, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 5, 9999, "weekly.webp"),
+  createTask(`Paradise`, 1580, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 5, 9999, "weekly.webp"),
   createTask(`Demon Beast Canyon`, 340, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 1, 840, "abyssal-dungeon.webp", {
     shared: true,
     partySize: 4
@@ -171,6 +171,7 @@ export const tasks = [
 
 
 export const oldTaskNames = [
+  "Una's Task",
   "South Vern Dungeon",
   "Challenge Guardian",
   "Challenge Abyssal Dungeon"
