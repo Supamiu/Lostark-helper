@@ -171,7 +171,6 @@ export const tasks = [
 
 
 export const oldTaskNames = [
-  "Una's Task",
   "South Vern Dungeon",
   "Challenge Guardian",
   "Challenge Abyssal Dungeon"
