@@ -303,29 +303,29 @@ export const goldTasks: GoldTask[] = [
         chestId: "Valtan1",
         modes: [
           {
+            name: "Solo",
+            HMThreashold: Infinity,
+            goldILvlLimit: 1600,
+            unboundGoldReward: 0,
+            boundGoldReward: 290,
+            chestPrice: 75,
+          },
+          {
             name: "NM",
             HMThreashold: 1445,
             goldILvlLimit: Infinity,
-            unboundGoldReward: 100,
-            boundGoldReward: 400,
-            chestPrice: 300,
+            unboundGoldReward: 40,
+            boundGoldReward: 250,
+            chestPrice: 75,
           },
           {
             name: "HM",
             HMThreashold: Infinity,
             NightmareThreashold: Infinity,
             goldILvlLimit: Infinity,
-            unboundGoldReward: 140,
-            boundGoldReward: 560,
-            chestPrice: 450,
-          },
-          {
-            name: "Solo",
-            HMThreashold: Infinity,
-            goldILvlLimit: 1600,
-            unboundGoldReward: 0,
-            boundGoldReward: 240,
-            chestPrice: 75,
+            unboundGoldReward: 70,
+            boundGoldReward: 330,
+            chestPrice: 175,
           },
         ]
       },
@@ -335,29 +335,29 @@ export const goldTasks: GoldTask[] = [
         chestId: "Valtan2",
         modes: [
           {
+            name: "Solo",
+            HMThreashold: Infinity,
+            goldILvlLimit: 1600,
+            unboundGoldReward: 0,
+            boundGoldReward: 460,
+            chestPrice: 100,
+          },
+          {
             name: "NM",
             HMThreashold: 1445,
             goldILvlLimit: Infinity,
-            unboundGoldReward: 140,
-            boundGoldReward: 560,
-            chestPrice: 400,
+            unboundGoldReward: 60,
+            boundGoldReward: 400,
+            chestPrice: 100,
           },
           {
             name: "HM",
             HMThreashold: Infinity,
             NightmareThreashold: Infinity,
             goldILvlLimit: Infinity,
-            unboundGoldReward: 220,
-            boundGoldReward: 880,
-            chestPrice: 600,
-          },
-          {
-            name: "Solo",
-            HMThreashold: Infinity,
-            goldILvlLimit: 1600,
-            unboundGoldReward: 0,
-            boundGoldReward: 360,
-            chestPrice: 100,
+            unboundGoldReward: 130,
+            boundGoldReward: 570,
+            chestPrice: 275,
           },
         ]
       }
@@ -372,29 +372,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L2.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 350,
+            chestPrice: 100,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1600
+          },
+          {
             name: "NM",
-            unboundGoldReward: 120,
-            boundGoldReward: 480,
-            chestPrice: 300,
+            unboundGoldReward: 50,
+            boundGoldReward: 300,
+            chestPrice: 100,
             HMThreashold: 1460,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 180,
-            boundGoldReward: 720,
-            chestPrice: 500,
+            unboundGoldReward: 80,
+            boundGoldReward: 420,
+            chestPrice: 225,
             HMThreashold: Infinity,
             NightmareThreashold: Infinity,
             goldILvlLimit: Infinity
-          },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 280,
-            chestPrice: 100,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1600
           },
         ]
       },
@@ -403,29 +403,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L2.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 650,
+            chestPrice: 150,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1600
+          },
+          {
             name: "NM",
-            unboundGoldReward: 200,
-            boundGoldReward: 800,
-            chestPrice: 450,
+            unboundGoldReward: 100,
+            boundGoldReward: 550,
+            chestPrice: 150,
             HMThreashold: 1460,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 300,
-            boundGoldReward: 1200,
-            chestPrice: 650,
+            unboundGoldReward: 170,
+            boundGoldReward: 830,
+            chestPrice: 375,
             HMThreashold: Infinity,
             NightmareThreashold: Infinity,
             goldILvlLimit: Infinity
-          },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 520,
-            chestPrice: 150,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1600
           },
         ]
       }
@@ -440,21 +440,21 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L3.G1",
         modes: [
           {
-            name: "NM",
-            unboundGoldReward: 120,
-            boundGoldReward: 480,
-            chestPrice: 300,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          },
-          {
             name: "Solo",
             unboundGoldReward: 0,
-            boundGoldReward: 320,
+            boundGoldReward: 400,
             chestPrice: 100,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
-          }
+          },
+          {
+            name: "NM",
+            unboundGoldReward: 70,
+            boundGoldReward: 330,
+            chestPrice: 100,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
         ]
       },
       {
@@ -462,43 +462,42 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L3.G2",
         modes: [
           {
-            name: "NM",
-            unboundGoldReward: 180,
-            boundGoldReward: 720,
-            chestPrice: 500,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          },
-          {
             name: "Solo",
             unboundGoldReward: 0,
-            boundGoldReward: 480,
+            boundGoldReward: 600,
             chestPrice: 150,
             HMThreashold: Infinity,
             goldILvlLimit: 1610
-          }
+          },
+          {
+            name: "NM",
+            unboundGoldReward: 100,
+            boundGoldReward: 500,
+            chestPrice: 150,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
         ]
       },
       {
         name: "Kakul-Saydon Gate 3",
         completionId: "T3.L3.G3",
-        modes: [
-          {
-            name: "NM",
-            unboundGoldReward: 300,
-            boundGoldReward: 1200,
-            chestPrice: 700,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 800,
-            chestPrice: 200,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1610
-          }
+        modes: [{
+          name: "Solo",
+          unboundGoldReward: 0,
+          boundGoldReward: 1000,
+          chestPrice: 200,
+          HMThreashold: Infinity,
+          goldILvlLimit: 1610
+        },
+        {
+          name: "NM",
+          unboundGoldReward: 180,
+          boundGoldReward: 820,
+          chestPrice: 200,
+          HMThreashold: Infinity,
+          goldILvlLimit: Infinity
+        },
         ]
       },
     ]
@@ -512,29 +511,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L4.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 980,
+            chestPrice: 100,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1620
+          },
+          {
             name: "NM",
-            unboundGoldReward: 200,
-            boundGoldReward: 800,
-            chestPrice: 250,
+            unboundGoldReward: 170,
+            boundGoldReward: 810,
+            chestPrice: 100,
             HMThreashold: 1540,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 240,
-            boundGoldReward: 960,
-            chestPrice: 400,
+            unboundGoldReward: 210,
+            boundGoldReward: 970,
+            chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 800,
-            chestPrice: 100,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1620
-          }
         ]
       },
       {
@@ -542,29 +541,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L4.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1000,
+            chestPrice: 150,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1620
+          },
+          {
             name: "NM",
-            unboundGoldReward: 200,
-            boundGoldReward: 800,
-            chestPrice: 300,
+            unboundGoldReward: 180,
+            boundGoldReward: 820,
+            chestPrice: 150,
             HMThreashold: 1540,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 240,
-            boundGoldReward: 960,
-            chestPrice: 400,
+            unboundGoldReward: 220,
+            boundGoldReward: 980,
+            chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 800,
-            chestPrice: 150,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1620
-          }
         ]
       },
       {
@@ -573,29 +572,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L5.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1020,
+            chestPrice: 200,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1620
+          },
+          {
             name: "NM",
             unboundGoldReward: 200,
-            boundGoldReward: 800,
-            chestPrice: 400,
+            boundGoldReward: 820,
+            chestPrice: 200,
             HMThreashold: 1550,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 240,
-            boundGoldReward: 960,
-            chestPrice: 500,
+            unboundGoldReward: 220,
+            boundGoldReward: 1000,
+            chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 800,
-            chestPrice: 200,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1620
-          }
         ]
       },
       {
@@ -604,29 +603,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L6.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1600,
+            chestPrice: 375,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1620
+          },
+          {
             name: "NM",
-            unboundGoldReward: 320,
-            boundGoldReward: 1280,
-            chestPrice: 600,
+            unboundGoldReward: 300,
+            boundGoldReward: 1300,
+            chestPrice: 375,
             HMThreashold: 1560,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 400,
-            boundGoldReward: 1600,
-            chestPrice: 800,
+            unboundGoldReward: 350,
+            boundGoldReward: 1650,
+            chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1280,
-            chestPrice: 400,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1620
-          }
         ],
         reset: resetType.biWeekly
       },
@@ -643,29 +642,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR2.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1000,
+            chestPrice: 180,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1640
+          },
+          {
             name: "NM",
-            unboundGoldReward: 160,
-            boundGoldReward: 640,
+            unboundGoldReward: 100,
+            boundGoldReward: 900,
             chestPrice: 180,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 200,
-            boundGoldReward: 800,
+            unboundGoldReward: 150,
+            boundGoldReward: 1000,
             chestPrice: 225,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 640,
-            chestPrice: 180,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1640
-          }
         ]
       },
       {
@@ -673,29 +672,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR2.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1100,
+            chestPrice: 200,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1640
+          },
+          {
             name: "NM",
-            unboundGoldReward: 240,
-            boundGoldReward: 960,
+            unboundGoldReward: 200,
+            boundGoldReward: 900,
             chestPrice: 200,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 320,
-            boundGoldReward: 1280,
+            unboundGoldReward: 250,
+            boundGoldReward: 1200,
             chestPrice: 350,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 960,
-            chestPrice: 200,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1640
-          }
         ]
       },
       {
@@ -703,29 +702,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR2.G3",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1200,
+            chestPrice: 270,
+            HMThreashold: Infinity,
+            goldILvlLimit: 1640
+          },
+          {
             name: "NM",
-            unboundGoldReward: 320,
-            boundGoldReward: 1280,
+            unboundGoldReward: 300,
+            boundGoldReward: 900,
             chestPrice: 270,
             HMThreashold: 1580,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 440,
-            boundGoldReward: 1760,
+            unboundGoldReward: 400,
+            boundGoldReward: 1300,
             chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1280,
-            chestPrice: 270,
-            HMThreashold: Infinity,
-            goldILvlLimit: 1640
-          }
         ]
       }
     ]
@@ -741,29 +740,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L7.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1270,
+            chestPrice: 190,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 200,
-            boundGoldReward: 800,
-            chestPrice: 450,
+            unboundGoldReward: 255,
+            boundGoldReward: 1015,
+            chestPrice: 190,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 300,
-            boundGoldReward: 1200,
-            chestPrice: 600,
+            unboundGoldReward: 200,
+            boundGoldReward: 1300,
+            chestPrice: 300,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 800,
-            chestPrice: 225,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -771,29 +770,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L7.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1600,
+            chestPrice: 235,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 360,
-            boundGoldReward: 1440,
-            chestPrice: 550,
+            unboundGoldReward: 300,
+            boundGoldReward: 1300,
+            chestPrice: 230,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 500,
-            boundGoldReward: 2000,
-            chestPrice: 700,
+            unboundGoldReward: 410,
+            boundGoldReward: 1640,
+            chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1440,
-            chestPrice: 275,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -801,29 +800,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.L7.G3",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1830,
+            chestPrice: 330,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 520,
-            boundGoldReward: 2080,
-            chestPrice: 750,
+            unboundGoldReward: 330,
+            boundGoldReward: 1500,
+            chestPrice: 330,
             HMThreashold: 1600,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 700,
-            boundGoldReward: 2800,
-            chestPrice: 950,
+            unboundGoldReward: 490,
+            boundGoldReward: 1960,
+            chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 2080,
-            chestPrice: 375,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
     ]
@@ -839,29 +838,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR3.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1350,
+            chestPrice: 180,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 300,
-            boundGoldReward: 1200,
+            unboundGoldReward: 250,
+            boundGoldReward: 1100,
             chestPrice: 180,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 400,
-            boundGoldReward: 1600,
+            unboundGoldReward: 420,
+            boundGoldReward: 1680,
             chestPrice: 350,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1200,
-            chestPrice: 180,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -869,29 +868,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR3.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1750,
+            chestPrice: 220,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 400,
-            boundGoldReward: 1600,
+            unboundGoldReward: 350,
+            boundGoldReward: 1400,
             chestPrice: 220,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 600,
-            boundGoldReward: 2400,
+            unboundGoldReward: 480,
+            boundGoldReward: 1920,
             chestPrice: 500,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1600,
-            chestPrice: 220,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -899,29 +898,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.AR3.G3",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 2100,
+            chestPrice: 300,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 600,
-            boundGoldReward: 2400,
+            unboundGoldReward: 420,
+            boundGoldReward: 1680,
             chestPrice: 300,
             HMThreashold: 1610,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 1100,
-            boundGoldReward: 4400,
+            unboundGoldReward: 540,
+            boundGoldReward: 2160,
             chestPrice: 950,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 2400,
-            chestPrice: 300,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
     ]
@@ -936,6 +935,14 @@ export const goldTasks: GoldTask[] = [
         name: "Thaemine Gate 1",
         completionId: "T3.L8.G1",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1600,
+            chestPrice: 360,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 320,
@@ -952,20 +959,20 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 1600,
-            chestPrice: 360,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
         name: "Thaemine Gate 2",
         completionId: "T3.L8.G2",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 2000,
+            chestPrice: 440,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 400,
@@ -982,20 +989,20 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 2000,
-            chestPrice: 440,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
         name: "Thaemine Gate 3",
         completionId: "T3.L8.G3",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 2800,
+            chestPrice: 640,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 560,
@@ -1012,14 +1019,6 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 2800,
-            chestPrice: 640,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -1051,29 +1050,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.K1.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 1900,
+            chestPrice: 310,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 1750,
-            boundGoldReward: 1750,
+            unboundGoldReward: 0,
+            boundGoldReward: 1900,
             chestPrice: 310,
             HMThreashold: 1630,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 2100,
-            boundGoldReward: 2800,
+            unboundGoldReward: 1100,
+            boundGoldReward: 1100,
             chestPrice: 720,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 3500,
-            chestPrice: 310,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -1081,29 +1080,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.K1.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 0,
+            boundGoldReward: 4200,
+            chestPrice: 700,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 2800,
-            boundGoldReward: 2800,
+            unboundGoldReward: 0,
+            boundGoldReward: 4200,
             chestPrice: 700,
             HMThreashold: 1630,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 2800,
-            boundGoldReward: 3500,
+            unboundGoldReward: 2500,
+            boundGoldReward: 2500,
             chestPrice: 1630,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 5600,
-            chestPrice: 700,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       }
     ]
@@ -1120,8 +1119,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            unboundGoldReward: 1750,
-            boundGoldReward: 1750,
+            unboundGoldReward: 1100,
+            boundGoldReward: 1100,
             chestPrice: 310,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -1134,8 +1133,8 @@ export const goldTasks: GoldTask[] = [
         modes: [
           {
             name: "NM",
-            unboundGoldReward: 2800,
-            boundGoldReward: 2800,
+            unboundGoldReward: 2500,
+            boundGoldReward: 2500,
             chestPrice: 700,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
@@ -1155,29 +1154,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.K3.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 1750,
+            boundGoldReward: 1750,
+            chestPrice: 750,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 3500,
-            boundGoldReward: 3500,
+            unboundGoldReward: 1750,
+            boundGoldReward: 1750,
             chestPrice: 750,
             HMThreashold: 1680,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 3500,
-            boundGoldReward: 3500,
+            unboundGoldReward: 2750,
+            boundGoldReward: 2750,
             chestPrice: 1820,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 7000,
-            chestPrice: 750,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -1185,29 +1184,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T3.K3.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 4000,
+            boundGoldReward: 4000,
+            chestPrice: 1780,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 4900,
-            boundGoldReward: 4900,
+            unboundGoldReward: 4000,
+            boundGoldReward: 4000,
             chestPrice: 1780,
             HMThreashold: 1680,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 7000,
-            boundGoldReward: 7000,
+            unboundGoldReward: 6250,
+            boundGoldReward: 6250,
             chestPrice: 4150,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 9800,
-            chestPrice: 1780,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       }
     ]
@@ -1223,29 +1222,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T4.K4.G1",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 2750,
+            boundGoldReward: 2750,
+            chestPrice: 1820,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 3150,
-            boundGoldReward: 3150,
+            unboundGoldReward: 2750,
+            boundGoldReward: 2750,
             chestPrice: 1820,
             HMThreashold: 1690,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 3850,
-            boundGoldReward: 3850,
+            unboundGoldReward: 3750,
+            boundGoldReward: 3750,
             chestPrice: 2400,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 6300,
-            chestPrice: 1820,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
@@ -1253,29 +1252,29 @@ export const goldTasks: GoldTask[] = [
         completionId: "T4.K4.G2",
         modes: [
           {
+            name: "Solo",
+            unboundGoldReward: 5500,
+            boundGoldReward: 5500,
+            chestPrice: 3720,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
+          {
             name: "NM",
-            unboundGoldReward: 6475,
-            boundGoldReward: 6475,
+            unboundGoldReward: 5500,
+            boundGoldReward: 5500,
             chestPrice: 3720,
             HMThreashold: 1690,
             goldILvlLimit: Infinity
           },
           {
             name: "HM",
-            unboundGoldReward: 8050,
-            boundGoldReward: 8050,
+            unboundGoldReward: 7750,
+            boundGoldReward: 7750,
             chestPrice: 5100,
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 0,
-            boundGoldReward: 12950,
-            chestPrice: 3720,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       }
     ]
@@ -1290,6 +1289,14 @@ export const goldTasks: GoldTask[] = [
         name: "Mordum Gate 1",
         completionId: "T4.K4.G1",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 2000,
+            boundGoldReward: 2000,
+            chestPrice: 2400,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 2000,
@@ -1306,20 +1313,20 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 2000,
-            boundGoldReward: 2000,
-            chestPrice: 2400,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
         name: "Mordum Gate 2",
         completionId: "T4.K4.G2",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 3500,
+            boundGoldReward: 3500,
+            chestPrice: 3200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 3500,
@@ -1336,20 +1343,20 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 3500,
-            boundGoldReward: 3500,
-            chestPrice: 3200,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       },
       {
         name: "Mordum Gate 3",
         completionId: "T4.K4.G3",
         modes: [
+          {
+            name: "Solo",
+            unboundGoldReward: 5000,
+            boundGoldReward: 5000,
+            chestPrice: 4200,
+            HMThreashold: Infinity,
+            goldILvlLimit: Infinity
+          },
           {
             name: "NM",
             unboundGoldReward: 5000,
@@ -1366,14 +1373,6 @@ export const goldTasks: GoldTask[] = [
             HMThreashold: Infinity,
             goldILvlLimit: Infinity
           },
-          {
-            name: "Solo",
-            unboundGoldReward: 5000,
-            boundGoldReward: 5000,
-            chestPrice: 4200,
-            HMThreashold: Infinity,
-            goldILvlLimit: Infinity
-          }
         ]
       }
     ]
@@ -1388,6 +1387,13 @@ export const goldTasks: GoldTask[] = [
         name: 'Armoche Gate 1',
         completionId: 'T4.K5.G1',
         modes: [
+          {
+            name: 'Solo',
+            unboundGoldReward: 6250,
+            boundGoldReward: 6250,
+            chestPrice: 4000,
+            goldILvlLimit: Infinity,
+          },
           {
             name: 'NM',
             unboundGoldReward: 6250,
@@ -1410,6 +1416,13 @@ export const goldTasks: GoldTask[] = [
         name: 'Armoche Gate 2',
         completionId: 'T4.K5.G2',
         modes: [
+          {
+            name: 'Solo',
+            unboundGoldReward: 10250,
+            boundGoldReward: 10250,
+            chestPrice: 6560,
+            goldILvlLimit: Infinity,
+          },
           {
             name: 'NM',
             unboundGoldReward: 10250,
@@ -1441,6 +1454,13 @@ export const goldTasks: GoldTask[] = [
         completionId: 'T4.K6.G1',
         modes: [
           {
+            name: 'Solo',
+            unboundGoldReward: 7000,
+            boundGoldReward: 7000,
+            chestPrice: 4480,
+            goldILvlLimit: Infinity,
+          },
+          {
             name: 'NM',
             unboundGoldReward: 7000,
             boundGoldReward: 7000,
@@ -1462,6 +1482,13 @@ export const goldTasks: GoldTask[] = [
         name: 'Kazeros Gate 2',
         completionId: 'T4.K6.G2',
         modes: [
+          {
+            name: 'Solo',
+            unboundGoldReward: 13000,
+            boundGoldReward: 13000,
+            chestPrice: 8320,
+            goldILvlLimit: Infinity,
+          },
           {
             name: 'NM',
             unboundGoldReward: 13000,
