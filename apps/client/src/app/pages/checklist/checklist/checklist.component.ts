@@ -305,7 +305,7 @@ export class ChecklistComponent {
     if (done) {
       const setAllDone = clickEvent?.ctrlKey;
       const existingEntry = getCompletionEntry(completion.data, character, task);
-      if (existingEntry?.updated < reset) {
+      if (existingEntry?.updated < reset && reset !== Infinity) {
         existingEntry.amount = 0;
       }
 
