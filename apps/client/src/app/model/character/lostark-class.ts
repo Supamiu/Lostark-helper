@@ -35,7 +35,8 @@ export enum LostarkClass {
   BREAKER,
   WILDSOUL,
   VALKYRIE,
-  GUARDIANKNIGHT
+  GUARDIANKNIGHT,
+  DIMENTIONALIST
 }
 
 export function isSupportClass(c: LostarkClass): boolean {
