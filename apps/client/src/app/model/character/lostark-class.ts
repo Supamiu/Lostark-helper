@@ -36,9 +36,9 @@ export enum LostarkClass {
   WILDSOUL,
   VALKYRIE,
   GUARDIANKNIGHT,
-  DIMENTIONALIST
+  DIMENTIONALIST,
 }
 
 export function isSupportClass(c: LostarkClass): boolean {
-  return [LostarkClass.BARD, LostarkClass.PALADIN, LostarkClass.ARTIST].includes(+c);
+  return [LostarkClass.BARD, LostarkClass.PALADIN, LostarkClass.ARTIST, LostarkClass.VALKYRIE].includes(+c);
 }
