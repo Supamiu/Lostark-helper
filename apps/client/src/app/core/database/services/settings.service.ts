@@ -73,6 +73,12 @@ export class SettingsService extends FirestoreStorage<Settings> {
     this.updateOne(settings.$key, settings);
   }
 
+  public getRunningModeFlag(raidModesForGoldPlanner: Record<string, string>, characterName: string, gateNames: string[]): string {
+    const getGateMode = (gateName: string): string => raidModesForGoldPlanner[`${characterName}:runningMode:${gateName}`];
+    const firstGateMode = getGateMode(gateNames[0]);
+    return gateNames.every(gateName => getGateMode(gateName) === firstGateMode) ? firstGateMode : "Mixed";
+  }
+
   protected getCollectionName(): string {
     return "settings";
   }

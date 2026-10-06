@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, map, Observable, of, pluck, startWith } from "rxjs";
 import { goldTasks } from "../gold-tasks";
-import { GoldTask, Gate, resetType } from "../gold-task";
+import { GoldTask, Gate, resetType, canRunHardModeForGateAndCharacter, canRunNightmareModeForGateAndCharacter } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -156,19 +156,19 @@ export class GoldPlannerComponent {
             // Used to activate/deactivate the Hard and Nightmare options on the mode selection radio 
             let canRunHM
             if (line.gate) {
-              canRunHM = this.canRunHardModeForGateAndCharacter(line.gate, character)
+              canRunHM = canRunHardModeForGateAndCharacter(line.gate, character)
             } else {
               canRunHM = line.gTask.gates.every(gate => {
-                return this.canRunHardModeForGateAndCharacter(gate, character)
+                return canRunHardModeForGateAndCharacter(gate, character)
               })
             }
 
             let canRunNightmare
             if (line.gate) {
-              canRunNightmare = this.canRunNightmareModeForGateAndCharacter(line.gate, character)
+              canRunNightmare = canRunNightmareModeForGateAndCharacter(line.gate, character)
             } else {
               canRunNightmare = line.gTask.gates.every(gate => {
-                return this.canRunNightmareModeForGateAndCharacter(gate, character)
+                return canRunNightmareModeForGateAndCharacter(gate, character)
               })
             }
 
@@ -226,14 +226,15 @@ export class GoldPlannerComponent {
             let boundGoldReward = 0
             let chestPrice = 0
             if (line.gate) {
-              const runningMode = line.gate.modes.find(mode => mode.name === this.getRunningModeFlag(raidModesForGoldPlanner, character.name, line))
+              const gate = line.gate
+              const runningMode = gate.modes.find(mode => mode.name === this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
               unboundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
               boundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
               chestPrice = runningMode ? runningMode.chestPrice : 0
             } else {
               line.gTask.gates.forEach(gate => {
                 if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
-                  const runningMode = gate.modes.find(mode => mode.name === this.getRunningModeFlagForGate(raidModesForGoldPlanner, character.name, gate))
+                  const runningMode = gate.modes.find(mode => mode.name === this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
                   unboundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
                   boundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
                   chestPrice += runningMode ? runningMode.chestPrice : 0
@@ -243,7 +244,11 @@ export class GoldPlannerComponent {
 
             const goldDetail = {
               hide: false || cantDoTask || !character.weeklyGold || (task ? getCompletionEntry(rawRoster.trackedTasks, character, task, true) === false : false) || hideAlreadyDoneRaidOrGate,
-              runningMode: this.getRunningModeFlag(raidModesForGoldPlanner, character.name, line),
+              runningMode: this.settings.getRunningModeFlag(
+                raidModesForGoldPlanner,
+                character.name,
+                line.gate ? [line.gate.name] : line.gTask.gates.map(gate => gate.name)
+              ),
               takingChest,
               indeterminateTakingChest,
               takingGold,
@@ -353,25 +358,6 @@ export class GoldPlannerComponent {
     startWith({ x: null, y: null })
   );
 
-  // Utilities for chestsData calculation
-  private canRunHardModeForGateAndCharacter(gate: Gate, character: Character): boolean {
-    const nmMode = gate.modes.find(mode => mode.name === 'NM')
-    if (nmMode && nmMode.HMThreashold) {
-      return nmMode.HMThreashold <= character.ilvl
-    } else {
-      return true
-    }
-  }
-
-  private canRunNightmareModeForGateAndCharacter(gate: Gate, character: Character): boolean {
-    const hmMode = gate.modes.find(mode => mode.name === 'HM')
-    if (hmMode && hmMode.NightmareThreashold) {
-      return hmMode.NightmareThreashold <= character.ilvl
-    } else {
-      return true
-    }
-  }
-
   private shouldHideGateBasedOnWeeklyCompletion(gate: Gate, character: Character, taskList: LostarkTask[], tracking: Record<string, boolean>, completion: Completion, weeklyReset: number, task?: LostarkTask): boolean {
     const tempTask = taskList.find(t => t.label === gate.taskName && !t.custom);
 
@@ -458,17 +444,6 @@ export class GoldPlannerComponent {
   }
 
   // Running mode selection utilities
-  private getRunningModeFlag(raidModesForGoldPlanner: Record<string, string>, characterName: string, line: PlannerLine): string {
-    if (line.gate) {
-      return this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, line.gate)
-    } else {
-      const gateOneMode = this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, line.gTask.gates[0])
-      return line.gTask.gates.every(gate => {
-        return this.getRunningModeFlagForGate(raidModesForGoldPlanner, characterName, gate) === gateOneMode
-      }) ? gateOneMode : "Mixed"
-    }
-  }
-
   setRunningModeFlag(settingsKey: string, raidModesForGoldPlanner: Record<string, string>, line: PlannerLine, character: Character, flag: string): void {
     if (!line.gate || flag === "Solo") {
       line.gTask.gates.forEach(gate => {
@@ -482,10 +457,6 @@ export class GoldPlannerComponent {
     } else {
       this.setRunningModeFlagForGate(settingsKey, raidModesForGoldPlanner, line.gate, character, flag)
     }
-  }
-
-  private getRunningModeFlagForGate(raidModesForGoldPlanner: Record<string, string>, characterName: string, gate: Gate): string {
-    return raidModesForGoldPlanner[this.getRunningModeFlagNameForGate(characterName, gate)];
   }
 
   setRunningModeFlagForGate(settingsKey: string, raidModesForGoldPlanner: Record<string, string>, gate: Gate, character: Character, flag: string): void {
