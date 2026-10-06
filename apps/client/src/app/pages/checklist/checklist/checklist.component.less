@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
 
-  > div:first-child {
+  > div:first-of-type {
     margin-right: 5px;
   }
 }
@@ -295,8 +295,14 @@ table {
 .gold-icon {
   width: 24px;
   height: 24px;
+}
+
+.gold-mode {
   position: absolute;
   left: 5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .header-link {

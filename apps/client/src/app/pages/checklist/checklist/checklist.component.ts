@@ -19,7 +19,7 @@ import { Character } from '../../../model/character/character';
 import { tickets } from '../../../data/tickets';
 import { addWeeks, getWeek } from 'date-fns';
 import { goldTasks } from "../../gold-planner/gold-tasks";
-import { Gate } from "../../gold-planner/gold-task";
+import { Gate, getHigherModeForGate } from "../../gold-planner/gold-task";
 
 export interface TaskCharacter extends Character {
   done?: boolean;
@@ -128,9 +128,10 @@ export class ChecklistComponent {
     ),
     this.energy$,
     this.forceShowHiddenCharacter$,
-    this.settings.settings$.pipe(pluck("goldPlannerConfiguration"))
+    this.settings.settings$.pipe(pluck("goldPlannerConfiguration")),
+    this.settings.settings$.pipe(pluck("raidModesForGoldPlanner"))
   ]).pipe(
-    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, settings, energy, showHidden, goldTracking]) => {
+    map(([roster, tasks, completion, dailyReset, weeklyReset, biWeeklyReset, biWeeklyOffsetReset, settings, energy, showHidden, goldTracking, raidModesForGoldPlanner]) => {
       const data = tasks
         .map(task => {
           const lazyTracking = settings.lazytracking;
@@ -142,6 +143,8 @@ export class ChecklistComponent {
             .filter(c => showHidden || !c.isHide)
             .map(character => {
               return {
+                runningMode: this.getRunningModeFlagForTask(raidModesForGoldPlanner, character.name, task.label),
+                higherModeInfo: this.getHigherModeInfoForTask(raidModesForGoldPlanner, character, task.label),
                 done: Math.min(isTaskDone(
                   task,
                   character,
@@ -314,7 +317,7 @@ export class ChecklistComponent {
         amount: setAllDone ? task.amount : (existingEntry?.amount || 0) + 1,
         updated: Date.now()
       });
-      
+
       if (task.scope === TaskScope.CHARACTER
         && task.frequency === TaskFrequency.DAILY
         && ['Chaos', 'Guardian', 'Una'].some(n => task.label?.startsWith(n))) {
@@ -360,25 +363,55 @@ export class ChecklistComponent {
     this.rosterService.setOne(roster.$key, roster);
   }
 
-    private getGoldTakingInfoForTask(characterName: string, taskName: string, goldTracking): boolean {
-      let goldTaskName
-      let gate
-      const goldTask = goldTasks.find(goldTask => goldTask.taskName === taskName)
-      if (goldTask === undefined) {
-        const specificGates = goldTasks.reduce(
-          (acc : Gate[], goldTask) => {
-            const specificGates = goldTask.gates.filter(gate => gate.taskName !== undefined)
-            return [...acc, ...specificGates]
-          },
-          []
-        )
-        gate = specificGates.find(gate => gate.taskName && gate.taskName === taskName)
-        goldTaskName = gate && gate.name
-      } else {
-        goldTaskName = goldTask.gates[0].name
-      }
-      return goldTaskName === undefined ? false : goldTracking[`${characterName}:gold:taking:${goldTaskName}`]
+  private getGoldTakingInfoForTask(characterName: string, taskName: string, goldTracking): boolean {
+    let goldTaskName
+    let gate
+    const goldTask = goldTasks.find(goldTask => goldTask.taskName === taskName)
+    if (goldTask === undefined) {
+      const specificGates = goldTasks.reduce(
+        (acc: Gate[], goldTask) => {
+          const specificGates = goldTask.gates.filter(gate => gate.taskName !== undefined)
+          return [...acc, ...specificGates]
+        },
+        []
+      )
+      gate = specificGates.find(gate => gate.taskName && gate.taskName === taskName)
+      goldTaskName = gate && gate.name
+    } else {
+      goldTaskName = goldTask.gates[0].name
     }
+    return goldTaskName === undefined ? false : goldTracking[`${characterName}:gold:taking:${goldTaskName}`]
+  }
+
+  private getRunningModeFlagForTask(raidModesForGoldPlanner: Record<string, string>, characterName: string, taskName: string): string | undefined {
+    const gates = this.getGoldGatesForTask(taskName)
+    return gates.length ? this.settings.getRunningModeFlag(raidModesForGoldPlanner, characterName, gates.map(gate => gate.name)) : undefined
+  }
+
+  private getHigherModeInfoForTask(raidModesForGoldPlanner: Record<string, string>, character: Character, taskName: string): string | undefined {
+    const gates = this.getGoldGatesForTask(taskName)
+    if (!gates.length) return undefined
+
+    const higherModes = gates.map(gate => getHigherModeForGate(
+      gate,
+      this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]),
+      character
+    ))
+    if (higherModes.some(mode => !mode)) return undefined
+
+    const availableModes = [...new Set(higherModes)]
+    if (availableModes.length === 0) return undefined
+    const modeName = availableModes[0] === 'HM' ? 'Hard Mode' : 'Nightmare Mode'
+    return `Can run ${modeName}`
+  }
+
+  private getGoldGatesForTask(taskName: string): Gate[] {
+    const goldTask = goldTasks.find(goldTask => goldTask.taskName === taskName)
+    if (goldTask) return goldTask.gates
+
+    const gate = goldTasks.flatMap(goldTask => goldTask.gates).find(gate => gate.taskName === taskName)
+    return gate ? [gate] : []
+  }
 }
 
 
