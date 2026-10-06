@@ -142,8 +142,10 @@ export class ChecklistComponent {
           const completionData = roster.characters
             .filter(c => showHidden || !c.isHide)
             .map(character => {
+              let runningMode = this.getRunningModeFlagForTask(raidModesForGoldPlanner, character.name, task.label);
+              runningMode = runningMode === 'Nightmare' ? 'NiM' : runningMode;
               return {
-                runningMode: this.getRunningModeFlagForTask(raidModesForGoldPlanner, character.name, task.label),
+                runningMode,
                 higherModeInfo: this.getHigherModeInfoForTask(raidModesForGoldPlanner, character, task.label),
                 done: Math.min(isTaskDone(
                   task,
