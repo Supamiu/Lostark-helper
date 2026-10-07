@@ -243,7 +243,7 @@ export class ChecklistComponent {
     map(([roster]) => {
       const y = window.innerHeight - 400;
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px` };
-      const widthPerCharacter = window.innerWidth < 992 ? 80 : 120;
+      const widthPerCharacter = window.innerWidth < 992 ? 80 : 240;
       if (window.innerWidth < widthPerCharacter * roster.length + 200) {
         scrolling.x = `${window.innerWidth - 64 - 48 - 210 - 20}px`;
       }
