@@ -25,6 +25,16 @@ export interface TaskCharacter extends Character {
   done?: boolean;
 }
 
+interface ChecklistTableRow {
+  task: LostarkTask;
+  completion: number[];
+  completionData: { doable: boolean; done: number; tracked: boolean }[];
+  energy: unknown[];
+  available: boolean;
+  visible: boolean;
+  allDone: boolean;
+}
+
 @Component({
   selector: 'lostark-helper-checklist',
   templateUrl: './checklist.component.html',
@@ -276,8 +286,7 @@ export class ChecklistComponent {
       const visibleIndexes = keptIndexes.slice(start, pageSize > 0 ? start + pageSize : total);
       const paginatedRoster = visibleIndexes.map(i => roster[i]);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const paginateRow = (row: any) => {
+      const paginateRow = (row: ChecklistTableRow) => {
         if (row.task.scope !== TaskScope.CHARACTER) {
           return row;
         }
@@ -286,13 +295,12 @@ export class ChecklistComponent {
         const energy = visibleIndexes.map(i => row.energy[i]);
         const forceDone = !row.available && row.visible;
         const allDone = forceDone || completionData.every(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ({ doable, done, tracked }: any) => !tracked || !doable || done >= row.task.amount
+          ({ doable, done, tracked }) => !tracked || !doable || done >= row.task.amount
         );
         return { ...row, completion, completionData, energy, allDone };
       };
 
-      const source = display.data as Record<string, { data: any[]; done: boolean }>;
+      const source = display.data as Record<string, { data: ChecklistTableRow[]; done: boolean }>;
       const paginatedData = Object.keys(source).reduce((acc, key) => {
         const data = source[key].data.map(paginateRow);
         return { ...acc, [key]: { data, done: data.length > 0 && data.every(t => t.allDone) } };
