@@ -56,6 +56,13 @@
         <nz-option *ngFor="let w of columnWidthOptions" [nzValue]="w" [nzLabel]="w + 'px'"></nz-option>
       </nz-select>
     </span>
+    <span class="page-size">
+      Show:
+      <nz-select [ngModel]="pageSize$ | async" (ngModelChange)="pageSize$.next($event); pageIndex$.next(0)" nzSize="small" class="page-size-select">
+        <nz-option *ngFor="let opt of pageSizeOptions" [nzValue]="opt.value" [nzLabel]="opt.label"></nz-option>
+      </nz-select>
+    </span>
+    <label nz-checkbox [ngModel]="goldOnly$ | async" (ngModelChange)="goldOnly$.next($event); pageIndex$.next(0)">Gold earners only</label>
   </div>
 </ng-container>
 
@@ -70,13 +77,14 @@
       <ng-container *ngIf="energy$ | async as energy">
         <ng-container *ngIf="scrolling$ | async as scrolling">
           <ng-container *ngIf="columnWidth$ | async as columnWidth">
-          <nz-table *ngIf="tableDisplay$ | async as display" [nzNoResult]="empty" [nzScroll]="scrolling" [nzPageSize]="999" nzHideOnSinglePage nzBordered nzOuterBordered nzSize="middle">
+          <ng-container *ngIf="paginatedDisplay$ | async as pdisplay">
+          <nz-table [nzNoResult]="empty" [nzScroll]="scrolling" [nzPageSize]="999" nzHideOnSinglePage nzBordered nzOuterBordered nzSize="middle">
             <ng-template #empty></ng-template>
             <table [ngClass]="'col-width-' + columnWidth">
               <thead>
                 <tr>
                   <th>Task</th>
-                  <th *ngFor="let character of charactersDisplay$ | async" class="character-col">
+                  <th *ngFor="let character of pdisplay.roster" class="character-col">
                     <div class="character-title">
                       <img src="./assets/icons/classes/class_{{ character.class?.toString()?.padStart(2, '0') }}.png" alt="" class="class-icon" *ngIf="character.class !== null" />
                       {{ character.name }} [{{ character.ilvl }}]
@@ -88,21 +96,21 @@
                 </tr>
               </thead>
               <tbody>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.dailyCharacter, title: 'Daily Character', key: 'dailyCharacter' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.dailyRoster, title: 'Daily Roster', key: 'dailyRoster' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.weeklyCharacter, title: 'Weekly Character', key: 'weeklyCharacter' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.biWeeklyCharacter, title: 'Biweekly Character', key: 'biWeeklyCharacter' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.weeklyRoster, title: 'Weekly Roster', key: 'weeklyRoster' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.biWeeklyRoster, title: 'Biweekly Roster', key: 'biWeeklyRoster' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.oneTimeCharacter, title: 'One Time Character', key: 'oneTimeCharacter' }"></ng-container>
-                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: display.data.oneTimeRoster, title: 'One Time Roster', key: 'oneTimeRoster' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.dailyCharacter, title: 'Daily Character', key: 'dailyCharacter' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.dailyRoster, title: 'Daily Roster', key: 'dailyRoster' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.weeklyCharacter, title: 'Weekly Character', key: 'weeklyCharacter' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.biWeeklyCharacter, title: 'Biweekly Character', key: 'biWeeklyCharacter' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.weeklyRoster, title: 'Weekly Roster', key: 'weeklyRoster' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.biWeeklyRoster, title: 'Biweekly Roster', key: 'biWeeklyRoster' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.oneTimeCharacter, title: 'One Time Character', key: 'oneTimeCharacter' }"></ng-container>
+                <ng-container *ngTemplateOutlet="rowsDisplay; context: { $implicit: pdisplay.data.oneTimeRoster, title: 'One Time Roster', key: 'oneTimeRoster' }"></ng-container>
 
                 <ng-template #rowsDisplay let-entry let-title="title" let-key="key">
                   <ng-container *ngIf="entry.data.length > 0">
                     <ng-container *ngIf="categoriesDisplay$ | async as categoriesDisplay">
                       <tr>
                         <td
-                          [attr.colspan]="display.roster.length + 1"
+                          [attr.colspan]="pdisplay.roster.length + 1"
                           class="section-span"
                           [class.completed]="entry.done"
                           [class.daily]="entry.data[0].task.frequency === TaskFrequency.DAILY"
@@ -140,13 +148,13 @@
                                     nzBlock
                                     nzType="primary"
                                     [disabled]="row.completion[0] >= row.task.amount"
-                                    (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)"
+                                    (click)="markAsDone(completion, energy, roster[0], row.task, roster, true, pdisplay.dailyReset, pdisplay.weeklyReset, pdisplay.biWeeklyReset, $event)"
                                   >
                                     {{ row.completion[0] }}/{{ row.task.amount }}
                                   </button>
                                 </div>
                                 <div *ngIf="row.completion[0] > 0" class="reset-button">
-                                  <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount" (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
+                                  <button nz-button nzSize="small" *ngIf="row.completion[0] >= row.task.amount" (click)="markAsDone(completion, energy, roster[0], row.task, roster, false, pdisplay.dailyReset, pdisplay.weeklyReset, pdisplay.biWeeklyReset)">
                                     <i nz-icon nzType="reload" nzTheme="outline"></i>
                                   </button>
                                 </div>
@@ -162,7 +170,7 @@
                               [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                               [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY"
                             >
-                              <ng-container *ngIf="row.completionData[i].tracked && roster[i].ilvl >= row.task.minIlvl && roster[i].ilvl < row.task.maxIlvl">
+                              <ng-container *ngIf="row.completionData[i].tracked && pdisplay.roster[i].ilvl >= row.task.minIlvl && pdisplay.roster[i].ilvl < row.task.maxIlvl">
                                 <div class="counter">
                                   <span class="gold-mode" *ngIf="row.completionData[i].takingGold">
                                     <img *ngIf="row.completionData[i].takingGold" src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
@@ -175,13 +183,13 @@
                                       nzSize="small"
                                       nzType="primary"
                                       [disabled]="col >= row.task.amount"
-                                      (click)="markAsDone(completion, energy, roster[i], row.task, roster, true, display.dailyReset, display.weeklyReset, display.biWeeklyReset, $event)"
+                                      (click)="markAsDone(completion, energy, pdisplay.roster[i], row.task, pdisplay.roster, true, pdisplay.dailyReset, pdisplay.weeklyReset, pdisplay.biWeeklyReset, $event)"
                                     >
                                       {{ col }} / {{ row.task.amount }}
                                     </button>
                                   </div>
                                   <div *ngIf="col > 0" class="reset-button">
-                                    <button nz-button nzSize="small" *ngIf="col > 0" (click)="markAsDone(completion, energy, roster[i], row.task, roster, false, display.dailyReset, display.weeklyReset, display.biWeeklyReset)">
+                                    <button nz-button nzSize="small" *ngIf="col > 0" (click)="markAsDone(completion, energy, pdisplay.roster[i], row.task, pdisplay.roster, false, pdisplay.dailyReset, pdisplay.weeklyReset, pdisplay.biWeeklyReset)">
                                       <i nz-icon nzType="reload" nzTheme="outline"></i>
                                     </button>
                                   </div>
@@ -205,6 +213,19 @@
               </tbody>
             </table>
           </nz-table>
+          <div class="pagination-controls" *ngIf="pdisplay.totalPages > 1">
+            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex <= 0" (click)="pageIndex$.next(pdisplay.pageIndex - 1)">‹ Prev</button>
+            <button
+              nz-button
+              nzSize="small"
+              *ngFor="let pi of pageIndexes(pdisplay.totalPages); trackBy: trackByIndex"
+              [nzType]="pi === pdisplay.pageIndex ? 'primary' : 'default'"
+              (click)="pageIndex$.next(pi)"
+            >{{ pi + 1 }}</button>
+            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex >= pdisplay.totalPages - 1" (click)="pageIndex$.next(pdisplay.pageIndex + 1)">Next ›</button>
+            <span class="pagination-info">Showing {{ pdisplay.roster.length }} of {{ pdisplay.total }}</span>
+          </div>
+          </ng-container>
           </ng-container>
         </ng-container>
       </ng-container>

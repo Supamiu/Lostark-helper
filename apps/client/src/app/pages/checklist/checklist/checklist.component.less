@@ -336,6 +336,7 @@ table {
 .checklist-controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 10px;
 
@@ -351,6 +352,29 @@ table {
 
   .column-width-select {
     width: 100px;
+  }
+
+  .page-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .page-size-select {
+    width: 90px;
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+
+  .pagination-info {
+    margin-left: 8px;
+    opacity: 0.75;
   }
 }
 

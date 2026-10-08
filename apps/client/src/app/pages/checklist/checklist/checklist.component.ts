@@ -71,6 +71,18 @@ export class ChecklistComponent {
 
   public columnWidthOptions = [80, 150, 240];
 
+  public pageSize$ = new LocalStorageBehaviorSubject<number>('checklist:page-size', 0);
+
+  public pageSizeOptions = [
+    { value: 0, label: 'All' },
+    { value: 6, label: '6' },
+    { value: 12, label: '12' }
+  ];
+
+  public goldOnly$ = new LocalStorageBehaviorSubject<boolean>('checklist:gold-only', false);
+
+  public pageIndex$ = new BehaviorSubject<number>(0);
+
   public completion$: Observable<Completion> = this.completionService.completion$;
 
   public energy$ = this.energyService.energy$;
@@ -243,12 +255,70 @@ export class ChecklistComponent {
 
   private windowResize$ = new BehaviorSubject<void>(void 0);
 
-  public scrolling$ = combineLatest([this.roster$, this.windowResize$, this.columnWidth$]).pipe(
-    map(([roster, , columnWidth]) => {
+  public paginatedDisplay$ = combineLatest([
+    this.tableDisplay$,
+    this.pageSize$,
+    this.pageIndex$,
+    this.goldOnly$,
+    this.forceShowHiddenCharacter$
+  ]).pipe(
+    map(([display, pageSize, pageIndex, goldOnly, showHidden]) => {
+      const roster = showHidden ? display.roster : display.roster.filter(c => !c.isHide);
+      let keptIndexes = roster.map((_, i) => i);
+      if (goldOnly) {
+        keptIndexes = keptIndexes.filter(i => roster[i].weeklyGold === true);
+      }
+      const total = keptIndexes.length;
+      const effectivePageSize = pageSize > 0 ? pageSize : (total || 1);
+      const totalPages = Math.max(1, Math.ceil(total / effectivePageSize));
+      const safePageIndex = Math.min(Math.max(pageIndex, 0), totalPages - 1);
+      const start = pageSize > 0 ? safePageIndex * pageSize : 0;
+      const visibleIndexes = keptIndexes.slice(start, pageSize > 0 ? start + pageSize : total);
+      const paginatedRoster = visibleIndexes.map(i => roster[i]);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const paginateRow = (row: any) => {
+        if (row.task.scope !== TaskScope.CHARACTER) {
+          return row;
+        }
+        const completion = visibleIndexes.map(i => row.completion[i]);
+        const completionData = visibleIndexes.map(i => row.completionData[i]);
+        const energy = visibleIndexes.map(i => row.energy[i]);
+        const forceDone = !row.available && row.visible;
+        const allDone = forceDone || completionData.every(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ({ doable, done, tracked }: any) => !tracked || !doable || done >= row.task.amount
+        );
+        return { ...row, completion, completionData, energy, allDone };
+      };
+
+      const source = display.data as Record<string, { data: any[]; done: boolean }>;
+      const paginatedData = Object.keys(source).reduce((acc, key) => {
+        const data = source[key].data.map(paginateRow);
+        return { ...acc, [key]: { data, done: data.length > 0 && data.every(t => t.allDone) } };
+      }, {} as typeof display.data);
+
+      return {
+        roster: paginatedRoster,
+        data: paginatedData,
+        total,
+        totalPages,
+        pageIndex: safePageIndex,
+        pageSize,
+        dailyReset: display.dailyReset,
+        weeklyReset: display.weeklyReset,
+        biWeeklyReset: display.biWeeklyReset
+      };
+    })
+  );
+
+  public scrolling$ = combineLatest([this.paginatedDisplay$, this.windowResize$, this.columnWidth$]).pipe(
+    map(([display, , columnWidth]) => {
       const y = window.innerHeight - 400;
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px` };
       const widthPerCharacter = window.innerWidth < 992 ? 80 : columnWidth;
-      if (window.innerWidth < widthPerCharacter * roster.length + 200) {
+      const visibleCount = Math.max(display.roster.length, 1);
+      if (window.innerWidth < widthPerCharacter * visibleCount + 200) {
         scrolling.x = `${window.innerWidth - 64 - 48 - 210 - 20}px`;
       }
       return scrolling;
@@ -262,17 +332,6 @@ export class ChecklistComponent {
         return roster;
       }
       return roster.filter((character) => {
-        return !character.isHide;
-      });
-    })
-  );
-
-  public charactersDisplay$ = combineLatest([this.tableDisplay$, this.forceShowHiddenCharacter$]).pipe(
-    map(([display, forceShowHiddenCharacter]) => {
-      if (forceShowHiddenCharacter) {
-        return display.roster;
-      }
-      return display.roster.filter((character) => {
         return !character.isHide;
       });
     })
@@ -359,6 +418,10 @@ export class ChecklistComponent {
 
   trackByIndex(index: number): number {
     return index;
+  }
+
+  pageIndexes(totalPages: number): number[] {
+    return Array.from({ length: totalPages }, (_, i) => i);
   }
 
   trackByCharacter(index: number, character: Character): string {
