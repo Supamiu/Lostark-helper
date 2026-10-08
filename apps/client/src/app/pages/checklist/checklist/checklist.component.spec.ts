@@ -47,6 +47,37 @@ function specRow(group: { data: unknown[] }): SpecRow {
   return group.data[0] as unknown as SpecRow;
 }
 
+type SpecGroupRow = { task: LostarkTask; available: boolean };
+
+function specRows(group: { data: unknown[] }): SpecGroupRow[] {
+  return group.data as unknown as SpecGroupRow[];
+}
+
+function laDay(offsetDays = 0): number {
+  return new Date(Date.now() - 10 * 3600000 + offsetDays * 86400000).getUTCDay();
+}
+
+function makeDaysTask(key: string, label: string, scope: TaskScope, days: number[], canEditDaysFilter: boolean): LostarkTask {
+  return {
+    $key: key,
+    label,
+    amount: 1,
+    frequency: TaskFrequency.DAILY,
+    scope,
+    enabled: true,
+    minIlvl: 0,
+    canEditDaysFilter,
+    daysFilter: days
+  } as unknown as LostarkTask;
+}
+
+const defaultSettings = {
+  lazytracking: {},
+  hiddenOnCompletion: false,
+  goldPlannerConfiguration: {},
+  raidModesForGoldPlanner: {}
+};
+
 describe('ChecklistComponent pagination', () => {
   const now = Date.now();
   const characters = Array.from({ length: 15 }, (_, i) => makeCharacter(i));
@@ -67,21 +98,22 @@ describe('ChecklistComponent pagination', () => {
   let component: ChecklistComponent;
   let completionSetOne: jest.Mock;
   let energyUpdateOne: jest.Mock;
+  let roster$: BehaviorSubject<Roster>;
+  let tasks$: BehaviorSubject<LostarkTask[]>;
+  let settings$: BehaviorSubject<typeof defaultSettings>;
 
   beforeEach(() => {
     localStorage.clear();
     completionSetOne = jest.fn();
     energyUpdateOne = jest.fn();
+    roster$ = new BehaviorSubject(roster);
+    tasks$ = new BehaviorSubject([makeTask('t-char', TaskScope.CHARACTER), makeTask('t-roster', TaskScope.ROSTER)]);
+    settings$ = new BehaviorSubject({ ...defaultSettings });
     component = new ChecklistComponent(
-      { roster$: of(roster) } as unknown as RosterService,
-      { tasks$: of([makeTask('t-char', TaskScope.CHARACTER), makeTask('t-roster', TaskScope.ROSTER)]) } as unknown as TasksService,
+      { roster$ } as unknown as RosterService,
+      { tasks$ } as unknown as TasksService,
       {
-        settings$: of({
-          lazytracking: {},
-          hiddenOnCompletion: false,
-          goldPlannerConfiguration: {},
-          raidModesForGoldPlanner: {}
-        }),
+        settings$,
         getRunningModeFlag: () => undefined
       } as unknown as SettingsService,
       { energy$: of(energy), updateOne: energyUpdateOne } as unknown as EnergyService,
@@ -194,5 +226,39 @@ describe('ChecklistComponent pagination', () => {
     component.pageIndex$.next(2);
     sub.unsubscribe();
     expect(indices).toEqual([0, 2]);
+  });
+
+  describe('Show all tasks checkbox', () => {
+    const today = laDay(0);
+    const offDay = laDay(1);
+    const dayTasks = () => [
+      makeDaysTask('t-on', 'On Day', TaskScope.ROSTER, [today], false),
+      makeDaysTask('t-off-fixed', 'Off Day Fixed', TaskScope.ROSTER, [offDay], false),
+      makeDaysTask('t-off-custom', 'Off Day Custom', TaskScope.ROSTER, [offDay], true)
+    ];
+
+    it('hides off-day tasks by default and reveals them with the checkbox', async () => {
+      tasks$.next(dayTasks());
+      let pdisplay = await firstValueFrom(component.paginatedDisplay$);
+      expect(specRows(pdisplay.data.dailyRoster).map(r => r.task.label)).toEqual(['On Day']);
+
+      roster$.next({ ...roster, showAllTasks: true });
+      pdisplay = await firstValueFrom(component.paginatedDisplay$);
+      const rows = specRows(pdisplay.data.dailyRoster);
+      expect(rows.map(r => r.task.label).sort()).toEqual(['Off Day Custom', 'Off Day Fixed', 'On Day']);
+      expect(rows.filter(r => r.task.label !== 'On Day').every(r => !r.available)).toBe(true);
+    });
+
+    it('lets showAllTasks override hiddenOnCompletion', async () => {
+      tasks$.next(dayTasks());
+      settings$.next({ ...defaultSettings, hiddenOnCompletion: true });
+      let pdisplay = await firstValueFrom(component.paginatedDisplay$);
+      // Off-day rows count as done, hence hidden as completed
+      expect(specRows(pdisplay.data.dailyRoster).map(r => r.task.label)).toEqual(['On Day']);
+
+      roster$.next({ ...roster, showAllTasks: true });
+      pdisplay = await firstValueFrom(component.paginatedDisplay$);
+      expect(specRows(pdisplay.data.dailyRoster)).toHaveLength(3);
+    });
   });
 });
