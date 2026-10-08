@@ -78,6 +78,18 @@
         <ng-container *ngIf="scrolling$ | async as scrolling">
           <ng-container *ngIf="columnWidth$ | async as columnWidth">
           <ng-container *ngIf="paginatedDisplay$ | async as pdisplay">
+          <div class="pagination-controls" *ngIf="pdisplay.totalPages > 1">
+            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex <= 0" (click)="pageIndex$.next(pdisplay.pageIndex - 1)">‹ Prev</button>
+            <button
+              nz-button
+              nzSize="small"
+              *ngFor="let pi of pageIndexes(pdisplay.totalPages); trackBy: trackByIndex"
+              [nzType]="pi === pdisplay.pageIndex ? 'primary' : 'default'"
+              (click)="pageIndex$.next(pi)"
+            >{{ pi + 1 }}</button>
+            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex >= pdisplay.totalPages - 1" (click)="pageIndex$.next(pdisplay.pageIndex + 1)">Next ›</button>
+            <span class="pagination-info">Showing {{ pdisplay.roster.length }} of {{ pdisplay.total }}</span>
+          </div>
           <nz-table [nzNoResult]="empty" [nzScroll]="scrolling" [nzPageSize]="999" nzHideOnSinglePage nzBordered nzOuterBordered nzSize="middle">
             <ng-template #empty></ng-template>
             <table [ngClass]="'col-width-' + columnWidth">
@@ -213,18 +225,6 @@
               </tbody>
             </table>
           </nz-table>
-          <div class="pagination-controls" *ngIf="pdisplay.totalPages > 1">
-            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex <= 0" (click)="pageIndex$.next(pdisplay.pageIndex - 1)">‹ Prev</button>
-            <button
-              nz-button
-              nzSize="small"
-              *ngFor="let pi of pageIndexes(pdisplay.totalPages); trackBy: trackByIndex"
-              [nzType]="pi === pdisplay.pageIndex ? 'primary' : 'default'"
-              (click)="pageIndex$.next(pi)"
-            >{{ pi + 1 }}</button>
-            <button nz-button nzSize="small" [disabled]="pdisplay.pageIndex >= pdisplay.totalPages - 1" (click)="pageIndex$.next(pdisplay.pageIndex + 1)">Next ›</button>
-            <span class="pagination-info">Showing {{ pdisplay.roster.length }} of {{ pdisplay.total }}</span>
-          </div>
           </ng-container>
           </ng-container>
         </ng-container>
