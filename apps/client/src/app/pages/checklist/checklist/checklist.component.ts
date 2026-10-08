@@ -162,9 +162,9 @@ export class ChecklistComponent {
         .map(task => {
           const lazyTracking = settings.lazytracking;
           const available = isTaskAvailable(task);
-          const editDisabled = !task.canEditDaysFilter;
-          const visible = available || editDisabled; // We always display tasks that can't be edited with "Not available today" flag
-          const forceDone = (!available && visible); // If task is not available but is visible, we marked it as done
+          // Off-day tasks are hidden by default and revealed with "Show all tasks"
+          const visible = available;
+          const forceDone = !available; // Unavailable tasks count as done (completed styling) when force-shown
           const completionData = roster.characters
             .filter(c => showHidden || !c.isHide)
             .map(character => {
@@ -207,7 +207,8 @@ export class ChecklistComponent {
           };
         })
         .filter(({ visible, allDone }) => {
-          if (allDone && settings.hiddenOnCompletion) return false; // If task is done and we hide done tasks, we don't display it
+          // "Show all tasks" reveals everything, including completed and off-day tasks
+          if (allDone && settings.hiddenOnCompletion && !roster.showAllTasks) return false; // If task is done and we hide done tasks, we don't display it
           return visible || roster.showAllTasks;
         })
         .reduce((acc, row) => {
