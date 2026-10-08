@@ -67,6 +67,10 @@ export class ChecklistComponent {
 
   public ticketsTrackingOpened = localStorage.getItem('checklist:tickets-opened') === 'true';
 
+  public columnWidth$ = new LocalStorageBehaviorSubject<number>('checklist:column-width', 240);
+
+  public columnWidthOptions = [80, 150, 240];
+
   public completion$: Observable<Completion> = this.completionService.completion$;
 
   public energy$ = this.energyService.energy$;
@@ -239,11 +243,11 @@ export class ChecklistComponent {
 
   private windowResize$ = new BehaviorSubject<void>(void 0);
 
-  public scrolling$ = combineLatest([this.roster$, this.windowResize$]).pipe(
-    map(([roster]) => {
+  public scrolling$ = combineLatest([this.roster$, this.windowResize$, this.columnWidth$]).pipe(
+    map(([roster, , columnWidth]) => {
       const y = window.innerHeight - 400;
       const scrolling: { x?: string | null, y: string | null } = { y: `${y}px` };
-      const widthPerCharacter = window.innerWidth < 992 ? 80 : 240;
+      const widthPerCharacter = window.innerWidth < 992 ? 80 : columnWidth;
       if (window.innerWidth < widthPerCharacter * roster.length + 200) {
         scrolling.x = `${window.innerWidth - 64 - 48 - 210 - 20}px`;
       }

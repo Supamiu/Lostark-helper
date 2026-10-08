@@ -46,9 +46,17 @@
 </nz-collapse>
 
 <ng-container *ngIf="rawRoster$ | async as roster">
-  <label nz-checkbox [(ngModel)]="roster.showAllTasks" class="all-tasks" (ngModelChange)="saveRoster(roster)" *ngIf="roster.characters.length > 0">
-    Show all tasks <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Force to show hidden tasks by days filter."></i>
-  </label>
+  <div class="checklist-controls" *ngIf="roster.characters.length > 0">
+    <label nz-checkbox [(ngModel)]="roster.showAllTasks" class="all-tasks" (ngModelChange)="saveRoster(roster)">
+      Show all tasks <i nz-icon nzType="info-circle" nz-tooltip nzTooltipTitle="Force to show hidden tasks by days filter."></i>
+    </label>
+    <span class="column-width" *ngIf="columnWidth$ | async as columnWidth">
+      Column width:
+      <nz-select [ngModel]="columnWidth" (ngModelChange)="columnWidth$.next($event)" nzSize="small" class="column-width-select">
+        <nz-option *ngFor="let w of columnWidthOptions" [nzValue]="w" [nzLabel]="w + 'px'"></nz-option>
+      </nz-select>
+    </span>
+  </div>
 </ng-container>
 
 <ng-container *ngIf="roster$ | async as roster">
@@ -61,13 +69,14 @@
     <ng-container *ngIf="completion$ | async as completion">
       <ng-container *ngIf="energy$ | async as energy">
         <ng-container *ngIf="scrolling$ | async as scrolling">
+          <ng-container *ngIf="columnWidth$ | async as columnWidth">
           <nz-table *ngIf="tableDisplay$ | async as display" [nzNoResult]="empty" [nzScroll]="scrolling" [nzPageSize]="999" nzHideOnSinglePage nzBordered nzOuterBordered nzSize="middle">
             <ng-template #empty></ng-template>
-            <table>
+            <table [ngClass]="'col-width-' + columnWidth">
               <thead>
                 <tr>
                   <th>Task</th>
-                  <th *ngFor="let character of charactersDisplay$ | async">
+                  <th *ngFor="let character of charactersDisplay$ | async" class="character-col">
                     <div class="character-title">
                       <img src="./assets/icons/classes/class_{{ character.class?.toString()?.padStart(2, '0') }}.png" alt="" class="class-icon" *ngIf="character.class !== null" />
                       {{ character.name }} [{{ character.ilvl }}]
@@ -148,6 +157,7 @@
                           <ng-container *ngIf="row.task.scope === TaskScope.CHARACTER">
                             <td
                               *ngFor="let col of row.completion; index as i; trackBy: trackByIndex"
+                              class="character-col"
                               [class.completed]="col === row.task.amount && !row.allDone"
                               [class.daily]="row.task.frequency === TaskFrequency.DAILY"
                               [class.weekly]="row.task.frequency === TaskFrequency.WEEKLY"
@@ -195,6 +205,7 @@
               </tbody>
             </table>
           </nz-table>
+          </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>

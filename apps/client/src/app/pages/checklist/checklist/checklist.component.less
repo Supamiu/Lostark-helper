@@ -203,6 +203,8 @@ table {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
 
     > i {
       margin: 0 3px;
@@ -218,6 +220,45 @@ table {
     @media screen and (max-width: 992px) {
       min-width: 60px;
     }
+  }
+
+  th.character-col,
+  td.character-col {
+    overflow: hidden;
+  }
+
+  &.col-width-80 th.character-col,
+  &.col-width-80 td.character-col {
+    min-width: 80px;
+  }
+
+  &.col-width-150 th.character-col,
+  &.col-width-150 td.character-col {
+    min-width: 150px;
+  }
+
+  &.col-width-240 th.character-col,
+  &.col-width-240 td.character-col {
+    min-width: 240px;
+  }
+
+  @media screen and (max-width: 992px) {
+    &.col-width-80 th.character-col,
+    &.col-width-80 td.character-col,
+    &.col-width-150 th.character-col,
+    &.col-width-150 td.character-col,
+    &.col-width-240 th.character-col,
+    &.col-width-240 td.character-col {
+      min-width: 60px;
+    }
+  }
+
+  &.col-width-80 .character-title {
+    font-size: 12px;
+  }
+
+  &.col-width-80 .gold-mode {
+    position: static;
   }
 
   .counter {
@@ -290,6 +331,27 @@ table {
 
 .all-tasks {
   margin-bottom: 10px;
+}
+
+.checklist-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+
+  .all-tasks {
+    margin-bottom: 0;
+  }
+
+  .column-width {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .column-width-select {
+    width: 100px;
+  }
 }
 
 .gold-icon {

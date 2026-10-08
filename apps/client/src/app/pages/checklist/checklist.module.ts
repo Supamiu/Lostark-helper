@@ -16,6 +16,7 @@ import { NzStatisticModule } from "ng-zorro-antd/statistic";
 import { NzGridModule } from "ng-zorro-antd/grid";
 import { NzDividerModule } from "ng-zorro-antd/divider";
 import { NzAlertModule } from "ng-zorro-antd/alert";
+import { NzSelectModule } from "ng-zorro-antd/select";
 
 const routes = [{
   path: "",
@@ -45,7 +46,8 @@ const routes = [{
     NzStatisticModule,
     NzGridModule,
     NzDividerModule,
-    NzAlertModule
+    NzAlertModule,
+    NzSelectModule
   ]
 })
 export class ChecklistModule {
