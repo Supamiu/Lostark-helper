@@ -162,6 +162,10 @@ export const tasks = [
     shared: true,
     partySize: 4
   }),
+    createTask(`Belgardin`, 1750, TaskFrequency.WEEKLY, TaskScope.CHARACTER, 2, 9999, "kazeros-raid.webp", {
+    shared: true,
+    partySize: 8
+  }),
 
   // Weekly Roster
   createTask(`South Vern Chaos Line Dungeon`, 1340, TaskFrequency.WEEKLY, TaskScope.ROSTER, 2, 9999, "dungeon.webp"),
