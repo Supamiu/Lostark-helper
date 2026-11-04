@@ -19,7 +19,7 @@ import { Character } from '../../../model/character/character';
 import { tickets } from '../../../data/tickets';
 import { addWeeks, getWeek } from 'date-fns';
 import { goldTasks } from "../../gold-planner/gold-tasks";
-import { Gate, getHigherModeForGate } from "../../gold-planner/gold-task";
+import { Gate, getHigherModeForGate, getModeLabelForSelection } from "../../gold-planner/gold-task";
 
 export interface TaskCharacter extends Character {
   done?: boolean;
@@ -173,7 +173,12 @@ export class ChecklistComponent {
             .filter(c => showHidden || !c.isHide)
             .map(character => {
               let runningMode = this.getRunningModeFlagForTask(raidModesForGoldPlanner, character.name, task.label);
-              runningMode = runningMode === 'Nightmare' ? 'NiM' : runningMode;
+              if (runningMode && runningMode !== 'Mixed') {
+                const gate = this.getGoldGatesForTask(task.label)[0];
+                runningMode = gate
+                  ? getModeLabelForSelection(gate, runningMode, runningMode === 'Nightmare' ? 'NiM' : runningMode)
+                  : runningMode === 'Nightmare' ? 'NiM' : runningMode;
+              }
               return {
                 runningMode,
                 higherModeInfo: this.getHigherModeInfoForTask(raidModesForGoldPlanner, character, task.label),
@@ -483,7 +488,10 @@ export class ChecklistComponent {
 
     const availableModes = [...new Set(higherModes)]
     if (availableModes.length === 0) return undefined
-    const modeName = availableModes[0] === 'HM' ? 'Hard Mode' : 'Nightmare Mode'
+    const higherMode = availableModes[0]
+    const modeName = gates[0]
+      ? getModeLabelForSelection(gates[0], higherMode, higherMode === 'HM' ? 'Hard Mode' : 'Nightmare Mode')
+      : higherMode === 'HM' ? 'Hard Mode' : 'Nightmare Mode'
     return `Can run ${modeName}`
   }
 
@@ -495,4 +503,3 @@ export class ChecklistComponent {
     return gate ? [gate] : []
   }
 }
-

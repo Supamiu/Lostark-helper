@@ -71,9 +71,9 @@
                           (ngModelChange)="setRunningModeFlag(settings.$key, display.raidModesForGoldPlanner, row.line, roster[i], $event)"
                         >
                           <label *ngIf="flag.soloModeExists" nz-radio-button nzValue="Solo">Solo</label>
-                          <label *ngIf="flag.normalModeExists" nz-radio-button nzValue="NM">Normal</label>
-                          <label *ngIf="flag.hardModeExists" nz-radio-button nzValue="HM" [nzDisabled]="!flag.canRunHM">Hard</label>
-                          <label *ngIf="flag.nightmareModeExists" nz-radio-button nzValue="Nightmare" [nzDisabled]="!flag.canRunNightmare">Nightmare</label>
+                          <label *ngIf="flag.normalModeExists" nz-radio-button nzValue="NM">{{ flag.normalModeLabel }}</label>
+                          <label *ngIf="flag.hardModeExists" nz-radio-button nzValue="HM" [nzDisabled]="!flag.canRunHM">{{ flag.hardModeLabel }}</label>
+                          <label *ngIf="flag.nightmareModeExists" nz-radio-button nzValue="Nightmare" [nzDisabled]="!flag.canRunNightmare">{{ flag.nightmareModeLabel }}</label>
                           <label nz-radio-button nzValue="Mixed" [nzDisabled]="true">Mixed</label>
                         </nz-radio-group>
                         <div class="gold-checkbox-container">
