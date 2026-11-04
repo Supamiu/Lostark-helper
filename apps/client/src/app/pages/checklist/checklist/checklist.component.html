@@ -63,6 +63,8 @@
       </nz-select>
     </span>
     <label nz-checkbox [ngModel]="goldOnly$ | async" (ngModelChange)="goldOnly$.next($event); pageIndex$.next(0)">Gold earners only</label>
+    <label nz-checkbox [ngModel]="showGoldIcon$ | async" (ngModelChange)="showGoldIcon$.next($event)">Show gold icons</label>
+    <label nz-checkbox [ngModel]="showDifficultyInfo$ | async" (ngModelChange)="showDifficultyInfo$.next($event)">Show difficulty info</label>
   </div>
 </ng-container>
 
@@ -184,10 +186,10 @@
                             >
                               <ng-container *ngIf="row.completionData[i].tracked && pdisplay.roster[i].ilvl >= row.task.minIlvl && pdisplay.roster[i].ilvl < row.task.maxIlvl">
                                 <div class="counter">
-                                  <span class="gold-mode" *ngIf="row.completionData[i].takingGold">
-                                    <img *ngIf="row.completionData[i].takingGold" src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
-                                    <small *ngIf="row.completionData[i].takingGold && row.completionData[i].runningMode">{{ row.completionData[i].runningMode }}</small>
-                                    <i *ngIf="row.completionData[i].higherModeInfo" nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="row.completionData[i].higherModeInfo"></i>
+                                  <span class="planner-info">
+                                    <img *ngIf="row.completionData[i].takingGold && (showGoldIcon$ | async)" src="./assets/icons/gold.png" class="gold-icon" alt="gold" />
+                                    <small *ngIf="(showDifficultyInfo$ | async) && row.completionData[i].runningMode">{{ row.completionData[i].runningMode }}</small>
+                                    <i *ngIf="(showDifficultyInfo$ | async) && row.completionData[i].higherModeInfo" nz-icon nzType="info-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="row.completionData[i].higherModeInfo"></i>
                                   </span>
                                   <div>
                                     <button

@@ -2,7 +2,7 @@
   <ng-container *ngIf="roster$ | async as roster">
     <ng-container *ngIf="scrolling$ | async as scrolling">
       <ng-container *ngIf="display$ | async as display">
-        <nz-page-header nzTitle="Gold Planner" nzSubtitle="Plan how much gold income you're generating with weeklies">
+        <nz-page-header nzTitle="Gold and Raid Planner" nzSubtitle="Plan how much gold income you're generating with weeklies and configure raid level information for the Checklist">
           <nz-page-header-extra>
             <button nz-button nzType="primary"
               (click)="toggleExplanations(settings.$key, display.tracking)"
@@ -12,9 +12,10 @@
           </nz-page-header-extra>
           <nz-page-header-content>
             <div *ngIf="display.tracking['showExplanations']">
-              Configure your run by selecting the right mode: <b>Solo</b>, <b>Normal</b> or <b>Hard</b>. Not available modes (based on the raid and your ilvl) are greyed out.<br />
+              Configure your run by selecting the right mode: <b>Solo</b>, <b>Normal</b>, <b>Hard</b>, <b>Nightmare</b>. Not available modes (based on the raid and your ilvl) are greyed out.<br />
               For each raid you're taking gold in game, tick the <b>Taking Gold</b> checkbox.<br />
               If you are buying the chest, tick the <b>Taking Chest</b> checkbox.<br />
+              The levels you select for each raid are reflected in the checklist as a reminder.<br />
               <br />
               You can further cutomize each gate of a raid by expanding the gates using the <b>+</b> icon on the left. <b>Mixed</b> means that you mixed and matched modes.<br />
               <br />

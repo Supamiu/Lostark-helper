@@ -91,6 +91,10 @@ export class ChecklistComponent {
 
   public goldOnly$ = new LocalStorageBehaviorSubject<boolean>('checklist:gold-only', false);
 
+  public showGoldIcon$ = new LocalStorageBehaviorSubject<boolean>('checklist:show-gold-icon', true);
+
+  public showDifficultyInfo$ = new LocalStorageBehaviorSubject<boolean>('checklist:show-difficulty-info', true);
+
   public pageIndex$ = new BehaviorSubject<number>(0);
 
   public completion$: Observable<Completion> = this.completionService.completion$;
@@ -491,6 +495,4 @@ export class ChecklistComponent {
     return gate ? [gate] : []
   }
 }
-
-
 
