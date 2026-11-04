@@ -1586,7 +1586,8 @@ export const goldTasks: GoldTask[] = [
         completionId: 'T4.AB1.G1',
         modes: [
           {
-            name: 'NM',
+            name: 'Level 1',
+            difficultyTier: 'normal',
             unboundGoldReward: 0,
             boundGoldReward: 13500,
             chestPrice: 4320,
@@ -1594,7 +1595,8 @@ export const goldTasks: GoldTask[] = [
             goldILvlLimit: Infinity,
           },
           {
-            name: 'HM',
+            name: 'Level 2',
+            difficultyTier: 'hard',
             unboundGoldReward: 0,
             boundGoldReward: 16000,
             chestPrice: 5120,
@@ -1602,7 +1604,8 @@ export const goldTasks: GoldTask[] = [
             goldILvlLimit: Infinity,
           },
           {
-            name: 'Nightmare',
+            name: 'Level 3',
+            difficultyTier: 'nightmare',
             unboundGoldReward: 0,
             boundGoldReward: 20000,
             chestPrice: 6400,
@@ -1615,7 +1618,8 @@ export const goldTasks: GoldTask[] = [
         completionId: 'T4.AB1.G2',
         modes: [
           {
-            name: 'NM',
+            name: 'Level 1',
+            difficultyTier: 'normal',
             unboundGoldReward: 0,
             boundGoldReward: 16500,
             chestPrice: 5280,
@@ -1623,7 +1627,8 @@ export const goldTasks: GoldTask[] = [
             goldILvlLimit: Infinity,
           },
           {
-            name: 'HM',
+            name: 'Level 2',
+            difficultyTier: 'hard',
             unboundGoldReward: 0,
             boundGoldReward: 24000,
             chestPrice: 7680,
@@ -1631,7 +1636,8 @@ export const goldTasks: GoldTask[] = [
             goldILvlLimit: Infinity,
           },
           {
-            name: 'Nightmare',
+            name: 'Level 3',
+            difficultyTier: 'nightmare',
             unboundGoldReward: 0,
             boundGoldReward: 30000,
             chestPrice: 9600,

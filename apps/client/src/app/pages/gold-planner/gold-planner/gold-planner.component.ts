@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { BehaviorSubject, combineLatest, map, Observable, of, pluck, startWith } from "rxjs";
 import { goldTasks } from "../gold-tasks";
-import { GoldTask, Gate, resetType, canRunHardModeForGateAndCharacter, canRunNightmareModeForGateAndCharacter } from "../gold-task";
+import { GoldTask, Gate, resetType, canRunHardModeForGateAndCharacter, canRunNightmareModeForGateAndCharacter, getModeLabelForSelection, getModeForSelection } from "../gold-task";
 import { LostarkTask } from "../../../model/lostark-task";
 import { RosterService } from "../../../core/database/services/roster.service";
 import { SettingsService } from "../../../core/database/services/settings.service";
@@ -27,8 +27,11 @@ interface chestsData {
     canRunNightmare: boolean,
     soloModeExists: boolean,
     normalModeExists: boolean,
+    normalModeLabel: string,
     hardModeExists: boolean,
+    hardModeLabel: string,
     nightmareModeExists: boolean,
+    nightmareModeLabel: string,
     unboundGoldReward: number,
     boundGoldReward: number,
     chestPrice: number,
@@ -227,14 +230,14 @@ export class GoldPlannerComponent {
             let chestPrice = 0
             if (line.gate) {
               const gate = line.gate
-              const runningMode = gate.modes.find(mode => mode.name === this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
+              const runningMode = getModeForSelection(gate, this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
               unboundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
               boundGoldReward = runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
               chestPrice = runningMode ? runningMode.chestPrice : 0
             } else {
               line.gTask.gates.forEach(gate => {
                 if (!this.shouldHideGateBasedOnWeeklyCompletion(gate, character, tasks, tracking, completion, lineReset, task)) {
-                  const runningMode = gate.modes.find(mode => mode.name === this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
+                  const runningMode = getModeForSelection(gate, this.settings.getRunningModeFlag(raidModesForGoldPlanner, character.name, [gate.name]))
                   unboundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.unboundGoldReward : 0 : 0
                   boundGoldReward += runningMode ? runningMode.goldILvlLimit > character.ilvl ? runningMode.boundGoldReward : 0 : 0
                   chestPrice += runningMode ? runningMode.chestPrice : 0
@@ -256,9 +259,12 @@ export class GoldPlannerComponent {
               canRunHM,
               canRunNightmare,
               soloModeExists: line.gTask.gates[0].modes.find(mode => mode.name === 'Solo') !== undefined,
-              normalModeExists: line.gTask.gates[0].modes.find(mode => mode.name === 'NM') !== undefined,
-              hardModeExists: line.gTask.gates[0].modes.find(mode => mode.name === 'HM') !== undefined,
-              nightmareModeExists: line.gTask.gates[0].modes.find(mode => mode.name === 'Nightmare') !== undefined,
+              normalModeExists: getModeForSelection(line.gTask.gates[0], 'NM') !== undefined,
+              normalModeLabel: getModeLabelForSelection(line.gTask.gates[0], 'NM', 'Normal'),
+              hardModeExists: getModeForSelection(line.gTask.gates[0], 'HM') !== undefined,
+              hardModeLabel: getModeLabelForSelection(line.gTask.gates[0], 'HM', 'Hard'),
+              nightmareModeExists: getModeForSelection(line.gTask.gates[0], 'Nightmare') !== undefined,
+              nightmareModeLabel: getModeLabelForSelection(line.gTask.gates[0], 'Nightmare', 'Nightmare'),
               unboundGoldReward,
               boundGoldReward,
               chestPrice
